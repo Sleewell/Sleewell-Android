@@ -1,18 +1,19 @@
 package com.sleewell.sleewell.mvp
 
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import com.sleewell.sleewell.R
-import com.sleewell.sleewell.mvp.Model.DependencyInjectorImpl
-import com.sleewell.sleewell.mvp.Model.Weather.WeatherState
+import com.sleewell.sleewell.mvp.Presenter.MainPresenter
+import com.squareup.picasso.Picasso
 
 class MvpActivity : AppCompatActivity(), MainContract.View {
     private lateinit var imageView: ImageView
     private lateinit var button: Button
 
-    // 2
     private lateinit var presenter: MainContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,37 +23,34 @@ class MvpActivity : AppCompatActivity(), MainContract.View {
         imageView = findViewById(R.id.imageView)
         button = findViewById(R.id.button)
 
-        // 3
-        setPresenter(MainPresenter(this, DependencyInjectorImpl()))
+        setPresenter(MainPresenter(this))
         presenter.onViewCreated()
 
         // 4
         button.setOnClickListener { presenter.onLoadWeatherTapped() }
     }
 
-    // 5
     override fun onDestroy() {
         presenter.onDestroy()
         super.onDestroy()
     }
 
-    // 6
     override fun setPresenter(presenter: MainContract.Presenter) {
         this.presenter = presenter
     }
 
-    // 7
-    override fun displayWeatherState(weatherState: WeatherState) {
-        val drawable = resources.getDrawable(weatherDrawableResId(weatherState),
-            applicationContext.theme
-        )
-        this.imageView.setImageDrawable(drawable)
+    override fun displayWeatherState(imageUrl: String) {
+        this.imageView.isEnabled = true
+
+        Picasso.with(this).load(imageUrl).into(this.imageView)
+        //this.imageView.setImageURI(imageUri)
     }
 
-    private fun weatherDrawableResId(weatherState: WeatherState) : Int {
-        return when (weatherState) {
-            WeatherState.SUN -> R.drawable.ic_sun
-            WeatherState.RAIN -> R.drawable.ic_umbrella
-        }
+    override fun displayWaitingState() {
+        this.imageView.isEnabled = false
+    }
+
+    override fun showToast(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
     }
 }
