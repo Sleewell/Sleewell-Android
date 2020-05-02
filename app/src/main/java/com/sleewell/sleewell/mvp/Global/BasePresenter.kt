@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.mvp.Presenter
+package com.sleewell.sleewell.mvp.Global
 
 interface BasePresenter {
     fun onDestroy()

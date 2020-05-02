@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.mvp.View
+package com.sleewell.sleewell.mvp.Global
 
 interface BaseView<T> {
     fun setPresenter(presenter : T)

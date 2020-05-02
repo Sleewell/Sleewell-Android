@@ -1,12 +1,12 @@
-package com.sleewell.sleewell.mvp
+package com.sleewell.sleewell.mvp.View
 
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.mvp.MainContract
 import com.sleewell.sleewell.mvp.Presenter.MainPresenter
 import com.squareup.picasso.Picasso
 
@@ -26,7 +26,6 @@ class MvpActivity : AppCompatActivity(), MainContract.View {
         setPresenter(MainPresenter(this))
         presenter.onViewCreated()
 
-        // 4
         button.setOnClickListener { presenter.onLoadWeatherTapped() }
     }
 
@@ -43,7 +42,6 @@ class MvpActivity : AppCompatActivity(), MainContract.View {
         this.imageView.isEnabled = true
 
         Picasso.with(this).load(imageUrl).into(this.imageView)
-        //this.imageView.setImageURI(imageUri)
     }
 
     override fun displayWaitingState() {

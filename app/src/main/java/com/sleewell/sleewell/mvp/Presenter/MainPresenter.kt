@@ -1,19 +1,14 @@
-package com.sleewell.sleewell.mvp
+package com.sleewell.sleewell.mvp.Presenter
 
+import com.sleewell.sleewell.Constants
+import com.sleewell.sleewell.OpenWeather.ApiResult
 import com.sleewell.sleewell.mvp.MainContract
-import com.sleewell.sleewell.mvp.Model.DependencyInjector
-import com.sleewell.sleewell.mvp.Model.Weather.Weather
-import com.sleewell.sleewell.mvp.Model.Weather.WeatherRepository
-import com.sleewell.sleewell.mvp.Model.Weather.WeatherState
+import com.sleewell.sleewell.mvp.Model.WeatherModel
 
-class MainPresenter(
-    view: MainContract.View,
-    dependencyInjector: DependencyInjector
-) : MainContract.Presenter {
-    // 2
-    private val weatherRepository: WeatherRepository = dependencyInjector.weatherRepository()
+class MainPresenter(view: MainContract.View) : MainContract.Presenter,
+    MainContract.Model.OnFinishedListener {
 
-    // 3
+    private var model: MainContract.Model = WeatherModel()
     private var view: MainContract.View? = view
 
     override fun onDestroy() {
@@ -29,17 +24,21 @@ class MainPresenter(
     }
 
     private fun loadWeather() {
-        val weather = weatherRepository.loadWeather()
-        val weatherState = weatherStateForWeather(weather)
-
-        // Make sure to call the displayWeatherState on the view
-        view?.displayWeatherState(weatherState)
+        view?.displayWaitingState()
+        model.getCurrentWeather(this)
     }
 
-    private fun weatherStateForWeather(weather: Weather): WeatherState {
-        if (weather.rain!!.amount!! > 0) {
-            return WeatherState.RAIN
+    override fun onFinished(weather: ApiResult) {
+        if (weather.weather != null && weather.weather!!.isNotEmpty()) {
+            val path = Constants.iconBaseUrl + weather.weather!![0].icon + "@2x.png"
+            view?.displayWeatherState(path)
         }
-        return WeatherState.SUN
+    }
+
+    override fun onFailure(t: Throwable) {
+        if (t.message != null)
+            view?.showToast(t.message!!)
+        else
+            view?.showToast("An error occurred")
     }
 }

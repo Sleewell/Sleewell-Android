@@ -1,9 +1,8 @@
 package com.sleewell.sleewell.mvp
 
-import android.net.Uri
 import com.sleewell.sleewell.OpenWeather.ApiResult
-import com.sleewell.sleewell.mvp.Presenter.BasePresenter
-import com.sleewell.sleewell.mvp.View.BaseView
+import com.sleewell.sleewell.mvp.Global.BasePresenter
+import com.sleewell.sleewell.mvp.Global.BaseView
 
 interface MainContract {
 
