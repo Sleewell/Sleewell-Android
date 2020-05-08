@@ -48,7 +48,7 @@ class ExampleUnitTest {
             }
 
             override fun onFinished(weather: ApiResult) {
-                softly.assertThat(1).isEqualTo(1)
+                softly.assertThat(1).isEqualTo(2)
 
                 lock.withLock {
                     condition.signal() // Tell the test is finished
