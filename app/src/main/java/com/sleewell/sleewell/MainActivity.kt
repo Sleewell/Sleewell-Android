@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import com.sleewell.sleewell.mvc.View.MvcActivity
+import com.sleewell.sleewell.halo.View.HaloActivity
 import com.sleewell.sleewell.mvp.View.MvpActivity
 
 class MainActivity : AppCompatActivity() {
@@ -18,9 +18,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, MvpActivity::class.java))
         }
 
-        val buttonMvc = findViewById<Button>(R.id.button_mvc)
-        buttonMvc.setOnClickListener {
-            startActivity(Intent(this, MvcActivity::class.java))
+        val buttonHalo = findViewById<Button>(R.id.button_halo)
+        buttonHalo.setOnClickListener {
+            startActivity(Intent(this, HaloActivity::class.java))
         }
     }
 }
