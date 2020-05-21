@@ -1,13 +1,13 @@
 package com.sleewell.sleewell.halo.View
 
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.*
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.halo.MainContract
@@ -18,8 +18,8 @@ class HaloActivity : AppCompatActivity(), MainContract.View {
 
     private lateinit var presenter: MainContract.Presenter
     private lateinit var haloImage : ImageView
-    private lateinit var upButton : Button
-    private lateinit var downButton : Button
+    private lateinit var startButton : Button
+    private lateinit var stopButton : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,15 +34,13 @@ class HaloActivity : AppCompatActivity(), MainContract.View {
     private fun InitActivityWidgets()
     {
         this.haloImage = findViewById(R.id.halo)
-        this.upButton = findViewById(R.id.buttonMore)
-        this.downButton= findViewById(R.id.buttonLess)
-        this.upButton.setOnClickListener {
-            presenter.buttonMore()
-            presenter.onViewCreated()
+        this.startButton = findViewById(R.id.buttonStart)
+        this.stopButton = findViewById(R.id.buttonStop)
+        this.startButton.setOnClickListener{
+            presenter.startProtocol()
         }
-        this.downButton.setOnClickListener {
-            presenter.buttonLess()
-            presenter.onViewCreated()
+        this.stopButton.setOnClickListener{
+            presenter.stopProtocol()
         }
     }
 

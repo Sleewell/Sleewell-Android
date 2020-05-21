@@ -8,12 +8,13 @@ interface MainContract {
         fun getSizeOfCircle() : Int
         fun degradesSizeOfCircle()
         fun upgradeSizeOfCircle()
+        fun resetSizeOfCircle()
     }
 
     interface Presenter : BasePresenter {
         fun onViewCreated()
-        fun buttonMore()
-        fun buttonLess()
+        fun startProtocol()
+        fun stopProtocol()
     }
 
     interface View : BaseView<Presenter> {
