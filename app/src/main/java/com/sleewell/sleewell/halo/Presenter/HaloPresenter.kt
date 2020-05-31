@@ -1,8 +1,14 @@
 package com.sleewell.sleewell.halo.Presenter
 
+import android.app.Dialog
 import android.content.Context
 import android.os.CountDownTimer
+import android.view.Window
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import com.sleewell.sleewell.R
 import com.sleewell.sleewell.halo.MainContract
 import com.sleewell.sleewell.halo.Model.HaloModel
 
@@ -38,6 +44,7 @@ class HaloPresenter(view: MainContract.View, context: Context) : MainContract.Pr
     }
 
     override fun startProtocol() {
+        timer.cancel()
         nbrBreath = 10
         model.resetSizeOfCircle()
         timer.start()
@@ -45,5 +52,21 @@ class HaloPresenter(view: MainContract.View, context: Context) : MainContract.Pr
 
     override fun stopProtocol() {
         timer.cancel()
+    }
+
+    override fun openDialog() {
+        val dialog = model.openColorPicker()
+        val yesBtn = dialog.findViewById(R.id.yesBtn) as Button
+        val noBtn = dialog.findViewById(R.id.noBtn) as Button
+        yesBtn.setOnClickListener {
+            view?.setColorHalo(model.getColorOfCircle())
+            dialog.dismiss()
+            view?.hideSystemUI()
+        }
+        noBtn.setOnClickListener {
+            dialog.dismiss()
+            view?.hideSystemUI()
+        }
+        dialog.show()
     }
 }
