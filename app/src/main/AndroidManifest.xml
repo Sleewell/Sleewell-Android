@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".mvp.View.MvpActivity"></activity>
-        <activity android:name=".mvc.View.MvcActivity" />
+        <activity android:name=".musique.View.MusiqueActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
