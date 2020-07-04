@@ -17,7 +17,7 @@ interface MainContract {
 
     interface Presenter : BasePresenter {
         fun onViewCreated()
-        fun startProtocol()
+        fun startProtocol(number: Int)
         fun stopProtocol()
         fun openDialog()
     }

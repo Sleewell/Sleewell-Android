@@ -7,5 +7,6 @@
 
     <color name="black">#000000</color>
 
-    <color name="black_overlay">#2C2C53</color>
+    <color name="black_overlay">#2D2D35</color>
+    <color name="Orange">#D98735</color>
 </resources>
