@@ -17,6 +17,5 @@ interface MainContract {
         fun launchMusique(musicInt: Int)
     }
 
-    interface View : BaseView<Presenter> {
-    }
+    interface View : BaseView<Presenter>
 }

@@ -1,16 +1,18 @@
 package com.sleewell.sleewell.musique.View
 
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ListAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.musique.MainContract
 import com.sleewell.sleewell.musique.Presenter.MusiquePresenter
 
+/**
+ * This class interact with the user, display everything and catch every action of the user
+ *
+ * @author gabin warnier de wailly
+ */
 class MusiqueActivity : AppCompatActivity(), MainContract.View {
 
     private lateinit var presenter: MainContract.Presenter
@@ -20,6 +22,13 @@ class MusiqueActivity : AppCompatActivity(), MainContract.View {
         var music_select = 0
     }
 
+
+    /**
+     * This method setup the view
+     *
+     * @param savedInstanceState creation of the view
+     * @author gabin warnier de wailly
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_musique)
@@ -29,6 +38,11 @@ class MusiqueActivity : AppCompatActivity(), MainContract.View {
         presenter.onViewCreated()
     }
 
+    /**
+     * This method  setup every widgets created
+     *
+     * @author gabin warnier de wailly
+     */
     private fun InitActivityWidgets() {
 
         listView = findViewById(R.id.music_list_view)
@@ -38,10 +52,21 @@ class MusiqueActivity : AppCompatActivity(), MainContract.View {
         }
     }
 
+    /**
+     * This method save the presenter in the class
+     *
+     * @param presenter current presenter
+     * @author gabin warnier de wailly
+     */
     override fun setPresenter(presenter: MainContract.Presenter) {
         this.presenter = presenter
     }
 
+    /**
+     * This method is the destructor of the class
+     *
+     * @author gabin warnier de wailly
+     */
     override fun onDestroy() {
         presenter.onDestroy()
         super.onDestroy()

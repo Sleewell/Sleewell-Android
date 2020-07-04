@@ -9,6 +9,12 @@ import com.sleewell.sleewell.R
 import com.sleewell.sleewell.musique.MainContract
 import com.sleewell.sleewell.musique.View.MusiqueActivity
 
+/**
+ * This class set up the adapter music and can launch a music and stop it
+ *
+ * @param context context of the app
+ * @author gabin warnier de wailly
+ */
 class MusiqueModel(context: Context) : MainContract.Model {
 
     private lateinit var list: MutableList<String>
@@ -20,6 +26,12 @@ class MusiqueModel(context: Context) : MainContract.Model {
         var music_select = 0
     }
 
+    /**
+     * This method set the ListAdapter, set all music available in this one
+     *
+     * @return ListAdapter
+     * @author gabin warnier de wailly
+     */
     override fun setUpAdapterMusique() : ListAdapter {
         list = ArrayList()
 
@@ -31,6 +43,12 @@ class MusiqueModel(context: Context) : MainContract.Model {
         return adapter
     }
 
+    /**
+     * This method launch a music from the ListAdapter set before
+     *
+     * @param musicInt it's the number of the music from the array list
+     * @author gabin warnier de wailly
+     */
     override fun startMusique(musicInt: Int) {
         if (mediaPlayer != null) {
             mediaPlayer!!.release()
@@ -41,6 +59,11 @@ class MusiqueModel(context: Context) : MainContract.Model {
         MusiqueActivity.music_select = music_select
     }
 
+    /**
+     * This method stop the current music launch
+     *
+     * @author gabin warnier de wailly
+     */
     override fun stopMusique() {
         if (mediaPlayer != null) {
             mediaPlayer!!.stop()
