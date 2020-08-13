@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home"
+    app:labelVisibilityMode="unlabeled">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.sleewell.nav.home.HomeFragment"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_music"
+        android:name="com.example.sleewell.nav.music.MusicFragment"
+        tools:layout="@layout/fragment_music" />
+
+    <fragment
+        android:id="@+id/navigation_alarms"
+        android:name="com.example.sleewell.nav.alarms.AlarmsFragment"
+        tools:layout="@layout/fragment_alarms" />
+
+    <fragment
+        android:id="@+id/navigation_statistics"
+        android:name="com.example.sleewell.nav.statistics.StatisticsFragment"
+        tools:layout="@layout/fragment_statistics" />
+
+</navigation>
