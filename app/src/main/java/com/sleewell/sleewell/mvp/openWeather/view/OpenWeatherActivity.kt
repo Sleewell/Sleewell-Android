@@ -13,7 +13,6 @@ class OpenWeatherActivity : AppCompatActivity(), OpenWeatherContract.View {
         super.onCreate(savedInstanceState)
 
         setPresenter(OpenWeatherPresenter(this))
-        presenter.onViewCreated()
 
         //button.setOnClickListener { presenter.onLoadWeatherTapped() }
     }
@@ -25,6 +24,7 @@ class OpenWeatherActivity : AppCompatActivity(), OpenWeatherContract.View {
 
     override fun setPresenter(presenter: OpenWeatherContract.Presenter) {
         this.presenter = presenter
+        presenter.onViewCreated()
     }
 
     override fun displayWeatherState(imageUrl: String) {

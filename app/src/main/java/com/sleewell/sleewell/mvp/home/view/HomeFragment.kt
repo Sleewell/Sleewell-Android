@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import com.sleewell.sleewell.ProtocolActivity
+import com.sleewell.sleewell.mvp.protocol.view.ProtocolActivity
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.home.HomeContract
 import com.sleewell.sleewell.mvp.home.presenter.HomePresenter
@@ -29,9 +29,13 @@ class HomeFragment : Fragment(), HomeContract.View {
         root = inflater.inflate(R.layout.fragment_home, container, false)
         initActivityWidgets()
         setPresenter(HomePresenter(this, root.context))
-        presenter.onViewCreated()
 
         return root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        presenter.onDestroy()
     }
 
     /**
@@ -78,6 +82,7 @@ class HomeFragment : Fragment(), HomeContract.View {
 
     override fun setPresenter(presenter: HomeContract.Presenter) {
         this.presenter = presenter
+        presenter.onViewCreated()
     }
 
 }
