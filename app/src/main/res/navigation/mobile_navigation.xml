@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.sleewell.sleewell.nav.home.HomeFragment"
+        android:name="com.sleewell.sleewell.mvp.home.view.HomeFragment"
         tools:layout="@layout/fragment_home" />
 
     <fragment
