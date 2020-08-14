@@ -1,4 +1,4 @@
-package com.example.sleewell.nav.home
+package com.sleewell.sleewell.nav.music
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,22 +8,22 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.example.sleewell.R
+import com.sleewell.sleewell.R
 
-class HomeFragment : Fragment() {
+class MusicFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var musicViewModel: MusicViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProviders.of(this).get(HomeViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        homeViewModel.text.observe(this, Observer {
+        musicViewModel =
+            ViewModelProviders.of(this).get(MusicViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_music, container, false)
+        val textView: TextView = root.findViewById(R.id.text_music)
+        musicViewModel.text.observe(this, Observer {
             textView.text = it
         })
         return root

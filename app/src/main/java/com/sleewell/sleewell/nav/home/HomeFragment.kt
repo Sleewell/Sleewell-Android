@@ -1,4 +1,4 @@
-package com.example.sleewell.nav.alarms
+package com.sleewell.sleewell.nav.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,22 +8,22 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.example.sleewell.R
+import com.sleewell.sleewell.R
 
-class AlarmsFragment : Fragment() {
+class HomeFragment : Fragment() {
 
-    private lateinit var dashboardViewModel: AlarmsViewModel
+    private lateinit var homeViewModel: HomeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dashboardViewModel =
-            ViewModelProviders.of(this).get(AlarmsViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_alarms, container, false)
-        val textView: TextView = root.findViewById(R.id.text_alarms)
-        dashboardViewModel.text.observe(this, Observer {
+        homeViewModel =
+            ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_home, container, false)
+        val textView: TextView = root.findViewById(R.id.text_home)
+        homeViewModel.text.observe(this, Observer {
             textView.text = it
         })
         return root

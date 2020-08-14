@@ -1,13 +1,13 @@
-package com.example.sleewell.nav.alarms
+package com.sleewell.sleewell.nav.music
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class AlarmsViewModel : ViewModel() {
+class MusicViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is alarms Fragment"
+        value = "This is music Fragment"
     }
     val text: LiveData<String> = _text
 }

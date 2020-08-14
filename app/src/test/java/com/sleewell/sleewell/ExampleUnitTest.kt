@@ -1,4 +1,4 @@
-package com.example.sleewell
+package com.sleewell.sleewell
 
 import org.junit.Test
 

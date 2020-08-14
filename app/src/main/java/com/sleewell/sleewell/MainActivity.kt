@@ -1,4 +1,4 @@
-package com.example.sleewell
+package com.sleewell.sleewell
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView

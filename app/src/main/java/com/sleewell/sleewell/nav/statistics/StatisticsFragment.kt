@@ -1,4 +1,4 @@
-package com.example.sleewell.nav.statistics
+package com.sleewell.sleewell.nav.statistics
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.example.sleewell.R
+import com.sleewell.sleewell.R
 
 class StatisticsFragment : Fragment() {
 

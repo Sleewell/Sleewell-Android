@@ -8,22 +8,22 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.sleewell.nav.home.HomeFragment"
+        android:name="com.sleewell.sleewell.nav.home.HomeFragment"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_music"
-        android:name="com.example.sleewell.nav.music.MusicFragment"
+        android:name="com.sleewell.sleewell.nav.music.MusicFragment"
         tools:layout="@layout/fragment_music" />
 
     <fragment
         android:id="@+id/navigation_alarms"
-        android:name="com.example.sleewell.nav.alarms.AlarmsFragment"
+        android:name="com.sleewell.sleewell.nav.alarms.AlarmsFragment"
         tools:layout="@layout/fragment_alarms" />
 
     <fragment
         android:id="@+id/navigation_statistics"
-        android:name="com.example.sleewell.nav.statistics.StatisticsFragment"
+        android:name="com.sleewell.sleewell.nav.statistics.StatisticsFragment"
         tools:layout="@layout/fragment_statistics" />
 
 </navigation>
