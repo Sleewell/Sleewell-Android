@@ -9,6 +9,7 @@ interface INetworkManagement {
      * initPermissions
      *
      * Initialise the permission to access bluetooth and wifi config
+     * @author Hugo Berthomé
      */
     fun initPermissions()
 

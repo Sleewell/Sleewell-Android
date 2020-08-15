@@ -24,6 +24,7 @@ class NetworkManagement(private val ctx: AppCompatActivity) : INetworkManagement
      * initPermissions
      *
      * Initialise the permission to access bluetooth and wifi config
+     * @author Hugo Berthomé
      */
     override fun initPermissions() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
