@@ -2,6 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sleewell.sleewell">
 
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Do Not Disturb mode -->
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" /> <!-- Nfc detection -->
+    <uses-permission android:name="android.permission.NFC" /> <!-- Bluetooth accessibility -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Wifi accessibility -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,13 +18,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".mvp.protocol.view.ProtocolActivity" android:launchMode="singleTask">
+            <!-- Open the app on this specific activity when a NFC tag contain a mime type as described below -->
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/com.sleewell.sleewell" />
+            </intent-filter>
+
+            <!-- Open the app on this specific activity when a NFC tag contain a url with http://www.sleewell.fr -->
+            <!-- <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="http"
+                    android:host="www.sleewell.fr"
+                    android:pathPrefix="/"/>
+            </intent-filter> -->
+        </activity>
         <activity
-            android:name="com.sleewell.sleewell.MainActivity"
+            android:name=".mvp.main.view.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
+                <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
     </application>
