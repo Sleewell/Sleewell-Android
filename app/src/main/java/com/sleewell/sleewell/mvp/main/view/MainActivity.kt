@@ -37,12 +37,20 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     /**
      * Function called when quitting the activity
+     *
+     * @author Hugo Berthomé
      */
     override fun onStop() {
         super.onStop()
         presenter.onDestroy()
     }
 
+    /**
+     * Set the presenter inside the class
+     *
+     * @param presenter
+     * @author Hugo Berthomé
+     */
     override fun setPresenter(presenter: MainContract.Presenter) {
         this.presenter = presenter
         presenter.onViewCreated()

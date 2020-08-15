@@ -72,6 +72,12 @@ class HomeFragment : Fragment(), HomeContract.View {
         presenter.onDestroy()
     }
 
+    /**
+     * Display the nfc button on the screen
+     *
+     * @param state true - display, false - hide
+     * @author Hugo Berthomé
+     */
     override fun displayNfcButton(state: Boolean) {
         btnNfc.isEnabled = state
         if (state)
@@ -80,6 +86,12 @@ class HomeFragment : Fragment(), HomeContract.View {
             btnNfc.visibility = View.GONE
     }
 
+    /**
+     * Set the presenter inside the class
+     *
+     * @param presenter
+     * @author Hugo Berthomé
+     */
     override fun setPresenter(presenter: HomeContract.Presenter) {
         this.presenter = presenter
         presenter.onViewCreated()

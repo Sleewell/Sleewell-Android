@@ -18,9 +18,18 @@ class MainPresenter(view: MainContract.View, ctx: AppCompatActivity) : MainContr
     private var view: MainContract.View? = view
     private val connection: INetworkManagement = NetworkManagement(ctx)
 
+    /**
+     * onDestroy is called at each time e presenter will be destroyed
+     * @author Hugo Berthomé
+     */
     override fun onDestroy() {
     }
 
+    /**
+     * Function to call at the creation of the view
+     *
+     * @author Hugo Berthomé
+     */
     override fun onViewCreated() {
         connection.initPermissions()
     }

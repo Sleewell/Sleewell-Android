@@ -20,6 +20,11 @@ interface HomeContract {
     }
 
     interface Presenter : BasePresenter {
+        /**
+         * Function to call at the creation of the view
+         *
+         * @author Hugo Berthomé
+         */
         fun onViewCreated()
     }
 

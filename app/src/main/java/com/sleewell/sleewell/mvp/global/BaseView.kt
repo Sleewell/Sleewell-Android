@@ -7,5 +7,11 @@ package com.sleewell.sleewell.mvp.global
  * @author Hugo Berthomé
  */
 interface BaseView<T> {
+    /**
+     * Set the presenter inside the class
+     *
+     * @param presenter
+     * @author Hugo Berthomé
+     */
     fun setPresenter(presenter : T)
 }

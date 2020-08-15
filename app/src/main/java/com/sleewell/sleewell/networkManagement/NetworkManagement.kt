@@ -20,6 +20,11 @@ class NetworkManagement(private val ctx: AppCompatActivity) : INetworkManagement
     private val notificationManager: NotificationManager =
         ctx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
+    /**
+     * initPermissions
+     *
+     * Initialise the permission to access bluetooth and wifi config
+     */
     override fun initPermissions() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
             return
@@ -29,6 +34,12 @@ class NetworkManagement(private val ctx: AppCompatActivity) : INetworkManagement
         }
     }
 
+    /**
+     * Enable / disable bluetooth on the devise
+     *
+     * @param value true - enable, false - disable
+     * @author Hugo Berthomé
+     */
     override fun enableBluetooth(value: Boolean) {
         if (value) {
             bAdapter?.enable()
@@ -37,6 +48,12 @@ class NetworkManagement(private val ctx: AppCompatActivity) : INetworkManagement
         }
     }
 
+    /**
+     * Enable / disable wifi on the devise
+     *
+     * @param value true - enable, false - disable
+     * @author Hugo Berthomé
+     */
     override fun enableWifi(value: Boolean) {
         val wifiManager: WifiManager =
             ctx.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
@@ -50,6 +67,12 @@ class NetworkManagement(private val ctx: AppCompatActivity) : INetworkManagement
         }
     }
 
+    /**
+     * Enable / disable Do not Disturb on the devise
+     *
+     * @param value true - enable, false - disable
+     * @author Hugo Berthomé
+     */
     override fun enableZenMode(value: Boolean) {
         // Check if the notification policy access has been granted for the app.
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || !notificationManager.isNotificationPolicyAccessGranted)
@@ -61,6 +84,15 @@ class NetworkManagement(private val ctx: AppCompatActivity) : INetworkManagement
         }
     }
 
+    /**
+     * Enable / disable night mode
+     *  - disable wifi
+     *  - disable bluetooth
+     *  - enable zen mode
+     *
+     * @param value true - enable, false - disable
+     * @author Hugo Berthomé
+     */
     override fun switchToSleepMode(value: Boolean) {
         enableBluetooth(!value)
         enableWifi(!value)

@@ -24,6 +24,12 @@ class ProtocolActivity : AppCompatActivity(), ProtocolContract.View {
         presenter.onDestroy()
     }
 
+    /**
+     * Set the presenter inside the class
+     *
+     * @param presenter
+     * @author Hugo Berthomé
+     */
     override fun setPresenter(presenter: ProtocolContract.Presenter) {
         this.presenter = presenter
         presenter.onViewCreated()

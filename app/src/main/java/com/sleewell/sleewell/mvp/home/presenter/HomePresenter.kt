@@ -18,10 +18,19 @@ class HomePresenter(view: HomeContract.View, context: Context) : HomeContract.Pr
     private var view: HomeContract.View? = view
     private var model: HomeContract.Model = HomeModel(context)
 
+    /**
+     * Function to call at the creation of the view
+     *
+     * @author Hugo Berthomé
+     */
     override fun onViewCreated() {
         view?.displayNfcButton(model.nfcState() != NfcState.Enable)
     }
 
+    /**
+     * onDestroy is called at each time e presenter will be destroyed
+     * @author Hugo Berthomé
+     */
     override fun onDestroy() {
         view = null
     }

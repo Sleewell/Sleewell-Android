@@ -19,10 +19,19 @@ class ProtocolPresenter(view: ProtocolContract.View, ctx: AppCompatActivity) : P
     private var view: ProtocolContract.View? = view
     private val connection: INetworkManagement = NetworkManagement(ctx)
 
+    /**
+     * onDestroy is called at each time e presenter will be destroyed
+     * @author Hugo Berthomé
+     */
     override fun onDestroy() {
         connection.switchToSleepMode(false)
     }
 
+    /**
+     * Function to call at the creation of the view
+     *
+     * @author Hugo Berthomé
+     */
     override fun onViewCreated() {
         connection.switchToSleepMode(true)
     }

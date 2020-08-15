@@ -15,6 +15,12 @@ class HomeModel(context : Context) : HomeContract.Model {
 
     private var nfcData: NfcAdapter? = NfcAdapter.getDefaultAdapter(context)
 
+    /**
+     * Get the state of the nfc module
+     *
+     * @return NfcState enum
+     * @author Hugo Berthomé
+     */
     override fun nfcState(): NfcState {
         if (nfcData == null)
             return NfcState.NotAvailable
