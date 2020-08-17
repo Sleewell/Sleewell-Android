@@ -3,6 +3,8 @@
     package="com.sleewell.sleewell">
 
     <uses-permission android:name="android.permission.INTERNET" /> <!-- Do Not Disturb mode -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" /> <!-- Nfc detection -->
     <uses-permission android:name="android.permission.NFC" /> <!-- Bluetooth accessibility -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
