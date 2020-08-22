@@ -5,12 +5,12 @@
     <uses-permission android:name="android.permission.INTERNET" /> <!-- Do Not Disturb mode -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" /> <!-- Nfc detection -->
-    <uses-permission android:name="android.permission.NFC" /> <!-- Bluetooth accessibility -->
-    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.NFC" /> <!-- Nfc detection -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />  <!-- Bluetooth accessibility -->
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Wifi accessibility -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- Wifi accessibility -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application
