@@ -50,9 +50,6 @@
         </activity>
 
         <activity android:name=".reveil.LaunchActivity"/>
-        <activity
-            android:name=".reveil.View.AlarmActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".reveil.View.ReminderActivity"/>
         <receiver android:name=".reveil.AlarmReceiver"/>
         <receiver android:name=".reveil.AlertReceiver"/>

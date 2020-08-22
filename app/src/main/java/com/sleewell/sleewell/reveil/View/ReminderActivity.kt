@@ -4,11 +4,15 @@ import android.app.AlarmManager
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.widget.*
 import android.content.Context
+import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.mvp.main.view.MainActivity
+import com.sleewell.sleewell.nav.alarms.AlarmsFragment
 import com.sleewell.sleewell.reveil.AlarmReceiver
 import com.sleewell.sleewell.reveil.AlertReceiver
 import com.sleewell.sleewell.reveil.Presenter.ReminderPresenter
@@ -60,9 +64,9 @@ class ReminderActivity : AppCompatActivity(), ReminderContract.View {
         buttonSaveReminder.setOnClickListener {
             val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val intentAlarm = Intent(this, AlarmReceiver::class.java)
-            presenter.startAlarm(alarmManager, intentAlarm, this, this.getSharedPreferences("com.example.alarm", Context.MODE_PRIVATE))
+            presenter.startAlarm(alarmManager, intentAlarm, this, this.getSharedPreferences("com.sleewell", Context.MODE_PRIVATE))
             val intentAlert = Intent(this, AlertReceiver::class.java)
-            presenter.startAlert(alarmManager, intentAlert, this, getSharedPreferences("com.example.alarm", Context.MODE_PRIVATE))
+            presenter.startAlert(alarmManager, intentAlert, this, getSharedPreferences("com.sleewell", Context.MODE_PRIVATE))
 
             changeView()
         }
@@ -97,7 +101,7 @@ class ReminderActivity : AppCompatActivity(), ReminderContract.View {
      * @param time Time of the alarm
      */
     fun saveAlarm(time: Long) {
-        presenter.saveAlarm(time, this.getSharedPreferences("com.example.alarm", Context.MODE_PRIVATE))
+        presenter.saveAlarm(time, this.getSharedPreferences("com.sleewell", Context.MODE_PRIVATE))
     }
 
     /**
@@ -105,7 +109,7 @@ class ReminderActivity : AppCompatActivity(), ReminderContract.View {
      *
      */
     private fun changeView() {
-        val intent = Intent(this@ReminderActivity, AlarmActivity::class.java)
+        val intent = Intent(this@ReminderActivity, MainActivity::class.java)
         startActivity(intent)
     }
 

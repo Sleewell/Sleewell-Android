@@ -46,9 +46,6 @@ class AlarmActivity : AppCompatActivity(), AlarmContract.View {
         setContentView(R.layout.activity_alarm)
         instance = this
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
         val fabCreateReminder: FloatingActionButton = findViewById(R.id.fabCreateReminder)
         fabCreateReminder.setOnClickListener {
             val intent = Intent(this@AlarmActivity, ReminderActivity::class.java)
