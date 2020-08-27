@@ -11,6 +11,42 @@ import java.util.ArrayList
 interface AlarmContract {
 
     interface Model {
+        /**
+         * Get time of the time picker
+         *
+         * @param hourOfDay Hour of the alarm
+         * @param minute Minute of the alarm
+         * @return Time in a string
+         */
+        fun getTime(hourOfDay: Int, minute: Int) : String
+
+        /**
+         * Save the alarm
+         *
+         * @param time Time of the alarm
+         * @param sharedPreferences Shared preferences of the application
+         */
+        fun saveAlarm(time: Long, sharedPreferences: SharedPreferences)
+
+        /**
+         * Start the alarm
+         *
+         * @param alarmManager Alarm manager of phone
+         * @param intent Intent of the activity
+         * @param context Context of the activity
+         * @param sharedPreferences Shared preferences of the application
+         */
+        fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences)
+
+        /**
+         * Start the alert
+         *
+         * @param alarmManager Alarm manager of phone
+         * @param intent Intent of the activity
+         * @param context Context of the activity
+         * @param sharedPreferences Shared preferences of the application
+         */
+        fun startAlert(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences)
 
         /**
          * Snooze the alarm
@@ -51,6 +87,43 @@ interface AlarmContract {
          * @param sharedPreferences Shared preferences of the application
          */
         fun onViewCreated(sharedPreferences: SharedPreferences)
+
+        /**
+         * Get time of the alarm
+         *
+         * @param hourOfDay Hour of the alarm
+         * @param minute Minutes of the alarm
+         * @return Time in a string
+         */
+        fun getTime(hourOfDay: Int, minute: Int): String
+
+        /**
+         * Save the alarm
+         *
+         * @param time Time of the alarm
+         * @param sharedPreferences Shared preferences of the application
+         */
+        fun saveAlarm(time: Long, sharedPreferences: SharedPreferences)
+
+        /**
+         * Start the alarm
+         *
+         * @param alarmManager Alarm manager of phone
+         * @param intent Intent of the activity
+         * @param context Context of the activity
+         * @param sharedPreferences Shared preferences of the application
+         */
+        fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences)
+
+        /**
+         * Start the alert
+         *
+         * @param alarmManager Alarm manager of phone
+         * @param intent Intent of the activity
+         * @param context Context of the activity
+         * @param sharedPreferences Shared preferences of the application
+         */
+        fun startAlert(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences)
 
         /**
          * Snooze the alarm

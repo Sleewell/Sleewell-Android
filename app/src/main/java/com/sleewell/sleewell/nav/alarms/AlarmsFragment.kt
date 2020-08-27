@@ -1,6 +1,7 @@
 package com.sleewell.sleewell.nav.alarms
 
 import android.app.AlarmManager
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -9,9 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,19 +20,17 @@ import com.sleewell.sleewell.R
 import com.sleewell.sleewell.reveil.AlarmAdapter
 import com.sleewell.sleewell.reveil.AlarmContract
 import com.sleewell.sleewell.reveil.AlarmReceiver
+import com.sleewell.sleewell.reveil.AlertReceiver
 import com.sleewell.sleewell.reveil.Presenter.AlarmPresenter
-import com.sleewell.sleewell.reveil.View.ReminderActivity
-import kotlinx.android.synthetic.main.activity_alarm.*
-import kotlinx.android.synthetic.main.content_main.*
-import java.util.ArrayList
+import java.util.*
 
 class AlarmsFragment : Fragment(), AlarmContract.View {
 
     companion object {
         lateinit var instance: AlarmsFragment
             private set
+        var id = "0"
     }
-
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var textViewNoReminders: TextView
@@ -40,18 +38,32 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
 
     private lateinit var presenter: AlarmContract.Presenter
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    /**
+     * When view is created
+     *
+     * @param savedInstanceState Save of the instance state
+     */
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         instance = this
 
         val root = inflater.inflate(R.layout.fragment_alarms, container, false)
         val fabCreateReminder: FloatingActionButton = root.findViewById(R.id.fabCreateReminder)
         fabCreateReminder.setOnClickListener {
-            val intent = Intent(context, ReminderActivity::class.java)
-            startActivity(intent)
+            val date = Calendar.getInstance()
+            val hour = date.get(Calendar.HOUR_OF_DAY)
+            val minute = date.get(Calendar.MINUTE)
+
+            val timePickerDialog = TimePickerDialog(  context, { view, hourOfDay, minute ->
+                val formatted: String = presenter.getTime(hourOfDay, minute)
+
+                val alarmManager = activity!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val intentAlarm = Intent(context, AlarmReceiver::class.java)
+                presenter.startAlarm(alarmManager, intentAlarm, context!!, this.activity!!.getSharedPreferences("com.sleewell", Context.MODE_PRIVATE))
+                val intentAlert = Intent(context, AlertReceiver::class.java)
+                presenter.startAlert(alarmManager, intentAlert, context!!, this.activity!!.getSharedPreferences("com.sleewell", Context.MODE_PRIVATE))
+            }, hour, minute, true)
+            timePickerDialog.show()
         }
 
         recyclerView = root.findViewById(R.id.recyclerViewReminders)
@@ -62,7 +74,6 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
         textViewNoReminders = root.findViewById(R.id.textViewNoReminders)
         setPresenter(AlarmPresenter(this))
         presenter.onViewCreated(this.activity!!.getSharedPreferences("com.sleewell", Context.MODE_PRIVATE))
-
 
         return root
     }
@@ -91,11 +102,20 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
     }
 
     /**
+     * Save the alarm
+     *
+     * @param time Time of the alarm
+     */
+    fun saveAlarm(time: Long) {
+        presenter.saveAlarm(time, this.activity!!.getSharedPreferences("com.sleewell", Context.MODE_PRIVATE))
+    }
+
+    /**
      * Snooze the alarm
      *
      */
     override fun snoozeAlarm() {
-        val alarmManager = activity?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmManager = activity!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, AlarmReceiver::class.java)
         presenter.snoozeAlarm(alarmManager, intent, context!!)
     }
@@ -105,7 +125,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
      *
      */
     override fun cancelAlarm() {
-        val alarmManager = activity?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmManager = activity!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, AlarmReceiver::class.java)
         presenter.cancelAlarm(alarmManager, intent, context!!)
     }
