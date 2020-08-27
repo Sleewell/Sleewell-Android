@@ -33,7 +33,6 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
             private set
     }
 
-    private lateinit var dashboardViewModel: AlarmsViewModel
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var textViewNoReminders: TextView
@@ -48,8 +47,6 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
     ): View? {
         instance = this
 
-        dashboardViewModel =
-            ViewModelProviders.of(this).get(AlarmsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_alarms, container, false)
         val fabCreateReminder: FloatingActionButton = root.findViewById(R.id.fabCreateReminder)
         fabCreateReminder.setOnClickListener {
