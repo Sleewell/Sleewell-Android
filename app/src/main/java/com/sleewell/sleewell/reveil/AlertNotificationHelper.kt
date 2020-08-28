@@ -10,6 +10,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.mvp.main.view.MainActivity
 
 /**
  * Alert notification helper of the application
@@ -39,7 +40,7 @@ class AlertNotificationHelper(base: Context?) : ContextWrapper(base) {
 
     val channelNotification: NotificationCompat.Builder
         get() {
-            val intent = Intent(this, LaunchActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
             return NotificationCompat.Builder(applicationContext, channelID)
                     .setContentTitle("Sleewell")

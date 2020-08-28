@@ -49,7 +49,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".reveil.LaunchActivity"/>
         <receiver android:name=".reveil.AlarmReceiver"/>
         <receiver android:name=".reveil.AlertReceiver"/>
         <receiver android:name=".reveil.GlobalReceiver"/>
