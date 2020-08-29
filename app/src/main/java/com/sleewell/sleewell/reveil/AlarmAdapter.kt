@@ -22,7 +22,7 @@ class AlarmAdapter(private val reminderList: List<Long>) : RecyclerView.Adapter<
      * @param itemView Item of the view
      */
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var textViewTimeToAdminister: TextView = itemView.findViewById(R.id.textViewTimeToAdminister)
+        var textViewTime: TextView = itemView.findViewById(R.id.textViewTime)
     }
 
     /**
@@ -50,7 +50,7 @@ class AlarmAdapter(private val reminderList: List<Long>) : RecyclerView.Adapter<
         formatter.timeZone = TimeZone.getTimeZone("GMT+2")
         val formatted: String = formatter.format(date)
 
-        viewHolder.textViewTimeToAdminister.text = formatted
+        viewHolder.textViewTime.text = formatted
         //viewHolder.itemView.setOnClickListener {}
     }
 

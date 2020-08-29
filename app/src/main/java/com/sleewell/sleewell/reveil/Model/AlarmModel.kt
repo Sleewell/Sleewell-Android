@@ -131,7 +131,7 @@ class AlarmModel : AlarmContract.Model {
      */
     override fun loadAllReminders(sharedPreferences: SharedPreferences): ArrayList<Long> {
         val reminders = ArrayList<Long>(AlarmsFragment.id.toInt())
-        for (i in 1..AlarmsFragment.id.toInt()) {
+        for (i in 0 until AlarmsFragment.id.toInt()) {
             val millis = sharedPreferences.getLong(i.toString(), 0)
             reminders.add(millis)
         }
