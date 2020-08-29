@@ -30,10 +30,9 @@ class MusiqueActivity : AppCompatActivity(), MainContract.View {
     private lateinit var presenter: MainContract.Presenter
     private  lateinit var listView: ListView
 
-    private val clientId = "42d9f9b3f8ef4a419766c3f14566f110"
-    private val redirectUri = "http://com.sleewell.sleewell/callback"
-    private var spotifyAppRemote: SpotifyAppRemote? = null
     private lateinit var spotify_button: Button
+    private lateinit var spotify_button_disconneted: Button
+    private lateinit var spotify_button_play: Button
 
 
     companion object {
@@ -70,9 +69,11 @@ class MusiqueActivity : AppCompatActivity(), MainContract.View {
         }
 
         spotify_button = findViewById(R.id.button_spotify)
-        spotify_button.setOnClickListener{
-            Launch()
-        }
+        spotify_button_disconneted = findViewById(R.id.button_spotify_disconnected)
+        spotify_button_play = findViewById(R.id.button_spotify_play)
+        spotify_button.setOnClickListener{ presenter.connectionSpotify() }
+        spotify_button_disconneted.setOnClickListener{ presenter.disconnectionSpotify() }
+        spotify_button_play.setOnClickListener{ presenter.playPlaylistSpotify("spotify:playlist:3vb8KWLwZhSRmr5vjCoqYk") }
     }
 
     /**
@@ -95,36 +96,7 @@ class MusiqueActivity : AppCompatActivity(), MainContract.View {
         super.onDestroy()
     }
 
-    fun Launch() {
-        Toast.makeText(applicationContext, "Try to connect", Toast.LENGTH_LONG).show()
-        val connectionParams = ConnectionParams.Builder(clientId)
-            .setRedirectUri(redirectUri)
-            .showAuthView(true)
-            .build()
-
-
-
-        SpotifyAppRemote.connect(applicationContext, connectionParams, object : Connector.ConnectionListener {
-            override fun onConnected(appRemote: SpotifyAppRemote) {
-                spotifyAppRemote = appRemote
-                connected()
-            }
-
-            override fun onFailure(throwable: Throwable) {
-                Toast.makeText(applicationContext, "Fail " + throwable.message, Toast.LENGTH_LONG).show()
-                // Something went wrong when attempting to connect! Handle errors here
-            }
-        })
-
-    }
-
-    private fun connected() {
-        Toast.makeText(applicationContext, "Connected", Toast.LENGTH_LONG).show()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        SpotifyAppRemote.disconnect(spotifyAppRemote)
-        Toast.makeText(applicationContext, "Disconnected", Toast.LENGTH_LONG).show()
+    override fun displayToast(message: String) {
+        Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
     }
 }
