@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="setting_wifi_default_value">true</bool>
+    <bool name="setting_bluetooth_default_value">false</bool>
+    <bool name="setting_cellular_default_value">true</bool>
+    <bool name="setting_dnd_default_value">true</bool>
+</resources>

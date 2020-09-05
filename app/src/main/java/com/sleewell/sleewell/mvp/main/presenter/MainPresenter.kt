@@ -1,9 +1,9 @@
 package com.sleewell.sleewell.mvp.main.presenter
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 import com.sleewell.sleewell.mvp.main.MainContract
-import com.sleewell.sleewell.networkManagement.INetworkManagement
-import com.sleewell.sleewell.networkManagement.NetworkManagement
+import com.sleewell.sleewell.modules.network.INetworkManager
+import com.sleewell.sleewell.modules.network.NetworkManager
 
 /**
  * Presenter for the main activity
@@ -13,10 +13,10 @@ import com.sleewell.sleewell.networkManagement.NetworkManagement
  * @param ctx context is from the current activity / view
  * @author Hugo Berthomé
  */
-class MainPresenter(view: MainContract.View, ctx: AppCompatActivity) : MainContract.Presenter {
+class MainPresenter(view: MainContract.View, ctx: Context) : MainContract.Presenter {
 
     private var view: MainContract.View? = view
-    private val connection: INetworkManagement = NetworkManagement(ctx)
+    private val connection: INetworkManager = NetworkManager(ctx)
 
     /**
      * onDestroy is called at each time e presenter will be destroyed

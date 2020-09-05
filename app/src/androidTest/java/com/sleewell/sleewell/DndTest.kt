@@ -3,14 +3,11 @@ package com.sleewell.sleewell
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.provider.Settings
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import androidx.test.uiautomator.*
-import com.sleewell.sleewell.networkManagement.NetworkManagement
-import org.hamcrest.CoreMatchers.notNullValue
 
 import org.junit.Test
 import org.junit.runner.RunWith

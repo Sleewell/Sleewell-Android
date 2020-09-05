@@ -8,10 +8,11 @@
         app:title="@string/setting_notification_name">
 
         <SwitchPreferenceCompat
-            app:key="dnd"
+            app:key="@string/setting_dnd_key"
             app:title="@string/setting_dnd_name"
             app:summaryOff="@string/setting_dnd_summary_off"
-            app:summaryOn="@string/setting_dnd_summary_on"/>
+            app:summaryOn="@string/setting_dnd_summary_on"
+            app:defaultValue="@bool/setting_dnd_default_value"/>
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>
