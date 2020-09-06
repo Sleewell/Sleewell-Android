@@ -2,24 +2,21 @@ package com.sleewell.sleewell
 
 import android.app.NotificationManager
 import android.content.Context
-import android.net.ConnectivityManager
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import androidx.test.uiautomator.*
+import com.sleewell.sleewell.utils.UiAutomatorUtils
 
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import org.junit.Assert.*
 import org.junit.Before
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
-import com.sleewell.sleewell.utils.UiAutomatorUtils
 
 @RunWith(AndroidJUnit4::class)
-@SdkSuppress(minSdkVersion = 29)
-class NetworkTest {
-
+@SdkSuppress(minSdkVersion = 21)
+class SettingsTest {
     private lateinit var context : Context
     private lateinit var notificationManager: NotificationManager
     private lateinit var mDevice : UiDevice
@@ -31,7 +28,7 @@ class NetworkTest {
     fun startActivity() {
         mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         appDrawer = UiScrollable(UiSelector().scrollable(true))
-        context = getApplicationContext<Context>()
+        context = ApplicationProvider.getApplicationContext<Context>()
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         utils = UiAutomatorUtils(mDevice, appDrawer, context)
 
@@ -40,25 +37,11 @@ class NetworkTest {
     }
 
     @Test
-    fun launchAndLeaveProtocol() {
-        utils.startProtocol()
+    fun verifySettings() {
+        utils.openSettings()
+        utils.openNetworkSettings()
 
-        utils.switchWifi()
-        utils.switchNetwork()
-        utils.exitNetworkPanel()
-        assertEquals(isNetworkEnable(), false)
         utils.phoneReturnButton()
-        utils.switchWifi()
-        utils.switchNetwork()
-        utils.exitNetworkPanel()
-        assertEquals(isNetworkEnable(), true)
-    }
-
-    private fun isNetworkEnable() : Boolean
-    {
-        val cm = getApplicationContext<Context>().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val nInfo = cm.activeNetworkInfo
-        val connected = nInfo != null && nInfo.isAvailable && nInfo.isConnected
-        return connected
+        utils.openNotificationSettings()
     }
 }
