@@ -48,6 +48,9 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".mvp.settings.view.SettingsActivity"
+            android:label="Settings" />
 
         <receiver android:name=".reveil.AlarmReceiver"/>
         <receiver android:name=".reveil.AlertReceiver"/>

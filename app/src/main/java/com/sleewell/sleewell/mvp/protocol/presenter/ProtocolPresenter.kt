@@ -1,6 +1,8 @@
 package com.sleewell.sleewell.mvp.protocol.presenter
 
 import androidx.appcompat.app.AppCompatActivity
+import com.sleewell.sleewell.lockScreenManagement.ILockScreenManagement
+import com.sleewell.sleewell.lockScreenManagement.LockScreenManagement
 import com.sleewell.sleewell.mvp.protocol.ProtocolContract
 import com.sleewell.sleewell.networkManagement.INetworkManagement
 import com.sleewell.sleewell.networkManagement.NetworkManagement
@@ -18,6 +20,7 @@ class ProtocolPresenter(view: ProtocolContract.View, ctx: AppCompatActivity) : P
 
     private var view: ProtocolContract.View? = view
     private val connection: INetworkManagement = NetworkManagement(ctx)
+    private val lockScreen: ILockScreenManagement = LockScreenManagement(ctx)
 
     /**
      * onDestroy is called at each time e presenter will be destroyed
@@ -25,6 +28,7 @@ class ProtocolPresenter(view: ProtocolContract.View, ctx: AppCompatActivity) : P
      */
     override fun onDestroy() {
         connection.switchToSleepMode(false)
+        lockScreen.disableShowWhenLock()
     }
 
     /**
@@ -34,5 +38,6 @@ class ProtocolPresenter(view: ProtocolContract.View, ctx: AppCompatActivity) : P
      */
     override fun onViewCreated() {
         connection.switchToSleepMode(true)
+        lockScreen.enableShowWhenLock()
     }
 }
