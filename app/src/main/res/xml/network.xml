@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:key="network_category"
+        app:title="@string/setting_network_name">
+        <SwitchPreferenceCompat
+            app:icon="@drawable/ic_setting"
+            app:key="@string/setting_wifi_key"
+            app:defaultValue="@bool/setting_wifi_default_value"
+            app:summaryOff="@string/setting_wifi_summary_off"
+            app:summaryOn="@string/setting_wifi_summary_on"
+            app:title="@string/setting_wifi_name" />
+
+        <SwitchPreferenceCompat
+            app:icon="@drawable/ic_setting"
+            app:key="@string/setting_bluetooth_key"
+            app:defaultValue="@bool/setting_bluetooth_default_value"
+            app:summaryOff="@string/setting_bluetooth_summary_off"
+            app:summaryOn="@string/setting_bluetooth_summary_on"
+            app:title="@string/setting_bluetooth_name" />
+
+        <SwitchPreferenceCompat
+            app:icon="@drawable/ic_setting"
+            app:key="@string/setting_cellular_key"
+            app:defaultValue="@bool/setting_cellular_default_value"
+            app:summaryOff="@string/setting_cellular_summary_off"
+            app:summaryOn="@string/setting_cellular_summary_on"
+            app:title="@string/setting_cellular_name" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

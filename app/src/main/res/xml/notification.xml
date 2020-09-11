@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <PreferenceCategory
+        app:key="notifications_category"
+        app:title="@string/setting_notification_name">
+
+        <SwitchPreferenceCompat
+            app:key="@string/setting_dnd_key"
+            app:title="@string/setting_dnd_name"
+            app:summaryOff="@string/setting_dnd_summary_off"
+            app:summaryOn="@string/setting_dnd_summary_on"
+            app:defaultValue="@bool/setting_dnd_default_value"/>
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

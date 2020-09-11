@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -14,8 +13,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.main.MainContract
 import com.sleewell.sleewell.mvp.main.presenter.MainPresenter
-import com.sleewell.sleewell.mvp.settings.SettingsContract
-import com.sleewell.sleewell.mvp.settings.presenter.SettingsPresenter
 import com.sleewell.sleewell.mvp.settings.view.SettingsActivity
 
 class MainActivity : AppCompatActivity(), MainContract.View {

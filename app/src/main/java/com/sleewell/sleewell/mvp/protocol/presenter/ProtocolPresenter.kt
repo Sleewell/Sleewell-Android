@@ -1,12 +1,11 @@
 package com.sleewell.sleewell.mvp.protocol.presenter
 
 import androidx.appcompat.app.AppCompatActivity
-import com.sleewell.sleewell.lockScreenManagement.ILockScreenManagement
-import com.sleewell.sleewell.lockScreenManagement.LockScreenManagement
+import com.sleewell.sleewell.modules.lockScreen.ILockScreenManagement
+import com.sleewell.sleewell.modules.lockScreen.LockScreenManagement
 import com.sleewell.sleewell.mvp.protocol.ProtocolContract
-import com.sleewell.sleewell.networkManagement.INetworkManagement
-import com.sleewell.sleewell.networkManagement.NetworkManagement
-import org.jetbrains.annotations.Contract
+import com.sleewell.sleewell.modules.network.INetworkManager
+import com.sleewell.sleewell.modules.network.NetworkManager
 
 /**
  * Presenter for the protocol activity
@@ -19,7 +18,7 @@ import org.jetbrains.annotations.Contract
 class ProtocolPresenter(view: ProtocolContract.View, ctx: AppCompatActivity) : ProtocolContract.Presenter {
 
     private var view: ProtocolContract.View? = view
-    private val connection: INetworkManagement = NetworkManagement(ctx)
+    private val connection: INetworkManager = NetworkManager(ctx)
     private val lockScreen: ILockScreenManagement = LockScreenManagement(ctx)
 
     /**

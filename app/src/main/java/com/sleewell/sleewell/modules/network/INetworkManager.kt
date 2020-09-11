@@ -1,10 +1,10 @@
-package com.sleewell.sleewell.networkManagement
+package com.sleewell.sleewell.modules.network
 
 /**
  * Operates all the devise network settings operation as enable wifi for example
  * @author Hugo Berthomé
  */
-interface INetworkManagement {
+interface INetworkManager {
     /**
      * initPermissions
      *
