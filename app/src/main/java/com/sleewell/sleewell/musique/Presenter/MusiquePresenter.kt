@@ -1,9 +1,13 @@
 package com.sleewell.sleewell.musique.Presenter
 
 import android.content.Context
+import android.content.Intent
 import android.widget.ListAdapter
+import androidx.core.content.ContextCompat.startActivity
+import com.sleewell.sleewell.Spotify.View.SpotifyActivity
 import com.sleewell.sleewell.musique.MainContract
 import com.sleewell.sleewell.musique.Model.MusiqueModel
+import com.sleewell.sleewell.musique.View.MusiqueActivity
 
 /**
  * this class can control the music
@@ -16,6 +20,7 @@ class MusiquePresenter(view: MainContract.View, context: Context) : MainContract
 
     private var view: MainContract.View? = view
     private var model: MainContract.Model = MusiqueModel(context)
+    private var context = context
 
 
     /**
@@ -84,10 +89,13 @@ class MusiquePresenter(view: MainContract.View, context: Context) : MainContract
      * @author gabin warnier de wailly
      */
     override fun playPlaylistSpotify(idMusic: String) {
-        if (model.playPlaylistSpotify(idMusic)) {
+        context.startActivity(Intent(context, SpotifyActivity::class.java))
+        /**
+         if (model.playPlaylistSpotify(idMusic)) {
             view?.displayToast("Play")
         } else {
             view?.displayToast("Error Spotify must be connected")
         }
+        */
     }
 }

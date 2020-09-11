@@ -1,7 +1,6 @@
 package com.sleewell.sleewell.musique.View
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.AdapterView
 import android.widget.Button
 import android.widget.ListView
@@ -10,14 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.musique.MainContract
 import com.sleewell.sleewell.musique.Presenter.MusiquePresenter
-import com.spotify.android.appremote.api.ConnectionParams;
-import com.spotify.android.appremote.api.Connector;
-import com.spotify.android.appremote.api.SpotifyAppRemote;
-
-import com.spotify.protocol.client.Subscription;
-import com.spotify.protocol.types.PlayerState;
-import com.spotify.protocol.types.Track;
-
 
 
 /**

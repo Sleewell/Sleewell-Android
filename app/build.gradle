@@ -30,6 +30,13 @@ android {
     }
 }
 
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -53,4 +60,8 @@ dependencies {
 
     implementation project(':spotify-app-remote')
     implementation "com.google.code.gson:gson:2.6.1"
+
+    implementation 'com.android.volley:volley:1.1.1'
+
+    implementation 'com.spotify.android:auth:1.1.0' // Maven dependency
 }
