@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.networkManagement
+package com.sleewell.sleewell.modules.network
 
 import android.app.NotificationManager
 import android.bluetooth.BluetoothAdapter
@@ -7,18 +7,20 @@ import android.content.Intent
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.provider.Settings
-import androidx.appcompat.app.AppCompatActivity
+import com.sleewell.sleewell.modules.settings.ISettingsManager
+import com.sleewell.sleewell.modules.settings.SettingsManager
 
 /**
- * Implementation of the INetworkManagement
+ * Implementation of the INetworkManager
  *
  * @property ctx context of the activity / view
  * @author Hugo Berthomé
  */
-class NetworkManagement(private val ctx: AppCompatActivity) : INetworkManagement {
+class NetworkManager(private val ctx: Context) : INetworkManager {
     private val bAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
     private val notificationManager: NotificationManager =
         ctx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    private val setting : ISettingsManager = SettingsManager(ctx)
 
     /**
      * initPermissions
@@ -42,6 +44,9 @@ class NetworkManagement(private val ctx: AppCompatActivity) : INetworkManagement
      * @author Hugo Berthomé
      */
     override fun enableBluetooth(value: Boolean) {
+        if (setting.getBluetooth())
+            return
+
         if (value) {
             bAdapter?.enable()
         } else {
@@ -56,6 +61,9 @@ class NetworkManagement(private val ctx: AppCompatActivity) : INetworkManagement
      * @author Hugo Berthomé
      */
     override fun enableWifi(value: Boolean) {
+        if (setting.getWifi())
+            return
+
         val wifiManager: WifiManager =
             ctx.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
@@ -64,7 +72,7 @@ class NetworkManagement(private val ctx: AppCompatActivity) : INetworkManagement
             wifiManager.isWifiEnabled = value
         else {
             val panelIntent = Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY)
-            ctx.startActivityForResult(panelIntent, 0)
+            ctx.startActivity(panelIntent)
         }
     }
 
@@ -75,6 +83,9 @@ class NetworkManagement(private val ctx: AppCompatActivity) : INetworkManagement
      * @author Hugo Berthomé
      */
     override fun enableZenMode(value: Boolean) {
+        if (!setting.getDnd())
+            return
+
         // Check if the notification policy access has been granted for the app.
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || !notificationManager.isNotificationPolicyAccessGranted)
             return

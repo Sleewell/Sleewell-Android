@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.lockScreenManagement
+package com.sleewell.sleewell.modules.lockScreen
 
 import android.os.Build
 import android.view.WindowManager

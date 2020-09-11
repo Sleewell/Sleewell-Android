@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.preference.PreferenceScreen
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <SwitchPreferenceCompat
-        app:key="test_switch"
-        app:title="Action"
-        app:summaryOff="Off"
-        app:summaryOn="On"/>
+    <Preference
+        app:title="@string/setting_network_name"
+        app:summary="@string/setting_network_summary"
+        app:fragment="com.sleewell.sleewell.mvp.settings.view.SettingsActivity$NetworkPreferencesFragment"
+        app:icon="@drawable/ic_setting"/>
 
     <Preference
-        app:key="test_text"
-        app:title="Sample Title"
-        app:summary="This is sample summary" />
+        app:title="@string/setting_notification_name"
+        app:summary="@string/setting_notification_summary"
+        app:fragment="com.sleewell.sleewell.mvp.settings.view.SettingsActivity$NotificationPreferencesFragment"
+        app:icon="@drawable/ic_setting"/>
 
-</PreferenceScreen>
+</androidx.preference.PreferenceScreen>

@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.lockScreenManagement
+package com.sleewell.sleewell.modules.lockScreen
 
 /**
  * Operates to manage the lock screen
