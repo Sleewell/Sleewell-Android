@@ -6,8 +6,9 @@ import android.content.Intent
 import android.media.MediaPlayer
 
 /**
- * Alert Receiver
+ * Receiver of the alarm
  *
+ * @author Romane Bézier
  */
 class AlertReceiver : BroadcastReceiver() {
 
@@ -21,6 +22,7 @@ class AlertReceiver : BroadcastReceiver() {
      *
      * @param context Context of the application
      * @param intent Intent of the application
+     * @author Romane Bézier
      */
     override fun onReceive(context: Context, intent: Intent) {
         val notificationHelper = AlertNotificationHelper(context)

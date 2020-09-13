@@ -17,6 +17,7 @@ import com.sleewell.sleewell.nav.alarms.AlarmsFragment
  * Notification helper of the application
  *
  * @param base Context of the application
+ * @author Romane Bézier
  */
 class AlarmNotificationHelper(base: Context?) : ContextWrapper(base) {
     private var mManager: NotificationManager? = null
@@ -24,6 +25,7 @@ class AlarmNotificationHelper(base: Context?) : ContextWrapper(base) {
     /**
      * Create channel for the notification
      *
+     * @author Romane Bézier
      */
     @TargetApi(Build.VERSION_CODES.O)
     private fun createChannel() {

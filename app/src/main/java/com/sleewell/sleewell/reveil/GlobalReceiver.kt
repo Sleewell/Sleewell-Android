@@ -9,6 +9,7 @@ import com.sleewell.sleewell.nav.alarms.AlarmsFragment
 /**
  * Notification receiver
  *
+ * @author Romane Bézier
  */
 class GlobalReceiver : BroadcastReceiver() {
 
@@ -16,6 +17,7 @@ class GlobalReceiver : BroadcastReceiver() {
      * Stop the alarm when button 'stop" have been click on the notificatop,
      *
      * @param context Context of the application
+     * @author Romane Bézier
      */
     private fun stopAlarm(context: Context?) {
         val notificationManager = NotificationManagerCompat.from(context!!)

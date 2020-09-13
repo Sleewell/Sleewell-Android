@@ -17,6 +17,8 @@ import java.util.*
 /**
  * Alarm Model for the Alarm activity
  *
+ *
+ * @author Romane Bézier
  */
 class AlarmModel : AlarmContract.Model {
 
@@ -31,6 +33,7 @@ class AlarmModel : AlarmContract.Model {
      * @param intent Intent of the activity
      * @param context Context of the activity
      * @param sharedPreferences Shared preferences of the application
+     * @author Romane Bézier
      */
     override fun startAlert(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences) {
         val pendingIntent = PendingIntent.getBroadcast(context, 1, intent, 0)
@@ -48,6 +51,7 @@ class AlarmModel : AlarmContract.Model {
      * @param intent Intent of the activity
      * @param context Context of the activity
      * @param sharedPreferences Shared preferences of the application
+     * @author Romane Bézier
      */
     override fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences) {
         val pendingIntent = PendingIntent.getBroadcast(context, 1, intent, 0)
@@ -63,6 +67,7 @@ class AlarmModel : AlarmContract.Model {
      *
      * @param time Time of the alarm
      * @param sharedPreferences Shared preferences of the application
+     * @author Romane Bézier
      */
     override fun saveAlarm(time: Long, sharedPreferences: SharedPreferences) {
         sharedPreferences.edit().putLong(AlarmsFragment.id, c.timeInMillis).apply()
@@ -76,6 +81,7 @@ class AlarmModel : AlarmContract.Model {
      * @param hourOfDay Hour of the alarm
      * @param minute Minutes of the alarm
      * @return Time in a string
+     * @author Romane Bézier
      */
     override fun getTime(hourOfDay: Int, minute: Int) : String {
         c = Calendar.getInstance()
@@ -96,6 +102,7 @@ class AlarmModel : AlarmContract.Model {
      * @param alarmManager Alarm manager of phone
      * @param intent Intent of the activity
      * @param context Context of the activity
+     * @author Romane Bézier
      */
     override fun snoozeAlarm(alarmManager: AlarmManager, intent: Intent, context: Context) {
         val pendingIntent = PendingIntent.getBroadcast(context, 2, intent, 0)
@@ -115,6 +122,7 @@ class AlarmModel : AlarmContract.Model {
      * @param alarmManager Alarm manager of phone
      * @param intent Intent of the activity
      * @param context Context of the activity
+     * @author Romane Bézier
      */
     override fun cancelAlarm(alarmManager: AlarmManager, intent: Intent, context: Context) {
         val pendingIntent = PendingIntent.getBroadcast(context, 1, intent, 0)
@@ -128,6 +136,7 @@ class AlarmModel : AlarmContract.Model {
      *
      * @param sharedPreferences Shared preferences of the application
      * @return List of reminders
+     * @author Romane Bézier
      */
     override fun loadAllReminders(sharedPreferences: SharedPreferences): ArrayList<Long> {
         val reminders = ArrayList<Long>(AlarmsFragment.id.toInt())

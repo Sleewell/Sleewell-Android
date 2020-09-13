@@ -7,8 +7,9 @@ import android.media.MediaPlayer
 import android.media.RingtoneManager
 
 /**
- * Alarm Receiver
+ * Receiver of the alarm to start the notification
  *
+ * @author Romane Bézier
  */
 class AlarmReceiver : BroadcastReceiver() {
 
@@ -22,6 +23,7 @@ class AlarmReceiver : BroadcastReceiver() {
      *
      * @param context Context of the application
      * @param intent Intent of the application
+     * @author Romane Bézier
      */
     override fun onReceive(context: Context, intent: Intent) {
         val notificationHelper = AlarmNotificationHelper(context)

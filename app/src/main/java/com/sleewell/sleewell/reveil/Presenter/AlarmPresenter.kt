@@ -11,6 +11,7 @@ import com.sleewell.sleewell.reveil.Model.AlarmModel
  * Alarm Presenter for the Alarm activity
  *
  * @param view View of the presenter
+ * @author Romane Bézier
  */
 class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter,
         AlarmContract.Model.OnFinishedListener {
@@ -21,6 +22,7 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter,
     /**
      * On the destroy of the presenter
      *
+     * @author Romane Bézier
      */
     override fun onDestroy() {
         this.view = null
@@ -30,6 +32,7 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter,
      * When view is created
      *
      * @param sharedPreferences Shared preferences of the application
+     * @author Romane Bézier
      */
     override fun onViewCreated(sharedPreferences: SharedPreferences) {
         val reminderList: ArrayList<Long> = model.loadAllReminders(sharedPreferences)
@@ -42,6 +45,7 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter,
      * @param hourOfDay Hour of the alarm
      * @param minute Minutes of the alarm
      * @return Time in a string
+     * @author Romane Bézier
      */
     override fun getTime(hourOfDay: Int, minute: Int): String {
         return model.getTime(hourOfDay, minute)
@@ -54,6 +58,7 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter,
      * @param intent Intent of the activity
      * @param context Context of the activity
      * @param sharedPreferences Shared preferences of the application
+     * @author Romane Bézier
      */
     override fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences) {
         model.startAlarm(alarmManager, intent, context, sharedPreferences)
@@ -64,6 +69,7 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter,
      *
      * @param time Time of the alarm
      * @param sharedPreferences Shared preferences of the application
+     * @author Romane Bézier
      */
     override fun saveAlarm(time: Long, sharedPreferences: SharedPreferences) {
         model.saveAlarm(time, sharedPreferences)
@@ -76,6 +82,7 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter,
      * @param intent Intent of the activity
      * @param context Context of the activity
      * @param sharedPreferences Shared preferences of the application
+     * @author Romane Bézier
      */
     override fun startAlert(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences) {
         model.startAlert(alarmManager, intent, context, sharedPreferences)
@@ -87,6 +94,7 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter,
      * @param alarmManager Alarm manager of phone
      * @param intent Intent of the activity
      * @param context Context of the activity
+     * @author Romane Bézier
      */
     override fun snoozeAlarm(alarmManager: AlarmManager, intent: Intent, context: Context) {
         model.snoozeAlarm(alarmManager, intent, context)
@@ -98,11 +106,18 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter,
      * @param alarmManager Alarm manager of phone
      * @param intent Intent of the activity
      * @param context Context of the activity
+     * @author Romane Bézier
      */
     override fun cancelAlarm(alarmManager: AlarmManager, intent: Intent, context: Context) {
         model.cancelAlarm(alarmManager, intent, context)
     }
 
+    /**
+     * On failure
+     *
+     * @param t Throwable
+     * @author Romane Bézier
+     */
     override fun onFailure(t: Throwable) {
         if (t.message != null)
             view?.showToast(t.message!!)

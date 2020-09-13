@@ -8,6 +8,10 @@ import com.sleewell.sleewell.reveil.global.BasePresenter
 import com.sleewell.sleewell.reveil.global.BaseView
 import java.util.ArrayList
 
+/**
+ * Contract that defines all the functions of the alarm that will interact with the user
+ * @author Romane Bézier
+ */
 interface AlarmContract {
 
     interface Model {
@@ -17,6 +21,7 @@ interface AlarmContract {
          * @param hourOfDay Hour of the alarm
          * @param minute Minute of the alarm
          * @return Time in a string
+         * @author Romane Bézier
          */
         fun getTime(hourOfDay: Int, minute: Int) : String
 
@@ -25,6 +30,7 @@ interface AlarmContract {
          *
          * @param time Time of the alarm
          * @param sharedPreferences Shared preferences of the application
+         * @author Romane Bézier
          */
         fun saveAlarm(time: Long, sharedPreferences: SharedPreferences)
 
@@ -35,6 +41,7 @@ interface AlarmContract {
          * @param intent Intent of the activity
          * @param context Context of the activity
          * @param sharedPreferences Shared preferences of the application
+         * @author Romane Bézier
          */
         fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences)
 
@@ -45,6 +52,7 @@ interface AlarmContract {
          * @param intent Intent of the activity
          * @param context Context of the activity
          * @param sharedPreferences Shared preferences of the application
+         * @author Romane Bézier
          */
         fun startAlert(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences)
 
@@ -54,6 +62,7 @@ interface AlarmContract {
          * @param alarmManager Alarm manager of phone
          * @param intent Intent of the activity
          * @param context Context of the activity
+         * @author Romane Bézier
          */
         fun snoozeAlarm(alarmManager: AlarmManager, intent: Intent, context: Context)
 
@@ -63,6 +72,7 @@ interface AlarmContract {
          * @param alarmManager Alarm manager of phone
          * @param intent Intent of the activity
          * @param context Context of the activity
+         * @author Romane Bézier
          */
         fun cancelAlarm(alarmManager: AlarmManager, intent: Intent, context: Context)
 
@@ -71,6 +81,7 @@ interface AlarmContract {
          *
          * @param sharedPreferences Shared preferences of the application
          * @return List of reminders
+         * @author Romane Bézier
          */
         fun loadAllReminders(sharedPreferences: SharedPreferences): ArrayList<Long>
 
@@ -85,6 +96,7 @@ interface AlarmContract {
          * When view is created
          *
          * @param sharedPreferences Shared preferences of the application
+         * @author Romane Bézier
          */
         fun onViewCreated(sharedPreferences: SharedPreferences)
 
@@ -94,6 +106,7 @@ interface AlarmContract {
          * @param hourOfDay Hour of the alarm
          * @param minute Minutes of the alarm
          * @return Time in a string
+         * @author Romane Bézier
          */
         fun getTime(hourOfDay: Int, minute: Int): String
 
@@ -102,6 +115,7 @@ interface AlarmContract {
          *
          * @param time Time of the alarm
          * @param sharedPreferences Shared preferences of the application
+         * @author Romane Bézier
          */
         fun saveAlarm(time: Long, sharedPreferences: SharedPreferences)
 
@@ -112,6 +126,7 @@ interface AlarmContract {
          * @param intent Intent of the activity
          * @param context Context of the activity
          * @param sharedPreferences Shared preferences of the application
+         * @author Romane Bézier
          */
         fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences)
 
@@ -122,6 +137,7 @@ interface AlarmContract {
          * @param intent Intent of the activity
          * @param context Context of the activity
          * @param sharedPreferences Shared preferences of the application
+         * @author Romane Bézier
          */
         fun startAlert(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences)
 
@@ -131,6 +147,7 @@ interface AlarmContract {
          * @param alarmManager Alarm manager of phone
          * @param intent Intent of the activity
          * @param context Context of the activity
+         * @author Romane Bézier
          */
         fun snoozeAlarm(alarmManager: AlarmManager, intent: Intent, context: Context)
 
@@ -140,6 +157,7 @@ interface AlarmContract {
          * @param alarmManager Alarm manager of phone
          * @param intent Intent of the activity
          * @param context Context of the activity
+         * @author Romane Bézier
          */
         fun cancelAlarm(alarmManager: AlarmManager, intent: Intent, context: Context)
     }
@@ -149,6 +167,7 @@ interface AlarmContract {
          * Show message in toast
          *
          * @param msg Message to display
+         * @author Romane Bézier
          */
         fun showToast(msg: String)
 
@@ -156,18 +175,21 @@ interface AlarmContract {
          * Display all the reminders
          *
          * @param reminderList List of reminders
+         * @author Romane Bézier
          */
         fun displayReminders(reminderList: ArrayList<Long>)
 
         /**
          * Snooze the alarm
          *
+         * @author Romane Bézier
          */
         fun snoozeAlarm()
 
         /**
          * Cancel the alarm
          *
+         * @author Romane Bézier
          */
         fun cancelAlarm()
     }

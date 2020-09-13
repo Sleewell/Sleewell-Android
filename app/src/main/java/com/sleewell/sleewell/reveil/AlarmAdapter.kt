@@ -13,6 +13,7 @@ import java.util.*
  * Adapter for Alarm Activity
  *
  * @property reminderList List of the reminders
+ * @author Romane Bézier
  */
 class AlarmAdapter(private val reminderList: List<Long>) : RecyclerView.Adapter<AlarmAdapter.ViewHolder>() {
 
@@ -20,6 +21,7 @@ class AlarmAdapter(private val reminderList: List<Long>) : RecyclerView.Adapter<
      * View holder class
      *
      * @param itemView Item of the view
+     * @author Romane Bézier
      */
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var textViewTime: TextView = itemView.findViewById(R.id.textViewTime)
@@ -31,6 +33,7 @@ class AlarmAdapter(private val reminderList: List<Long>) : RecyclerView.Adapter<
      * @param viewGroup The group of the view
      * @param i Index
      * @return The view holder
+     * @author Romane Bézier
      */
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.layout_reminder_row, viewGroup, false)
@@ -42,6 +45,7 @@ class AlarmAdapter(private val reminderList: List<Long>) : RecyclerView.Adapter<
      *
      * @param viewHolder The view holder
      * @param i Index
+     * @author Romane Bézier
      */
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         val reminderData = reminderList[i]
@@ -58,6 +62,7 @@ class AlarmAdapter(private val reminderList: List<Long>) : RecyclerView.Adapter<
      * Get size of the list
      *
      * @return Size of the list
+     * @author Romane Bézier
      */
     override fun getItemCount(): Int {
         return reminderList.size ?: 0
