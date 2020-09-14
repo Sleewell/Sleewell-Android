@@ -48,9 +48,23 @@
         android:text="Play"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.145"
+        app:layout_constraintHorizontal_bias="0.125"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.888" />
+        app:layout_constraintVertical_bias="0.829" />
+
+    <Button
+        android:id="@+id/button_reseach_spotify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="109dp"
+        android:layout_marginBottom="35dp"
+        android:text="Playlist"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_spotify_disconnected"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_spotify_play" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

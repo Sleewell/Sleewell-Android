@@ -14,10 +14,10 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.125"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.087">
+        app:layout_constraintVertical_bias="0.085">
 
     </EditText>
 
@@ -35,12 +35,22 @@
     <ListView
         android:id="@+id/playlistSpotifyListView"
         android:layout_width="365dp"
-        android:layout_height="380dp"
+        android:layout_height="463dp"
+        android:layout_marginTop="32dp"
         android:listSelector="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.39" />
+        app:layout_constraintTop_toBottomOf="@+id/refreshButton" />
+
+    <Button
+        android:id="@+id/refreshButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="refresh"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editMusicId" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

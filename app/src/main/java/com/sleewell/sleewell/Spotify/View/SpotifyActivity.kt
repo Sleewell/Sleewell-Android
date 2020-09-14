@@ -1,16 +1,15 @@
 package com.sleewell.sleewell.Spotify.View
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ListView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.Spotify.MainContract
 import com.sleewell.sleewell.Spotify.Presenter.SpotifyPresenter
+import com.sleewell.sleewell.Spotify.SpotifyPlaylist
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
@@ -24,6 +23,12 @@ class SpotifyActivity :  AppCompatActivity(), MainContract.View {
     private lateinit var listView: ListView
     private lateinit var editTextSpotify: EditText
     private lateinit var rearchButtonSpotify: Button
+    private lateinit var refreshButtonSpotify: Button
+    private lateinit var accessToken: String
+    private lateinit var musicSelected: SpotifyPlaylist
+
+    private val clientId = "" // /!\ need to hide
+    private val redirectUri = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,9 +39,65 @@ class SpotifyActivity :  AppCompatActivity(), MainContract.View {
 
         editTextSpotify = findViewById(R.id.editMusicId)
         rearchButtonSpotify = findViewById(R.id.rearchSpotifyButton)
-        rearchButtonSpotify.setOnClickListener{ presenter.rearchPlaylist(editTextSpotify.text) }
+        refreshButtonSpotify = findViewById(R.id.refreshButton)
+        listView = findViewById(R.id.playlistSpotifyListView)
+
+        rearchButtonSpotify.setOnClickListener{
+            presenter.rearchPlaylist(editTextSpotify.text)
+        }
+        refreshButtonSpotify.setOnClickListener{
+            listView.adapter = presenter.updateListPlaylistSpotify()
+        }
+
+        listView.onItemClickListener = AdapterView.OnItemClickListener{ _, _, i, _ ->
+            val resultIntent = Intent()
+
+            musicSelected = presenter.getSpotifyMusic(i)
+
+            if (musicSelected.getUri() == "Try something else")
+                return@OnItemClickListener
+            resultIntent.putExtra("nameMusicSelected", musicSelected.getName())
+            resultIntent.putExtra("uriMusicSelected", musicSelected.getUri())
+            setResult(Activity.RESULT_OK, resultIntent)
+            finish()
+        }
 
         authenticateSpotify()
+    }
+
+    override fun getAccessToken() : String {
+        return accessToken
+    }
+
+    private fun authenticateSpotify() {
+        val builder = AuthenticationRequest.Builder(
+            clientId,
+            AuthenticationResponse.Type.TOKEN,
+            redirectUri
+        )
+        builder.setScopes(arrayOf("streaming"))
+        val request = builder.build()
+        AuthenticationClient.openLoginActivity(this, LoginActivity.REQUEST_CODE, request)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intent)
+
+        if (requestCode == REQUEST_CODE) {
+            val response =
+                AuthenticationClient.getResponse(resultCode, intent)
+            when (response.type) {
+                AuthenticationResponse.Type.TOKEN -> {
+                    displayToast("Connected to Spotify")
+                    accessToken = response.accessToken
+                }
+                AuthenticationResponse.Type.ERROR -> {
+                    displayToast("Connection to Spotify Failed")
+                }
+                else -> {
+                }
+            }
+        }
     }
 
     override fun setPresenter(presenter: MainContract.Presenter) {
@@ -56,40 +117,7 @@ class SpotifyActivity :  AppCompatActivity(), MainContract.View {
         return super.onOptionsItemSelected(item)
     }
 
-
-    private val clientId = "42d9f9b3f8ef4a419766c3f14566f110"
-    private val redirectUri = "http://com.sleewell.sleewell/callback"
-
-    fun authenticateSpotify() {
-        val builder = AuthenticationRequest.Builder(
-            clientId,
-            AuthenticationResponse.Type.TOKEN,
-            redirectUri
-        )
-        builder.setScopes(arrayOf("streaming"))
-        val request = builder.build()
-        AuthenticationClient.openLoginActivity(this, LoginActivity.REQUEST_CODE, request)
+    override fun getMusicSelected(): SpotifyPlaylist {
+        return musicSelected
     }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intent)
-
-        // Check if result comes from the correct activity
-        if (requestCode == REQUEST_CODE) {
-            val response =
-                AuthenticationClient.getResponse(resultCode, intent)
-            when (response.type) {
-                AuthenticationResponse.Type.TOKEN -> {
-                    displayToast(response.accessToken)
-                }
-                AuthenticationResponse.Type.ERROR -> {
-                    displayToast("NONN")
-                }
-                else -> {
-                }
-            }
-        }
-    }
-
 }

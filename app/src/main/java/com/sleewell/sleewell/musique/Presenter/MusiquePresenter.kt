@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.ListAdapter
 import androidx.core.content.ContextCompat.startActivity
+import com.sleewell.sleewell.Spotify.Presenter.SpotifyPresenter
 import com.sleewell.sleewell.Spotify.View.SpotifyActivity
 import com.sleewell.sleewell.musique.MainContract
 import com.sleewell.sleewell.musique.Model.MusiqueModel
@@ -89,13 +90,10 @@ class MusiquePresenter(view: MainContract.View, context: Context) : MainContract
      * @author gabin warnier de wailly
      */
     override fun playPlaylistSpotify(idMusic: String) {
-        context.startActivity(Intent(context, SpotifyActivity::class.java))
-        /**
          if (model.playPlaylistSpotify(idMusic)) {
             view?.displayToast("Play")
         } else {
             view?.displayToast("Error Spotify must be connected")
         }
-        */
     }
 }
