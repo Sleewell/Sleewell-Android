@@ -1,6 +1,7 @@
 package com.sleewell.sleewell.mvp.protocol.view
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.protocol.ProtocolContract
@@ -12,8 +13,21 @@ class ProtocolActivity : AppCompatActivity(), ProtocolContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_protocol)
+        this.enableAutoLock(false)
 
         setPresenter(ProtocolPresenter(this, this))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        this.enableAutoLock(true)
+    }
+
+    override fun enableAutoLock(value: Boolean) {
+        if (value)
+            this.window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) // the app close auto
+        else
+            this.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) // the app never close
     }
 
     /**
