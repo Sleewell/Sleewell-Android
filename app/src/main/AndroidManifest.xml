@@ -51,6 +51,10 @@
         <activity
             android:name=".mvp.settings.view.SettingsActivity"
             android:label="Settings" />
+
+        <receiver android:name=".reveil.AlarmReceiver"/>
+        <receiver android:name=".reveil.AlertReceiver"/>
+        <receiver android:name=".reveil.GlobalReceiver"/>
     </application>
 
 </manifest>
