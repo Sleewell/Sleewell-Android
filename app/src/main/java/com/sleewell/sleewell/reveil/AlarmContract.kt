@@ -72,9 +72,10 @@ interface AlarmContract {
          * @param alarmManager Alarm manager of phone
          * @param intent Intent of the activity
          * @param context Context of the activity
+         * @param sharedPreferences Shared Preferences of the application
          * @author Romane Bézier
          */
-        fun cancelAlarm(alarmManager: AlarmManager, intent: Intent, context: Context)
+        fun cancelAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences)
 
         /**
          * Load all the saved reminders
@@ -157,9 +158,10 @@ interface AlarmContract {
          * @param alarmManager Alarm manager of phone
          * @param intent Intent of the activity
          * @param context Context of the activity
+         * @param sharedPreferences Shared preferences of the application
          * @author Romane Bézier
          */
-        fun cancelAlarm(alarmManager: AlarmManager, intent: Intent, context: Context)
+        fun cancelAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences)
     }
 
     interface View : BaseView<Presenter> {

@@ -106,10 +106,11 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter,
      * @param alarmManager Alarm manager of phone
      * @param intent Intent of the activity
      * @param context Context of the activity
+     * @param sharedPreferences Shared Preferences of the application
      * @author Romane Bézier
      */
-    override fun cancelAlarm(alarmManager: AlarmManager, intent: Intent, context: Context) {
-        model.cancelAlarm(alarmManager, intent, context)
+    override fun cancelAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences) {
+        model.cancelAlarm(alarmManager, intent, context, sharedPreferences)
     }
 
     /**

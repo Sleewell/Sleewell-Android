@@ -36,7 +36,7 @@ class AlarmModel : AlarmContract.Model {
      * @author Romane Bézier
      */
     override fun startAlert(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences) {
-        val pendingIntent = PendingIntent.getBroadcast(context, 1, intent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(context,  AlarmsFragment.id.toInt(), intent, 0)
         c.add(Calendar.HOUR, -8)
         if (c.before(Calendar.getInstance())) {
             c.add(Calendar.DATE, 1)
@@ -54,7 +54,7 @@ class AlarmModel : AlarmContract.Model {
      * @author Romane Bézier
      */
     override fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences) {
-        val pendingIntent = PendingIntent.getBroadcast(context, 1, intent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(context, AlarmsFragment.id.toInt(), intent, 0)
         if (c.before(Calendar.getInstance())) {
             c.add(Calendar.DATE, 1)
         }
@@ -105,7 +105,7 @@ class AlarmModel : AlarmContract.Model {
      * @author Romane Bézier
      */
     override fun snoozeAlarm(alarmManager: AlarmManager, intent: Intent, context: Context) {
-        val pendingIntent = PendingIntent.getBroadcast(context, 2, intent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(context, AlarmsFragment.id.toInt(), intent, 0)
 
         val currentTimeMillis = System.currentTimeMillis()
         val nextUpdateTimeMillis = currentTimeMillis + 1 * DateUtils.MINUTE_IN_MILLIS
@@ -122,10 +122,12 @@ class AlarmModel : AlarmContract.Model {
      * @param alarmManager Alarm manager of phone
      * @param intent Intent of the activity
      * @param context Context of the activity
+     * @param sharedPreferences Shared Preferences of the application
      * @author Romane Bézier
      */
-    override fun cancelAlarm(alarmManager: AlarmManager, intent: Intent, context: Context) {
+    override fun cancelAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences) {
         val pendingIntent = PendingIntent.getBroadcast(context, 1, intent, 0)
+        //IL FAUT UTILISER LES SHARED PREFS et supprimer la valeur
         alarmManager.cancel(pendingIntent)
         if (AlarmReceiver.isMpInitialised() && AlarmReceiver.mp.isPlaying)
             AlarmReceiver.mp.stop()

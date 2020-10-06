@@ -1,11 +1,16 @@
 package com.sleewell.sleewell.reveil
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.nav.alarms.CellClickListener
+import kotlinx.android.synthetic.main.layout_reminder_row.*
+import kotlinx.android.synthetic.main.layout_reminder_row.view.*
+import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -15,7 +20,7 @@ import java.util.*
  * @property reminderList List of the reminders
  * @author Romane Bézier
  */
-class AlarmAdapter(private val reminderList: List<Long>) : RecyclerView.Adapter<AlarmAdapter.ViewHolder>() {
+class AlarmAdapter(private val reminderList: List<Long>, private val cellClickListener: CellClickListener) : RecyclerView.Adapter<AlarmAdapter.ViewHolder>() {
 
     /**
      * View holder class
@@ -55,7 +60,10 @@ class AlarmAdapter(private val reminderList: List<Long>) : RecyclerView.Adapter<
         val formatted: String = formatter.format(date)
 
         viewHolder.textViewTime.text = formatted
-        //viewHolder.itemView.setOnClickListener {}
+        viewHolder.textViewTime.setOnClickListener {
+            //CANCEL L'ALARME
+            cellClickListener.launchTimePicker()
+        }
     }
 
     /**
