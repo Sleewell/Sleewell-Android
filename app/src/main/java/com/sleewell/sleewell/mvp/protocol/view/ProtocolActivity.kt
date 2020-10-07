@@ -26,7 +26,6 @@ class ProtocolActivity : AppCompatActivity(), ProtocolContract.View {
 
         InitActivityWidgets()
         setPresenter(ProtocolPresenter(this, this))
-        presenter.onViewCreated()
     }
 
     override fun onDestroy() {
