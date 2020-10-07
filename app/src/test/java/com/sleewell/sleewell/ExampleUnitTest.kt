@@ -1,23 +1,13 @@
 package com.sleewell.sleewell
 
-import android.util.Log
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.timeout
-import com.nhaarman.mockitokotlin2.verify
-import com.sleewell.sleewell.OpenWeather.ApiResult
-import com.sleewell.sleewell.mvp.MainContract
-import com.sleewell.sleewell.mvp.Model.WeatherModel
+import com.sleewell.sleewell.api.openWeather.ApiResult
+import com.sleewell.sleewell.mvp.openWeather.OpenWeatherContract
+import com.sleewell.sleewell.mvp.openWeather.model.OpenWeatherModel
 import org.assertj.core.api.JUnitSoftAssertions
+import org.junit.Rule
 import org.junit.Test
-
-import org.junit.Assert.*
-import org.mockito.Mockito.mock
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
-import org.junit.rules.ErrorCollector
-import org.junit.Rule
-import java.lang.Exception
 
 
 /**
@@ -29,16 +19,16 @@ class ExampleUnitTest {
 
     @Rule @JvmField
     val softly = JUnitSoftAssertions()
-    
-    private val model = WeatherModel()
+
+    private val model = OpenWeatherModel()
 
     @Test
     fun getCurrentWeather() {
         val lock = ReentrantLock()
         val condition = lock.newCondition() // Pour pouvoir tester l'asynchrone, il va falloir créer un lock et condition
-                                                     // Cela permet de gérer l'async en sync, cela fonctionne sous style de notif
+        // Cela permet de gérer l'async en sync, cela fonctionne sous style de notif
 
-        model.getCurrentWeather(object : MainContract.Model.OnFinishedListener {
+        model.getCurrentWeather(object : OpenWeatherContract.Model.OnFinishedListener {
             override fun onFailure(t: Throwable) {
                 softly.fail("An error occurred when catching internet  : " + t.message) // Utilisation de softly pour continuer l'execution malgré un fail, sinon cela va boucle inf
 

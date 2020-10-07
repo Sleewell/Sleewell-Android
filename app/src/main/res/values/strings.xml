@@ -1,3 +1,38 @@
 <resources>
     <string name="app_name">Sleewell</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="start">Start</string>
+    <string name="create_reminder">Create Reminder</string>
+    <string name="edit_reminder">Edit Reminder</string>
+    <string name="select_time">Select a time</string>
+    <string name="no_reminders">No Reminders</string>
+    <string name="time">Time</string>
+    <string name="time_required">Time is a required field</string>
+    <string name="launch_activity">Launch Activity</string>
+    <!-- Settings -->
+    <string name="setting_network_name">Network</string>
+    <string name="setting_network_summary">Customise the network during the protocol</string>
+    <string name="setting_notification_name">Notifications</string>
+    <string name="setting_notification_summary">Customise the notifications</string>
+    <string name="setting_wifi_key">wifi</string>
+    <string name="setting_wifi_name">Wifi</string>
+    <string name="setting_wifi_summary_on">Wifi is on during protocol</string>
+    <string name="setting_wifi_summary_off">Wifi is off during protocol</string>
+    <string name="setting_bluetooth_key">bluetooth</string>
+    <string name="setting_bluetooth_name">Bluetooth</string>
+    <string name="setting_bluetooth_summary_on">Bluetooth is on during protocol</string>
+    <string name="setting_bluetooth_summary_off">Bluetooth is off during protocol</string>
+    <string name="setting_cellular_key">cellular</string>
+    <string name="setting_cellular_name">Cellular Data</string>
+    <string name="setting_cellular_summary_on">Cellular Data is on during protocol</string>
+    <string name="setting_cellular_summary_off">Cellular Data is off during protocol</string>
+    <string name="setting_dnd_key">dnd</string>
+    <string name="setting_dnd_name">Dot Not Disturb</string>
+    <string name="setting_dnd_summary_on">Dnd is on during protocol</string>
+    <string name="setting_dnd_summary_off">Dnd is off during protocol"</string>
+    <!-- Settings file name-->
+    <string name="setting_file_network">com.sleewell.sleewell.network</string>
+    <string name="setting_file_notification">com.sleewell.sleewell.notification</string>
 </resources>
