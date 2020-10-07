@@ -4,13 +4,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.nav.alarms.CellClickListener
-import kotlinx.android.synthetic.main.layout_reminder_row.*
-import kotlinx.android.synthetic.main.layout_reminder_row.view.*
-import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -30,6 +29,8 @@ class AlarmAdapter(private val reminderList: List<Long>, private val cellClickLi
      */
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var textViewTime: TextView = itemView.findViewById(R.id.textViewTime)
+        var checkBoxTime: CheckBox = itemView.findViewById(R.id.checkBoxTime)
+        var idTime: TextView = itemView.findViewById(R.id.idTime)
     }
 
     /**
@@ -59,10 +60,18 @@ class AlarmAdapter(private val reminderList: List<Long>, private val cellClickLi
         formatter.timeZone = TimeZone.getTimeZone("GMT+2")
         val formatted: String = formatter.format(date)
 
+        viewHolder.idTime.text = i.toString()
         viewHolder.textViewTime.text = formatted
         viewHolder.textViewTime.setOnClickListener {
-            //CANCEL L'ALARME
-            cellClickListener.launchTimePicker()
+            cellClickListener.launchTimePickerWithID(viewHolder.idTime.text.toString().toInt())
+        }
+
+        viewHolder.checkBoxTime.setOnCheckedChangeListener {
+            buttonView, isChecked ->
+                if (isChecked)
+                    cellClickListener.startAlarmCheckBox(viewHolder.idTime.text.toString().toInt())
+                else
+                    cellClickListener.cancelAlarmWithIDCheckBox(viewHolder.idTime.text.toString().toInt())
         }
     }
 

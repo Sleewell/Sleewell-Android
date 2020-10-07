@@ -27,7 +27,9 @@ import kotlinx.android.synthetic.main.layout_reminder_row.*
 import java.util.*
 
 interface CellClickListener {
-    fun launchTimePicker()
+    fun launchTimePickerWithID(ID: Int)
+    fun cancelAlarmWithIDCheckBox(ID: Int)
+    fun startAlarmCheckBox(ID: Int)
 }
 
 class AlarmsFragment : Fragment(), AlarmContract.View, CellClickListener {
@@ -122,6 +124,17 @@ class AlarmsFragment : Fragment(), AlarmContract.View, CellClickListener {
     }
 
     /**
+     * Cancel the alarm
+     *
+     * @param ID Id of the alarm
+     */
+    override fun cancelAlarmWithID(ID: Int) {
+        val alarmManager = activity!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(context, AlarmReceiver::class.java)
+        presenter.cancelAlarmWithID(alarmManager, intent, context!!, ID)
+    }
+
+    /**
      * Set the presenter of the view
      *
      * @param presenter The presenter
@@ -140,16 +153,60 @@ class AlarmsFragment : Fragment(), AlarmContract.View, CellClickListener {
         val hour = date.get(Calendar.HOUR_OF_DAY)
         val minute = date.get(Calendar.MINUTE)
 
-        val timePickerDialog = TimePickerDialog(  context, { view, hourOfDay, minute ->
+        val timePickerDialog = TimePickerDialog(context, { view, hourOfDay, minute ->
             val formatted: String = presenter.getTime(hourOfDay, minute)
-/*
             val alarmManager = activity!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val intentAlarm = Intent(context, AlarmReceiver::class.java)
             presenter.startAlarm(alarmManager, intentAlarm, context!!, this.activity!!.getSharedPreferences("com.sleewell", Context.MODE_PRIVATE))
             val intentAlert = Intent(context, AlertReceiver::class.java)
             presenter.startAlert(alarmManager, intentAlert, context!!, this.activity!!.getSharedPreferences("com.sleewell", Context.MODE_PRIVATE))
-*/
         }, hour, minute, true)
         timePickerDialog.show()
+    }
+
+    /**
+     * Start the time picker
+     *
+     * @author Romane Bézier
+     */
+    override fun launchTimePickerWithID(ID: Int) {
+        val date = Calendar.getInstance()
+        val hour = date.get(Calendar.HOUR_OF_DAY)
+        val minute = date.get(Calendar.MINUTE)
+
+        val timePickerDialog = TimePickerDialog(context, { view, hourOfDay, minute ->
+            cancelAlarmWithID(ID)
+            this.activity!!.getSharedPreferences("com.sleewell", Context.MODE_PRIVATE).edit().remove(ID.toString()).apply()
+            val formatted: String = presenter.getTime(hourOfDay, minute)
+            val alarmManager = activity!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val intentAlarm = Intent(context, AlarmReceiver::class.java)
+            presenter.startAlarm(alarmManager, intentAlarm, context!!, this.activity!!.getSharedPreferences("com.sleewell", Context.MODE_PRIVATE))
+            val intentAlert = Intent(context, AlertReceiver::class.java)
+            presenter.startAlert(alarmManager, intentAlert, context!!, this.activity!!.getSharedPreferences("com.sleewell", Context.MODE_PRIVATE))
+        }, hour, minute, true)
+        timePickerDialog.show()
+    }
+
+    /**
+     * Cancel alarm with ID when check box is unchecked
+     *
+     * @param id
+     * @author Romane Bézier
+     */
+    override fun cancelAlarmWithIDCheckBox(ID: Int) {
+        cancelAlarmWithID(ID)
+    }
+
+    /**
+     * Start alarm with ID when check box is checked
+     *
+     * @author Romane Bézier
+     */
+    override fun startAlarmCheckBox(ID: Int) {
+        val alarmManager = activity!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intentAlarm = Intent(context, AlarmReceiver::class.java)
+        presenter.startAlarmWithID(alarmManager, intentAlarm, context!!, this.activity!!.getSharedPreferences("com.sleewell", Context.MODE_PRIVATE), ID)
+        val intentAlert = Intent(context, AlertReceiver::class.java)
+        presenter.startAlertWithID(alarmManager, intentAlert, context!!, this.activity!!.getSharedPreferences("com.sleewell", Context.MODE_PRIVATE), ID)
     }
 }

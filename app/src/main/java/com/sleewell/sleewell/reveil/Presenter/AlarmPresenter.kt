@@ -69,6 +69,18 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter,
      *
      * @param time Time of the alarm
      * @param sharedPreferences Shared preferences of the application
+     * @param ID Id of the alarm
+     * @author Romane Bézier
+     */
+    override fun startAlarmWithID(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences, ID: Int) {
+        model.startAlarmWithID(alarmManager, intent, context, sharedPreferences, ID)
+    }
+
+    /**
+     * Save the alarm
+     *
+     * @param time Time of the alarm
+     * @param sharedPreferences Shared preferences of the application
      * @author Romane Bézier
      */
     override fun saveAlarm(time: Long, sharedPreferences: SharedPreferences) {
@@ -86,6 +98,20 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter,
      */
     override fun startAlert(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences) {
         model.startAlert(alarmManager, intent, context, sharedPreferences)
+    }
+
+    /**
+     * Start the alert
+     *
+     * @param alarmManager Alarm manager of phone
+     * @param intent Intent of the activity
+     * @param context Context of the activity
+     * @param sharedPreferences Shared preferences of the application
+     * @param ID Id of the alarm
+     * @author Romane Bézier
+     */
+    override fun startAlertWithID(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences, ID: Int) {
+        model.startAlertWithID(alarmManager, intent, context, sharedPreferences, ID)
     }
 
     /**
@@ -111,6 +137,19 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter,
      */
     override fun cancelAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences) {
         model.cancelAlarm(alarmManager, intent, context, sharedPreferences)
+    }
+
+    /**
+     * Cancel the alarm
+     *
+     * @param alarmManager Alarm manager of phone
+     * @param intent Intent of the activity
+     * @param context Context of the activity
+     * @param ID Id of the alarm
+     * @author Romane Bézier
+     */
+    override fun cancelAlarmWithID(alarmManager: AlarmManager, intent: Intent, context: Context, ID: Int) {
+        model.cancelAlarmWithID(alarmManager, intent, context, ID)
     }
 
     /**

@@ -22,9 +22,7 @@ import java.util.*
  */
 class AlarmModel : AlarmContract.Model {
 
-    companion object {
-        lateinit var c : Calendar
-    }
+    var c : Calendar = Calendar.getInstance()
 
     /**
      * Start the alert
@@ -63,6 +61,42 @@ class AlarmModel : AlarmContract.Model {
     }
 
     /**
+     * Start the alert
+     *
+     * @param alarmManager Alarm manager of phone
+     * @param intent Intent of the activity
+     * @param context Context of the activity
+     * @param sharedPreferences Shared preferences of the application
+     * @param ID Id of the application
+     * @author Romane Bézier
+     */
+    override fun startAlertWithID(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences, ID: Int) {
+        val pendingIntent = PendingIntent.getBroadcast(context,  AlarmsFragment.id.toInt(), intent, 0)
+        c.add(Calendar.HOUR, -8)
+        if (c.before(Calendar.getInstance())) {
+            c.add(Calendar.DATE, 1)
+        }
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.timeInMillis, pendingIntent)
+    }
+
+    /**
+     * Start the alarm
+     *
+     * @param alarmManager Alarm manager of phone
+     * @param intent Intent of the activity
+     * @param context Context of the activity
+     * @param sharedPreferences Shared preferences of the application
+     * @param ID Id of the application
+     * @author Romane Bézier
+     */
+    override fun startAlarmWithID(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences, ID: Int) {
+        val pendingIntent = PendingIntent.getBroadcast(context, ID, intent, 0)
+        val time = sharedPreferences.getLong(ID.toString(), 0)
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, time, pendingIntent)
+        saveAlarmWithID(c.timeInMillis, sharedPreferences, ID)
+    }
+
+    /**
      * Save the alarm
      *
      * @param time Time of the alarm
@@ -73,6 +107,20 @@ class AlarmModel : AlarmContract.Model {
         sharedPreferences.edit().putLong(AlarmsFragment.id, c.timeInMillis).apply()
         val newId = AlarmsFragment.id.toInt() + 1
         AlarmsFragment.id = newId.toString()
+    }
+
+    /**
+     * Save the alarm
+     *
+     * @param time Time of the alarm
+     * @param sharedPreferences Shared preferences of the application
+     * @param ID Id of the application
+     * @author Romane Bézier
+     */
+    override fun saveAlarmWithID(time: Long, sharedPreferences: SharedPreferences, ID: Int) {
+        val time = sharedPreferences.getLong(ID.toString(), 0)
+        sharedPreferences.edit().remove(ID.toString()).apply()
+        sharedPreferences.edit().putLong(ID.toString(), time).apply()
     }
 
     /**
@@ -127,7 +175,22 @@ class AlarmModel : AlarmContract.Model {
      */
     override fun cancelAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences) {
         val pendingIntent = PendingIntent.getBroadcast(context, 1, intent, 0)
-        //IL FAUT UTILISER LES SHARED PREFS et supprimer la valeur
+        alarmManager.cancel(pendingIntent)
+        if (AlarmReceiver.isMpInitialised() && AlarmReceiver.mp.isPlaying)
+            AlarmReceiver.mp.stop()
+    }
+
+    /**
+     * Cancel the alarm
+     *
+     * @param alarmManager Alarm manager of phone
+     * @param intent Intent of the activity
+     * @param context Context of the activity
+     * @param ID Id of the alarm
+     * @author Romane Bézier
+     */
+    override fun cancelAlarmWithID(alarmManager: AlarmManager, intent: Intent, context: Context, ID: Int) {
+        val pendingIntent = PendingIntent.getBroadcast(context, ID, intent, 0)
         alarmManager.cancel(pendingIntent)
         if (AlarmReceiver.isMpInitialised() && AlarmReceiver.mp.isPlaying)
             AlarmReceiver.mp.stop()

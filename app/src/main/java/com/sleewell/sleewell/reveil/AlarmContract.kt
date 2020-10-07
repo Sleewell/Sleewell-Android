@@ -23,7 +23,7 @@ interface AlarmContract {
          * @return Time in a string
          * @author Romane Bézier
          */
-        fun getTime(hourOfDay: Int, minute: Int) : String
+        fun getTime(hourOfDay: Int, minute: Int): String
 
         /**
          * Save the alarm
@@ -35,6 +35,16 @@ interface AlarmContract {
         fun saveAlarm(time: Long, sharedPreferences: SharedPreferences)
 
         /**
+         * Save the alarm
+         *
+         * @param time Time of the alarm
+         * @param sharedPreferences Shared preferences of the application
+         * @param ID Id of the application
+         * @author Romane Bézier
+         */
+        fun saveAlarmWithID(time: Long, sharedPreferences: SharedPreferences, ID: Int)
+
+        /**
          * Start the alarm
          *
          * @param alarmManager Alarm manager of phone
@@ -43,7 +53,12 @@ interface AlarmContract {
          * @param sharedPreferences Shared preferences of the application
          * @author Romane Bézier
          */
-        fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences)
+        fun startAlarm(
+            alarmManager: AlarmManager,
+            intent: Intent,
+            context: Context,
+            sharedPreferences: SharedPreferences
+        )
 
         /**
          * Start the alert
@@ -54,7 +69,48 @@ interface AlarmContract {
          * @param sharedPreferences Shared preferences of the application
          * @author Romane Bézier
          */
-        fun startAlert(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences)
+        fun startAlert(
+            alarmManager: AlarmManager,
+            intent: Intent,
+            context: Context,
+            sharedPreferences: SharedPreferences
+        )
+
+        /**
+         * Start the alarm
+         *
+         * @param alarmManager Alarm manager of phone
+         * @param intent Intent of the activity
+         * @param context Context of the activity
+         * @param sharedPreferences Shared preferences of the application
+         * @param ID Id of the application
+         * @author Romane Bézier
+         */
+        fun startAlarmWithID(
+            alarmManager: AlarmManager,
+            intent: Intent,
+            context: Context,
+            sharedPreferences: SharedPreferences,
+            ID: Int
+        )
+
+        /**
+         * Start the alert
+         *
+         * @param alarmManager Alarm manager of phone
+         * @param intent Intent of the activity
+         * @param context Context of the activity
+         * @param sharedPreferences Shared preferences of the application
+         * @param ID Id of the application
+         * @author Romane Bézier
+         */
+        fun startAlertWithID(
+            alarmManager: AlarmManager,
+            intent: Intent,
+            context: Context,
+            sharedPreferences: SharedPreferences,
+            ID: Int
+        )
 
         /**
          * Snooze the alarm
@@ -75,7 +131,28 @@ interface AlarmContract {
          * @param sharedPreferences Shared Preferences of the application
          * @author Romane Bézier
          */
-        fun cancelAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences)
+        fun cancelAlarm(
+            alarmManager: AlarmManager,
+            intent: Intent,
+            context: Context,
+            sharedPreferences: SharedPreferences
+        )
+
+        /**
+         * Cancel the alarm with ID
+         *
+         * @param alarmManager Alarm manager of phone
+         * @param intent Intent of the activity
+         * @param context Context of the activity
+         * @param ID Id of the alarm
+         * @author Romane Bézier
+         */
+        fun cancelAlarmWithID(
+            alarmManager: AlarmManager,
+            intent: Intent,
+            context: Context,
+            ID: Int
+        )
 
         /**
          * Load all the saved reminders
@@ -88,7 +165,7 @@ interface AlarmContract {
 
         interface OnFinishedListener {
             //fun onFinished(weather : ApiResult)
-            fun onFailure(t : Throwable)
+            fun onFailure(t: Throwable)
         }
     }
 
@@ -129,7 +206,12 @@ interface AlarmContract {
          * @param sharedPreferences Shared preferences of the application
          * @author Romane Bézier
          */
-        fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences)
+        fun startAlarm(
+            alarmManager: AlarmManager,
+            intent: Intent,
+            context: Context,
+            sharedPreferences: SharedPreferences
+        )
 
         /**
          * Start the alert
@@ -140,7 +222,48 @@ interface AlarmContract {
          * @param sharedPreferences Shared preferences of the application
          * @author Romane Bézier
          */
-        fun startAlert(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences)
+        fun startAlert(
+            alarmManager: AlarmManager,
+            intent: Intent,
+            context: Context,
+            sharedPreferences: SharedPreferences
+        )
+
+        /**
+         * Start the alarm
+         *
+         * @param alarmManager Alarm manager of phone
+         * @param intent Intent of the activity
+         * @param context Context of the activity
+         * @param sharedPreferences Shared preferences of the application
+         * @param ID Id of the alarm
+         * @author Romane Bézier
+         */
+        fun startAlarmWithID(
+            alarmManager: AlarmManager,
+            intent: Intent,
+            context: Context,
+            sharedPreferences: SharedPreferences,
+            ID: Int
+        )
+
+        /**
+         * Start the alert
+         *
+         * @param alarmManager Alarm manager of phone
+         * @param intent Intent of the activity
+         * @param context Context of the activity
+         * @param sharedPreferences Shared preferences of the application
+         * @param ID Id of the alarm
+         * @author Romane Bézier
+         */
+        fun startAlertWithID(
+            alarmManager: AlarmManager,
+            intent: Intent,
+            context: Context,
+            sharedPreferences: SharedPreferences,
+            ID: Int
+        )
 
         /**
          * Snooze the alarm
@@ -161,7 +284,28 @@ interface AlarmContract {
          * @param sharedPreferences Shared preferences of the application
          * @author Romane Bézier
          */
-        fun cancelAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, sharedPreferences: SharedPreferences)
+        fun cancelAlarm(
+            alarmManager: AlarmManager,
+            intent: Intent,
+            context: Context,
+            sharedPreferences: SharedPreferences
+        )
+
+        /**
+         * Cancel the alarm with ID
+         *
+         * @param alarmManager Alarm manager of phone
+         * @param intent Intent of the activity
+         * @param context Context of the activity
+         * @param ID Id of the alarm
+         * @author Romane Bézier
+         */
+        fun cancelAlarmWithID(
+            alarmManager: AlarmManager,
+            intent: Intent,
+            context: Context,
+            ID: Int
+        )
     }
 
     interface View : BaseView<Presenter> {
@@ -194,5 +338,19 @@ interface AlarmContract {
          * @author Romane Bézier
          */
         fun cancelAlarm()
+
+        /**
+         * Cancel the alarm
+         *
+         * @param ID Id of the alarm
+         */
+        fun cancelAlarmWithID(ID: Int)
+
+        /**
+         * Start the time picker
+         *
+         * @author Romane Bézier
+         */
+        fun launchTimePicker()
     }
 }
