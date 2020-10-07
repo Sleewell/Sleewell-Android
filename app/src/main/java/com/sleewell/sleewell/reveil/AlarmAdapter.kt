@@ -57,7 +57,6 @@ class AlarmAdapter(private val reminderList: List<Long>, private val cellClickLi
         val reminderData = reminderList[i]
         val date = Date(reminderData)
         val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())
-        formatter.timeZone = TimeZone.getTimeZone("GMT+2")
         val formatted: String = formatter.format(date)
 
         viewHolder.idTime.text = i.toString()

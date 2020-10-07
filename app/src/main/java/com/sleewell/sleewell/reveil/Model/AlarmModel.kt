@@ -139,7 +139,6 @@ class AlarmModel : AlarmContract.Model {
 
         val date = Date(c.time.toString())
         val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())
-        formatter.timeZone = TimeZone.getTimeZone("GMT+2")
 
         return formatter.format(date)
     }
