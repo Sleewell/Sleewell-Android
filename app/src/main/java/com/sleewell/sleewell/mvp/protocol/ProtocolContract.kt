@@ -14,5 +14,13 @@ interface ProtocolContract {
         fun onViewCreated()
     }
 
-    interface View : BaseView<Presenter>
+    interface View : BaseView<Presenter> {
+        /**
+         * Function that enable the phone auto lock on the activity
+         *
+         * @param value : true or false
+         * @author Hugo Berthomé
+         */
+        fun enableAutoLock(value: Boolean)
+    }
 }
