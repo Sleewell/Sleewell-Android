@@ -177,12 +177,23 @@ class AlarmsFragment : Fragment(), AlarmContract.View, CellClickListener {
         val timePickerDialog = TimePickerDialog(context, { view, hourOfDay, minute ->
             cancelAlarmWithID(ID)
             this.activity!!.getSharedPreferences("com.sleewell", Context.MODE_PRIVATE).edit().remove(ID.toString()).apply()
+
             val formatted: String = presenter.getTime(hourOfDay, minute)
             val alarmManager = activity!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val intentAlarm = Intent(context, AlarmReceiver::class.java)
-            presenter.startAlarm(alarmManager, intentAlarm, context!!, this.activity!!.getSharedPreferences("com.sleewell", Context.MODE_PRIVATE))
+            presenter.startAlarm(
+                alarmManager,
+                intentAlarm,
+                context!!,
+                this.activity!!.getSharedPreferences("com.sleewell", Context.MODE_PRIVATE)
+            )
             val intentAlert = Intent(context, AlertReceiver::class.java)
-            presenter.startAlert(alarmManager, intentAlert, context!!, this.activity!!.getSharedPreferences("com.sleewell", Context.MODE_PRIVATE))
+            presenter.startAlert(
+                alarmManager,
+                intentAlert,
+                context!!,
+                this.activity!!.getSharedPreferences("com.sleewell", Context.MODE_PRIVATE)
+            )
         }, hour, minute, true)
         timePickerDialog.show()
     }

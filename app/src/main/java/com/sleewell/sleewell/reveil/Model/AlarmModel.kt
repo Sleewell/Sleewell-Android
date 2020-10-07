@@ -206,6 +206,7 @@ class AlarmModel : AlarmContract.Model {
         val reminders = ArrayList<Long>(AlarmsFragment.id.toInt())
         for (i in 0 until AlarmsFragment.id.toInt()) {
             val millis = sharedPreferences.getLong(i.toString(), 0)
+            if (millis > 0)
             reminders.add(millis)
         }
         return reminders
