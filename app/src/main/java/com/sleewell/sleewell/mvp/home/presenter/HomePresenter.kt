@@ -1,6 +1,11 @@
 package com.sleewell.sleewell.mvp.home.presenter
 
 import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
+import com.sleewell.sleewell.modules.audioPlayer.IPlayerManager
+import com.sleewell.sleewell.modules.audioPlayer.PlayerManager
+import com.sleewell.sleewell.modules.audioRecord.IRecorderManager
+import com.sleewell.sleewell.modules.audioRecord.RecorderManager
 import com.sleewell.sleewell.mvp.home.HomeContract
 import com.sleewell.sleewell.mvp.home.model.HomeModel
 import com.sleewell.sleewell.mvp.home.model.NfcState
@@ -13,10 +18,14 @@ import com.sleewell.sleewell.mvp.home.model.NfcState
  * @param context Context of the activity / view
  * @author Hugo Berthomé
  */
-class HomePresenter(view: HomeContract.View, context: Context) : HomeContract.Presenter {
-
+class HomePresenter(view: HomeContract.View, private var context: AppCompatActivity) : HomeContract.Presenter {
     private var view: HomeContract.View? = view
     private var model: HomeContract.Model = HomeModel(context)
+    private var recorder: IRecorderManager = RecorderManager(context)
+    private var player: IPlayerManager = PlayerManager(context)
+    private var isRecording: Boolean = false;
+
+    private var filePath = "${context.externalCacheDir?.absolutePath}/audiorecordtest.3gp"
 
     /**
      * Function to call at the creation of the view
@@ -25,6 +34,47 @@ class HomePresenter(view: HomeContract.View, context: Context) : HomeContract.Pr
      */
     override fun onViewCreated() {
         view?.displayNfcButton(model.nfcState() != NfcState.Enable)
+        recorder.setOutputFile(filePath)
+    }
+
+    /**
+     * Function to call on resume of the view
+     *
+     * @author Hugo Berthomé
+     */
+    override fun onViewResume() {
+
+    }
+
+    /**
+     * Start of stop record of the sound from the device
+     *
+     * @author Hugo Berthomé
+     */
+    override fun onRecordClick() {
+        if (!recorder.permissionGranted())
+            recorder.askPermission()
+        if (recorder.permissionGranted()) {
+            isRecording = !isRecording
+            recorder.onRecord(isRecording)
+            view?.displayRecordState(isRecording)
+        }
+    }
+
+    /**
+     * Start / Pause the audio player
+     *
+     * @author Hugo Berthomé
+     */
+    override fun onPlayClick() {
+        if (player.isInitialized()) {
+            view?.displayPlayerState(false)
+            player.destroy()
+        } else {
+            player.initializeFile(filePath)
+            player.start()
+            view?.displayPlayerState(true)
+        }
     }
 
     /**

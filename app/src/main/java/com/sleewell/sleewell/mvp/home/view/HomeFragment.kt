@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.sleewell.sleewell.mvp.protocol.view.ProtocolActivity
 import com.sleewell.sleewell.R
@@ -19,6 +20,8 @@ class HomeFragment : Fragment(), HomeContract.View {
 
     //View widgets
     private lateinit var btnNfc: Button
+    private lateinit var btnRecord: Button
+    private lateinit var btnPlay: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,7 +31,7 @@ class HomeFragment : Fragment(), HomeContract.View {
 
         root = inflater.inflate(R.layout.fragment_home, container, false)
         initActivityWidgets()
-        setPresenter(HomePresenter(this, root.context))
+        setPresenter(HomePresenter(this, root.context as AppCompatActivity))
 
         return root
     }
@@ -44,6 +47,8 @@ class HomeFragment : Fragment(), HomeContract.View {
     private fun initActivityWidgets() {
         //get widgets
         this.btnNfc = root.findViewById(R.id.btn_nfc)
+        this.btnRecord = root.findViewById(R.id.btn_record)
+        this.btnPlay = root.findViewById(R.id.btn_play)
 
         //init event listeners
         btnNfc.setOnClickListener {
@@ -54,6 +59,14 @@ class HomeFragment : Fragment(), HomeContract.View {
                 )
             )
         }
+
+        btnRecord.setOnClickListener {
+            presenter.onRecordClick()
+        }
+
+        btnPlay.setOnClickListener {
+            presenter.onPlayClick()
+        }
     }
 
     /**
@@ -61,7 +74,7 @@ class HomeFragment : Fragment(), HomeContract.View {
      */
     override fun onResume() {
         super.onResume()
-        presenter.onViewCreated()
+        presenter.onViewResume()
     }
 
     /**
@@ -84,6 +97,33 @@ class HomeFragment : Fragment(), HomeContract.View {
             btnNfc.visibility = View.VISIBLE
         else
             btnNfc.visibility = View.GONE
+    }
+
+    /**
+     * Display if the device is currently recording or not
+     *
+     * @param state true - display, false - hide
+     * @author Hugo Berthomé
+     */
+    override fun displayRecordState(state: Boolean) {
+        if (state) {
+           this.btnRecord.text = "Stop"
+        } else {
+            this.btnRecord.text = "Record"
+        }
+    }
+
+    /**
+     * Display if the device is currently playing the record
+     *
+     * @param state true - display, false - hide
+     * @author Hugo Berthomé
+     */
+    override fun displayPlayerState(state: Boolean) {
+        if (state)
+            btnPlay.text = "Stop Sound"
+        else
+            btnPlay.text = "Play"
     }
 
     /**

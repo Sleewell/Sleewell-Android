@@ -26,6 +26,27 @@ interface HomeContract {
          * @author Hugo Berthomé
          */
         fun onViewCreated()
+
+        /**
+         * Function to call on resume of the view
+         *
+         * @author Hugo Berthomé
+         */
+        fun onViewResume()
+
+        /**
+         * Start of stop record of the sound from the device
+         *
+         * @author Hugo Berthomé
+         */
+        fun onRecordClick()
+
+        /**
+         * Start / Pause the audio player
+         *
+         * @author Hugo Berthomé
+         */
+        fun onPlayClick()
     }
 
     interface View : BaseView<Presenter> {
@@ -36,5 +57,21 @@ interface HomeContract {
          * @author Hugo Berthomé
          */
         fun displayNfcButton(state: Boolean)
+
+        /**
+         * Display if the device is currently recording or not
+         *
+         * @param state true - display, false - hide
+         * @author Hugo Berthomé
+         */
+        fun displayRecordState(state: Boolean)
+
+        /**
+         * Display if the device is currently playing the record
+         *
+         * @param state true - display, false - hide
+         * @author Hugo Berthomé
+         */
+        fun displayPlayerState(state: Boolean)
     }
 }

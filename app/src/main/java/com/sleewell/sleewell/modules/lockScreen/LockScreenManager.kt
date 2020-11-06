@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
  * @property ctx context of the activity / view
  * @author Titouan FIANCETTE
  */
-class LockScreenManagement(private val ctx: AppCompatActivity) : ILockScreenManagement {
+class LockScreenManager(private val ctx: AppCompatActivity) : ILockScreenManager {
 
     /**
      * enableShowWhenLock

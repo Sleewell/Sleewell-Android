@@ -4,7 +4,7 @@ package com.sleewell.sleewell.modules.lockScreen
  * Operates to manage the lock screen
  * @author Titouan FIANCETTE
  */
-interface ILockScreenManagement {
+interface ILockScreenManager {
     /**
      * enableShowWhenLock
      *

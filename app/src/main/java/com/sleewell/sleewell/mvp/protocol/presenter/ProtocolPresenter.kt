@@ -6,8 +6,8 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.halo.Model.ProtocolModel
-import com.sleewell.sleewell.modules.lockScreen.ILockScreenManagement
-import com.sleewell.sleewell.modules.lockScreen.LockScreenManagement
+import com.sleewell.sleewell.modules.lockScreen.ILockScreenManager
+import com.sleewell.sleewell.modules.lockScreen.LockScreenManager
 import com.sleewell.sleewell.mvp.protocol.ProtocolContract
 import com.sleewell.sleewell.modules.network.INetworkManager
 import com.sleewell.sleewell.modules.network.NetworkManager
@@ -24,7 +24,7 @@ class ProtocolPresenter(view: ProtocolContract.View, ctx: AppCompatActivity) : P
 
     private var view: ProtocolContract.View? = view
     private val connection: INetworkManager = NetworkManager(ctx)
-    private val lockScreen: ILockScreenManagement = LockScreenManagement(ctx)
+    private val lockScreen: ILockScreenManager = LockScreenManager(ctx)
     private var model: ProtocolContract.Model = ProtocolModel(ctx)
     private var nbrBreath: Int = 0
     private val timer = object : CountDownTimer(10000, 10) {
