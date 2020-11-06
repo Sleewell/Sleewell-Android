@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/navigation_statistics"
-        android:name="com.sleewell.sleewell.nav.statistics.StatisticsFragment"
+        android:name="com.sleewell.sleewell.mvp.statistics.view.StatisticsFragment"
         tools:layout="@layout/fragment_statistics" />
 
 </navigation>

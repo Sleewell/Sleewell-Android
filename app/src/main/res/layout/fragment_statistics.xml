@@ -5,39 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.aachartmodel.aainfographics.AAInfographicsLib.AAChartCreator.AAChartView
-        android:id="@+id/AAChartView2"
-        android:layout_width="0dp"
-        android:layout_height="215dp"
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AAChartView"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <com.aachartmodel.aainfographics.AAInfographicsLib.AAChartCreator.AAChartView
-        android:id="@+id/AAChartView"
-        android:layout_width="0dp"
-        android:layout_height="231dp"
-        android:layout_marginBottom="336dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <com.aachartmodel.aainfographics.AAInfographicsLib.AAChartCreator.AAChartView
-        android:id="@+id/AAChartView3"
-        android:layout_width="0dp"
-        android:layout_height="287dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AAChartView2"
-        app:layout_constraintVertical_bias="0.905">
-
-    </com.aachartmodel.aainfographics.AAInfographicsLib.AAChartCreator.AAChartView>
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
