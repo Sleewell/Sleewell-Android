@@ -10,7 +10,7 @@
         android:id="@+id/editMusicId"
         android:layout_width="284dp"
         android:layout_height="44dp"
-        android:hint="Enter music Id"
+        android:hint="Enter music"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,21 +36,12 @@
         android:id="@+id/playlistSpotifyListView"
         android:layout_width="365dp"
         android:layout_height="463dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="136dp"
+        android:layout_marginBottom="25dp"
         android:listSelector="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/refreshButton" />
-
-    <Button
-        android:id="@+id/refreshButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:text="refresh"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editMusicId" />
+        app:layout_constraintTop_toBottomOf="@+id/rearchSpotifyButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

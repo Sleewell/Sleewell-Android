@@ -1,81 +1,66 @@
 package com.sleewell.sleewell.Spotify.Model
 
 import android.content.Context
-import android.widget.*
-import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
-import com.sleewell.sleewell.Spotify.MainContract
-import com.sleewell.sleewell.Spotify.SpotifyPlaylist
-import com.sleewell.sleewell.Spotify.SpotifyPlaylistAdapter
-import org.json.JSONException
-import org.json.JSONObject
+import android.util.Log
+import com.sleewell.sleewell.Spotify.*
+import retrofit2.Call
+import retrofit2.Callback
 
 class SpotifyModel(context: Context) : MainContract.Model {
 
     private var context = context
-    private var queue: RequestQueue? = null
-    private lateinit var adapter: SpotifyPlaylistAdapter
+    private var adapter: SpotifyPlaylistAdapter
     private var aList: ArrayList<SpotifyPlaylist> = ArrayList()
+    private var api : ApiInterfaceSpotify? = ApiClientSpotify.retrofit.create(ApiInterfaceSpotify::class.java)
+    private val TAG = "SpotifyModel"
 
     init {
         aList.add(SpotifyPlaylist("No playlist found","Try something else", ""))
         adapter = SpotifyPlaylistAdapter(context, aList)
     }
 
-    override fun researchPlaylistSpotify(namePlaylist : String, accessToken : String?) {
-        queue = Volley.newRequestQueue(context)
+    override fun getPlaylistSpotifySearch(onFinishedListener: MainContract.Model.OnFinishedListener, accessToken : String?, namePlaylist : String) {
+        val call : Call<ApiResultSpotify>? = api?.searchPlaylist(namePlaylist, "Bearer $accessToken")
 
-        val request = object : JsonObjectRequest(
-            Method.GET, "https://api.spotify.com/v1/search?q=" + namePlaylist +  "&type=playlist&limit=10&offset=0", null,
-            Response.Listener { response ->try {
-                    aList.clear()
-                    fillPlaylist(response)
-                    adapter = SpotifyPlaylistAdapter(context, aList)
-                    Toast.makeText(context, "Refresh ready", Toast.LENGTH_LONG).show()
-                } catch (e: JSONException) {
-                    Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show()
+        call?.enqueue(object : Callback<ApiResultSpotify> {
+
+            override fun onResponse(call: Call<ApiResultSpotify>, response: retrofit2.Response<ApiResultSpotify>) {
+                val responseRes : ApiResultSpotify? = response.body()
+
+                if (responseRes == null) {
+                    Log.e(TAG, "Body null error")
+                    Log.e(TAG, "Code : " + response.code())
+                    onFinishedListener.onFailure(Throwable("Body null error : " + response.code()))
+                } else {
+                    Log.e(TAG, "Success")
+                    onFinishedListener.onFinished(responseRes)
                 }
-            },
-            Response.ErrorListener { error ->
-                Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show()
             }
-        )
-        {
-            override fun getHeaders(): MutableMap<String, String> {
-                val headers = HashMap<String, String>()
-                headers["Accept"] = "application/json"
-                headers["Content-Type"] = "application/json"
-                headers["Authorization"] = "Bearer " + accessToken
-                return headers
+
+            override fun onFailure(call: Call<ApiResultSpotify>, t: Throwable) {
+                // Log error here since request failed
+                Log.e(TAG, t.toString())
+                onFinishedListener.onFailure(t)
             }
-        }
-        queue?.add(request)
+        })
     }
 
-    override fun updateListPlaylistSpotify() : SpotifyPlaylistAdapter {
+    override fun updateListPlaylistSpotify(response :ApiResultSpotify) : SpotifyPlaylistAdapter {
+        aList.clear()
+        for (i in 0 until response.playlists!!.items!!.size) {
+            val name = response.playlists!!.items!!.get(i).name
+            val uri = response.playlists!!.items!!.get(i).uri
+            val image = response.playlists!!.items!!.get(i).images!!.get(0).url
+            aList.add(SpotifyPlaylist(name!!, uri!!, image!!))
+        }
+        if (aList.size == 0) {
+            aList.add(SpotifyPlaylist("No playlist found","", ""))
+        }
+        adapter = SpotifyPlaylistAdapter(context, aList)
         return adapter
     }
 
     override fun getMusicSelected(index : Int) : SpotifyPlaylist {
         return aList[index]
-    }
-
-    fun fillPlaylist(response :JSONObject) {
-        val jsonObject = response.getJSONObject("playlists")
-        val items = jsonObject.getJSONArray("items")
-        for (i in 0 until items.length()) {
-            val playlist = items.getJSONObject(i)
-            val name = playlist.getString("name")
-            val uri = playlist.getString("uri")
-            val images = playlist.getJSONArray("images")
-            val image = images.getJSONObject(0).getString("url")
-
-            aList.add(SpotifyPlaylist(name, uri, image))
-        }
-        if (aList.size == 0) {
-            aList.add(SpotifyPlaylist("No playlist found","", ""))
-        }
     }
 }

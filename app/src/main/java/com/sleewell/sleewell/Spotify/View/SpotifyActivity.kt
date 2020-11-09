@@ -10,6 +10,7 @@ import com.sleewell.sleewell.R
 import com.sleewell.sleewell.Spotify.MainContract
 import com.sleewell.sleewell.Spotify.Presenter.SpotifyPresenter
 import com.sleewell.sleewell.Spotify.SpotifyPlaylist
+import com.sleewell.sleewell.Spotify.SpotifyPlaylistAdapter
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
@@ -23,7 +24,6 @@ class SpotifyActivity :  AppCompatActivity(), MainContract.View {
     private lateinit var listView: ListView
     private lateinit var editTextSpotify: EditText
     private lateinit var rearchButtonSpotify: Button
-    private lateinit var refreshButtonSpotify: Button
     private lateinit var accessToken: String
     private lateinit var musicSelected: SpotifyPlaylist
 
@@ -39,14 +39,10 @@ class SpotifyActivity :  AppCompatActivity(), MainContract.View {
 
         editTextSpotify = findViewById(R.id.editMusicId)
         rearchButtonSpotify = findViewById(R.id.rearchSpotifyButton)
-        refreshButtonSpotify = findViewById(R.id.refreshButton)
         listView = findViewById(R.id.playlistSpotifyListView)
 
         rearchButtonSpotify.setOnClickListener{
             presenter.rearchPlaylist(editTextSpotify.text)
-        }
-        refreshButtonSpotify.setOnClickListener{
-            listView.adapter = presenter.updateListPlaylistSpotify()
         }
 
         listView.onItemClickListener = AdapterView.OnItemClickListener{ _, _, i, _ ->
@@ -98,6 +94,10 @@ class SpotifyActivity :  AppCompatActivity(), MainContract.View {
                 }
             }
         }
+    }
+
+    override fun displayPlaylistSpotify(spotifyAdapter: SpotifyPlaylistAdapter) {
+        listView.adapter = spotifyAdapter
     }
 
     override fun setPresenter(presenter: MainContract.Presenter) {

@@ -1,16 +1,18 @@
 package com.sleewell.sleewell.Spotify
 
 import android.text.Editable
-import android.widget.ListAdapter
-import android.widget.SimpleAdapter
 import com.sleewell.sleewell.mvp.Global.BasePresenter
 import com.sleewell.sleewell.mvp.Global.BaseView
 
 interface MainContract {
     interface Model {
-        fun researchPlaylistSpotify(namePlaylist : String, accessToken : String?)
-        fun updateListPlaylistSpotify() : SpotifyPlaylistAdapter
+        interface OnFinishedListener {
+            fun onFinished(weather : ApiResultSpotify)
+            fun onFailure(t : Throwable)
+        }
+        fun updateListPlaylistSpotify(response :ApiResultSpotify) : SpotifyPlaylistAdapter
         fun getMusicSelected(index : Int) : SpotifyPlaylist
+        fun getPlaylistSpotifySearch(onFinishedListener: OnFinishedListener, accessToken: String?, namePlaylist: String)
     }
 
     interface Presenter : BasePresenter {
@@ -22,8 +24,6 @@ interface MainContract {
         fun onViewCreated()
 
         fun rearchPlaylist(namePlaylist: Editable)
-
-        fun updateListPlaylistSpotify() : SpotifyPlaylistAdapter
 
         fun getSpotifyMusic(index : Int) : SpotifyPlaylist
     }
@@ -41,5 +41,7 @@ interface MainContract {
         fun getAccessToken() : String
 
         fun getMusicSelected() : SpotifyPlaylist
+
+        fun displayPlaylistSpotify(spotifyAdapter: SpotifyPlaylistAdapter)
     }
 }

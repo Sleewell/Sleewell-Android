@@ -2,15 +2,14 @@ package com.sleewell.sleewell.Spotify.Presenter
 
 import android.content.Context
 import android.text.Editable
-import android.widget.ListAdapter
-import android.widget.SimpleAdapter
+import com.sleewell.sleewell.Spotify.ApiResultSpotify
 import com.sleewell.sleewell.Spotify.MainContract
 import com.sleewell.sleewell.Spotify.Model.SpotifyModel
 import com.sleewell.sleewell.Spotify.SpotifyPlaylist
-import com.sleewell.sleewell.Spotify.SpotifyPlaylistAdapter
 import com.sleewell.sleewell.Spotify.View.SpotifyActivity
 
-class SpotifyPresenter(view: SpotifyActivity, context: Context) : MainContract.Presenter {
+class SpotifyPresenter(view: SpotifyActivity, context: Context) : MainContract.Presenter,
+    MainContract.Model.OnFinishedListener {
 
     private var view: SpotifyActivity? = view
     private var model: SpotifyModel = SpotifyModel(context)
@@ -37,15 +36,23 @@ class SpotifyPresenter(view: SpotifyActivity, context: Context) : MainContract.P
         if (namePlaylist.toString() == "") {
             view!!.displayToast("Enter a name of playlist")
         } else {
-            model?.researchPlaylistSpotify(namePlaylist.toString(), view?.getAccessToken())
+            model?.getPlaylistSpotifySearch(this, view?.getAccessToken(), namePlaylist.toString())
         }
-    }
-
-    override fun updateListPlaylistSpotify() : SpotifyPlaylistAdapter {
-        return model.updateListPlaylistSpotify()
     }
 
     override fun getSpotifyMusic(index : Int) : SpotifyPlaylist {
         return model.getMusicSelected(index)
+    }
+
+    override fun onFinished(playlist: ApiResultSpotify) {
+        val adapter = model.updateListPlaylistSpotify(playlist)
+        view?.displayPlaylistSpotify(adapter)
+    }
+
+    override fun onFailure(t: Throwable) {
+        if (t.message != null)
+            view?.displayToast(t.message!!)
+        else
+            view?.displayToast("An error occurred")
     }
 }
