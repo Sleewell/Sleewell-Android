@@ -17,7 +17,7 @@ interface IRecorderListener {
      * @param buffer with audio data inside
      * @author Hugo Berthomé
      */
-    fun onAudio(buffer: ByteBuffer)
+    fun onAudio(buffer: ShortArray)
 
     /**
      * If an error occurred, a message will be sent

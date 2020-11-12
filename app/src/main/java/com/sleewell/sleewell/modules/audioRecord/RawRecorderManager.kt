@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.nio.ByteBuffer
+import java.nio.ByteOrder
 
 const val LOG_TAG = "RawRecorderManager"
 
@@ -53,7 +54,8 @@ class RawRecorderManager(
             if (bufferSize == AudioRecord.ERROR || bufferSize == AudioRecord.ERROR_BAD_VALUE) {
                 bufferSize = SAMPLE_RATE * 2;
             }
-            var buffer: ByteBuffer = ByteBuffer.allocateDirect(bufferSize)
+            //val buffer: ByteBuffer = ByteBuffer.allocateDirect(bufferSize)
+            val buffer: ShortArray = ShortArray(bufferSize / 2)
 
             // initialize recorder
             val record = AudioRecord(
@@ -73,11 +75,10 @@ class RawRecorderManager(
             record.startRecording();
             Log.v(LOG_TAG, "Start recording");
             while (!stopThread) {
-                buffer.clear()
-                val numberOfShort: Int = record.read(buffer, bufferSize)
+                val numberOfShort: Int = record.read(buffer, 0, buffer.size)
 
                 scopeMainThread.launch {
-                    onListener.onAudio(buffer)
+                    onListener.onAudio(buffer.clone())
                 }
             }
             record.stop();

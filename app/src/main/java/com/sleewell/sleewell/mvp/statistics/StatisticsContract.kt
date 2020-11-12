@@ -16,5 +16,6 @@ interface StatisticsContract {
 
     interface View : BaseView<Presenter> {
         fun displayToast(message: String)
+        fun updateGraph(array: ShortArray)
     }
 }
