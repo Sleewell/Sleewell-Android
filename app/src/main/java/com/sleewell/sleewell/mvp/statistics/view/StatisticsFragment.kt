@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.aachartmodel.aainfographics.AAInfographicsLib.AAChartCreator.*
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.modules.audioRecord.SoundDataUtils
 import com.sleewell.sleewell.mvp.statistics.StatisticsContract
 import com.sleewell.sleewell.mvp.statistics.presenter.StatisticsPresenter
 import java.util.*
@@ -49,12 +50,7 @@ class StatisticsFragment : Fragment(), StatisticsContract.View {
 
     override fun updateGraph(array: ShortArray) {
 
-        var squaredSum = 0f
-        for (value in array) {
-            squaredSum += value * value
-        }
-        val mean = squaredSum / array.size
-        val valueToAdd = sqrt(mean.toDouble())
+        val valueToAdd = SoundDataUtils.calculateMean(array)
 
         arrayData.add(valueToAdd)
         if (arrayData.size >= limitData)

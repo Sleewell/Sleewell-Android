@@ -11,6 +11,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import kotlin.math.sin
 
 const val LOG_TAG = "RawRecorderManager"
 
@@ -43,8 +44,6 @@ class RawRecorderManager(
                     finishingThread()
                 }
             }
-
-
             // BUFFER initialization
             var bufferSize = AudioRecord.getMinBufferSize(
                 SAMPLE_RATE,
@@ -81,8 +80,8 @@ class RawRecorderManager(
                     onListener.onAudio(buffer.clone())
                 }
             }
-            record.stop();
-            record.release();
+            record.stop()
+            record.release()
             onFinishedInsideThread()
         }
         isRecording = true

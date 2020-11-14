@@ -2,6 +2,7 @@ package com.sleewell.sleewell.mvp.statistics.presenter
 
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.sleewell.sleewell.modules.audioRecord.SoundDataUtils
 import com.sleewell.sleewell.mvp.statistics.StatisticsContract
 import com.sleewell.sleewell.mvp.statistics.model.StatisticsModel
 import java.nio.Buffer
@@ -32,9 +33,8 @@ class StatisticsPresenter(private var view: StatisticsContract.View, private var
      * @author Hugo Berthomé
      */
     override fun onAudio(buffer: ShortArray) {
-
         this.view.updateGraph(buffer)
-
+        val fft = SoundDataUtils.fft(buffer)
     }
 
     /**
