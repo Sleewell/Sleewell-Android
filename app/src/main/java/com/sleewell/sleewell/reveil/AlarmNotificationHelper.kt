@@ -60,7 +60,7 @@ class AlarmNotificationHelper(base: Context?) : ContextWrapper(base) {
                     .setContentText("It's time to wake up !")
                     .setSmallIcon(R.drawable.logo_sleewell)
                     .setContentIntent(pendingIntent)
-                    .setAutoCancel(true)
+                    .setAutoCancel(false)
                     .addAction(R.drawable.logo_sleewell, "Stop", stopPendingIntent)
                     .addAction(R.drawable.logo_sleewell, "Snooze", snoozePendingIntent)
         }
