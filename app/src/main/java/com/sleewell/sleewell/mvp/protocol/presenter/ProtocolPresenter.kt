@@ -1,6 +1,11 @@
 package com.sleewell.sleewell.mvp.protocol.presenter
 
+import android.os.CountDownTimer
+import android.widget.Button
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import com.sleewell.sleewell.R
+import com.sleewell.sleewell.halo.Model.ProtocolModel
 import com.sleewell.sleewell.modules.lockScreen.ILockScreenManagement
 import com.sleewell.sleewell.modules.lockScreen.LockScreenManagement
 import com.sleewell.sleewell.mvp.protocol.ProtocolContract
@@ -20,6 +25,26 @@ class ProtocolPresenter(view: ProtocolContract.View, ctx: AppCompatActivity) : P
     private var view: ProtocolContract.View? = view
     private val connection: INetworkManager = NetworkManager(ctx)
     private val lockScreen: ILockScreenManagement = LockScreenManagement(ctx)
+    private var model: ProtocolContract.Model = ProtocolModel(ctx)
+    private var nbrBreath: Int = 0
+    private val timer = object : CountDownTimer(10000, 10) {
+
+        override fun onTick(millisUntilFinished: Long) {
+            if (millisUntilFinished < 6000)
+                model.degradesSizeOfCircle()
+            else if (millisUntilFinished > 4000)
+                model.upgradeSizeOfCircle()
+            view?.printHalo(model.getSizeOfCircle())
+        }
+        override fun onFinish() {
+            model.resetSizeOfCircle()
+            if (nbrBreath > 0) {
+                nbrBreath = nbrBreath  - 1
+                this.start()
+            }
+        }
+    }
+
 
     /**
      * onDestroy is called at each time e presenter will be destroyed
@@ -38,5 +63,34 @@ class ProtocolPresenter(view: ProtocolContract.View, ctx: AppCompatActivity) : P
     override fun onViewCreated() {
         connection.switchToSleepMode(true)
         lockScreen.enableShowWhenLock()
+        view?.printHalo(model.getSizeOfCircle())
+    }
+
+
+    override fun startProtocol(number :Int) {
+        timer.cancel()
+        nbrBreath = number
+        model.resetSizeOfCircle()
+        timer.start()
+    }
+
+    override fun stopProtocol() {
+        timer.cancel()
+    }
+
+    override fun openDialog() {
+        val dialog = model.openColorPicker()
+        val yesBtn = dialog.findViewById(R.id.yesBtn) as Button
+        val noBtn = dialog.findViewById(R.id.crossImage) as ImageView
+        yesBtn.setOnClickListener {
+            view?.setColorHalo(model.getColorOfCircle())
+            dialog.dismiss()
+            view?.hideSystemUI()
+        }
+        noBtn.setOnClickListener {
+            dialog.dismiss()
+            view?.hideSystemUI()
+        }
+        dialog.show()
     }
 }
