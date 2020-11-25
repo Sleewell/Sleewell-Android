@@ -4,10 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" /> <!-- Do Not Disturb mode -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
     <uses-permission android:name="android.permission.NFC" /> <!-- Nfc detection -->
-    <uses-permission android:name="android.permission.BLUETOOTH" />  <!-- Bluetooth accessibility -->
+    <uses-permission android:name="android.permission.BLUETOOTH" /> <!-- Bluetooth accessibility -->
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- Wifi accessibility -->
@@ -20,22 +19,36 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvp.protocol.view.ProtocolActivity" android:launchMode="singleTask">
+        <activity android:name=".new_mvp.mainActivity.view.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".mvp.protocol.view.ProtocolActivity"
+            android:launchMode="singleTask">
+
             <!-- Open the app on this specific activity when a NFC tag contain a mime type as described below -->
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="application/com.sleewell.sleewell" />
             </intent-filter>
 
             <!-- Open the app on this specific activity when a NFC tag contain a url with http://www.sleewell.fr -->
-            <!-- <intent-filter>
+            <!--
+            <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:scheme="http"
                     android:host="www.sleewell.fr"
                     android:pathPrefix="/"/>
-            </intent-filter> -->
+            </intent-filter>
+            -->
         </activity>
         <activity
             android:name=".mvp.main.view.MainActivity"
@@ -52,9 +65,9 @@
             android:name=".mvp.settings.view.SettingsActivity"
             android:label="Settings" />
 
-        <receiver android:name=".reveil.AlarmReceiver"/>
-        <receiver android:name=".reveil.AlertReceiver"/>
-        <receiver android:name=".reveil.GlobalReceiver"/>
+        <receiver android:name=".reveil.AlarmReceiver" />
+        <receiver android:name=".reveil.AlertReceiver" />
+        <receiver android:name=".reveil.GlobalReceiver" />
     </application>
 
 </manifest>

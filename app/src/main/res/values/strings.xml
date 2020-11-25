@@ -35,4 +35,6 @@
     <!-- Settings file name-->
     <string name="setting_file_network">com.sleewell.sleewell.network</string>
     <string name="setting_file_notification">com.sleewell.sleewell.notification</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

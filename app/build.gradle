@@ -44,6 +44,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.0.0'
     implementation 'androidx.navigation:navigation-ui-ktx:2.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     testImplementation("org.assertj:assertj-core:3.11.1")
     testImplementation 'junit:junit:4.12'
