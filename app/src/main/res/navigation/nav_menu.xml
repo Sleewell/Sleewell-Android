@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.sleewell.sleewell.HomeFragment"
+        android:name="com.sleewell.sleewell.new_mvp.menu.home.view.HomeFragment"
         android:label="new_fragment_home"
         tools:layout="@layout/new_fragment_home" />
     <fragment
         android:id="@+id/alarmFragment"
-        android:name="com.sleewell.sleewell.AlarmFragment"
+        android:name="com.sleewell.sleewell.new_mvp.menu.alarm.view.AlarmFragment"
         android:label="new_fragment_alarm"
         tools:layout="@layout/new_fragment_alarm" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.sleewell.sleewell.SettingsFragment"
+        android:name="com.sleewell.sleewell.new_mvp.menu.settings.view.SettingsFragment"
         android:label="new_fragment_settings"
         tools:layout="@layout/new_fragment_settings" />
     <fragment
         android:id="@+id/statFragment"
-        android:name="com.sleewell.sleewell.StatFragment"
+        android:name="com.sleewell.sleewell.new_mvp.menu.stat.view.StatFragment"
         android:label="new_fragment_stat"
         tools:layout="@layout/new_fragment_stat" />
 </navigation>

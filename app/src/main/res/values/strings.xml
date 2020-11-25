@@ -37,4 +37,7 @@
     <string name="setting_file_notification">com.sleewell.sleewell.notification</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home_label">new_fragment_home</string>
+    <string name="settings_label">new_fragment_settings</string>
+    <string name="statistics_label">new_fragment_stat</string>
 </resources>

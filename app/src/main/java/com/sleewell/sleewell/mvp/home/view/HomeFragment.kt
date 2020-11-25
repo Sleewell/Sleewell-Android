@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import com.sleewell.sleewell.mvp.protocol.view.ProtocolActivity
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.home.HomeContract
-import com.sleewell.sleewell.mvp.home.presenter.HomePresenter
+import com.sleewell.sleewell.mvp.home.presenter.MenuPresenter
 
 class HomeFragment : Fragment(), HomeContract.View {
     //Context
@@ -28,7 +28,7 @@ class HomeFragment : Fragment(), HomeContract.View {
 
         root = inflater.inflate(R.layout.fragment_home, container, false)
         initActivityWidgets()
-        setPresenter(HomePresenter(this, root.context))
+        setPresenter(MenuPresenter(this, root.context))
 
         return root
     }
