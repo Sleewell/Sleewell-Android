@@ -61,4 +61,6 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.2.0-beta01'
 
     implementation 'androidx.preference:preference:1.1.0'
+
+    implementation 'com.ebanx:swipe-button:0.4.0'
 }

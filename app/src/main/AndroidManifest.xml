@@ -51,6 +51,9 @@
         <activity
             android:name=".mvp.settings.view.SettingsActivity"
             android:label="Settings" />
+        <activity android:name=".reveil.DesactivationActivity"
+            android:label="Desactivation"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <receiver android:name=".reveil.AlarmReceiver"/>
         <receiver android:name=".reveil.AlertReceiver"/>

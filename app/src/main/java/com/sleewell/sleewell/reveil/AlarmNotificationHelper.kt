@@ -10,6 +10,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.api.openWeather.Main
 import com.sleewell.sleewell.mvp.main.view.MainActivity
 import com.sleewell.sleewell.nav.alarms.AlarmsFragment
 
@@ -53,7 +54,7 @@ class AlarmNotificationHelper(base: Context?) : ContextWrapper(base) {
             }
             val snoozePendingIntent = PendingIntent.getBroadcast(applicationContext, 1, snoozeIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, DesactivationActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
             return NotificationCompat.Builder(applicationContext, channelID)
                     .setContentTitle("Sleewell")

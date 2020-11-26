@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.ebanx.swipebtn.SwipeButton
+        android:id="@+id/swipe_button"
+        app:button_background="@drawable/button_shape"
+        app:inner_text_background="@drawable/inner_text_shape"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:inner_text="Swipe To Stop"
+        app:inner_text_color="@color/black"
+        app:inner_text_size="20sp"
+        app:inner_text_bottom_padding="15dp"
+        app:inner_text_top_padding="15dp"
+        app:button_image_disabled="@drawable/ic_alarm_off"
+        app:button_image_enabled="@drawable/ic_alarm_off"
+        app:button_top_padding="15dp"
+        app:button_right_padding="15dp"
+        app:button_bottom_padding="15dp"
+        app:button_left_padding="15dp"
+        android:layout_margin="18sp"/>
+
+</RelativeLayout>
