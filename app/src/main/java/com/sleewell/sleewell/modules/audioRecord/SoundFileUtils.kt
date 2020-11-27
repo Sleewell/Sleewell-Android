@@ -1,10 +1,20 @@
 package com.sleewell.sleewell.modules.audioRecord
 
-import android.R.attr
+import android.util.Log
 import java.io.*
-import java.nio.ByteBuffer
 
-class SoundFileUtils {
+/**
+ * AudioFile utilities to save or convert audio
+ *
+ * @property channelCount - Number of channel of the audio DEFAULT: 1
+ * @property sampleRate - Sample rate of the audio DEFAULT: 44100
+ * @property bitsPerSample - Size of the values inside the sample DEFAULT: 16
+ * @author Hugo Berthomé
+ */
+class SoundFileUtils(
+    private var channelCount: Int = 1,
+    private var sampleRate: Int = 44100,
+    private var bitsPerSample: Int = 16) {
     companion object {
         private const val TRANSFER_BUFFER_SIZE = 10 * 1024
 
@@ -53,10 +63,10 @@ class SoundFileUtils {
         }
 
         /**
-         * TODO
+         * Write a string in the output stream
          *
-         * @param output
-         * @param data
+         * @param output - Stream of the file
+         * @param data - The string to write
          * @throws java.io.IOException – if an I/O error occurs.
          * @author Hugo Berthomé
          */
@@ -65,10 +75,10 @@ class SoundFileUtils {
         }
 
         /**
-         * TODO
+         * Write an Integer in the output stream
          *
-         * @param output
-         * @param data
+         * @param output - Stream of the file
+         * @param data - The Integer to write
          * @throws java.io.IOException – if an I/O error occurs.
          * @author Hugo Berthomé
          */
@@ -80,10 +90,10 @@ class SoundFileUtils {
         }
 
         /**
-         * TODO
+         * Write a Short in the output stream
          *
-         * @param output
-         * @param data
+         * @param output - Stream of the file
+         * @param data - The Short to write
          * @throws java.io.IOException – if an I/O error occurs.
          * @author Hugo Berthomé
          */
@@ -96,11 +106,11 @@ class SoundFileUtils {
         }
 
         /**
-         * TODO
+         * Copy the content of a file inside another one
          *
-         * @param source
-         * @param output
-         * @return Long
+         * @param source - Source file to copy
+         * @param output - Destination file where to write
+         * @return Long - The size written
          * @throws java.io.IOException – if an I/O error occurs.
          * @author Hugo Berthomé
          */
@@ -109,12 +119,12 @@ class SoundFileUtils {
         }
 
         /**
-         * TODO
+         * Copy the content of a file inside another one
          *
-         * @param source
-         * @param output
-         * @param bufferSize
-         * @return
+         * @param source - Source file to copy
+         * @param output - Destination file where to write
+         * @param bufferSize - Size to write of the buffer
+         * @return Long - size written
          * @throws java.io.IOException – if an I/O error occurs.
          * @author Hugo Berthomé
          */
@@ -132,5 +142,122 @@ class SoundFileUtils {
 
             return read
         }
+    }
+
+    private var directoryPath : String = ""
+    private var fileName : String = ""
+    private var outputFile : File? = null
+    private var outputStream: OutputStream? = null
+    private var convertToWav : Boolean = true
+
+    /**
+     * Initialise the file to save. The audio will be saved in a pcm format
+     * Can be converted into
+     *
+     * @param outputDirectory
+     * @param outputFileName
+     * @param toWAV
+     * @return Boolean - True if can write otherwise False
+     */
+    fun initSaveBuffer(outputDirectory : String, outputFileName : String, toWAV : Boolean = true) : Boolean
+    {
+        if (outputFile == null) {
+            stopSaving()
+        }
+
+        val output = File("$outputDirectory$outputFileName.pcm")
+        directoryPath = outputDirectory
+        fileName = outputFileName
+        outputFile = output
+
+        try {
+            outputStream = FileOutputStream(outputFile)
+        } catch (e : FileNotFoundException) {
+            Log.e(LOG_TAG, "Cannot create file, may be a directory")
+            outputFile = null
+            return false
+        } catch (e : SecurityException) {
+            Log.e(LOG_TAG, "Security error, check if file has write access")
+            outputFile = null
+            return false
+        }
+
+        convertToWav = toWAV
+        return true
+    }
+
+    /**
+     * Save the buffer inside the file
+     *
+     * @param input - ShortArray content to write inside the file
+     * @return Boolean - True for success otherwise False
+     * @author Hugo Berthomé
+     */
+    fun saveBuffer(input : ShortArray) : Boolean
+    {
+        if (outputFile == null)
+            return false
+
+        val bytesArray = ByteArray(input.size * 2)
+
+        var i = 0
+        for (element in input) {
+            bytesArray[i] = (element.toInt() shr 0).toByte()
+            bytesArray[i + 1] = (element.toInt() shr 8).toByte()
+            i += 2
+        }
+        outputStream?.write(bytesArray)
+        return true
+    }
+
+    /**
+     * Close the file and convert it to wav if needed at the begining
+     *
+     * @return Boolean - True for success otherwise False
+     * @author Hugo Berthomé
+     */
+    fun stopSaving() : Boolean
+    {
+        if (outputFile == null)
+            return false
+
+        outputStream = null
+        if (convertToWav) {
+            val outputFileWav = File("$directoryPath$fileName.wav")
+            pcmToWav(outputFile!!, outputFileWav, channelCount, sampleRate, bitsPerSample)
+            outputFile!!.delete()
+        }
+        outputFile = null
+        return true
+    }
+
+    /**
+     * Set the number of channel used when recording
+     *
+     * @param count
+     */
+    fun setChannelCount(count : Int)
+    {
+        channelCount = count
+    }
+
+    /**
+     * Set the Sampling rate of channel used when recording
+     *
+     * @param rate
+     */
+    fun setSampleRate(rate : Int)
+    {
+        sampleRate = rate
+    }
+
+    /**
+     * Set the sized of record per value when recording
+     *
+     * @param bits
+     */
+    fun setBitsPerSample(bits : Int)
+    {
+        bitsPerSample = bits
     }
 }
