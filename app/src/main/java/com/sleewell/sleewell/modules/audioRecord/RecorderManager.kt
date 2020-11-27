@@ -70,11 +70,13 @@ class RecorderManager(private val ctx: AppCompatActivity) : IRecorderManager{
     /**
      * Set the file output path to save the record
      *
+     * @param directoryPath
      * @param fileName
+     * @param extension
      * @author Hugo Berthomé
      */
-    override fun setOutputFile(fileName: String) {
-        outputFile = fileName
+    override fun setOutputFile(directoryPath: String, fileName: String, extension: String) {
+        outputFile = "$directoryPath/$fileName$extension"
     }
 
     /**

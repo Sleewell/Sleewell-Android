@@ -15,49 +15,69 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.OutputStream
-import java.nio.ByteBuffer
 
 const val LOG_TAG = "RawRecorderManager"
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 
+/**
+ * Record audio and send it inside a buffer as a PCM
+ * Can save the audio in a wav file
+ *
+ * @property ctx
+ * @property onListener
+ * @author Hugo Berthomé
+ */
 class RawRecorderManager(
     private val ctx: AppCompatActivity,
     private val onListener: IRecorderListener
 ) : IRecorderManager {
-
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
 
+    // record managing
+    private var isRecording: Boolean = false
     private val SAMPLE_RATE = 44100
 
+    // Files managing
+    private val fileUtilities = SoundFileUtils(sampleRate = SAMPLE_RATE, bitsPerSample = 16)
+    private var outputDirectoryPath: String = ""
+    private var outputFileName: String = ""
     private var outputFilePath: String? = null
     private var outputFile: File? = null
     private var outputStream: OutputStream? = null
 
-    private var isRecording: Boolean = false
-
+    // Coroutine managing
     private var job: Job = Job()
     private var scopeMainThread = CoroutineScope(job + Dispatchers.Main)
     private var scopeIO = CoroutineScope(job + Dispatchers.IO)
     private var stopThread = false
 
+    /**
+     * Start the record of the audio and save it at the same time inside the file
+     *
+     * @author Hugo Berthomé
+     */
     private fun startRecording() {
         if (isRecording) {
             onListener.onError("A record is already processing")
             return
         }
 
-        initFile()
+        if (!initFileSaving()) {
+            onListener.onError("An error occurred while initializing save file")
+            return
+        }
 
         scopeIO.launch {
 
             // Before leaving job
             fun onFinishedInsideThread() {
-                convertToWav()
+                fileUtilities.stopSaving()
                 scopeMainThread.launch {
                     onListener.onFinished()
                     finishingThread()
                 }
             }
+
             // BUFFER initialization
             var bufferSize = AudioRecord.getMinBufferSize(
                 SAMPLE_RATE,
@@ -93,7 +113,7 @@ class RawRecorderManager(
                 scopeMainThread.launch {
                     onListener.onAudio(buffer.clone())
                 }
-                saveInFile(buffer, numberOfShort)
+                fileUtilities.saveBuffer(buffer)
             }
             record.stop()
             record.release()
@@ -102,45 +122,24 @@ class RawRecorderManager(
         isRecording = true
     }
 
-    private fun initFile() {
-        if (outputFilePath == null)
-            return
-        outputFile = File(outputFilePath!!)
+    /**
+     * Initialize the file to save
+     *
+     * @return Boolean
+     * @author Hugo Berthomé
+     */
+    private fun initFileSaving() : Boolean {
+        if (outputDirectoryPath.isEmpty() || outputFileName.isEmpty())
+            return false
 
-        try {
-            outputStream = FileOutputStream(outputFile)
-        } catch (e : FileNotFoundException) {
-            Log.e(LOG_TAG, "Cannot create file, may be a directory")
-            outputFile = null
-        } catch (e : SecurityException) {
-            Log.e(LOG_TAG, "Security error, check if file has write access")
-            outputFile = null
-        }
+        return fileUtilities.initSaveBuffer(outputDirectoryPath, outputFileName)
     }
 
-    private fun saveInFile(buffer: ShortArray, read : Int) {
-        if (outputFile == null)
-            return
-
-        val bytesArray = ByteArray(read * 2)
-
-        var i = 0
-        for (element in buffer) {
-            bytesArray[i] = (element.toInt() shr 0).toByte()
-            bytesArray[i + 1] = (element.toInt() shr 8).toByte()
-            i += 2
-        }
-        outputStream?.write(bytesArray)
-    }
-
-    private fun convertToWav() {
-        if (outputFile == null)
-            return
-
-        val outputWav = File("${ctx.cacheDir?.absolutePath}/audiorecordtest.wav")
-        SoundFileUtils.pcmToWav(outputFile!!, outputWav, 1, SAMPLE_RATE, 16)
-    }
-
+    /**
+     * Stop the recording of the audio
+     *
+     * @author Hugo Berthomé
+     */
     private fun stopRecording() {
         if (!isRecording) {
             onListener.onError("No record to stop")
@@ -153,6 +152,7 @@ class RawRecorderManager(
     /**
      * Function called when the thread is finished
      *
+     * @author Hugo Berthomé
      */
     private fun finishingThread() {
         isRecording = false
@@ -208,11 +208,16 @@ class RawRecorderManager(
     /**
      * Set the file output path to save the record
      *
+     * @param directoryPath
      * @param fileName
+     * @param extension
      * @author Hugo Berthomé
      */
-    override fun setOutputFile(fileName: String) {
-        outputFilePath = fileName
+    override fun setOutputFile(directoryPath: String, fileName: String, extension: String) {
+        outputDirectoryPath = directoryPath
+        outputFileName = fileName
+
+        outputFilePath = "$directoryPath/$fileName$extension"
     }
 
     /**

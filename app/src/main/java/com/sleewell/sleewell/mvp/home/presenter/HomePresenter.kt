@@ -25,7 +25,7 @@ class HomePresenter(view: HomeContract.View, private var context: AppCompatActiv
     private var player: IPlayerManager = PlayerManager(context)
     private var isRecording: Boolean = false;
 
-    private var filePath = "${context.cacheDir?.absolutePath}/audiorecordtest.3gp"
+    private var filePath = "${context.cacheDir?.absolutePath}"
 
     /**
      * Function to call at the creation of the view
@@ -34,7 +34,7 @@ class HomePresenter(view: HomeContract.View, private var context: AppCompatActiv
      */
     override fun onViewCreated() {
         view?.displayNfcButton(model.nfcState() != NfcState.Enable)
-        recorder.setOutputFile(filePath)
+        recorder.setOutputFile(filePath, "audioRecordTest", ".3gp")
     }
 
     /**

@@ -8,10 +8,10 @@ import com.sleewell.sleewell.mvp.statistics.StatisticsContract
 
 class StatisticsModel(listener: IRecorderListener, context: AppCompatActivity) : StatisticsContract.Model {
     private val recorder: IRecorderManager = RawRecorderManager(context, listener)
-    private var filePath = "${context.cacheDir?.absolutePath}/audiorecordtest.pcm"
+    private var filePath = "${context.cacheDir?.absolutePath}"
 
     override fun onRecord(state: Boolean) {
-        recorder.setOutputFile(filePath)
+        recorder.setOutputFile(filePath, "audioRecordTest")
         recorder.onRecord(state)
     }
 

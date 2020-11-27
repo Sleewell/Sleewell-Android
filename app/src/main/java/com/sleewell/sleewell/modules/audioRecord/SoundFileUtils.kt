@@ -161,11 +161,11 @@ class SoundFileUtils(
      */
     fun initSaveBuffer(outputDirectory : String, outputFileName : String, toWAV : Boolean = true) : Boolean
     {
-        if (outputFile == null) {
+        if (outputFile != null) {
             stopSaving()
         }
 
-        val output = File("$outputDirectory$outputFileName.pcm")
+        val output = File("$outputDirectory/$outputFileName.pcm")
         directoryPath = outputDirectory
         fileName = outputFileName
         outputFile = output
@@ -223,7 +223,7 @@ class SoundFileUtils(
 
         outputStream = null
         if (convertToWav) {
-            val outputFileWav = File("$directoryPath$fileName.wav")
+            val outputFileWav = File("$directoryPath/$fileName.wav")
             pcmToWav(outputFile!!, outputFileWav, channelCount, sampleRate, bitsPerSample)
             outputFile!!.delete()
         }

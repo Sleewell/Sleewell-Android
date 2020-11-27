@@ -51,10 +51,12 @@ interface IRecorderManager {
     /**
      * Set the file output path to save the record
      *
+     * @param directoryPath
      * @param fileName
+     * @param extension
      * @author Hugo Berthomé
      */
-    fun setOutputFile(fileName: String)
+    fun setOutputFile(directoryPath: String, fileName: String, extension: String = ".pcm")
 
     /**
      * Set the output format of the file
