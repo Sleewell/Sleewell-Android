@@ -8,15 +8,12 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import com.aachartmodel.aainfographics.AAInfographicsLib.AAChartCreator.*
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.modules.audioRecord.SoundDataUtils
 import com.sleewell.sleewell.mvp.statistics.StatisticsContract
 import com.sleewell.sleewell.mvp.statistics.presenter.StatisticsPresenter
 import java.util.*
-import kotlin.math.sqrt
-import java.lang.Math as Math1
 
 class StatisticsFragment : Fragment(), StatisticsContract.View {
     private lateinit var presenter: StatisticsContract.Presenter
@@ -24,12 +21,18 @@ class StatisticsFragment : Fragment(), StatisticsContract.View {
 
     //View widgets
     private lateinit var btnStart: Button
-    private lateinit var aaChartView: AAChartView
+    private lateinit var aaChartViewAmplitude: AAChartView
+    private lateinit var aaChartViewSpec: AAChartView
 
-    //Graph model
-    private lateinit var chartModel: AAChartModel
-    private val limitData = 300
-    private var arrayData: Queue<Double> = LinkedList<Double>()
+    //Graph model amplitude
+    private lateinit var chartModelAmplitude: AAChartModel
+    private val limitDataAmplitude = 300
+    private var arrayDataAmplitude: Queue<Double> = LinkedList<Double>()
+
+    //Graph model spectrogram
+    private lateinit var chartModelSpec: AAChartModel
+    private val limitDataSpec = 100
+    private var arrayDataSpec: Queue<DoubleArray> = LinkedList<DoubleArray>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,19 +51,23 @@ class StatisticsFragment : Fragment(), StatisticsContract.View {
         Toast.makeText(this.context, message, Toast.LENGTH_LONG).show()
     }
 
-    override fun updateGraph(array: ShortArray) {
+    override fun updateGraphAmplitude(array: ShortArray) {
 
         val valueToAdd = SoundDataUtils.calculateMean(array)
 
-        arrayData.add(valueToAdd)
-        if (arrayData.size >= limitData)
-            arrayData.remove()
+        arrayDataAmplitude.add(valueToAdd)
+        if (arrayDataAmplitude.size >= limitDataAmplitude)
+            arrayDataAmplitude.remove()
 
-        this.aaChartView.aa_onlyRefreshTheChartDataWithChartOptionsSeriesArray(arrayOf(
+        this.aaChartViewAmplitude.aa_onlyRefreshTheChartDataWithChartOptionsSeriesArray(arrayOf(
             AASeriesElement()
                 .name("PMC")
-                .data(arrayData.toTypedArray())
+                .data(arrayDataAmplitude.toTypedArray())
         ), false)
+    }
+
+    override fun updateGraphSpec(magnitude: DoubleArray) {
+        TODO("Not yet implemented")
     }
 
     /**
@@ -76,7 +83,8 @@ class StatisticsFragment : Fragment(), StatisticsContract.View {
     private fun initWidget() {
         //get widgets
         btnStart = root.findViewById(R.id.btn_start)
-        aaChartView = root.findViewById(R.id.AAChartView_sound)
+        aaChartViewAmplitude = root.findViewById(R.id.AAChartView_sound)
+        aaChartViewSpec = root.findViewById(R.id.AAChartView_spect)
 
         //init event listener
         btnStart.setOnClickListener {
@@ -85,9 +93,9 @@ class StatisticsFragment : Fragment(), StatisticsContract.View {
     }
 
     private fun initGraph() {
-        for (i in 0 until limitData)
-            arrayData.add(0.0)
-        chartModel = AAChartModel()
+        for (i in 0 until limitDataAmplitude)
+            arrayDataAmplitude.add(0.0)
+        chartModelAmplitude = AAChartModel()
             .chartType(AAChartType.Column)
             .backgroundColor("#FFFFFF")
             .yAxisMax(5000f)
@@ -95,9 +103,39 @@ class StatisticsFragment : Fragment(), StatisticsContract.View {
                 arrayOf(
                     AASeriesElement()
                         .name("PMC")
-                        .data(arrayData.toTypedArray())
+                        .data(arrayDataAmplitude.toTypedArray())
                 )
             )
-        this.aaChartView.aa_drawChartWithChartModel(chartModel)
+        this.aaChartViewAmplitude.aa_drawChartWithChartModel(chartModelAmplitude)
+
+        for (i in 0 until limitDataSpec)
+            arrayDataSpec.add(DoubleArray(200) { 0.0 })
+        chartModelSpec = AAChartModel()
+            .chartType(AAChartType.Scatter)
+            .backgroundColor("#FFFFFF")
+            .yAxisMax(5000f)
+            .series(
+                arrayOf(
+                    AASeriesElement()
+                        .name("-1000")
+                        .data(arrayDataSpec.toTypedArray()),
+                    AASeriesElement()
+                        .name("-5000")
+                        .data(arrayOf(
+                            arrayOf(
+                                0,
+                                4000),
+                            arrayOf(
+                                0,
+                                5000)
+                        ))
+                )
+            )
+        this.aaChartViewSpec.aa_drawChartWithChartModel(chartModelSpec)
+    }
+
+    private fun convertArraySpecForGraph()
+    {
+
     }
 }

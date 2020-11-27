@@ -28,7 +28,6 @@ class RecorderManager(private val ctx: AppCompatActivity) : IRecorderManager{
      */
     override fun askPermission() {
         ctx.requestPermissions(permissions, REQUEST_RECORD_AUDIO_PERMISSION)
-        Log.e("RecordManager", "Permissions")
     }
 
     /**

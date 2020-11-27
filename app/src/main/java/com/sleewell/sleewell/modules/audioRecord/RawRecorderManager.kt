@@ -1,5 +1,7 @@
 package com.sleewell.sleewell.modules.audioRecord
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
@@ -9,18 +11,27 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.OutputStream
 import java.nio.ByteBuffer
-import java.nio.ByteOrder
-import kotlin.math.sin
 
 const val LOG_TAG = "RawRecorderManager"
+private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 
 class RawRecorderManager(
     private val ctx: AppCompatActivity,
     private val onListener: IRecorderListener
 ) : IRecorderManager {
 
+    private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
+
     private val SAMPLE_RATE = 44100
+
+    private var outputFilePath: String? = null
+    private var outputFile: File? = null
+    private var outputStream: OutputStream? = null
 
     private var isRecording: Boolean = false
 
@@ -35,10 +46,13 @@ class RawRecorderManager(
             return
         }
 
+        initFile()
+
         scopeIO.launch {
 
             // Before leaving job
             fun onFinishedInsideThread() {
+                convertToWav()
                 scopeMainThread.launch {
                     onListener.onFinished()
                     finishingThread()
@@ -79,12 +93,52 @@ class RawRecorderManager(
                 scopeMainThread.launch {
                     onListener.onAudio(buffer.clone())
                 }
+                saveInFile(buffer, numberOfShort)
             }
             record.stop()
             record.release()
             onFinishedInsideThread()
         }
         isRecording = true
+    }
+
+    private fun initFile() {
+        if (outputFilePath == null)
+            return
+        outputFile = File(outputFilePath!!)
+
+        try {
+            outputStream = FileOutputStream(outputFile)
+        } catch (e : FileNotFoundException) {
+            Log.e(LOG_TAG, "Cannot create file, may be a directory")
+            outputFile = null
+        } catch (e : SecurityException) {
+            Log.e(LOG_TAG, "Security error, check if file has write access")
+            outputFile = null
+        }
+    }
+
+    private fun saveInFile(buffer: ShortArray, read : Int) {
+        if (outputFile == null)
+            return
+
+        val bytesArray = ByteArray(read * 2)
+
+        var i = 0
+        for (element in buffer) {
+            bytesArray[i] = (element.toInt() shr 0).toByte()
+            bytesArray[i + 1] = (element.toInt() shr 8).toByte()
+            i += 2
+        }
+        outputStream?.write(bytesArray)
+    }
+
+    private fun convertToWav() {
+        if (outputFile == null)
+            return
+
+        val outputWav = File("${ctx.cacheDir?.absolutePath}/audiorecordtest.wav")
+        SoundFileUtils.pcmToWav(outputFile!!, outputWav, 1, SAMPLE_RATE, 16)
     }
 
     private fun stopRecording() {
@@ -103,6 +157,8 @@ class RawRecorderManager(
     private fun finishingThread() {
         isRecording = false
         stopThread = false
+        outputFile = null
+        outputStream = null
     }
 
     /**
@@ -112,7 +168,7 @@ class RawRecorderManager(
      * @author Hugo Berthomé
      */
     override fun askPermission() {
-        TODO("Not yet implemented")
+        ctx.requestPermissions(permissions, REQUEST_RECORD_AUDIO_PERMISSION)
     }
 
     /**
@@ -122,7 +178,7 @@ class RawRecorderManager(
      * @author Hugo Berthomé
      */
     override fun permissionGranted(): Boolean {
-        TODO("Not yet implemented")
+        return ctx.checkSelfPermission(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
     }
 
     /**
@@ -156,7 +212,7 @@ class RawRecorderManager(
      * @author Hugo Berthomé
      */
     override fun setOutputFile(fileName: String) {
-        // Do nothing with the raw recording
+        outputFilePath = fileName
     }
 
     /**

@@ -25,7 +25,7 @@ class HomePresenter(view: HomeContract.View, private var context: AppCompatActiv
     private var player: IPlayerManager = PlayerManager(context)
     private var isRecording: Boolean = false;
 
-    private var filePath = "${context.externalCacheDir?.absolutePath}/audiorecordtest.3gp"
+    private var filePath = "${context.cacheDir?.absolutePath}/audiorecordtest.3gp"
 
     /**
      * Function to call at the creation of the view
