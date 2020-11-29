@@ -1,8 +1,9 @@
 package com.sleewell.sleewell.new_mvp.menu.home
 
-import com.sleewell.sleewell.mvp.global.BasePresenter
-import com.sleewell.sleewell.mvp.global.BaseView
-import com.sleewell.sleewell.mvp.home.model.NfcState
+import com.sleewell.sleewell.new_mvp.global.BasePresenter
+import com.sleewell.sleewell.new_mvp.global.BaseView
+import com.sleewell.sleewell.new_mvp.menu.home.model.NfcState
+
 
 /**
  * Contract that defines all the functions that will interact with the user
@@ -16,7 +17,7 @@ interface HomeContract {
          * @return NfcState enum
          * @author Hugo Berthomé
          */
-        fun nfcState() : com.sleewell.sleewell.new_mvp.menu.home.model.NfcState
+        fun nfcState() : NfcState
     }
 
     interface Presenter : BasePresenter {
