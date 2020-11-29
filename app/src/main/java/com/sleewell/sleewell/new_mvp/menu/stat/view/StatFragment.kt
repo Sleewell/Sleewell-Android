@@ -45,7 +45,7 @@ class StatFragment : Fragment() {
     ): View? {
         notificationsViewModel =
             ViewModelProviders.of(this).get(StatisticsViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_statistics, container, false)
+        val root = inflater.inflate(R.layout.new_fragment_stat, container, false)
 
         val aaChartView: AAChartView = root.findViewById(R.id.AAChartView)
         val aaChartModel: AAChartModel = AAChartModel()
