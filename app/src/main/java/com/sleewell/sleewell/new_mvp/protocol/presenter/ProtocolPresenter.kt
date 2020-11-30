@@ -5,12 +5,12 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.R
-import com.sleewell.sleewell.halo.Model.ProtocolModel
 import com.sleewell.sleewell.modules.lockScreen.ILockScreenManagement
 import com.sleewell.sleewell.modules.lockScreen.LockScreenManagement
-import com.sleewell.sleewell.mvp.protocol.ProtocolContract
 import com.sleewell.sleewell.modules.network.INetworkManager
 import com.sleewell.sleewell.modules.network.NetworkManager
+import com.sleewell.sleewell.new_mvp.protocol.ProtocolContract
+import com.sleewell.sleewell.new_mvp.protocol.model.ProtocolModel
 
 /**
  * Presenter for the protocol activity

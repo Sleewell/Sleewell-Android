@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.navigation.Navigation
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.home.HomeContract
 import com.sleewell.sleewell.mvp.home.presenter.MenuPresenter
@@ -41,17 +42,14 @@ class HomeFragment : Fragment(), HomeContract.View {
      * Initialise all the widgets from the layout
      */
     private fun initActivityWidgets() {
+        val navController = Navigation.findNavController(requireActivity(), R.id.nav_main)
+
         //get widgets
         this.btnNfc = root.findViewById(R.id.btn_nfc)
 
         //init event listeners
         btnNfc.setOnClickListener {
-            startActivity(
-                Intent(
-                    root.context,
-                    ProtocolActivity::class.java
-                )
-            )
+            navController.navigate(R.id.action_menuFragment_to_protocolFragment)
         }
     }
 
