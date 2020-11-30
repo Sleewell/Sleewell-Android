@@ -2,7 +2,7 @@ package com.sleewell.sleewell.new_mvp.menu
 
 import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
-import com.sleewell.sleewell.mvp.home.model.NfcState
+import com.sleewell.sleewell.mvp.home.HomeContract
 
 /**
  * Contract that defines all the functions that will interact with the user
@@ -16,5 +16,9 @@ interface MenuContract {
          * @author Hugo Berthomé
          */
         fun onViewCreated()
+    }
+
+    interface View : BaseView<HomeContract.Presenter> {
+
     }
 }

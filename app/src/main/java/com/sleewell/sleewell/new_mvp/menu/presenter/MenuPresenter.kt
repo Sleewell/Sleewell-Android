@@ -1,21 +1,19 @@
-package com.sleewell.sleewell.mvp.home.presenter
+package com.sleewell.sleewell.new_mvp.menu.presenter
 
 import android.content.Context
-import com.sleewell.sleewell.mvp.home.HomeContract
-import com.sleewell.sleewell.mvp.home.model.HomeModel
-import com.sleewell.sleewell.mvp.home.model.NfcState
+import com.sleewell.sleewell.new_mvp.menu.MenuContract
 
 /**
- * Presenter for the Home fragment, it will link the HomeView and the HomeModel
+ * Presenter for the Menu fragment, it will link the MenuView and the MenuModel
  *
  * @constructor Creates a presenter based on the Home Contract
  * @param view View that inherits the View from the home contract
  * @param context Context of the activity / view
  * @author Hugo Berthomé
  */
-class MenuPresenter(view: HomeContract.View, context: Context) : HomeContract.Presenter {
+class MenuPresenter(view: MenuContract.View, context: Context) : MenuContract.Presenter {
 
-    private var view: HomeContract.View? = view
+    private var view: MenuContract.View? = view
 
     /**
      * Function to call at the creation of the view
