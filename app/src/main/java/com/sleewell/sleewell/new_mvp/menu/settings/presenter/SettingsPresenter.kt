@@ -1,6 +1,7 @@
 package com.sleewell.sleewell.new_mvp.menu.settings.presenter
 
-import com.sleewell.sleewell.mvp.settings.SettingsContract
+import com.sleewell.sleewell.new_mvp.menu.settings.SettingsContract
+
 
 /**
  * Presenter for the settings activity

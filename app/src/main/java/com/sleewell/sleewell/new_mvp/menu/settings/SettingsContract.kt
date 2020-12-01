@@ -1,7 +1,7 @@
 package com.sleewell.sleewell.new_mvp.menu.settings
 
-import com.sleewell.sleewell.mvp.global.BasePresenter
-import com.sleewell.sleewell.mvp.global.BaseView
+import com.sleewell.sleewell.new_mvp.global.BasePresenter
+import com.sleewell.sleewell.new_mvp.global.BaseView
 
 interface SettingsContract {
     interface Presenter : BasePresenter {
