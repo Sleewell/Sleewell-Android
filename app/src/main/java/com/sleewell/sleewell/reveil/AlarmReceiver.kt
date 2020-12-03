@@ -6,6 +6,7 @@ import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.media.RingtoneManager
+import android.os.CountDownTimer
 
 
 /**
@@ -48,11 +49,24 @@ class AlarmReceiver : BroadcastReceiver() {
         val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         audioManager.setStreamVolume(
             AudioManager.STREAM_MUSIC,
-            audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC) / 2,
+            10,
             0
         )
         mp = MediaPlayer.create(context, alarmUri)
         mp.isLooping = true
         mp.start()
+
+        //Increase of 1 every 15 seconds during 5 minutes
+        val timer = object: CountDownTimer(300000, 15000) {
+            override fun onTick(millisUntilFinished: Long) {
+                audioManager.setStreamVolume(
+                    AudioManager.STREAM_MUSIC,
+                    audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) + 1,
+                    0
+                )
+            }
+            override fun onFinish() { }
+        }
+        timer.start()
     }
 }
