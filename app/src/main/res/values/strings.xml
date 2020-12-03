@@ -35,4 +35,5 @@
     <!-- Settings file name-->
     <string name="setting_file_network">com.sleewell.sleewell.network</string>
     <string name="setting_file_notification">com.sleewell.sleewell.notification</string>
+    <string name="time_desactivation">TIME</string>
 </resources>

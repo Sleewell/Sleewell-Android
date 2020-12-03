@@ -24,4 +24,25 @@
         app:button_left_padding="15dp"
         android:layout_margin="18sp"/>
 
+    <TextView
+        android:id="@+id/time_desactivation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/time_desactivation"
+        android:textSize="100sp"
+        android:textAlignment="center"
+        android:paddingTop="50dp"
+        android:textColor="@color/black"/>
+
+    <ImageButton
+        android:id="@+id/snooze_desactivation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/swipe_button"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="50dp"
+        android:background="@color/transparent"
+        app:srcCompat="@drawable/ic_snooze" />
+
 </RelativeLayout>
