@@ -5,6 +5,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.util.*
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.pow
@@ -26,10 +27,24 @@ class Spectrogram(
 
     private var leftBuffer = ShortArray(0)
 
-    fun convertToSpectrogramAsync(buffer: ShortArray) {
+    private var queueBuffer: Queue<ShortArray> = LinkedList<ShortArray>()
+
+    init {
         scopeIO.launch {
-            listener.onBufferReceived(calculateSpec(buffer))
+            while (true) {
+                if (queueBuffer.size != 0) {
+                    listener.onBufferReceived(calculateSpec(queueBuffer.poll()!!))
+                    // TODO Revoir le multithread, pas optimisé pour le moment
+                }
+            }
         }
+    }
+
+    fun convertToSpectrogramAsync(buffer: ShortArray) {
+        queueBuffer.add(buffer)
+        /*scopeIO.launch {
+            listener.onBufferReceived(calculateSpec(buffer))
+        }*/
     }
 
     fun convertToSpectrogram(buffer: ShortArray): Array<DoubleArray> {
