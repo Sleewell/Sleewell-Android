@@ -1,11 +1,10 @@
 package com.sleewell.sleewell.mvp.home.presenter
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
-import com.sleewell.sleewell.modules.audioPlayer.IPlayerManager
-import com.sleewell.sleewell.modules.audioPlayer.PlayerManager
-import com.sleewell.sleewell.modules.audioRecord.IRecorderManager
-import com.sleewell.sleewell.modules.audioRecord.RecorderManager
+import com.sleewell.sleewell.modules.audio.audioPlayer.IPlayerManager
+import com.sleewell.sleewell.modules.audio.audioPlayer.PlayerManager
+import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderManager
+import com.sleewell.sleewell.modules.audio.audioRecord.RecorderManager
 import com.sleewell.sleewell.mvp.home.HomeContract
 import com.sleewell.sleewell.mvp.home.model.HomeModel
 import com.sleewell.sleewell.mvp.home.model.NfcState

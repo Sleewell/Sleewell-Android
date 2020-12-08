@@ -1,9 +1,9 @@
 package com.sleewell.sleewell.mvp.statistics.model
 
 import androidx.appcompat.app.AppCompatActivity
-import com.sleewell.sleewell.modules.audioRecord.IRecorderListener
-import com.sleewell.sleewell.modules.audioRecord.IRecorderManager
-import com.sleewell.sleewell.modules.audioRecord.RawRecorderManager
+import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderListener
+import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderManager
+import com.sleewell.sleewell.modules.audio.audioRecord.RawRecorderManager
 import com.sleewell.sleewell.mvp.statistics.StatisticsContract
 
 class StatisticsModel(listener: IRecorderListener, context: AppCompatActivity) : StatisticsContract.Model {

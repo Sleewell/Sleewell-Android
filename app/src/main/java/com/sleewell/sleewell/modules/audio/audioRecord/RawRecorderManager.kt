@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.modules.audioRecord
+package com.sleewell.sleewell.modules.audio.audioRecord
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -12,8 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
 import java.io.OutputStream
 
 const val LOG_TAG = "RawRecorderManager"
@@ -42,8 +40,6 @@ class RawRecorderManager(
     private var outputDirectoryPath: String = ""
     private var outputFileName: String = ""
     private var outputFilePath: String? = null
-    private var outputFile: File? = null
-    private var outputStream: OutputStream? = null
 
     // Coroutine managing
     private var job: Job = Job()
@@ -157,8 +153,6 @@ class RawRecorderManager(
     private fun finishingThread() {
         isRecording = false
         stopThread = false
-        outputFile = null
-        outputStream = null
     }
 
     /**

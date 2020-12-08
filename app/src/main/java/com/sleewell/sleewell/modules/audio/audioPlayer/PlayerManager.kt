@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.modules.audioPlayer
+package com.sleewell.sleewell.modules.audio.audioPlayer
 
 import android.media.AudioAttributes
 import android.media.MediaPlayer

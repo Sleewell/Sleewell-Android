@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.modules.audioRecord
+package com.sleewell.sleewell.modules.audio.audioRecord
 
 import android.media.MediaRecorder
 

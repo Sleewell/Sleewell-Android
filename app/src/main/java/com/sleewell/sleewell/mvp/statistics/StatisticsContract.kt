@@ -1,6 +1,6 @@
 package com.sleewell.sleewell.mvp.statistics
 
-import com.sleewell.sleewell.modules.audioRecord.IRecorderListener
+import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderListener
 import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
 

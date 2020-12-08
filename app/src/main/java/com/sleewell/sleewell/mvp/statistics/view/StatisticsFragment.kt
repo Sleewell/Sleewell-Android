@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.aachartmodel.aainfographics.AAInfographicsLib.AAChartCreator.*
 import com.sleewell.sleewell.R
-import com.sleewell.sleewell.modules.audioRecord.SoundDataUtils
+import com.sleewell.sleewell.modules.audio.audioTransformation.SoundDataUtils
 import com.sleewell.sleewell.mvp.statistics.StatisticsContract
 import com.sleewell.sleewell.mvp.statistics.presenter.StatisticsPresenter
 import java.util.*

@@ -1,7 +1,4 @@
-package com.sleewell.sleewell.modules.audioRecord
-
-import java.nio.Buffer
-import java.nio.ByteBuffer
+package com.sleewell.sleewell.modules.audio.audioRecord
 
 /**
  * Class that will be sent to the recorder
