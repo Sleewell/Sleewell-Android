@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.nav.alarms.CellClickListener
@@ -29,7 +30,7 @@ class AlarmAdapter(private val reminderList: List<Long>, private val cellClickLi
      */
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var textViewTime: TextView = itemView.findViewById(R.id.textViewTime)
-        var checkBoxTime: CheckBox = itemView.findViewById(R.id.checkBoxTime)
+        var checkBoxTime: SwitchCompat = itemView.findViewById(R.id.checkBoxTime)
         var idTime: TextView = itemView.findViewById(R.id.idTime)
     }
 
