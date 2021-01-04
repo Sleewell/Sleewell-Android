@@ -44,7 +44,7 @@ class UiAutomatorUtils(
 
     fun openSettings() {
         val buttonSetting: UiObject = mDevice.findObject(
-            UiSelector().resourceId("com.sleewell.sleewell:id/settings_action")
+            UiSelector().resourceId("com.sleewell.sleewell:id/settingsNavButton")
         )
         buttonSetting.click()
     }
