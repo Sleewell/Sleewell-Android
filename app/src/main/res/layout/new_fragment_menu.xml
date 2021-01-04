@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".new_mvp.menu.view.MenuFragment">
+
+    <fragment
+        android:id="@+id/nav_menu"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="70dp"
+        app:defaultNavHost="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/nav_menu" />
+
+    <ToggleButton
+        android:id="@+id/homeNavButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:textOff="HOME"
+        android:textOn="HOME"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/alarmNavButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nav_menu"
+        />
+
+    <ToggleButton
+        android:id="@+id/alarmNavButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:textOff="ALARM"
+        android:textOn="ALARM"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/settingsNavButton"
+        app:layout_constraintStart_toEndOf="@id/homeNavButton"
+        app:layout_constraintTop_toBottomOf="@+id/nav_menu"
+        />
+
+    <ToggleButton
+        android:id="@+id/settingsNavButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:textOff="Settings"
+        android:textOn="Settings"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/statNavButton"
+        app:layout_constraintStart_toEndOf="@id/alarmNavButton"
+        app:layout_constraintTop_toBottomOf="@+id/nav_menu" />
+
+    <ToggleButton
+        android:id="@+id/statNavButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOff="Stat"
+        android:textOn="Stat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/settingsNavButton"
+        app:layout_constraintTop_toBottomOf="@+id/nav_menu"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

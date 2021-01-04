@@ -1,18 +1,22 @@
-package com.sleewell.sleewell.mvp.home.view
+package com.sleewell.sleewell.new_mvp.menu.home.view
 
-import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.fragment.app.Fragment
-import com.sleewell.sleewell.mvp.protocol.view.ProtocolActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation
 import com.sleewell.sleewell.R
-import com.sleewell.sleewell.mvp.home.HomeContract
-import com.sleewell.sleewell.mvp.home.presenter.HomePresenter
-import com.sleewell.sleewell.new_mvp.menu.presenter.MenuPresenter
+import com.sleewell.sleewell.new_mvp.menu.home.HomeContract
+import com.sleewell.sleewell.new_mvp.menu.home.presenter.HomePresenter
 
+/**
+ * A simple [Fragment] subclass.
+ * Use the [HomeFragment.newInstance] factory method to
+ * create an instance of this fragment.
+ */
 class HomeFragment : Fragment(), HomeContract.View {
     //Context
     private lateinit var presenter: HomeContract.Presenter
@@ -22,55 +26,30 @@ class HomeFragment : Fragment(), HomeContract.View {
     private lateinit var btnNfc: Button
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_home, container, false)
         initActivityWidgets()
-        setPresenter(HomePresenter(this, root.context))
+        setPresenter(HomePresenter(this, this.activity as AppCompatActivity))
 
         return root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        presenter.onDestroy()
     }
 
     /**
      * Initialise all the widgets from the layout
      */
     private fun initActivityWidgets() {
+        val navController = Navigation.findNavController(requireActivity(), R.id.nav_main)
+
         //get widgets
         this.btnNfc = root.findViewById(R.id.btn_nfc)
 
         //init event listeners
         btnNfc.setOnClickListener {
-            startActivity(
-                Intent(
-                    root.context,
-                    ProtocolActivity::class.java
-                )
-            )
+            navController.navigate(R.id.action_menuFragment_to_protocolFragment)
         }
-    }
-
-    /**
-     * Function called when the screen reappeared on this activity when quiting temporally the app
-     */
-    override fun onResume() {
-        super.onResume()
-        presenter.onViewCreated()
-    }
-
-    /**
-     * Function called when quitting the activity
-     */
-    override fun onStop() {
-        super.onStop()
-        presenter.onDestroy()
     }
 
     /**
@@ -98,4 +77,24 @@ class HomeFragment : Fragment(), HomeContract.View {
         presenter.onViewCreated()
     }
 
+    /**
+     * Function called when the screen reappeared on this activity when quiting temporally the app
+     */
+    override fun onResume() {
+        super.onResume()
+        presenter.onViewCreated()
+    }
+
+    /**
+     * Function called when quitting the activity
+     */
+    override fun onStop() {
+        super.onStop()
+        presenter.onDestroy()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        presenter.onDestroy()
+    }
 }
