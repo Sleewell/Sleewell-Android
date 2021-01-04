@@ -3,8 +3,20 @@ package com.sleewell.sleewell.modules.audio.audioTransformation
 import org.jtransforms.fft.DoubleFFT_1D
 import kotlin.math.sqrt
 
+/**
+ * A utility class with several functions that can be used on Audio data
+ *
+ * @author Hugo Berthomé
+ */
 class SoundDataUtils {
     companion object {
+        /**
+         * Calculate the mean square root average of an array
+         *
+         * @param shortArray
+         * @return double value
+         * @author Hugo Berthomé
+         */
         fun calculateMean(shortArray: ShortArray): Double {
             var squaredSum = 0f
             for (value in shortArray) {
@@ -14,6 +26,13 @@ class SoundDataUtils {
             return sqrt(mean.toDouble())
         }
 
+        /**
+         * Apply a Fast Fourier Transformation to a PCM array
+         *
+         * @param shortArray PCM data
+         * @return a double array
+         * @author Hugo Berthomé
+         */
         fun fft(shortArray: ShortArray): DoubleArray {
             val doubleArray = convertShortToDouble(shortArray)
 
@@ -22,12 +41,25 @@ class SoundDataUtils {
             return extractMagnitude(doubleArray)
         }
 
-        fun fft(doubleArray: DoubleArray) : DoubleArray {
+        /**
+         * Apply a Fast Fourier Transformation to a PCM array
+         *
+         * @param doubleArray PCM data
+         * @return a double array
+         * @author Hugo Berthomé
+         */
+        fun fft(doubleArray: DoubleArray): DoubleArray {
             val ffTransformer = DoubleFFT_1D(doubleArray.size.toLong())
             ffTransformer.realForward(doubleArray)
             return extractMagnitude(doubleArray)
         }
 
+        /**
+         * Extract the magnitude from the Fast fourier transform array
+         *
+         * @param fftArray
+         * @return DoubleArray
+         */
         private fun extractMagnitude(fftArray: DoubleArray): DoubleArray {
             val n = fftArray.size
             val magnitudeArray = DoubleArray(n / 2)
@@ -45,6 +77,12 @@ class SoundDataUtils {
             return magnitudeArray
         }
 
+        /**
+         * Convert ShortArray to DoubleArray
+         *
+         * @param shortArray
+         * @return
+         */
         fun convertShortToDouble(shortArray: ShortArray): DoubleArray {
             val doubleArray = DoubleArray(shortArray.size)
 
@@ -54,6 +92,12 @@ class SoundDataUtils {
             return doubleArray
         }
 
+        /**
+         * Convert ShortList to DoubleArray
+         *
+         * @param shortList
+         * @return
+         */
         fun convertShortToDouble(shortList: List<Short>): DoubleArray {
             val doubleArray = DoubleArray(shortList.size)
 

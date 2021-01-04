@@ -1,15 +1,21 @@
 package com.sleewell.sleewell.modules.audio.audioTransformation
 
-import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderListener
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.*
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.pow
 
+/**
+ * Convert a PCM buffer into a spectrogram
+ *
+ * @property listener - CallBack for the async
+ * @property sampleRate - Sample Rate
+ * @property strideMs - Size in ms of a stride in the spectrogram
+ * @property windowMs - Size in ms of the window in the spectrogram
+ * @property maxFreq
+ * @author Hugo Berthomé
+ */
 class Spectrogram(
     private val listener: ISpectrogramListener,
     private val sampleRate: Int,
@@ -18,8 +24,8 @@ class Spectrogram(
     private val maxFreq: Int? = null
 ) {
     // Coroutines
-    private var job: Job = Job()
-    private var scopeIO = CoroutineScope(job + Dispatchers.IO)
+    private var scopeDefault = CoroutineScope(Job() + Dispatchers.Default)
+    private var queueBuffer: Queue<ShortArray> = LinkedList<ShortArray>()
 
     private val strideSize = (0.001 * sampleRate * strideMs).toInt()
     private val windowSize = (0.001 * sampleRate * windowMs).toInt()
@@ -27,31 +33,58 @@ class Spectrogram(
 
     private var leftBuffer = ShortArray(0)
 
-    private var queueBuffer: Queue<ShortArray> = LinkedList<ShortArray>()
+    /**
+     * Add the buffer in the queue of buffer to convert
+     *
+     * @param buffer
+     * @author Hugo Berthomé
+     */
+    fun convertToSpectrogramAsync(buffer: ShortArray) {
+        val jobStarted = queueBuffer.size != 0
 
-    init {
-        scopeIO.launch {
-            while (true) {
-                if (queueBuffer.size != 0) {
+        queueBuffer.add(buffer)
+
+        // if coroutine not started, start it
+        if (jobStarted) {
+            scopeDefault.launch {
+                while (queueBuffer.size != 0) {
                     listener.onBufferReceived(calculateSpec(queueBuffer.poll()!!))
-                    // TODO Revoir le multithread, pas optimisé pour le moment
                 }
             }
         }
     }
 
-    fun convertToSpectrogramAsync(buffer: ShortArray) {
-        queueBuffer.add(buffer)
-        /*scopeIO.launch {
-            listener.onBufferReceived(calculateSpec(buffer))
-        }*/
-    }
-
+    /**
+     * Convert a buffer into his spectrogram equivalent
+     *
+     * @param buffer
+     * @return Array<DoubleArray> Strides of values
+     * @author Hugo Berthomé
+     */
     fun convertToSpectrogram(buffer: ShortArray): Array<DoubleArray> {
         return calculateSpec(buffer, false)
     }
 
-    private fun calculateSpec(buffer: ShortArray, saveLeftBuffer: Boolean = true) : Array<DoubleArray> {
+    /**
+     * Function that remove all still going coroutines
+     *
+     * @author Hugo Berthomé
+     */
+    fun cleanUp() {
+        scopeDefault.cancel()
+    }
+
+    /**
+     * Calculate the spectrogram with the given buffer
+     *
+     * @param buffer
+     * @param saveLeftBuffer - Save and use the unused buffer for the next upcoming buffer to convert
+     * @return
+     */
+    private fun calculateSpec(
+        buffer: ShortArray,
+        saveLeftBuffer: Boolean = true
+    ): Array<DoubleArray> {
         val truncatedBuffer = extractBuffer(buffer, saveLeftBuffer)
         val windows = applyHanning(splitBuffer(truncatedBuffer))
 
@@ -88,6 +121,13 @@ class Spectrogram(
         return tmpBuffer.dropLast(truncateSize).toShortArray()
     }
 
+    /**
+     * Split the buffer in accordance with the window size and stride size
+     *
+     * @param buffer
+     * @return Array<DoubleArray>
+     * @author Hugo Berthomé
+     */
     private fun splitBuffer(buffer: ShortArray): Array<DoubleArray> {
         val shape = ((buffer.size - windowSize) / strideSize) + 1
         val slicedBuffer = Array(shape) { DoubleArray(0) }
@@ -100,6 +140,13 @@ class Spectrogram(
         return slicedBuffer
     }
 
+    /**
+     * Apply a window function to a list of windows
+     *
+     * @param windows
+     * @return the result windows
+     * @author Hugo Berthomé
+     */
     private fun applyHanning(windows: Array<DoubleArray>): Array<DoubleArray> {
         windows.forEachIndexed { index, doubles ->
             windows[index] = applyHanning(doubles)
@@ -107,13 +154,27 @@ class Spectrogram(
         return windows
     }
 
-    private fun applyHanning(buffer: DoubleArray): DoubleArray {
-        buffer.forEachIndexed { i, value ->
-            buffer[i] = hanning(i, buffer.size) * value
+    /**
+     * Apply a window function to a window
+     *
+     * @param window
+     * @return the result window
+     * @author Hugo Berthomé
+     */
+    private fun applyHanning(window: DoubleArray): DoubleArray {
+        window.forEachIndexed { i, value ->
+            window[i] = hanning(i, window.size) * value
         }
-        return buffer
+        return window
     }
 
+    /**
+     * Sum of the hanning vector
+     *
+     * @param size
+     * @return double
+     * @author Hugo Berthomé
+     */
     private fun hanningVectorSum(size: Int): Double {
         var hanningValue = 0.0
 
@@ -123,6 +184,14 @@ class Spectrogram(
         return hanningValue
     }
 
+    /**
+     * Window value fo the hanning function
+     *
+     * @param n
+     * @param m
+     * @return value
+     * @author Hugo Berthomé
+     */
     private fun hanning(n: Int, m: Int): Double {
         return 0.5 - (0.5 * cos((2 * PI * n) / (m - 1)))
     }

@@ -11,8 +11,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.io.File
-import java.io.OutputStream
 
 const val LOG_TAG = "RawRecorderManager"
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
@@ -104,7 +102,7 @@ class RawRecorderManager(
             record.startRecording();
             Log.v(LOG_TAG, "Start recording");
             while (!stopThread) {
-                val numberOfShort: Int = record.read(buffer, 0, buffer.size)
+                record.read(buffer, 0, buffer.size)
 
                 scopeMainThread.launch {
                     onListener.onAudio(buffer.clone())

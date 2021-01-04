@@ -2,18 +2,23 @@ package com.sleewell.sleewell.mvp.statistics.presenter
 
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.modules.audio.audioTransformation.ISpectrogramListener
-import com.sleewell.sleewell.modules.audio.audioTransformation.SoundDataUtils
 import com.sleewell.sleewell.modules.audio.audioTransformation.Spectrogram
 import com.sleewell.sleewell.mvp.statistics.StatisticsContract
 import com.sleewell.sleewell.mvp.statistics.model.StatisticsModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
-import java.io.OutputStream
 import java.util.*
 
 const val LOG_TAG = "StatisticsPresenter"
 
-class StatisticsPresenter(private var view: StatisticsContract.View, private var context: AppCompatActivity) : StatisticsContract.Presenter, ISpectrogramListener {
+class StatisticsPresenter(
+    private var view: StatisticsContract.View,
+    private var context: AppCompatActivity
+) : StatisticsContract.Presenter, ISpectrogramListener {
     private val model: StatisticsContract.Model = StatisticsModel(this, context)
     private val spec = Spectrogram(this, 44100)
     private val directoryPath = "${context.cacheDir?.absolutePath}"
@@ -22,7 +27,11 @@ class StatisticsPresenter(private var view: StatisticsContract.View, private var
     private val outputStream = FileOutputStream(file)
     private var line = 0
 
-    private val listWindows : Queue<Array<DoubleArray>> = LinkedList<Array<DoubleArray>>()
+    // Coroutine managing
+    private var job: Job = Job()
+    private var scopeIO = CoroutineScope(job + Dispatchers.IO)
+
+    private val listWindows: Queue<Array<DoubleArray>> = LinkedList<Array<DoubleArray>>()
 
     override fun onStartClick() {
         model.onRecord(!model.isRecording())
@@ -76,25 +85,27 @@ class StatisticsPresenter(private var view: StatisticsContract.View, private var
     override fun onFinished() {
         view.displayToast("Thread finished after 2000 milliseconds")
 
-        while (listWindows.size != 0) {
-            var spectrogram = listWindows.poll()
-            spectrogram?.forEach {
-                if (line != 0) {
-                    outputStream.write("\n".toByteArray())
-                }
-
-                var index = 0
-                var stringToWrite = ""
-
-                it.forEach {itDouble ->
-                    if (index != 0) {
-                        stringToWrite += " "
+        scopeIO.launch {
+            while (listWindows.size != 0) {
+                val spectrogram = listWindows.poll()
+                spectrogram?.forEach {
+                    if (line != 0) {
+                        outputStream.write("\n".toByteArray())
                     }
-                    stringToWrite += itDouble.toString()
-                    index += 1
+
+                    var index = 0
+                    var stringToWrite = ""
+
+                    it.forEach { itDouble ->
+                        if (index != 0) {
+                            stringToWrite += " "
+                        }
+                        stringToWrite += itDouble.toString()
+                        index += 1
+                    }
+                    outputStream.write(stringToWrite.toByteArray())
+                    line += 1
                 }
-                outputStream.write(stringToWrite.toByteArray())
-                line += 1
             }
         }
     }
