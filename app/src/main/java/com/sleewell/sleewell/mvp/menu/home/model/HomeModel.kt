@@ -1,8 +1,8 @@
-package com.sleewell.sleewell.new_mvp.menu.home.model
+package com.sleewell.sleewell.mvp.menu.home.model
 
 import android.content.Context
 import android.nfc.NfcAdapter
-import com.sleewell.sleewell.new_mvp.menu.home.HomeContract
+import com.sleewell.sleewell.mvp.menu.home.HomeContract
 
 /**
  * Model for the home fragment, it will get all the information that are necessaries

@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.new_mvp.menu.home.model
+package com.sleewell.sleewell.mvp.menu.home.model
 
 /**
  * Enum for every NFC state

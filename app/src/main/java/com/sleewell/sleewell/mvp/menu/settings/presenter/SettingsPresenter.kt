@@ -1,6 +1,6 @@
-package com.sleewell.sleewell.new_mvp.menu.settings.presenter
+package com.sleewell.sleewell.mvp.menu.settings.presenter
 
-import com.sleewell.sleewell.new_mvp.menu.settings.SettingsContract
+import com.sleewell.sleewell.mvp.menu.settings.SettingsContract
 
 
 /**

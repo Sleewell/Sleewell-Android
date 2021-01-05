@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.new_mvp.menu.home.view
+package com.sleewell.sleewell.mvp.menu.home.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,8 +9,8 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import com.sleewell.sleewell.R
-import com.sleewell.sleewell.new_mvp.menu.home.HomeContract
-import com.sleewell.sleewell.new_mvp.menu.home.presenter.HomePresenter
+import com.sleewell.sleewell.mvp.menu.home.HomeContract
+import com.sleewell.sleewell.mvp.menu.home.presenter.HomePresenter
 
 /**
  * A simple [Fragment] subclass.
@@ -30,7 +30,7 @@ class HomeFragment : Fragment(), HomeContract.View {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        root = inflater.inflate(R.layout.fragment_home, container, false)
+        root = inflater.inflate(R.layout.new_fragment_home, container, false)
         initActivityWidgets()
         setPresenter(HomePresenter(this, this.activity as AppCompatActivity))
 
