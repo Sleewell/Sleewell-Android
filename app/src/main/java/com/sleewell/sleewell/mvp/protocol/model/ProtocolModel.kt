@@ -22,9 +22,8 @@ import kotlinx.android.synthetic.main.colorpicker.*
  * @param context current context of the app
  * @author gabin warnier de wailly
  */
-class ProtocolModel(context: Context) : ProtocolContract.Model {
+class ProtocolModel(private val context: Context) : ProtocolContract.Model {
     private var size: Int = 10
-    private val context: Context = context
     private lateinit var bitmap: Bitmap
     private lateinit var color: ColorFilter
 
@@ -38,12 +37,12 @@ class ProtocolModel(context: Context) : ProtocolContract.Model {
 
     override fun upgradeSizeOfCircle() {
         if (size < 1000)
-            size = size + 3
+            size += 3
     }
 
     override fun degradesSizeOfCircle() {
         if (size > 10 && size - 2 > 10)
-            size = size - 2
+            size -= 2
     }
 
     override fun resetSizeOfCircle() {
@@ -67,7 +66,7 @@ class ProtocolModel(context: Context) : ProtocolContract.Model {
         colorImage.isDrawingCacheEnabled = true
         colorImage.buildDrawingCache(true)
         
-        colorImage.setOnTouchListener { v, event ->
+        colorImage.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN || event.action == MotionEvent.ACTION_MOVE) {
                 this.bitmap = colorImage.drawingCache
                 if (event.y.toInt() < bitmap.height && event.x.toInt() < bitmap.width && event.y.toInt() > 0 && event.x.toInt() > 0) {
@@ -82,7 +81,7 @@ class ProtocolModel(context: Context) : ProtocolContract.Model {
             }
             true
         }
-        dialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCanceledOnTouchOutside(true);
         return dialog
     }

@@ -91,7 +91,7 @@ class Spectrogram(
         windows.forEachIndexed { index, _ ->
             windows[index] = SoundDataUtils.fft(windows[index])
             if (index == 0 || index == windows.size - 1) {
-                windows[index].forEachIndexed { j, d ->
+                windows[index].forEachIndexed { j, _ ->
                     windows[index][j] /= scale
                 }
             } else {

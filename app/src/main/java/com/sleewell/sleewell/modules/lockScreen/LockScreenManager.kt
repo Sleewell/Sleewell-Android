@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
  * @property ctx context of the activity / view
  * @author Titouan FIANCETTE
  */
+@Suppress("DEPRECATION")
 class LockScreenManager(private val ctx: AppCompatActivity) : ILockScreenManager {
 
     /**
