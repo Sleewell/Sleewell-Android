@@ -12,6 +12,7 @@ import com.sleewell.sleewell.mvp.protocol.view.ProtocolActivity
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.home.HomeContract
 import com.sleewell.sleewell.mvp.home.presenter.HomePresenter
+import com.sleewell.sleewell.new_mvp.menu.presenter.MenuPresenter
 
 class HomeFragment : Fragment(), HomeContract.View {
     //Context
