@@ -10,7 +10,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.sleewell.sleewell.R
-import com.sleewell.sleewell.mvp.main.view.MainActivity
+import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 
 /**
  * Alert notification helper of the application

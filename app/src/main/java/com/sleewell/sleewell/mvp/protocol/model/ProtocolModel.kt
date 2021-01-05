@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.halo.Model
+package com.sleewell.sleewell.mvp.protocol.model
 
 import android.annotation.SuppressLint
 import android.app.Dialog
@@ -9,12 +9,9 @@ import android.graphics.ColorFilter
 import android.graphics.drawable.ColorDrawable
 import android.view.MotionEvent
 import android.view.Window
-import android.widget.Button
 import android.widget.ImageView
-import android.widget.TextView
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.protocol.ProtocolContract
-import kotlinx.android.synthetic.main.colorpicker.*
 
 /**
  * this class is the model of the halo
