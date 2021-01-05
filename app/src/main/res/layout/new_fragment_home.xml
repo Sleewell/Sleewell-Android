@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout6"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".new_mvp.menu.home.view.HomeFragment">
+    tools:context=".mvp.menu.home.view.HomeFragment">
 
     <Button
         android:id="@+id/btn_nfc"

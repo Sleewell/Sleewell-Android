@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".new_mvp.menu.stat.view.StatFragment">
+    tools:context=".mvp.menu.stat.view.StatFragment">
 
     <com.aachartmodel.aainfographics.AAInfographicsLib.AAChartCreator.AAChartView
         android:id="@+id/AAChartView"

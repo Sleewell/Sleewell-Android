@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".new_mvp.menu.settings.view.SettingsFragment">
+    tools:context=".mvp.menu.settings.view.SettingsFragment">
 
     <FrameLayout
         android:id="@+id/settings"
