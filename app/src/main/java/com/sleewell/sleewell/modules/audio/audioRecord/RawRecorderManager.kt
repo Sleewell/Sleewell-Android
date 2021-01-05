@@ -40,9 +40,8 @@ class RawRecorderManager(
     private var outputFilePath: String? = null
 
     // Coroutine managing
-    private var job: Job = Job()
-    private var scopeMainThread = CoroutineScope(job + Dispatchers.Main)
-    private var scopeIO = CoroutineScope(job + Dispatchers.IO)
+    private var scopeMainThread = CoroutineScope(Job() + Dispatchers.Main)
+    private var scopeIO = CoroutineScope(Job() + Dispatchers.IO)
     private var stopThread = false
 
     /**
@@ -52,13 +51,15 @@ class RawRecorderManager(
      */
     private fun startRecording() {
         if (isRecording) {
-            onListener.onError("A record is already processing")
+            onListener.onAudioError("A record is already processing")
             return
         }
 
-        if (!initFileSaving()) {
-            onListener.onError("An error occurred while initializing save file")
-            return
+        if (outputDirectoryPath.isNotEmpty() || outputFileName.isNotEmpty()) {
+            if (!initFileSaving()) {
+                onListener.onAudioError("An error occurred while initializing save file")
+                return
+            }
         }
 
         scopeIO.launch {
@@ -67,7 +68,7 @@ class RawRecorderManager(
             fun onFinishedInsideThread() {
                 fileUtilities.stopSaving()
                 scopeMainThread.launch {
-                    onListener.onFinished()
+                    onListener.onAudioFinished()
                     finishingThread()
                 }
             }
@@ -136,7 +137,7 @@ class RawRecorderManager(
      */
     private fun stopRecording() {
         if (!isRecording) {
-            onListener.onError("No record to stop")
+            onListener.onAudioError("No record to stop")
             return
         }
 

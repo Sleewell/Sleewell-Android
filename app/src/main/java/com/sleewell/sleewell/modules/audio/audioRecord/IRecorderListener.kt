@@ -23,7 +23,7 @@ interface IRecorderListener {
      * @param message - error message
      * @author Hugo Berthomé
      */
-    fun onError(message: String)
+    fun onAudioError(message: String)
 
     /**
      * On finished event is called when the recording is stopped
@@ -31,5 +31,5 @@ interface IRecorderListener {
      *
      * @author Hugo Berthomé
      */
-    fun onFinished()
+    fun onAudioFinished()
 }

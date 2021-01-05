@@ -17,7 +17,7 @@ class StatisticsModel(
     override fun onRecord(state: Boolean) {
         if (!recorder.permissionGranted()) {
             if (!recorder.permissionGranted()) {
-                listener.onError("Permission not granted to record audio, check you phone parameters")
+                listener.onAudioError("Permission not granted to record audio, check you phone parameters")
             }
         }
         if (recorder.permissionGranted()) {

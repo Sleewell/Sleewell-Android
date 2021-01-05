@@ -72,7 +72,7 @@ class StatisticsPresenter(
      * @param message - error message
      * @author Hugo Berthomé
      */
-    override fun onError(message: String) {
+    override fun onAudioError(message: String) {
         view.displayToast(message)
     }
 
@@ -82,7 +82,7 @@ class StatisticsPresenter(
      *
      * @author Hugo Berthomé
      */
-    override fun onFinished() {
+    override fun onAudioFinished() {
         view.displayToast("Thread finished after 2000 milliseconds")
 
         scopeIO.launch {

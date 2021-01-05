@@ -2,7 +2,6 @@ package com.sleewell.sleewell.new_mvp.protocol.model
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.ColorFilter
@@ -10,7 +9,13 @@ import android.graphics.drawable.ColorDrawable
 import android.view.MotionEvent
 import android.view.Window
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderListener
+import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderManager
+import com.sleewell.sleewell.modules.audio.audioRecord.RawRecorderManager
+import com.sleewell.sleewell.modules.audio.audioTransformation.ISpectrogramListener
+import com.sleewell.sleewell.modules.audio.audioTransformation.Spectrogram
 import com.sleewell.sleewell.new_mvp.protocol.ProtocolContract
 
 /**
@@ -19,11 +24,18 @@ import com.sleewell.sleewell.new_mvp.protocol.ProtocolContract
  * @param context current context of the app
  * @author gabin warnier de wailly
  */
-class ProtocolModel(context: Context) : ProtocolContract.Model {
+class ProtocolModel(
+    private val audioListener: IRecorderListener,
+    private val spectrogramListener: ISpectrogramListener,
+    private val context: AppCompatActivity
+) : ProtocolContract.Model {
+
     private var size: Int = 10
-    private val context: Context = context
     private lateinit var bitmap: Bitmap
     private lateinit var color: ColorFilter
+
+    private val recorder: IRecorderManager = RawRecorderManager(context, audioListener)
+    private val spectrogram = Spectrogram(spectrogramListener, 44100)
 
     override fun getSizeOfCircle(): Int {
         return size
@@ -35,12 +47,12 @@ class ProtocolModel(context: Context) : ProtocolContract.Model {
 
     override fun upgradeSizeOfCircle() {
         if (size < 1000)
-            size = size + 3
+            size += 3
     }
 
     override fun degradesSizeOfCircle() {
         if (size > 10 && size - 2 > 10)
-            size = size - 2
+            size -= 2
     }
 
     override fun resetSizeOfCircle() {
@@ -57,13 +69,13 @@ class ProtocolModel(context: Context) : ProtocolContract.Model {
         val colorImage = dialog.findViewById(R.id.colorImage) as ImageView
         val resultColor = dialog.findViewById(R.id.resultColor) as ImageView
 
-        resultColor.setColorFilter(Color.rgb(0,0,255))
-        resultColor.setBackgroundColor(Color.rgb(0,0,255))
+        resultColor.setColorFilter(Color.rgb(0, 0, 255))
+        resultColor.setBackgroundColor(Color.rgb(0, 0, 255))
         this.color = resultColor.colorFilter
 
         colorImage.isDrawingCacheEnabled = true
         colorImage.buildDrawingCache(true)
-        
+
         colorImage.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN || event.action == MotionEvent.ACTION_MOVE) {
                 this.bitmap = colorImage.drawingCache
@@ -72,15 +84,71 @@ class ProtocolModel(context: Context) : ProtocolContract.Model {
                     val r = Color.red(pixel)
                     val g = Color.green(pixel)
                     val b = Color.blue(pixel)
-                    resultColor.setColorFilter(Color.rgb(r,g,b))
-                    resultColor.setBackgroundColor(Color.rgb(r,g,b))
+                    resultColor.setColorFilter(Color.rgb(r, g, b))
+                    resultColor.setBackgroundColor(Color.rgb(r, g, b))
                     this.color = resultColor.colorFilter
                 }
             }
             true
         }
-        dialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCanceledOnTouchOutside(true);
         return dialog
+    }
+
+    /**
+     * Record the audio from the mic source
+     *
+     * @param state
+     * @author Hugo Berthomé
+     */
+    override fun onRecordAudio(state: Boolean) {
+        if (!recorder.permissionGranted()) {
+            if (!recorder.permissionGranted()) {
+                audioListener.onAudioError("Permission not granted to record audio, check you phone parameters")
+            }
+        }
+        if (recorder.permissionGranted()) {
+            recorder.onRecord(state)
+        }
+    }
+
+    /**
+     * Return if the smartphone is recording
+     *
+     * @return True if recording, False otherwise
+     * @author Hugo Berthomé
+     */
+    override fun isRecording(): Boolean {
+        return recorder.isRecording()
+    }
+
+    /**
+     * Convert an audio pcm buffer to spectrogram equivalent
+     *
+     * @param pcmAudio
+     * @author Hugo Berthomé
+     */
+    override fun convertToSpectrogram(pcmAudio: ShortArray) {
+        spectrogram.convertToSpectrogramAsync(pcmAudio)
+    }
+
+    /**
+     * Analyse audio and Save the results
+     *
+     * @author Hugo Berthomé
+     */
+    override fun analyseAndSave(spectrogram: Array<DoubleArray>) {
+        //TODO("Not yet implemented")
+    }
+
+    /**
+     * Clean up all the resources
+     *
+     * @author Hugo Berthomé
+     */
+    override fun cleanUp() {
+        recorder.onRecord(false)
+        spectrogram.cleanUp()
     }
 }
