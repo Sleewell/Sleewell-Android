@@ -24,7 +24,7 @@ class HomePresenter(view: HomeContract.View, context: Context) : HomeContract.Pr
      * @author Hugo Berthomé
      */
     override fun onViewCreated() {
-        view?.displayNfcButton(model.nfcState() != NfcState.Enable)
+//        view?.displayNfcButton(model.nfcState() != NfcState.Enable)
     }
 
     /**
