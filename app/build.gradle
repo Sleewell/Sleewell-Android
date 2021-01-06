@@ -8,6 +8,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "30.0.0"
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -31,6 +32,9 @@ android {
 }
 
 dependencies {
+    // Can use JAVA 8 feature without using a min 29 sdk
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.9'
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.2.0'

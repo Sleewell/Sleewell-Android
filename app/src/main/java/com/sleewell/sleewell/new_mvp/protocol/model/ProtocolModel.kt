@@ -11,6 +11,8 @@ import android.view.Window
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.modules.audio.audioAnalyser.AudioAnalyseFileUtils
+import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderListener
 import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderManager
 import com.sleewell.sleewell.modules.audio.audioRecord.RawRecorderManager
@@ -150,5 +152,23 @@ class ProtocolModel(
     override fun cleanUp() {
         recorder.onRecord(false)
         spectrogram.cleanUp()
+
+        val utils = AudioAnalyseFileUtils(context)
+
+        utils.initSaveNewAnalyse()
+        utils.addToAnalyse(AnalyseValue(20.0, 20))
+        utils.addToAnalyse(AnalyseValue(21.0, 22))
+        utils.stopSavingNewAnalyse()
+
+        utils.initSaveNewAnalyse()
+        utils.addToAnalyse(AnalyseValue(22.0, 20))
+        utils.addToAnalyse(AnalyseValue(23.0, 22))
+        utils.stopSavingNewAnalyse()
+
+        val test2 = utils.readDirectory()
+        test2.forEach {
+            val data = utils.readAnalyse(it)
+            val data2 = 0
+        }
     }
 }

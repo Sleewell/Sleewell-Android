@@ -48,7 +48,10 @@ class Spectrogram(
         if (jobStarted) {
             scopeDefault.launch {
                 while (queueBuffer.size != 0) {
-                    listener.onBufferReceived(calculateSpec(queueBuffer.poll()!!))
+                    val data = queueBuffer.poll()
+
+                    if (data != null)
+                        listener.onBufferReceived(calculateSpec(data))
                 }
             }
         }
