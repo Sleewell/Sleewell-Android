@@ -16,7 +16,6 @@ import com.sleewell.sleewell.mvp.menu.home.presenter.HomePresenter
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-
 class HomeFragment : Fragment(), HomeContract.View {
     //Context
     private lateinit var presenter: HomeContract.Presenter
@@ -59,28 +58,6 @@ class HomeFragment : Fragment(), HomeContract.View {
         buttonMusic.setOnClickListener {
             navController.navigate(R.id.action_menuFragment_to_musicFragment)
         }
-
-        /*//get widgets
-        this.btnNfc = root.findViewById(R.id.btn_nfc)
-
-        //init event listeners
-        btnNfc.setOnClickListener {
-            navController.navigate(R.id.action_menuFragment_to_protocolFragment)
-        }*/
-    }
-
-    /**
-     * Display the nfc button on the screen
-     *
-     * @param state true - display, false - hide
-     * @author Hugo Berthomé
-     */
-    override fun displayNfcButton(state: Boolean) {
-        btnNfc.isEnabled = state
-        if (state)
-            btnNfc.visibility = View.VISIBLE
-        else
-            btnNfc.visibility = View.GONE
     }
 
     /**
