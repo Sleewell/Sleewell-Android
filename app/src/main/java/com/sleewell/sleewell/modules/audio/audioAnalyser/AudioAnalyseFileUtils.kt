@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.google.gson.JsonIOException
 import com.google.gson.JsonSyntaxException
+import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,14 +22,14 @@ import java.util.*
  *
  * @author Hugo Berthomé
  */
-class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: AnalyseRecordListener) {
+class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: IAudioAnalyseRecordListener) {
     private val CLASS_TAG = "AUDIO_ANALYSE_FILE_UTIL"
 
     private val gson = Gson()
     private var startFile = true
 
     private val outputDirectory = context.cacheDir?.absolutePath + "/analyse"
-    private var outputFile : File? = null
+    private var outputFile: File? = null
     private var outputStream: OutputStream? = null
 
     // coroutine
@@ -43,7 +44,7 @@ class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: AnalyseRec
      * @return Array<File> array with all the file existing
      * @author Hugo Berthomé
      */
-    fun readDirectory() : Array<File> {
+    fun readDirectory(): Array<File> {
         val dir = File(outputDirectory)
 
         if (!dir.exists()) {
@@ -63,10 +64,10 @@ class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: AnalyseRec
      * @param analyse File of the analyse to read
      * @author Hugo Berthomé
      */
-    fun readAnalyse(analyse : File) {
+    fun readAnalyse(analyse: File) {
 
         scopeIO.run {
-            val emptyArray = Array(0) {_ -> AnalyseValue()}
+            val emptyArray = Array(0) { _ -> AnalyseValue() }
 
             if (!analyse.exists()) {
                 listener.onAnalyseRecordError("File " + analyse.name + " doesn't exist")
@@ -78,10 +79,10 @@ class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: AnalyseRec
                     listener.onReadAnalyseRecord(emptyArray)
                 else
                     listener.onReadAnalyseRecord(res)
-            } catch (eSyntax : JsonSyntaxException) {
+            } catch (eSyntax: JsonSyntaxException) {
                 Log.e(CLASS_TAG, "Invalid json syntax in analyse file " + analyse.name)
                 listener.onAnalyseRecordError("Invalid json syntax in analyse file " + analyse.name)
-            } catch (eIO : JsonIOException) {
+            } catch (eIO: JsonIOException) {
                 Log.e(CLASS_TAG, "Failed to read file  " + analyse.name)
                 listener.onAnalyseRecordError("Failed to read file  " + analyse.name)
             }
@@ -113,13 +114,13 @@ class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: AnalyseRec
      *
      * @return true if succeed false otherwise
      */
-    private fun createDir() : Boolean {
+    private fun createDir(): Boolean {
         val dir = File(outputDirectory)
 
         if (!dir.exists()) {
             try {
                 dir.mkdirs()
-            } catch (e : SecurityException) {
+            } catch (e: SecurityException) {
                 Log.e(CLASS_TAG, "Directory $outputDirectory couldn't be created")
                 return false
             }
@@ -133,7 +134,7 @@ class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: AnalyseRec
      * @return True if init with success, false otherwise
      * @author Hugo Berthomé
      */
-    fun initSaveNewAnalyse() : Boolean {
+    fun initSaveNewAnalyse(): Boolean {
         val outputFileName = getCurrentDateHour()
         outputFile = File("$outputDirectory/$outputFileName.json")
         try {
@@ -143,7 +144,7 @@ class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: AnalyseRec
             outputStream = FileOutputStream(outputFile)
             outputStream?.write("[".toByteArray())
             startFile = true
-        } catch (e : FileNotFoundException) {
+        } catch (e: FileNotFoundException) {
             outputFile = null
             outputStream = null
             Log.e(CLASS_TAG, "File " + outputFile?.name + " couldn't be created");
@@ -159,7 +160,7 @@ class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: AnalyseRec
      * @return True if success, false otherwise
      * @author Hugo Berthomé
      */
-    fun addToAnalyse(value : AnalyseValue) {
+    fun addToAnalyse(value: AnalyseValue) {
         if (!isSaving())
             listener.onAnalyseRecordError("Record not initialized")
 
@@ -179,7 +180,7 @@ class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: AnalyseRec
                                 outputStream?.write(",".toByteArray())
                             outputStream?.write(jsonString.toByteArray())
                             startFile = false
-                        } catch (e : IOException) {
+                        } catch (e: IOException) {
                             Log.e(CLASS_TAG, "Unable to write inside the file")
                             listener.onAnalyseRecordError("Unable to write inside the file")
                             threadRunning = false
@@ -201,7 +202,7 @@ class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: AnalyseRec
      * @return True if can save, False otherwise
      * @author Hugo Berthomé
      */
-    fun isSaving() : Boolean {
+    fun isSaving(): Boolean {
         return outputStream != null || outputFile != null
     }
 
@@ -237,7 +238,7 @@ class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: AnalyseRec
      *
      * @return Long timestamp
      */
-    private fun getCurrentTimestamp() : Long {
+    fun getCurrentTimestamp(): Long {
         return Instant.now().epochSecond
     }
 
@@ -246,7 +247,7 @@ class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: AnalyseRec
      *
      * @return the current date with the time
      */
-    private fun getCurrentDateHour() : String {
+    private fun getCurrentDateHour(): String {
         /*val stringTime2 = DateTimeFormatter
             .ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")
             .withZone(ZoneOffset.systemDefault())

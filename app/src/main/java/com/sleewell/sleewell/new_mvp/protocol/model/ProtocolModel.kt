@@ -12,8 +12,10 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.R
-import com.sleewell.sleewell.modules.audio.audioAnalyser.AnalyseRecordListener
+import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.AudioAnalyseFileUtils
+import com.sleewell.sleewell.modules.audio.audioAnalyser.AudioAnalyser
+import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderListener
 import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderManager
@@ -32,14 +34,16 @@ class ProtocolModel(
     private val audioListener: IRecorderListener,
     private val spectrogramListener: ISpectrogramListener,
     private val context: AppCompatActivity
-) : ProtocolContract.Model, AnalyseRecordListener {
-
+) : ProtocolContract.Model, IAudioAnalyseListener {
     private var size: Int = 10
     private lateinit var bitmap: Bitmap
     private lateinit var color: ColorFilter
 
-    private val recorder: IRecorderManager = RawRecorderManager(context, audioListener)
-    private val spectrogram = Spectrogram(spectrogramListener, 44100)
+    // Audio analyser
+    private val samplingRate = 44100
+    private val recorder: IRecorderManager = RawRecorderManager(context, audioListener, samplingRate)
+    private val spectrogram = Spectrogram(spectrogramListener, samplingRate)
+    private val analyser = AudioAnalyser(context, this, samplingRate)
 
     override fun getSizeOfCircle(): Int {
         return size
@@ -143,12 +147,8 @@ class ProtocolModel(
      * @author Hugo Berthomé
      */
     override fun analyseAndSave(spectrogram: Array<DoubleArray>) {
-        //TODO("Not yet implemented")
+        analyser.addSpectrogramDatas(spectrogram)
     }
-
-    // TODO remove all the functions bellow maybe, depends how analyse is implemented
-
-    val utils = AudioAnalyseFileUtils(context, this)
 
     /**
      * Clean up all the resources
@@ -158,26 +158,18 @@ class ProtocolModel(
     override fun cleanUp() {
         recorder.onRecord(false)
         spectrogram.cleanUp()
-
-        utils.initSaveNewAnalyse()
-        utils.addToAnalyse(AnalyseValue(20.0, 20))
-        utils.addToAnalyse(AnalyseValue(21.0, 22))
-        utils.stopSavingNewAnalyse()
+        analyser.cleanUp()
     }
 
-    override fun onAnalyseRecordEnd() {
-        val test2 = utils.readDirectory()
-        test2.forEach {
-            val data = utils.readAnalyse(it)
-            val data2 = 0
-        }
-    }
-
-    override fun onReadAnalyseRecord(data: Array<AnalyseValue>) {
-        val i = 0
-    }
-
-    override fun onAnalyseRecordError(msg: String) {
+    override fun onError(msg : String) {
         Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onFinish() {
+        // Do nothing but is existing if necessary
+    }
+
+    override fun onDataAnalysed(data: AnalyseValue) {
+        // Do nothing but is existing if necessary
     }
 }

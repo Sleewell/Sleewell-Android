@@ -21,20 +21,21 @@ private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
  *
  * @property ctx
  * @property onListener
+ * @property samplingRate - Default = 44100
  * @author Hugo Berthomé
  */
 class RawRecorderManager(
     private val ctx: AppCompatActivity,
-    private val onListener: IRecorderListener
+    private val onListener: IRecorderListener,
+    private val samplingRate : Int = 44100
 ) : IRecorderManager {
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
 
     // record managing
     private var isRecording: Boolean = false
-    private val SAMPLE_RATE = 44100
 
     // Files managing
-    private val fileUtilities = SoundFileUtils(sampleRate = SAMPLE_RATE, bitsPerSample = 16)
+    private val fileUtilities = SoundFileUtils(sampleRate = samplingRate, bitsPerSample = 16)
     private var outputDirectoryPath: String = ""
     private var outputFileName: String = ""
     private var outputFilePath: String? = null
@@ -75,12 +76,12 @@ class RawRecorderManager(
 
             // BUFFER initialization
             var bufferSize = AudioRecord.getMinBufferSize(
-                SAMPLE_RATE,
+                samplingRate,
                 AudioFormat.CHANNEL_IN_MONO,
                 AudioFormat.ENCODING_PCM_16BIT
             )
             if (bufferSize == AudioRecord.ERROR || bufferSize == AudioRecord.ERROR_BAD_VALUE) {
-                bufferSize = SAMPLE_RATE * 2;
+                bufferSize = samplingRate * 2;
             }
             //val buffer: ByteBuffer = ByteBuffer.allocateDirect(bufferSize)
             val buffer: ShortArray = ShortArray(bufferSize / 2)
@@ -88,7 +89,7 @@ class RawRecorderManager(
             // initialize recorder
             val record = AudioRecord(
                 MediaRecorder.AudioSource.MIC,
-                SAMPLE_RATE,
+                samplingRate,
                 AudioFormat.CHANNEL_IN_MONO,
                 AudioFormat.ENCODING_PCM_16BIT,
                 bufferSize

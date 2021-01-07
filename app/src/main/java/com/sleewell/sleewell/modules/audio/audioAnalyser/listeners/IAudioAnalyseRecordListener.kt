@@ -1,8 +1,8 @@
-package com.sleewell.sleewell.modules.audio.audioAnalyser
+package com.sleewell.sleewell.modules.audio.audioAnalyser.listeners
 
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 
-interface AnalyseRecordListener {
+interface IAudioAnalyseRecordListener {
     fun onAnalyseRecordEnd()
 
     fun onReadAnalyseRecord(data : Array<AnalyseValue>)
