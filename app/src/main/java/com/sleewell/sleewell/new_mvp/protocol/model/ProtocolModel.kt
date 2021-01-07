@@ -9,8 +9,10 @@ import android.graphics.drawable.ColorDrawable
 import android.view.MotionEvent
 import android.view.Window
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.modules.audio.audioAnalyser.AnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.AudioAnalyseFileUtils
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderListener
@@ -30,7 +32,7 @@ class ProtocolModel(
     private val audioListener: IRecorderListener,
     private val spectrogramListener: ISpectrogramListener,
     private val context: AppCompatActivity
-) : ProtocolContract.Model {
+) : ProtocolContract.Model, AnalyseRecordListener {
 
     private var size: Int = 10
     private lateinit var bitmap: Bitmap
@@ -144,6 +146,10 @@ class ProtocolModel(
         //TODO("Not yet implemented")
     }
 
+    // TODO remove all the functions bellow maybe, depends how analyse is implemented
+
+    val utils = AudioAnalyseFileUtils(context, this)
+
     /**
      * Clean up all the resources
      *
@@ -153,22 +159,25 @@ class ProtocolModel(
         recorder.onRecord(false)
         spectrogram.cleanUp()
 
-        val utils = AudioAnalyseFileUtils(context)
-
         utils.initSaveNewAnalyse()
         utils.addToAnalyse(AnalyseValue(20.0, 20))
         utils.addToAnalyse(AnalyseValue(21.0, 22))
         utils.stopSavingNewAnalyse()
+    }
 
-        utils.initSaveNewAnalyse()
-        utils.addToAnalyse(AnalyseValue(22.0, 20))
-        utils.addToAnalyse(AnalyseValue(23.0, 22))
-        utils.stopSavingNewAnalyse()
-
+    override fun onAnalyseRecordEnd() {
         val test2 = utils.readDirectory()
         test2.forEach {
             val data = utils.readAnalyse(it)
             val data2 = 0
         }
+    }
+
+    override fun onReadAnalyseRecord(data: Array<AnalyseValue>) {
+        val i = 0
+    }
+
+    override fun onAnalyseRecordError(msg: String) {
+        Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
     }
 }

@@ -6,10 +6,14 @@ import com.google.gson.Gson
 import com.google.gson.JsonIOException
 import com.google.gson.JsonSyntaxException
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import java.io.*
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 /**
  * Manager of the audio analyse in the files
@@ -17,7 +21,7 @@ import java.time.format.DateTimeFormatter
  *
  * @author Hugo Berthomé
  */
-class AudioAnalyseFileUtils(context: AppCompatActivity) {
+class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: AnalyseRecordListener) {
     private val CLASS_TAG = "AUDIO_ANALYSE_FILE_UTIL"
 
     private val gson = Gson()
@@ -26,6 +30,12 @@ class AudioAnalyseFileUtils(context: AppCompatActivity) {
     private val outputDirectory = context.cacheDir?.absolutePath + "/analyse"
     private var outputFile : File? = null
     private var outputStream: OutputStream? = null
+
+    // coroutine
+    private var scopeIO = CoroutineScope(Job() + Dispatchers.IO)
+    private val queueData: Queue<AnalyseValue> = LinkedList<AnalyseValue>()
+    private var endSaving = false
+    private var threadRunning = false
 
     /**
      * Read the analyse directory and return all the files existing
@@ -51,25 +61,30 @@ class AudioAnalyseFileUtils(context: AppCompatActivity) {
      * Read an analyse and return the data values
      *
      * @param analyse File of the analyse to read
-     * @return Array of Analyse values
      * @author Hugo Berthomé
      */
-    fun readAnalyse(analyse : File) : Array<AnalyseValue> {
-        val emptyArray = Array(0) {_ -> AnalyseValue()}
+    fun readAnalyse(analyse : File) {
 
-        if (!analyse.exists())
-            return emptyArray
-        try {
-            val res = gson.fromJson(analyse.reader(), emptyArray.javaClass)
-            if (res != null)
-                return emptyArray
-            return res
-        } catch (eSyntax : JsonSyntaxException) {
-            Log.e(CLASS_TAG, "Invalid json syntax in analyse file " + analyse.name)
-            return emptyArray
-        } catch (eIO : JsonIOException) {
-            Log.e(CLASS_TAG, "Failed to read file  " + analyse.name)
-            return emptyArray
+        scopeIO.run {
+            val emptyArray = Array(0) {_ -> AnalyseValue()}
+
+            if (!analyse.exists()) {
+                listener.onAnalyseRecordError("File " + analyse.name + " doesn't exist")
+                return@run
+            }
+            try {
+                val res = gson.fromJson(analyse.reader(), emptyArray.javaClass)
+                if (res == null)
+                    listener.onReadAnalyseRecord(emptyArray)
+                else
+                    listener.onReadAnalyseRecord(res)
+            } catch (eSyntax : JsonSyntaxException) {
+                Log.e(CLASS_TAG, "Invalid json syntax in analyse file " + analyse.name)
+                listener.onAnalyseRecordError("Invalid json syntax in analyse file " + analyse.name)
+            } catch (eIO : JsonIOException) {
+                Log.e(CLASS_TAG, "Failed to read file  " + analyse.name)
+                listener.onAnalyseRecordError("Failed to read file  " + analyse.name)
+            }
         }
     }
 
@@ -144,22 +159,40 @@ class AudioAnalyseFileUtils(context: AppCompatActivity) {
      * @return True if success, false otherwise
      * @author Hugo Berthomé
      */
-    fun addToAnalyse(value : AnalyseValue) : Boolean {
+    fun addToAnalyse(value : AnalyseValue) {
         if (!isSaving())
-            return false
+            listener.onAnalyseRecordError("Record not initialized")
 
-        val jsonString = gson.toJson(value)
+        queueData.add(value)
 
-        try {
-            if (!startFile)
-                outputStream?.write(",".toByteArray())
-            outputStream?.write(jsonString.toByteArray())
-            startFile = false
-        } catch (e : IOException) {
-            Log.e(CLASS_TAG, "Unable to write inside the file")
-            return false
+        if (!threadRunning) {
+            scopeIO.run {
+                threadRunning = true
+
+                while (queueData.size != 0) {
+                    val valueFromQueue = queueData.poll()
+
+                    if (valueFromQueue != null) {
+                        val jsonString = gson.toJson(valueFromQueue)
+                        try {
+                            if (!startFile)
+                                outputStream?.write(",".toByteArray())
+                            outputStream?.write(jsonString.toByteArray())
+                            startFile = false
+                        } catch (e : IOException) {
+                            Log.e(CLASS_TAG, "Unable to write inside the file")
+                            listener.onAnalyseRecordError("Unable to write inside the file")
+                            threadRunning = false
+                            return@run
+                        }
+                    }
+                }
+                if (endSaving) {
+                    endSaving()
+                }
+                threadRunning = false
+            }
         }
-        return true
     }
 
     /**
@@ -181,10 +214,22 @@ class AudioAnalyseFileUtils(context: AppCompatActivity) {
         if (!isSaving())
             return
 
+        endSaving = true
+        if (!threadRunning) {
+            scopeIO.run {
+                endSaving()
+            }
+        }
+    }
+
+    private fun endSaving() {
         outputStream?.write("]".toByteArray())
         startFile = true
         outputStream = null
         outputFile = null
+        endSaving = false
+        threadRunning = false
+        listener.onAnalyseRecordEnd()
     }
 
     /**
