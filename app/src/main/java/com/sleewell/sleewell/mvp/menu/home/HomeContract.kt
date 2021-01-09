@@ -4,7 +4,6 @@ import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
 import com.sleewell.sleewell.mvp.menu.home.model.NfcState
 
-
 /**
  * Contract that defines all the functions that will interact with the user
  * @author Hugo Berthomé

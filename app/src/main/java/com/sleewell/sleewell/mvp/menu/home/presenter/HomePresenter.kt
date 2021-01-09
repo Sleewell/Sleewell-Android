@@ -3,7 +3,6 @@ package com.sleewell.sleewell.mvp.menu.home.presenter
 import android.content.Context
 import com.sleewell.sleewell.mvp.menu.home.HomeContract
 import com.sleewell.sleewell.mvp.menu.home.model.HomeModel
-import com.sleewell.sleewell.mvp.menu.home.model.NfcState
 
 /**
  * Presenter for the Home fragment, it will link the HomeView and the HomeModel
