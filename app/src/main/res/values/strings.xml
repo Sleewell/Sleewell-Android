@@ -11,6 +11,16 @@
     <string name="time">Time</string>
     <string name="time_required">Time is a required field</string>
     <string name="launch_activity">Launch Activity</string>
+
+    <!-- Menu -->
+    <string name="nav_button_home">HOME</string>
+    <string name="nav_button_settings">SETTINGS</string>
+    <string name="nav_button_stats">STATS</string>
+    <string name="nav_button_music">MUSIC</string>
+
+    <!-- Home -->
+    <string name="protocol_button">Launch protocol</string>
+
     <!-- Settings -->
     <string name="setting_network_name">Network</string>
     <string name="setting_network_summary">Customise the network during the protocol</string>

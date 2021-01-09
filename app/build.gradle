@@ -31,6 +31,13 @@ android {
     }
 }
 
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
     // Can use JAVA 8 feature without using a min 29 sdk
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.9'
@@ -69,4 +76,9 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.2.0-beta01'
 
     implementation 'androidx.preference:preference:1.1.0'
+
+    implementation project(':spotify-app-remote')
+    implementation "com.google.code.gson:gson:2.6.1"
+
+    implementation 'com.spotify.android:auth:1.1.0'
 }

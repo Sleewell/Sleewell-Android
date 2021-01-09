@@ -8,7 +8,7 @@ import android.content.SharedPreferences
 import android.text.format.DateUtils
 import android.text.format.Time
 import android.util.Log
-import com.sleewell.sleewell.nav.alarms.AlarmsFragment
+import com.sleewell.sleewell.mvp.menu.alarm.view.AlarmFragment
 import com.sleewell.sleewell.reveil.AlarmReceiver
 import com.sleewell.sleewell.reveil.AlarmContract
 import java.text.SimpleDateFormat
@@ -70,9 +70,9 @@ class AlarmModel : AlarmContract.Model {
      * @author Romane Bézier
      */
     override fun saveAlarm(time: Long, sharedPreferences: SharedPreferences) {
-        sharedPreferences.edit().putLong(AlarmsFragment.id, c.timeInMillis).apply()
-        val newId = AlarmsFragment.id.toInt() + 1
-        AlarmsFragment.id = newId.toString()
+        sharedPreferences.edit().putLong(AlarmFragment.id, c.timeInMillis).apply()
+        val newId = AlarmFragment.id.toInt() + 1
+        AlarmFragment.id = newId.toString()
     }
 
     /**
@@ -113,7 +113,7 @@ class AlarmModel : AlarmContract.Model {
         nextUpdateTime.set(nextUpdateTimeMillis)
 
         alarmManager.setExact(AlarmManager.RTC, nextUpdateTimeMillis, pendingIntent)
-        AlarmsFragment.instance.saveAlarm(nextUpdateTimeMillis)
+        AlarmFragment.instance.saveAlarm(nextUpdateTimeMillis)
     }
 
     /**
@@ -139,8 +139,8 @@ class AlarmModel : AlarmContract.Model {
      * @author Romane Bézier
      */
     override fun loadAllReminders(sharedPreferences: SharedPreferences): ArrayList<Long> {
-        val reminders = ArrayList<Long>(AlarmsFragment.id.toInt())
-        for (i in 0 until AlarmsFragment.id.toInt()) {
+        val reminders = ArrayList<Long>(AlarmFragment.id.toInt())
+        for (i in 0 until AlarmFragment.id.toInt()) {
             val millis = sharedPreferences.getLong(i.toString(), 0)
             reminders.add(millis)
         }

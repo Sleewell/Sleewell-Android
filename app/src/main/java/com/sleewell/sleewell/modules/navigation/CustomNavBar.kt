@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.modules.navigation
 
+import android.util.Log
 import android.widget.CompoundButton
 import android.widget.ToggleButton
 import androidx.navigation.NavController
@@ -33,6 +34,7 @@ class CustomNavBar : ICustomNavBar {
             button.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
                 button.isEnabled = !b
                 if (b) {
+                    Log.d("StateMAGIQUE", index.toString())
                     if (labels.indexOf(navController.currentDestination?.label.toString()) > index) {
                         navController.navigate(destinationIDs[index], null, goLeft.build())
                     } else {

@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationManagerCompat
-import com.sleewell.sleewell.nav.alarms.AlarmsFragment
+import com.sleewell.sleewell.mvp.menu.alarm.view.AlarmFragment
 
 /**
  * Notification receiver
@@ -29,12 +29,12 @@ class GlobalReceiver : BroadcastReceiver() {
         if (context != null && intent != null && intent.action != null) {
             when (intent.action) {
                 "Stop" -> {
-                    AlarmsFragment.instance.cancelAlarm()
+                    AlarmFragment.instance.cancelAlarm()
                     stopAlarm(context)
                 }
                 "Snooze" -> {
-                    AlarmsFragment.instance.cancelAlarm()
-                    AlarmsFragment.instance.snoozeAlarm()
+                    AlarmFragment.instance.cancelAlarm()
+                    AlarmFragment.instance.snoozeAlarm()
                     stopAlarm(context)
                 }
             }
