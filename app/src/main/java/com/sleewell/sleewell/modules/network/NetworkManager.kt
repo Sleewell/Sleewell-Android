@@ -29,8 +29,6 @@ class NetworkManager(private val ctx: Context) : INetworkManager {
      * @author Hugo Berthomé
      */
     override fun initPermissions() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
-            return
         if (!notificationManager.isNotificationPolicyAccessGranted) {
             val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
             ctx.startActivity(intent)
