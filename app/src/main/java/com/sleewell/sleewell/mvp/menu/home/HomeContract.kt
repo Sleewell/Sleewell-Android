@@ -30,12 +30,5 @@ interface HomeContract {
     }
 
     interface View : BaseView<Presenter> {
-        /**
-         * Display the nfc button on the screen
-         *
-         * @param state true - display, false - hide
-         * @author Hugo Berthomé
-         */
-        fun displayNfcButton(state: Boolean)
     }
 }
