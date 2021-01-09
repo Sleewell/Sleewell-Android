@@ -22,7 +22,6 @@ class HomeFragment : Fragment(), HomeContract.View {
     private lateinit var root: View
 
     //View widgets
-    private lateinit var btnNfc: Button
     private lateinit var dateView: TextView
 
 
