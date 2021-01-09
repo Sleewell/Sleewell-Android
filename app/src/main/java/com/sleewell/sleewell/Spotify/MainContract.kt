@@ -1,8 +1,8 @@
 package com.sleewell.sleewell.Spotify
 
 import android.text.Editable
-import com.sleewell.sleewell.mvp.Global.BasePresenter
-import com.sleewell.sleewell.mvp.Global.BaseView
+import com.sleewell.sleewell.mvp.global.BasePresenter
+import com.sleewell.sleewell.mvp.global.BaseView
 
 interface MainContract {
     interface Model {
