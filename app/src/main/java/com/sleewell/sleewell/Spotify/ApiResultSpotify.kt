@@ -1,7 +1,6 @@
 package com.sleewell.sleewell.Spotify
 
 import com.google.gson.annotations.SerializedName
-import com.sleewell.sleewell.OpenWeather.*
 import java.util.*
 
 data class ApiResultSpotify(var id: String?) {
