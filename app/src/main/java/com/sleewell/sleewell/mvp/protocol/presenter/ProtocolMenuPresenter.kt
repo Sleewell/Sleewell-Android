@@ -53,8 +53,10 @@ class ProtocolMenuPresenter(private var view: ProtocolMenuContract.View, private
         lockScreen.enableShowWhenLock()
         lockScreen.enableKeepScreenOn()
         view.printHalo(model.getSizeOfCircle())
-        /*// TODO: if (settings.getHalo()) {
-        startHalo()*/
+        // TODO: if (settings.getHalo()) {
+        startHalo()
+        // TODO: setColorAccordingToSettings
+
         playMusic()
 
         startAnalyse()

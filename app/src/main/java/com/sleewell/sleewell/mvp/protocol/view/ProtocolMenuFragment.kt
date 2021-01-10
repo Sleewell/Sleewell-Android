@@ -1,10 +1,11 @@
 package com.sleewell.sleewell.mvp.protocol.view
 
-import android.content.Intent
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.graphics.ColorFilter
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,22 +15,32 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.modules.gesturelistener.OnSwipeListener
+import com.sleewell.sleewell.modules.gesturelistener.UserInteractionListener
+import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.protocol.ProtocolMenuContract
 import com.sleewell.sleewell.mvp.protocol.presenter.ProtocolMenuPresenter
-import com.sleewell.sleewell.mvp.protocol.presenter.ProtocolPresenter
 import es.claucookie.miniequalizerlibrary.EqualizerView
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 
-class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View {
+class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteractionListener {
     //Context
     private lateinit var presenter: ProtocolMenuContract.Presenter
     private lateinit var root: View
+
+    private var shortAnimationDuration: Int = 0
+    private var inactivityDuration: Long = 4 // in seconds
+    private var handler = Handler()
+    private var displayHalo = Runnable {
+        fadeIn()
+    }
+    private var isHaloDisplayed: Boolean = false
 
     //widgets
     private lateinit var navController: NavController
@@ -40,13 +51,16 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View {
     private lateinit var container: ConstraintLayout
 
     private lateinit var halo: ImageView
+    private lateinit var haloBackground: View
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         root =  inflater.inflate(R.layout.new_fragment_protocol_menu, container, false)
+
+        (requireActivity() as MainActivity).setUserInteractionListener(this)
+        onUserInteraction()
         initActivityWidgets()
         setPresenter(ProtocolMenuPresenter(this, this.activity as AppCompatActivity))
 
@@ -60,7 +74,10 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View {
         musicButton = root.findViewById(R.id.musicButton)
         equalizer = root.findViewById<View>(R.id.equalizer_view) as EqualizerView
         container = root.findViewById(R.id.protocol_layout)
+
         halo =  root.findViewById(R.id.halo)
+        haloBackground = root.findViewById(R.id.halo_background)
+        shortAnimationDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             dateView.text = LocalDate.now().format(DateTimeFormatter.ofPattern("EEE d LLL"))
@@ -103,6 +120,61 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View {
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
     }
 
+    override fun onUserInteraction() {
+        if (isHaloDisplayed) {
+            fadeOut()
+            handler.removeCallbacks(displayHalo)
+        } else {
+            handler.removeCallbacks(displayHalo)
+            handler.postDelayed(displayHalo,  inactivityDuration * 1000)
+        }
+    }
+
+    private fun fadeIn() {
+        isHaloDisplayed = true
+
+        haloBackground.apply {
+            alpha = 0f
+            visibility = View.VISIBLE
+
+            animate()
+                .alpha(1f)
+                .setDuration(shortAnimationDuration.toLong())
+                .setListener(null)
+        }
+        halo.apply {
+            alpha = 0f
+            visibility = View.VISIBLE
+
+            animate()
+                .alpha(1f)
+                .setDuration(shortAnimationDuration.toLong())
+                .setListener(null)
+        }
+    }
+
+    private fun fadeOut() {
+        isHaloDisplayed = false
+
+        haloBackground.animate()
+            .alpha(0f)
+            .setDuration(shortAnimationDuration.toLong())
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    haloBackground.visibility = View.GONE
+                }
+            })
+        halo.animate()
+            .alpha(0f)
+            .setDuration(shortAnimationDuration.toLong())
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    halo.visibility = View.GONE
+                    onUserInteraction()
+                }
+            })
+    }
+
     override fun animateEqualizer(state: Boolean) {
         if (state) {
             equalizer.animateBars()
@@ -118,5 +190,15 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View {
     override fun setPresenter(presenter: ProtocolMenuContract.Presenter) {
         this.presenter = presenter
         presenter.onViewCreated()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.onDestroy()
     }
 }

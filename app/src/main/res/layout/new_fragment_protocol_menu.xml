@@ -90,7 +90,6 @@
         android:id="@+id/equalizer_view"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:visibility="visible"
         app:animDuration="3500"
         app:foregroundColor="@color/textOnBackground"
         app:layout_constraintBottom_toBottomOf="@+id/musicButton"
@@ -99,6 +98,7 @@
         app:layout_constraintTop_toTopOf="@+id/musicButton" />
 
     <View
+        android:id="@+id/halo_background"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/rectangle_rounded"
