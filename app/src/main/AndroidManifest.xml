@@ -51,7 +51,7 @@
         <activity
             android:name=".mvp.settings.view.SettingsActivity"
             android:label="Settings" />
-        <activity android:name=".reveil.DesactivationActivity"
+        <activity android:name="com.example.prototype_database.DesactivationActivity"
             android:label="Desactivation"
             android:theme="@style/AppTheme.NoActionBar"/>
 
