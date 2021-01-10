@@ -48,14 +48,14 @@ class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: IAudioAnal
         val dir = File(outputDirectory)
 
         if (!dir.exists()) {
-            return Array(0) { _ -> File(".") }
+            return arrayOf()
         }
         val files = dir.listFiles()
         if (files != null) {
             files.sortBy { it.name }
             return files
         }
-        return Array(0) { _ -> File(".") }
+        return arrayOf()
     }
 
     /**
@@ -67,7 +67,7 @@ class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: IAudioAnal
     fun readAnalyse(analyse: File) {
 
         scopeIO.run {
-            val emptyArray = Array(0) { _ -> AnalyseValue() }
+            val emptyArray = arrayOf<AnalyseValue>()
 
             if (!analyse.exists()) {
                 listener.onAnalyseRecordError("File " + analyse.name + " doesn't exist")
@@ -248,13 +248,9 @@ class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: IAudioAnal
      * @return the current date with the time
      */
     private fun getCurrentDateHour(): String {
-        /*val stringTime2 = DateTimeFormatter
-            .ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")
-            .withZone(ZoneOffset.systemDefault())
-            .format(Instant.ofEpochSecond(Instant.now()))*/
 
         return DateTimeFormatter
-            .ofPattern("yyyy-MM-dd-HH:mm:ss")
+            .ofPattern("yyyy-MM-dd_HH:mm:ss")
             .withZone(ZoneOffset.systemDefault())
             .format(Instant.now())
     }

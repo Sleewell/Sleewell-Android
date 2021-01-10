@@ -13,12 +13,14 @@ class StatisticsModel(
     StatisticsContract.Model, IAudioAnalyseRecordListener {
 
     private val analyse = AudioAnalyseFileUtils(context, this)
+    private var analyseFileDate = ""
 
     override fun getLastAnalyse() {
         val files = analyse.readDirectory()
         if (files.isEmpty()) {
-            listener.onDataAnalyse(Array(0) { AnalyseValue() })
+            listener.onDataAnalyse(arrayOf())
         } else {
+            analyseFileDate = files[0].name
             analyse.readAnalyse(files[0])
         }
     }
@@ -27,7 +29,7 @@ class StatisticsModel(
     }
 
     override fun onReadAnalyseRecord(data: Array<AnalyseValue>) {
-        // TODO( "modifier l'array pour supprimer les données avec le meme timestamp qui ont les DB les plus faibles" )
+        listener.onDataAnalyseDate(analyseFileDate)
         listener.onDataAnalyse(data)
     }
 

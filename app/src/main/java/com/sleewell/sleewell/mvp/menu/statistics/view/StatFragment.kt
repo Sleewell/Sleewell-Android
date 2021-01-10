@@ -1,22 +1,22 @@
 package com.sleewell.sleewell.mvp.menu.statistics.view
 
+import android.icu.util.ValueIterator
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import com.github.aachartmodel.aainfographics.aachartcreator.*
 import com.github.aachartmodel.aainfographics.aaoptionsmodel.AACrosshair
 import com.github.aachartmodel.aainfographics.aaoptionsmodel.AAStyle
 import com.github.aachartmodel.aainfographics.aaoptionsmodel.AATooltip
-import com.github.aachartmodel.aainfographics.aatools.AAColor
 import com.github.aachartmodel.aainfographics.aatools.AAGradientColor
 import com.sleewell.sleewell.R
-import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.mvp.menu.statistics.StatisticsContract
-import java.util.*
+import com.sleewell.sleewell.mvp.menu.statistics.presenter.StatisticsPresenter
+import com.sleewell.sleewell.mvp.statistics.model.AnalyseValueStatistic
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,6 +37,15 @@ class StatFragment : Fragment(), StatisticsContract.View {
     private lateinit var presenter: StatisticsContract.Presenter
     private lateinit var root: View
 
+    // Chart
+    private lateinit var aaChartModel: AAChartModel
+
+    //widgets
+    private lateinit var aaChartView: AAChartView
+    private lateinit var textView: TextView
+    private lateinit var loadingProgressBar: ProgressBar
+    private lateinit var errorIcon: ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -51,84 +60,17 @@ class StatFragment : Fragment(), StatisticsContract.View {
         savedInstanceState: Bundle?
     ): View {
         root = inflater.inflate(R.layout.new_fragment_stat, container, false)
-
-        val aaChartView: AAChartView = root.findViewById(R.id.AAChartView)
-        /*aaChartView.background?.alpha = 0*/
-        val aaChartModel: AAChartModel = AAChartModel()
-            .chartType(AAChartType.Areaspline)
-            .axesTextColor("#8a9198")
-            .backgroundColor("none")
-            .legendEnabled(false)
-            .dataLabelsEnabled(false)
-            .colorsTheme(arrayOf(AAGradientColor.linearGradient("#04141c", "#8a9198")))
-            .markerRadius(0f)
-            .gradientColorEnable(true)
-            .yAxisGridLineWidth(0f)
-            .yAxisTitle("Db")
-            .animationType(AAChartAnimationType.EaseInOutSine)
-            .animationDuration(1000)
-            .categories(
-                arrayOf(
-                    "20:00",
-                    "7:00"
-                )
-            ) // TODO mettre l'heure que l'on récupèrera des datas au format : HH-MM-SS
-            .series(
-                arrayOf(
-                    AASeriesElement()
-                        .name("Tokyo")
-                        .data(
-                            arrayOf(
-                                0.0,
-                                6.9,
-                                9.5,
-                                14.5,
-                                18.2,
-                                21.5,
-                                25.2,
-                                26.5,
-                                23.3,
-                                18.3,
-                                13.9,
-                                0.0
-                            )
-                        )
-                )
-            )
-
-        val toolTips = AATooltip()
-            .useHTML(true)
-            .formatter(
-                """
-function () {
-        return ' Sound detected around <b> '
-        +  this.x
-        + ' </b> ';
-        }
-             """.trimIndent()
-            )
-            .valueDecimals(2)
-            .backgroundColor("#000000")
-            .borderColor("#000000")
-            .style(
-                AAStyle()
-                    .color("#8a9198")
-                    .fontSize(12f)
-            )
-        val options = aaChartModel.aa_toAAOptions()
-
-        options.xAxis!!
-            .lineColor("none")//X轴轴线颜色
-            .crosshair(
-                AACrosshair()
-                    .color("none")
-            )
-        options.yAxis?.gridLineWidth(0f)
-
-        options.tooltip = toolTips
-        aaChartView.aa_drawChartWithChartOptions(options)
-
+        setPresenter(StatisticsPresenter(root.context as AppCompatActivity, this))
+        initWidgets()
+        presenter.refreshAnalyse()
         return root
+    }
+
+    private fun initWidgets() {
+        aaChartView = root.findViewById(R.id.AAChartView)
+        textView = root.findViewById(R.id.textView)
+        loadingProgressBar = root.findViewById(R.id.progressBar)
+        errorIcon = root.findViewById(R.id.imageView)
     }
 
     companion object {
@@ -151,16 +93,83 @@ function () {
             }
     }
 
-    override fun displayAnalyse(datas: Array<AnalyseValue>) {
-        TODO("Not yet implemented")
+    override fun displayAnalyse(datas: Array<AnalyseValueStatistic>) {
+        aaChartModel = AAChartModel()
+            .chartType(AAChartType.Areaspline)
+            .axesTextColor("#8a9198")
+            .backgroundColor("none")
+            .legendEnabled(false)
+            .dataLabelsEnabled(false)
+            .colorsTheme(arrayOf(AAGradientColor.linearGradient("#04141c", "#8a9198")))
+            .markerRadius(0f)
+            .gradientColorEnable(true)
+            .yAxisGridLineWidth(0f)
+            .yAxisTitle("dB")
+            .animationType(AAChartAnimationType.EaseInOutSine)
+            .animationDuration(1000)
+            .categories(
+                Array(datas.size) { i ->  datas[i].ts }
+            )
+            .series(
+                arrayOf(
+                    AASeriesElement().data(
+                        Array(datas.size) { i ->  datas[i].db }
+                    )
+                )
+            )
+
+        val toolTips = AATooltip()
+            .useHTML(true)
+            .formatter(
+                """
+function () {
+        return ' Sound detected around <b> '
+        +  this.x
+        + ' </b> of <b>'
+        +  this.y.toFixed(2)
+        + '</b> dB';
+        }
+             """.trimIndent()
+            )
+            .valueDecimals(2)
+            .backgroundColor("#000000")
+            .borderColor("#000000")
+            .style(
+                AAStyle()
+                    .color("#8a9198")
+                    .fontSize(12f)
+            )
+        val options = aaChartModel.aa_toAAOptions()
+
+        if (options.xAxis != null) {
+            options.xAxis!!
+                .lineColor("none")
+                .crosshair(
+                    AACrosshair()
+                        .color("none")
+                )
+        }
+        options.yAxis?.gridLineWidth(0f)
+
+        options.tooltip = toolTips
+        aaChartView.aa_drawChartWithChartOptions(options)
+        loadingProgressBar.visibility = View.GONE
+    }
+
+    override fun displayAnalyseDate(data: String) {
+        textView.text = data
     }
 
     override fun noAnalyseFound() {
-        TODO("Not yet implemented")
+        textView.text = "No analyse found"
+        errorIcon.visibility = View.VISIBLE
+        loadingProgressBar.visibility = View.GONE
     }
 
     override fun onError(msg: String) {
         Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
+        loadingProgressBar.visibility = View.GONE
+        errorIcon.visibility = View.VISIBLE
     }
 
     /**
