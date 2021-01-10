@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import com.github.aachartmodel.aainfographics.aachartcreator.*
+import com.github.aachartmodel.aainfographics.aaoptionsmodel.AACrosshair
 import com.github.aachartmodel.aainfographics.aaoptionsmodel.AAStyle
 import com.github.aachartmodel.aainfographics.aaoptionsmodel.AATooltip
+import com.github.aachartmodel.aainfographics.aatools.AAColor
 import com.github.aachartmodel.aainfographics.aatools.AAGradientColor
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
@@ -60,9 +62,11 @@ class StatFragment : Fragment(), StatisticsContract.View {
             .dataLabelsEnabled(false)
             .colorsTheme(arrayOf(AAGradientColor.linearGradient("#04141c", "#8a9198")))
             .markerRadius(0f)
-            .stacking(AAChartStackingType.Normal)
             .gradientColorEnable(true)
             .yAxisGridLineWidth(0f)
+            .yAxisTitle("Db")
+            .animationType(AAChartAnimationType.EaseInOutSine)
+            .animationDuration(1000)
             .categories(
                 arrayOf(
                     "20:00",
@@ -92,31 +96,35 @@ class StatFragment : Fragment(), StatisticsContract.View {
                 )
             )
 
-        //val option = aaChartModel.aa_toAAOptions()
         val toolTips = AATooltip()
             .useHTML(true)
             .formatter(
                 """
 function () {
-        return ' 🌕 🌖 🌗 🌘 🌑 🌒 🌓 🌔 <br/> '
-        + ' Support JavaScript Function Just Right Now !!! <br/> '
-        + ' The Gold Price For <b>2020 '
+        return ' Sound detected around <b> '
         +  this.x
-        + ' </b> Is <b> '
-        +  this.y
-        + ' </b> Dollars ';
+        + ' </b> ';
         }
              """.trimIndent()
             )
-            .valueDecimals(2)//设置取值精确到小数点后几位//设置取值精确到小数点后几位
+            .valueDecimals(2)
             .backgroundColor("#000000")
             .borderColor("#000000")
             .style(
                 AAStyle()
-                    .color("#FFD700")
+                    .color("#8a9198")
                     .fontSize(12f)
             )
         val options = aaChartModel.aa_toAAOptions()
+
+        options.xAxis!!
+            .lineColor("none")//X轴轴线颜色
+            .crosshair(
+                AACrosshair()
+                    .color("none")
+            )
+        options.yAxis?.gridLineWidth(0f)
+
         options.tooltip = toolTips
         aaChartView.aa_drawChartWithChartOptions(options)
 
