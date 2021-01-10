@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".mvp.menu.statistics.view.StatFragment">
 
-    <com.aachartmodel.aainfographics.AAInfographicsLib.AAChartCreator.AAChartView
+    <com.github.aachartmodel.aainfographics.aachartcreator.AAChartView
         android:id="@+id/AAChartView"
         android:layout_width="412dp"
         android:layout_height="400dp"
@@ -15,7 +15,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.50" />
+        app:layout_constraintVertical_bias="0.50">
+    </com.github.aachartmodel.aainfographics.aachartcreator.AAChartView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

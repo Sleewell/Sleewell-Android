@@ -8,7 +8,10 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.aachartmodel.aainfographics.AAInfographicsLib.AAChartCreator.*
+import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
+import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
+import com.github.aachartmodel.aainfographics.aachartcreator.AAChartView
+import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.modules.audio.audioTransformation.SoundDataUtils
 import com.sleewell.sleewell.mvp.statistics.StatisticsContract

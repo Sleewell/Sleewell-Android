@@ -7,9 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
-import com.aachartmodel.aainfographics.AAInfographicsLib.AAChartCreator.*
-import com.aachartmodel.aainfographics.AAInfographicsLib.AAOptionsModel.AAStyle
-import com.aachartmodel.aainfographics.AAInfographicsLib.AAOptionsModel.AATooltip
+import com.github.aachartmodel.aainfographics.aachartcreator.*
+import com.github.aachartmodel.aainfographics.aaoptionsmodel.AAStyle
+import com.github.aachartmodel.aainfographics.aaoptionsmodel.AATooltip
+import com.github.aachartmodel.aainfographics.aatools.AAGradientColor
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.mvp.menu.statistics.StatisticsContract
@@ -115,7 +116,9 @@ function () {
                     .color("#FFD700")
                     .fontSize(12f)
             )
-        aaChartView.aa_drawChartWithChartModel(aaChartModel)
+        val options = aaChartModel.aa_toAAOptions()
+        options.tooltip = toolTips
+        aaChartView.aa_drawChartWithChartOptions(options)
 
         return root
     }
