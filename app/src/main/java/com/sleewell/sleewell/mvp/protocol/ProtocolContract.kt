@@ -150,14 +150,6 @@ interface ProtocolContract {
 
     interface View : BaseView<Presenter> {
         /**
-         * Function that enable the phone auto lock on the activity
-         *
-         * @param value : true or false
-         * @author Hugo Berthomé
-         */
-        fun enableAutoLock(value: Boolean)
-
-        /**
          * This method display the halo with the size give in param
          *
          * @param size size of the the halo

@@ -10,16 +10,6 @@ import androidx.navigation.fragment.NavHostFragment
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.modules.navigation.CustomNavBar
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [MenuFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MenuFragment : Fragment() {
     private lateinit var root: View
 
@@ -38,7 +28,6 @@ class MenuFragment : Fragment() {
      * Initialise all the widgets from the layout
      */
     private fun initActivityWidgets() {
-
         val nestedNavHostFragment = childFragmentManager.findFragmentById(R.id.nav_menu) as? NavHostFragment
         val navController = nestedNavHostFragment?.navController
 

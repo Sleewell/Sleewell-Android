@@ -18,7 +18,7 @@ interface MenuContract {
         fun onViewCreated()
     }
 
-    interface View : BaseView<HomeContract.Presenter> {
+    interface View : BaseView<Presenter> {
 
     }
 }
