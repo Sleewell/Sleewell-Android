@@ -96,10 +96,7 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
                     formatter.format(Instant.ofEpochSecond(lastData.ts))
                 )
             )
-
-            scopeMainThread.run {
-                view.displayAnalyse(listData.toTypedArray())
-            }
+            view.displayAnalyse(listData.toTypedArray())
         }
     }
 

@@ -103,8 +103,10 @@ class StatFragment : Fragment(), StatisticsContract.View {
             .colorsTheme(arrayOf(AAGradientColor.linearGradient("#04141c", "#8a9198")))
             .markerRadius(0f)
             .gradientColorEnable(true)
+            .yAxisMax(55f)
             .yAxisGridLineWidth(0f)
             .yAxisTitle("dB")
+            .zoomType(AAChartZoomType.X)
             .animationType(AAChartAnimationType.EaseInOutSine)
             .animationDuration(1000)
             .categories(
@@ -153,7 +155,7 @@ function () {
 
         options.tooltip = toolTips
         aaChartView.aa_drawChartWithChartOptions(options)
-        loadingProgressBar.visibility = View.GONE
+        loadingProgressBar.visibility = View.INVISIBLE
     }
 
     override fun displayAnalyseDate(data: String) {
