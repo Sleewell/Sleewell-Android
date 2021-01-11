@@ -24,8 +24,10 @@
     <!-- Settings -->
     <string name="setting_network_name">Network</string>
     <string name="setting_network_summary">Customise the network during the protocol</string>
+    <string name="setting_network_return_key">network_return_pref</string>
     <string name="setting_notification_name">Notifications</string>
     <string name="setting_notification_summary">Customise the notifications</string>
+    <string name="setting_notification_return_key">notification_return_pref</string>
     <string name="setting_wifi_key">wifi</string>
     <string name="setting_wifi_name">Wifi</string>
     <string name="setting_wifi_summary_on">Wifi is on during protocol</string>
@@ -45,8 +47,8 @@
     <!-- Settings file name-->
     <string name="setting_file_network">com.sleewell.sleewell.network</string>
     <string name="setting_file_notification">com.sleewell.sleewell.notification</string>
-    <!-- fragment label -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Fragment labels -->
     <string name="home_label">new_fragment_home</string>
     <string name="alarm_label">new_fragment_alarm</string>
     <string name="settings_label">new_fragment_settings</string>

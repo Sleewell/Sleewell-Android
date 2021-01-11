@@ -5,13 +5,13 @@
     <Preference
         app:title="@string/setting_network_name"
         app:summary="@string/setting_network_summary"
-        app:fragment="com.sleewell.sleewell.mvp.settings.view.SettingsActivity$NetworkPreferencesFragment"
-        app:icon="@drawable/ic_setting"/>
+        app:fragment="com.sleewell.sleewell.mvp.menu.settings.view.SettingsFragment$NetworkPreferencesFragment"
+        app:icon="@drawable/network_cell_24px"/>
 
     <Preference
         app:title="@string/setting_notification_name"
         app:summary="@string/setting_notification_summary"
-        app:fragment="com.sleewell.sleewell.mvp.settings.view.SettingsActivity$NotificationPreferencesFragment"
-        app:icon="@drawable/ic_setting"/>
+        app:fragment="com.sleewell.sleewell.mvp.menu.settings.view.SettingsFragment$NotificationPreferencesFragment"
+        app:icon="@drawable/notifications_24px"/>
 
 </androidx.preference.PreferenceScreen>

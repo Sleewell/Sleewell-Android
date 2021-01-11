@@ -29,7 +29,6 @@
         <activity android:name=".mvp.mainActivity.view.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/DesignTheme"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
