@@ -113,33 +113,11 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
             if (currentAlarm.activate) {
                 val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-                //Stop the previous alarm
-                val stopIntent = Intent(requireContext(), AlarmReceiver::class.java)
-                val stopBundle = Bundle()
-                stopBundle.putParcelable("alarm", currentAlarm)
-                stopIntent.putExtra("ALARM", stopBundle)
-                presenter.stopAlarm(alarmManager, stopIntent, requireContext(), currentAlarm)
+                initStopAlarm(alarmManager, currentAlarm)
+                initStopAlert(alarmManager, currentAlarm)
 
-                //Stop the previous alert
-                val intentAlertStop = Intent(context, AlertReceiver::class.java)
-                val bundleAlertStop = Bundle()
-                bundleAlertStop.putParcelable("alarm", currentAlarm)
-                intentAlertStop.putExtra("ALARM", bundleAlertStop)
-                presenter.stopAlert(alarmManager, intentAlertStop, requireContext(), currentAlarm)
-
-                //Start the new alarm
-                val intentAlarm = Intent(context, AlarmReceiver::class.java)
-                val bundle = Bundle()
-                bundle.putParcelable("alarm", updateAlarm)
-                intentAlarm.putExtra("ALARM", bundle)
-                presenter.startAlarm(alarmManager, intentAlarm, requireContext(), currentAlarm)
-
-                //Start the new alert
-                val intentAlert = Intent(context, AlertReceiver::class.java)
-                val bundleAlert = Bundle()
-                bundleAlert.putParcelable("alarm", updateAlarm)
-                intentAlert.putExtra("ALARM", bundleAlert)
-                presenter.startAlert(alarmManager, intentAlert, requireContext(), currentAlarm)
+                initStartAlarm(alarmManager, updateAlarm)
+                initStartAlert(alarmManager, updateAlarm)
             }
         }
         TimePickerDialog(
@@ -177,18 +155,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
         presenter.updateAlarm(updateAlarm, mAlarmViewModel)
 
         val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-        val intentAlarm = Intent(context, AlarmReceiver::class.java)
-        val bundle = Bundle()
-        bundle.putParcelable("alarm", updateAlarm)
-        intentAlarm.putExtra("ALARM", bundle)
-        presenter.startAlarm(alarmManager, intentAlarm, requireContext(), currentAlarm)
-
-        val intentAlert = Intent(context, AlertReceiver::class.java)
-        val bundleAlert = Bundle()
-        bundleAlert.putParcelable("alarm", currentAlarm)
-        intentAlert.putExtra("ALARM", bundleAlert)
-        presenter.startAlert(alarmManager, intentAlert, requireContext(), currentAlarm)
+        initStartAlarm(alarmManager, updateAlarm)
+        initStartAlert(alarmManager, updateAlarm)
     }
 
     /**
@@ -200,17 +168,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
     override fun snoozeAlarm(currentAlarm: Alarm) {
         val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        val stopIntent = Intent(requireContext(), AlarmReceiver::class.java)
-        val stopBundle = Bundle()
-        stopBundle.putParcelable("alarm", currentAlarm)
-        stopIntent.putExtra("ALARM", stopBundle)
-        presenter.stopAlarm(alarmManager, stopIntent, requireContext(), currentAlarm)
-
-        val intentAlert = Intent(context, AlertReceiver::class.java)
-        val bundleAlert = Bundle()
-        bundleAlert.putParcelable("alarm", currentAlarm)
-        intentAlert.putExtra("ALARM", bundleAlert)
-        presenter.stopAlert(alarmManager, intentAlert, requireContext(), currentAlarm)
+        initStopAlarm(alarmManager, currentAlarm)
+        initStopAlert(alarmManager, currentAlarm)
 
         val snoozeIntent = Intent(requireContext(), AlarmReceiver::class.java)
         val snoozeBundle = Bundle()
@@ -230,18 +189,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
         presenter.updateAlarm(updateAlarm, mAlarmViewModel)
 
         val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-        val stopIntent = Intent(requireContext(), AlarmReceiver::class.java)
-        val stopBundle = Bundle()
-        stopBundle.putParcelable("alarm", currentAlarm)
-        stopIntent.putExtra("ALARM", stopBundle)
-        presenter.stopAlarm(alarmManager, stopIntent, requireContext(), currentAlarm)
-
-        val intentAlert = Intent(context, AlertReceiver::class.java)
-        val bundleAlert = Bundle()
-        bundleAlert.putParcelable("alarm", currentAlarm)
-        intentAlert.putExtra("ALARM", bundleAlert)
-        presenter.stopAlert(alarmManager, intentAlert, requireContext(), currentAlarm)
+        initStopAlarm(alarmManager, currentAlarm)
+        initStopAlert(alarmManager, currentAlarm)
     }
 
     /**
@@ -256,18 +205,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
             presenter.deleteAlarm(mAlarmViewModel, currentAlarm)
             if (currentAlarm.activate) {
                 val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-                val stopIntent = Intent(requireContext(), AlarmReceiver::class.java)
-                val stopBundle = Bundle()
-                stopBundle.putParcelable("alarm", currentAlarm)
-                stopIntent.putExtra("ALARM", stopBundle)
-                presenter.stopAlarm(alarmManager, stopIntent, requireContext(), currentAlarm)
-
-                val intentAlert = Intent(context, AlertReceiver::class.java)
-                val bundleAlert = Bundle()
-                bundleAlert.putParcelable("alarm", currentAlarm)
-                intentAlert.putExtra("ALARM", bundleAlert)
-                presenter.stopAlert(alarmManager, intentAlert, requireContext(), currentAlarm)
+                initStopAlarm(alarmManager, currentAlarm)
+                initStopAlert(alarmManager, currentAlarm)
             }
         }
         builder.setNegativeButton("No") { _, _ ->}
@@ -283,5 +222,65 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
      */
     override fun setPresenter(presenter: AlarmContract.Presenter) {
         this.presenter = presenter
+    }
+
+    /**
+     * Prepare the starting of the alarm
+     *
+     * @param alarmManager Alarm manager for the alarms
+     * @param currentAlarm Alarm to start
+     * @author Romane Bézier
+     */
+    private fun initStartAlarm(alarmManager: AlarmManager, currentAlarm: Alarm) {
+        val intentAlarm = Intent(context, AlarmReceiver::class.java)
+        val bundle = Bundle()
+        bundle.putParcelable("alarm", currentAlarm)
+        intentAlarm.putExtra("ALARM", bundle)
+        presenter.startAlarm(alarmManager, intentAlarm, requireContext(), currentAlarm)
+    }
+
+    /**
+     * Prepare the starting of the lert
+     *
+     * @param alarmManager Alarm manager for the alarms
+     * @param currentAlarm Alarm to start
+     * @author Romane Bézier
+     */
+    private fun initStartAlert(alarmManager: AlarmManager, currentAlarm: Alarm) {
+        val intentAlert = Intent(context, AlertReceiver::class.java)
+        val bundleAlert = Bundle()
+        bundleAlert.putParcelable("alarm", currentAlarm)
+        intentAlert.putExtra("ALARM", bundleAlert)
+        presenter.startAlert(alarmManager, intentAlert, requireContext(), currentAlarm)
+    }
+
+    /**
+     * Prepare the stop of the alarm
+     *
+     * @param alarmManager Alarm manager for the alarms
+     * @param currentAlarm Alarm to stop
+     * @author Romane Bézier
+     */
+    private fun initStopAlarm(alarmManager: AlarmManager, currentAlarm: Alarm) {
+        val stopIntent = Intent(requireContext(), AlarmReceiver::class.java)
+        val stopBundle = Bundle()
+        stopBundle.putParcelable("alarm", currentAlarm)
+        stopIntent.putExtra("ALARM", stopBundle)
+        presenter.stopAlarm(alarmManager, stopIntent, requireContext(), currentAlarm)
+    }
+
+    /**
+     * Prepare the stop of the alert
+     *
+     * @param alarmManager Alarm manager for the alarms
+     * @param currentAlarm Alarm to stop
+     * @author Romane Bézier
+     */
+    private fun initStopAlert(alarmManager: AlarmManager, currentAlarm: Alarm) {
+        val intentAlert = Intent(context, AlertReceiver::class.java)
+        val bundleAlert = Bundle()
+        bundleAlert.putParcelable("alarm", currentAlarm)
+        intentAlert.putExtra("ALARM", bundleAlert)
+        presenter.stopAlert(alarmManager, intentAlert, requireContext(), currentAlarm)
     }
 }
