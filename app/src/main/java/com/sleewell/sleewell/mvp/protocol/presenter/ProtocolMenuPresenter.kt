@@ -64,7 +64,6 @@ class ProtocolMenuPresenter(private var view: ProtocolMenuContract.View, private
 
     override fun onDestroy() {
         connection.switchToSleepMode(false)
-        lockScreen.disableShowWhenLock()
         lockScreen.disableKeepScreenOn()
 
         model.cleanUp()
@@ -98,6 +97,10 @@ class ProtocolMenuPresenter(private var view: ProtocolMenuContract.View, private
     override fun stopHalo() {
         timer.cancel()
         // TODO: go to menu
+    }
+
+    override fun disableShowWhenLock() {
+        lockScreen.disableShowWhenLock()
     }
 
     override fun startAnalyse() {

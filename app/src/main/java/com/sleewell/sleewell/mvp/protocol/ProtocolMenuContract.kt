@@ -65,6 +65,13 @@ interface ProtocolMenuContract {
          * @author Hugo Berthomé
          */
         fun resumeAnalyse()
+
+        /**
+         * Remove the show when locked flag to the activity
+         *
+         * @author Titouan FIANCETTE
+         */
+        fun disableShowWhenLock()
     }
 
     interface View : BaseView<Presenter> {

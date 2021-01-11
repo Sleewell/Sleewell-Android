@@ -89,6 +89,7 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
             override fun onSwipeTop() {
                 // navigate to menu
                 navController.navigate(R.id.action_protocolMenuFragment_to_menuFragment)
+                presenter.disableShowWhenLock()
             }
 
             override fun onSwipeBottom() {}
@@ -190,11 +191,6 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
     override fun setPresenter(presenter: ProtocolMenuContract.Presenter) {
         this.presenter = presenter
         presenter.onViewCreated()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.onDestroy()
     }
 
     override fun onStop() {
