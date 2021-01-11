@@ -277,33 +277,6 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
     }
 
     /**
-     * Delete all the alarms
-     *
-     * @author Romane Bézier
-     */
-    override fun deleteAllAlarms() {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setPositiveButton("Yes") { _, _ ->
-            presenter.deleteAllAlarms(mAlarmViewModel)
-        }
-        builder.setNegativeButton("No") { _, _ -> }
-        builder.setTitle("Delete everything?")
-        builder.setMessage("Are you sure you want to delete everything?")
-        builder.create().show()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.delete_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_delete) {
-            deleteAllAlarms()
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    /**
      * Set the presenter of the view
      *
      * @param presenter The presenter

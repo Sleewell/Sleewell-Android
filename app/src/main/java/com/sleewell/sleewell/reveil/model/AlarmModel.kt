@@ -26,7 +26,7 @@ class AlarmModel : AlarmContract.Model {
     /**
      * Update the alarm
      *
-     * @param alarm Alarm to update
+     * @param updateAlarm Alarm to update
      * @param mAlarmViewModel View model of the alarm
      * @author Romane Bézier
      */
@@ -43,16 +43,6 @@ class AlarmModel : AlarmContract.Model {
      */
     override fun deleteAlarm(mAlarmViewModel: AlarmViewModel, alarm: Alarm) {
         mAlarmViewModel.deleteAlarm(alarm)
-    }
-
-    /**
-     * Delete all the alarms
-     *
-     * @param mAlarmViewModel View model of the alarm
-     * @author Romane Bézier
-     */
-    override fun deleteAllAlarms(mAlarmViewModel: AlarmViewModel) {
-        mAlarmViewModel.deleteAllAlarms()
     }
 
     /**

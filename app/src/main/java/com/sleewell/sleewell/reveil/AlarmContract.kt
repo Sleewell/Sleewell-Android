@@ -34,14 +34,6 @@ interface AlarmContract {
         fun deleteAlarm(mAlarmViewModel: AlarmViewModel, alarm: Alarm)
 
         /**
-         * Delete all the alarms
-         *
-         * @param mAlarmViewModel View model of the alarm
-         * @author Romane Bézier
-         */
-        fun deleteAllAlarms(mAlarmViewModel: AlarmViewModel)
-
-        /**
          * Save the alarm
          *
          * @param time Time of the alarm
@@ -141,14 +133,6 @@ interface AlarmContract {
          * @author Romane Bézier
          */
         fun deleteAlarm(mAlarmViewModel: AlarmViewModel, alarm: Alarm)
-
-        /**
-         * Delete all the alarms
-         *
-         * @param mAlarmViewModel View model of the alarm
-         * @author Romane Bézier
-         */
-        fun deleteAllAlarms(mAlarmViewModel: AlarmViewModel)
 
         /**
          * Save the alarm
@@ -274,12 +258,5 @@ interface AlarmContract {
          * @author Romane Bézier
          */
         fun deleteAlarm(currentAlarm: Alarm)
-
-        /**
-         * Delete all the alarms
-         *
-         * @author Romane Bézier
-         */
-        fun deleteAllAlarms()
     }
 }

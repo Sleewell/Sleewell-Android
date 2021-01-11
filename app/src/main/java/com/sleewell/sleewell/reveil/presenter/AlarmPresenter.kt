@@ -54,15 +54,6 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
     }
 
     /**
-     * Delete all the alarms
-     *
-     * @param mAlarmViewModel View model of the alarm
-     * @author Romane Bézier
-     */
-    override fun deleteAllAlarms(mAlarmViewModel: AlarmViewModel) {
-        model.deleteAllAlarms(mAlarmViewModel)
-    }
-    /**
      * Save the alarm
      *
      * @param time Time of the alarm
