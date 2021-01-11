@@ -138,6 +138,20 @@ class AlarmModel : AlarmContract.Model {
     }
 
     /**
+     * Stop the alert
+     *
+     * @param alarmManager Alarm manager of phone
+     * @param intent Intent of the activity
+     * @param context Context of the activity
+     * @param currentAlarm Current alarm
+     * @author Romane Bézier
+     */
+    override fun stopAlert(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm) {
+        val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
+        alarmManager.cancel(pendingIntent)
+    }
+
+    /**
      * Get time of the alarm
      *
      * @param hourOfDay Hour of the alarm

@@ -125,6 +125,19 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
     }
 
     /**
+     * Stop the alert
+     *
+     * @param alarmManager Alarm manager of phone
+     * @param intent Intent of the activity
+     * @param context Context of the activity
+     * @param currentAlarm Current alarm
+     * @author Romane Bézier
+     */
+    override fun stopAlert(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm) {
+        model.stopAlert(alarmManager, intent, context, currentAlarm)
+    }
+
+    /**
      * Get time of the alarm
      *
      * @param hourOfDay Hour of the alarm

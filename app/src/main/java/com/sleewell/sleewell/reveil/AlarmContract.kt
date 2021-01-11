@@ -94,6 +94,17 @@ interface AlarmContract {
         fun stopAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm)
 
         /**
+         * Stop the alert
+         *
+         * @param alarmManager Alarm manager of phone
+         * @param intent Intent of the activity
+         * @param context Context of the activity
+         * @param currentAlarm Current alarm
+         * @author Romane Bézier
+         */
+        fun stopAlert(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm)
+
+        /**
          * Get time of the alarm
          *
          * @param hourOfDay Hour of the alarm
@@ -190,6 +201,17 @@ interface AlarmContract {
          * @author Romane Bézier
          */
         fun stopAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm)
+
+        /**
+         * Stop the alert
+         *
+         * @param alarmManager Alarm manager of phone
+         * @param intent Intent of the activity
+         * @param context Context of the activity
+         * @param currentAlarm Current alarm
+         * @author Romane Bézier
+         */
+        fun stopAlert(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm)
 
         /**
          * Get time of the alarm
