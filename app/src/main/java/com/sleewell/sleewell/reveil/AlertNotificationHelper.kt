@@ -10,7 +10,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.sleewell.sleewell.R
-import com.sleewell.sleewell.nav.alarms.AlarmsFragment
+import com.sleewell.sleewell.mvp.menu.alarm.view.AlarmsFragment
 import com.sleewell.sleewell.reveil.data.model.Alarm
 
 /**

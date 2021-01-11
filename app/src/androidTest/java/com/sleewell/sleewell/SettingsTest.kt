@@ -39,9 +39,11 @@ class SettingsTest {
     @Test
     fun verifySettings() {
         utils.openSettings()
-        utils.openNetworkSettings()
+
+        // OLD version of the settings
+        /*utils.openNetworkSettings()
 
         utils.phoneReturnButton()
-        utils.openNotificationSettings()
+        utils.openNotificationSettings()*/
     }
 }

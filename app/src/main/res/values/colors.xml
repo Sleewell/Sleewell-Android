@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#146837</color>
-    <color name="colorPrimaryDark">#003c10</color>
+    <color name="colorPrimaryDark">#00111F</color>
     <color name="colorAccent">#333333</color>
     <color name="grey">#e0e0e0</color>
     <color name="white">#FFFFFF</color>
@@ -11,6 +11,13 @@
     <color name="black_overlay">#2D2D35</color>
     <color name="Orange">#D98735</color>
 
-    <color name="transparent">#000000FF</color>
+    <!--new design TODO: rename colors-->
+    <color name="background">#00111F</color>
+    <color name="textOnBackground">#73FFFFFF</color>
+    <color name="textButDarker">#4DFFFFFF</color>
+    <color name="textButOnImage">#7D7D7D</color>
+    <color name="level4LightOnDark">#29FFFFFF</color>
+
+    <color name="transparent">#00FFFFFF</color>
     <color name="blueButton">#324B76</color>
 </resources>

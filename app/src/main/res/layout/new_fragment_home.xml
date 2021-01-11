@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mvp.menu.home.view.HomeFragment">
+
+    <!--<Button
+        android:id="@+id/btn_nfc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <TextView
+        android:id="@+id/clock"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:fontFamily="@font/roboto_regular"
+        android:letterSpacing="0.05"
+        android:text="12:00"
+        android:textAlignment="center"
+        android:textColor="@color/textOnBackground"
+        android:textSize="80sp"
+        app:layout_constraintBottom_toTopOf="@+id/button_music"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.22000003" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="3dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="jou. 10 mois"
+        android:textAlignment="center"
+        android:textColor="@color/textOnBackground"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clock" />
+
+    <Button
+        android:id="@+id/button_music"
+        android:layout_width="270dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/button_light_rounded"
+        android:backgroundTint="@color/textOnBackground"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Sleep assistance"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@drawable/button_text_dark_color"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/button_protocol"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/button_light_rounded"
+        android:backgroundTint="@color/background"
+        app:layout_constraintBottom_toBottomOf="@+id/button_music"
+        app:layout_constraintEnd_toEndOf="@+id/button_music"
+        app:layout_constraintStart_toStartOf="@+id/button_music"
+        app:layout_constraintTop_toTopOf="@+id/button_music" />
+
+    <Button
+        android:id="@+id/button_protocol"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="55dp"
+        android:background="@drawable/button_rounded_with_stroke"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/protocol_button"
+        android:textColor="@drawable/button_text_color"
+        android:textAllCaps="false"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
