@@ -110,6 +110,30 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
             presenter.getTime(hour, minute)
             val updateAlarm = Alarm(currentAlarm.id, calendar.timeInMillis, currentAlarm.activate)
             presenter.updateAlarm(updateAlarm, mAlarmViewModel)
+            if (currentAlarm.activate) {
+                val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+                //Stop the previous alarm
+                val stopIntent = Intent(requireContext(), AlarmReceiver::class.java)
+                val stopBundle = Bundle()
+                stopBundle.putParcelable("alarm", currentAlarm)
+                stopIntent.putExtra("ALARM", stopBundle)
+                presenter.stopAlarm(alarmManager, stopIntent, requireContext(), currentAlarm)
+
+                //Start the new alarm
+                val intentAlarm = Intent(context, AlarmReceiver::class.java)
+                val bundle = Bundle()
+                bundle.putParcelable("alarm", updateAlarm)
+                intentAlarm.putExtra("ALARM", bundle)
+                presenter.startAlarm(alarmManager, intentAlarm, requireContext(), currentAlarm)
+
+                //Start the new alert
+                val intentAlert = Intent(context, AlertReceiver::class.java)
+                val bundleAlert = Bundle()
+                bundleAlert.putParcelable("alarm", updateAlarm)
+                intentAlert.putExtra("ALARM", bundleAlert)
+                presenter.startAlert(alarmManager, intentAlert, requireContext(), currentAlarm)
+            }
         }
         TimePickerDialog(
             context, timePickerDialog, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(
