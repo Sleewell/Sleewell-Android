@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.modules.audio.audioAnalyser
 
+import android.content.Context
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
@@ -22,7 +23,7 @@ import java.util.*
  *
  * @author Hugo Berthomé
  */
-class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: IAudioAnalyseRecordListener) {
+class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordListener) {
     private val CLASS_TAG = "AUDIO_ANALYSE_FILE_UTIL"
 
     private val gson = Gson()

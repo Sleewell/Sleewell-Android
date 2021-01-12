@@ -133,4 +133,16 @@ class UiAutomatorUtils(
         )
     }
 
+    fun openStatTab() {
+        val buttonSetting: UiObject = mDevice.findObject(
+            UiSelector().resourceId("com.sleewell.sleewell:id/stats_nav")
+        )
+        buttonSetting.click()
+
+        mDevice.wait(
+            Until.findObject(By.res("com.sleewell.sleewell:id/textView")),
+            LAUNCH_TIMEOUT
+        )
+    }
+
 }
