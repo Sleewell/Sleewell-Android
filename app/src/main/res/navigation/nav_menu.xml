@@ -12,7 +12,7 @@
         tools:layout="@layout/new_fragment_home" />
     <fragment
         android:id="@+id/alarmFragment"
-        android:name="com.sleewell.sleewell.mvp.menu.alarm.view.AlarmFragment"
+        android:name="com.sleewell.sleewell.mvp.menu.alarm.view.AlarmsFragment"
         android:label="new_fragment_alarm"
         tools:layout="@layout/new_fragment_alarm" />
     <fragment
