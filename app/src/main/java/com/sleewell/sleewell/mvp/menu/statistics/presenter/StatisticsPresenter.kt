@@ -4,11 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.mvp.menu.statistics.StatisticsContract
 import com.sleewell.sleewell.mvp.menu.statistics.model.StatisticsModel
-import com.sleewell.sleewell.mvp.statistics.model.AnalyseValueStatistic
+import com.sleewell.sleewell.mvp.menu.statistics.model.AnalyseValueStatistic
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
@@ -24,6 +23,11 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
 
     private var startAnalyse: Long = 0
 
+    /**
+     * Refresh the data from the last analyse
+     *
+     * @author Hugo Berthomé
+     */
     override fun refreshAnalyse() {
         model.getLastAnalyse()
     }
@@ -35,6 +39,12 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
     override fun onDestroy() {
     }
 
+    /**
+     * Receives the datas from the last analyse
+     *
+     * @param datas
+     * @author Hugo Berthomé
+     */
     override fun onDataAnalyse(datas: Array<AnalyseValue>) {
         scopeDefault.run {
             if (datas.isEmpty()) {
@@ -100,6 +110,12 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
         }
     }
 
+    /**
+     * Receives the date and time of the last analyse
+     *
+     * @param date
+     * @author Hugo Berthomé
+     */
     override fun onDataAnalyseDate(date: String) {
         val currentFileDate = date.replace(".json", "")
         startAnalyse = LocalDateTime.parse(
@@ -109,6 +125,12 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
         view.displayAnalyseDate(currentFileDate.replace("_", "  "))
     }
 
+    /**
+     * If an error occurs, this function is called
+     *
+     * @param msg of error
+     * @author Hugo Berthomé
+     */
     override fun onError(msg: String) {
         view.noAnalyseFound()
         view.onError(msg)

@@ -1,6 +1,5 @@
 package com.sleewell.sleewell.mvp.menu.statistics.view
 
-import android.icu.util.ValueIterator
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,7 +15,7 @@ import com.github.aachartmodel.aainfographics.aatools.AAGradientColor
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.menu.statistics.StatisticsContract
 import com.sleewell.sleewell.mvp.menu.statistics.presenter.StatisticsPresenter
-import com.sleewell.sleewell.mvp.statistics.model.AnalyseValueStatistic
+import com.sleewell.sleewell.mvp.menu.statistics.model.AnalyseValueStatistic
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -66,11 +65,19 @@ class StatFragment : Fragment(), StatisticsContract.View {
         return root
     }
 
+    /**
+     * Initialise the widget of the layout
+     *
+     * @author Hugo Berthomé
+     */
     private fun initWidgets() {
         aaChartView = root.findViewById(R.id.AAChartView)
         textView = root.findViewById(R.id.textView)
         loadingProgressBar = root.findViewById(R.id.progressBar)
         errorIcon = root.findViewById(R.id.imageView)
+
+        loadingProgressBar.visibility = View.VISIBLE
+        errorIcon.visibility = View.INVISIBLE
     }
 
     companion object {
@@ -93,6 +100,12 @@ class StatFragment : Fragment(), StatisticsContract.View {
             }
     }
 
+    /**
+     * Update the graph from the analyse data
+     *
+     * @param datas from the analyse
+     * @author Hugo Berthomé
+     */
     override fun displayAnalyse(datas: Array<AnalyseValueStatistic>) {
         aaChartModel = AAChartModel()
             .chartType(AAChartType.Areaspline)
@@ -158,16 +171,33 @@ function () {
         loadingProgressBar.visibility = View.INVISIBLE
     }
 
-    override fun displayAnalyseDate(data: String) {
-        textView.text = data
+    /**
+     * Display the date and time of the analyse
+     *
+     * @param date to display
+     * @author Hugo Berthomé
+     */
+    override fun displayAnalyseDate(date: String) {
+        textView.text = date
     }
 
+    /**
+     * Display a message saying no analyse and an error icon
+     *
+     * @author Hugo Berthomé
+     */
     override fun noAnalyseFound() {
         textView.text = "No analyse found"
         errorIcon.visibility = View.VISIBLE
         loadingProgressBar.visibility = View.GONE
     }
 
+    /**
+     * Display an error message
+     *
+     * @param msg to display
+     * @author Hugo Berthomé
+     */
     override fun onError(msg: String) {
         Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
         loadingProgressBar.visibility = View.GONE

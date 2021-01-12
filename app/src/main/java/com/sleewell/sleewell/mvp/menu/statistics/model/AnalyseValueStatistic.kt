@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.mvp.statistics.model
+package com.sleewell.sleewell.mvp.menu.statistics.model
 
 data class AnalyseValueStatistic(
     val db: Double,
