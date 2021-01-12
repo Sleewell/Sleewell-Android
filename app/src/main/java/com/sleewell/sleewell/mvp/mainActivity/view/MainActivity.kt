@@ -14,10 +14,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.new_activity_main)
     }
 
+    /**
+     * Sets the listening Fragment with the callback to be executed onUserInteraction event.
+     * This function needs to be callback by the Fragment itself
+     *
+     * @param userInteractionListener Fragment implementing UserInteractionListener
+     * @author Titouan FIANCETTE
+     */
     fun setUserInteractionListener(userInteractionListener: UserInteractionListener?) {
         this.userInteractionListener = userInteractionListener!!
     }
 
+    /**
+     * Overrides the onUserInteraction callback to pass the event to a Fragment
+     * @author Titouan FIANCETTE
+     */
     override fun onUserInteraction() {
         super.onUserInteraction()
         if (userInteractionListener != null) userInteractionListener?.onUserInteraction()

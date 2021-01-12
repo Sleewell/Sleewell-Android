@@ -37,8 +37,8 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
     private var shortAnimationDuration: Int = 0
     private var inactivityDuration: Long = 4 // in seconds
     private var handler = Handler()
-    private var displayHalo = Runnable {
-        fadeIn()
+    private var displayHaloRunnable = Runnable {
+        displayHalo()
     }
     private var isHaloDisplayed: Boolean = false
 
@@ -123,51 +123,43 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
 
     override fun onUserInteraction() {
         if (isHaloDisplayed) {
-            fadeOut()
-            handler.removeCallbacks(displayHalo)
+            hideHalo()
+            handler.removeCallbacks(displayHaloRunnable)
         } else {
-            handler.removeCallbacks(displayHalo)
-            handler.postDelayed(displayHalo,  inactivityDuration * 1000)
+            handler.removeCallbacks(displayHaloRunnable)
+            handler.postDelayed(displayHaloRunnable,  inactivityDuration * 1000)
         }
     }
 
-    private fun fadeIn() {
+    private fun displayHalo() {
         isHaloDisplayed = true
 
         haloBackground.apply {
             alpha = 0f
             visibility = View.VISIBLE
-
-            animate()
-                .alpha(1f)
-                .setDuration(shortAnimationDuration.toLong())
+            animate().alpha(1f).setDuration(shortAnimationDuration.toLong())
                 .setListener(null)
         }
+
         halo.apply {
             alpha = 0f
             visibility = View.VISIBLE
-
-            animate()
-                .alpha(1f)
-                .setDuration(shortAnimationDuration.toLong())
+            animate().alpha(1f).setDuration(shortAnimationDuration.toLong())
                 .setListener(null)
         }
     }
 
-    private fun fadeOut() {
+    private fun hideHalo() {
         isHaloDisplayed = false
 
-        haloBackground.animate()
-            .alpha(0f)
-            .setDuration(shortAnimationDuration.toLong())
+        haloBackground.animate().alpha(0f).setDuration(shortAnimationDuration.toLong())
             .setListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     haloBackground.visibility = View.GONE
                 }
             })
-        halo.animate()
-            .alpha(0f)
-            .setDuration(shortAnimationDuration.toLong())
+
+        halo.animate().alpha(0f).setDuration(shortAnimationDuration.toLong())
             .setListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     halo.visibility = View.GONE

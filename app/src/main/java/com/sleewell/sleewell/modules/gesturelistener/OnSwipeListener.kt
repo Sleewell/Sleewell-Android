@@ -9,7 +9,17 @@ import android.view.View
 import androidx.core.view.GestureDetectorCompat
 import kotlin.math.abs
 
+/**
+ * Needs to be instantiated in setOnTouchListener of a container to detect swiping
+ *
+ * @constructor
+ * New instance of OnSwipeListener
+ *
+ * @param ctx Activity context
+ * @author Titouan FIANCETTE
+ */
 abstract class OnSwipeListener(ctx: Context?) : View.OnTouchListener {
+
     companion object {
         private const val SWIPE_THRESHOLD = 100
         private const val SWIPE_VELOCITY_THRESHOLD = 100
@@ -30,6 +40,15 @@ abstract class OnSwipeListener(ctx: Context?) : View.OnTouchListener {
             return true
         }
 
+        /**
+         * Detection of a swipe of any kind
+         *
+         * @param e1
+         * @param e2
+         * @param velocityX
+         * @param velocityY
+         * @return Whether or not there was a swipe of any kind
+         */
         override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float
         ): Boolean {
             var result = false
@@ -66,8 +85,24 @@ abstract class OnSwipeListener(ctx: Context?) : View.OnTouchListener {
         }
     }
 
+    /**
+     * Callback to override, executed on swipe right event
+     * @author Titouan FIANCETTE
+     */
     abstract fun onSwipeRight()
+    /**
+     * Callback to override, executed on swipe left event
+     * @author Titouan FIANCETTE
+     */
     abstract fun onSwipeLeft()
+    /**
+     * Callback to override, executed on swipe right event
+     * @author Titouan FIANCETTE
+     */
     abstract fun onSwipeTop()
+    /**
+     * Callback to override, executed on swipe right event
+     * @author Titouan FIANCETTE
+     */
     abstract fun onSwipeBottom()
 }
