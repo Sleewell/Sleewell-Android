@@ -77,8 +77,8 @@ dependencies {
 
     implementation 'androidx.preference:preference:1.1.0'
 
+    implementation 'com.spotify.android:auth:1.1.0'
     implementation project(':spotify-app-remote')
     implementation "com.google.code.gson:gson:2.6.1"
 
-    implementation 'com.spotify.android:auth:1.1.0'
 }

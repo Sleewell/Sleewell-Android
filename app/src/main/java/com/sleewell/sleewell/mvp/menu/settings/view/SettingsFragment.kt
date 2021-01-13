@@ -3,10 +3,8 @@ package com.sleewell.sleewell.mvp.menu.settings.view
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.NavHostFragment
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.sleewell.sleewell.R
@@ -125,6 +123,22 @@ class SettingsFragment : Fragment(), SettingsContract.View, PreferenceFragmentCo
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.notification, rootKey)
             val returnPref = findPreference<Preference>(getString(R.string.setting_notification_return_key))
+            returnPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                activity!!.supportFragmentManager.popBackStackImmediate()
+                true
+            }
+        }
+    }
+
+    /**
+     * Class instantiate to display Halo settings
+     *
+     * @author Gabin Warnier de wailly
+     */
+    class ProtocolPreferencesFragment : PreferenceFragmentCompat() {
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            setPreferencesFromResource(R.xml.protocol, rootKey)
+            val returnPref = findPreference<Preference>(getString(R.string.setting_protocol_return_key))
             returnPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 activity!!.supportFragmentManager.popBackStackImmediate()
                 true
