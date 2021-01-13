@@ -68,6 +68,8 @@ dependencies {
 
     implementation 'com.github.wendykierp:JTransforms:3.1'
 
+    implementation 'com.github.claucookie.miniequalizer:library:1.0.0'
+
     testImplementation("org.assertj:assertj-core:3.11.1")
     testImplementation 'junit:junit:4.12'
     testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'

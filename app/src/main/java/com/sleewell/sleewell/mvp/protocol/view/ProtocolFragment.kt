@@ -16,9 +16,6 @@ import com.sleewell.sleewell.mvp.protocol.ProtocolContract
 import com.sleewell.sleewell.mvp.protocol.presenter.ProtocolPresenter
 
 
-/**
- * A simple [Fragment] subclass.
- */
 class ProtocolFragment : Fragment(), ProtocolContract.View {
     //Context
     private lateinit var presenter: ProtocolContract.Presenter
@@ -37,7 +34,6 @@ class ProtocolFragment : Fragment(), ProtocolContract.View {
     ): View? {
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.new_fragment_protocol, container, false)
-        this.enableAutoLock(false)
         initActivityWidgets()
         setPresenter(ProtocolPresenter(this, this.activity as AppCompatActivity))
 
@@ -70,13 +66,6 @@ class ProtocolFragment : Fragment(), ProtocolContract.View {
         haloImage.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.halo, null)
     }
 
-    override fun enableAutoLock(value: Boolean) {
-        if (value)
-            activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) // the app close auto
-        else
-            activity!!.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) // the app never close
-    }
-
     override fun setColorHalo(color: ColorFilter) {
         val circle = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.halo, null)
         circle?.colorFilter = color
@@ -107,11 +96,6 @@ class ProtocolFragment : Fragment(), ProtocolContract.View {
     override fun setPresenter(presenter: ProtocolContract.Presenter) {
         this.presenter = presenter
         presenter.onViewCreated()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        this.enableAutoLock(true)
     }
 
     /**

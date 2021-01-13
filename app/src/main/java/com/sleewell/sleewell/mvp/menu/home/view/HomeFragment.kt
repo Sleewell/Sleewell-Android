@@ -50,7 +50,7 @@ class HomeFragment : Fragment(), HomeContract.View {
 
         val buttonProtocol = root.findViewById<Button>(R.id.button_protocol)
         buttonProtocol.setOnClickListener {
-            navController.navigate(R.id.action_menuFragment_to_protocolFragment)
+            navController.navigate(R.id.action_menuFragment_to_protocolMenuFragment)
         }
 
         val buttonMusic = root.findViewById<Button>(R.id.button_music)

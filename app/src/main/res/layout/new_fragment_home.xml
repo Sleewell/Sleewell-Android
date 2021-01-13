@@ -7,20 +7,25 @@
     android:layout_height="match_parent"
     tools:context=".mvp.menu.home.view.HomeFragment">
 
-    <!--<Button
-        android:id="@+id/btn_nfc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/start"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />-->
+    <View
+        android:id="@+id/time_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button_light_rounded"
+        android:backgroundTint="@color/background"
+        app:layout_constraintBottom_toBottomOf="@+id/clock"
+        app:layout_constraintEnd_toEndOf="@+id/clock"
+        app:layout_constraintStart_toStartOf="@+id/clock"
+        app:layout_constraintTop_toTopOf="@+id/clock" />
 
     <TextView
         android:id="@+id/clock"
         android:layout_width="300dp"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_regular"
         android:letterSpacing="0.05"
         android:text="12:00"
@@ -31,13 +36,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.22000003" />
+        app:layout_constraintVertical_bias="0.2" />
+
+    <View
+        android:id="@+id/date_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/button_light_rounded"
+        android:backgroundTint="@color/background"
+        app:layout_constraintBottom_toBottomOf="@+id/date"
+        app:layout_constraintEnd_toEndOf="@+id/date"
+        app:layout_constraintStart_toStartOf="@+id/date"
+        app:layout_constraintTop_toTopOf="@+id/date" />
 
     <TextView
         android:id="@+id/date"
         android:layout_width="150dp"
         android:layout_height="30dp"
-        android:layout_marginTop="3dp"
         android:fontFamily="@font/roboto_medium"
         android:text="jou. 10 mois"
         android:textAlignment="center"
@@ -45,7 +61,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/clock" />
+        app:layout_constraintTop_toBottomOf="@+id/time_background" />
 
     <Button
         android:id="@+id/button_music"

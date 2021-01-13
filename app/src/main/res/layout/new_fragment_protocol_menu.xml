@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/protocol_layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mvp.protocol.view.ProtocolMenuFragment">
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="161dp"
+        android:layout_height="83dp"
+        android:background="@drawable/rectangle_rounded"
+        android:backgroundTint="@color/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.556"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.167" />
+
+    <TextClock
+        android:id="@+id/clock_protoc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
+        android:letterSpacing="0.05"
+        android:padding="0sp"
+        android:text="12:30"
+        android:textAlignment="center"
+        android:textColor="@color/textOnBackground"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.15" />
+
+    <TextView
+        android:id="@+id/date_protoc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="jou. 10 mois"
+        android:textAlignment="center"
+        android:textColor="@color/textOnBackground"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clock_protoc" />
+
+    <TextView
+        android:id="@+id/stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:letterSpacing="0.05"
+        android:text="Stop"
+        android:textAlignment="center"
+        android:textColor="@color/textOnBackground"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/swipe_arrow" />
+
+    <ImageView
+        android:id="@+id/swipe_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="110dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/wide_arrow" />
+
+    <Button
+        android:id="@+id/musicButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.69" />
+
+    <es.claucookie.miniequalizerlibrary.EqualizerView
+        android:id="@+id/equalizer_view"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:animDuration="3500"
+        app:foregroundColor="@color/textOnBackground"
+        app:layout_constraintBottom_toBottomOf="@+id/musicButton"
+        app:layout_constraintEnd_toEndOf="@+id/musicButton"
+        app:layout_constraintStart_toStartOf="@+id/musicButton"
+        app:layout_constraintTop_toTopOf="@+id/musicButton" />
+
+    <View
+        android:id="@+id/halo_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/rectangle_rounded"
+        android:backgroundTint="@color/background"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/halo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center|center_horizontal"
+        android:visibility="gone"
+        android:background="@drawable/halo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
