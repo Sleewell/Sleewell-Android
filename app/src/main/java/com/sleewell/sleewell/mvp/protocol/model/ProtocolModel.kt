@@ -161,14 +161,31 @@ class ProtocolModel(
         analyser.cleanUp()
     }
 
+    /**
+     * Function called when an error occur
+     *
+     * @param msg to display
+     * @author Hugo Berthomé
+     */
     override fun onError(msg : String) {
         Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
     }
 
+    /**
+     * Function called when the analyse is stopped
+     *
+     * @author Hugo Berthomé
+     */
     override fun onFinish() {
         // Do nothing but is existing if necessary
     }
 
+    /**
+     * Function called to receive the result of the analyse
+     *
+     * @param data
+     * @author Hugo Berthomé
+     */
     override fun onDataAnalysed(data: AnalyseValue) {
         // Do nothing but is existing if necessary
     }

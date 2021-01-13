@@ -22,7 +22,7 @@
         tools:layout="@layout/new_fragment_settings" />
     <fragment
         android:id="@+id/statFragment"
-        android:name="com.sleewell.sleewell.mvp.menu.stat.view.StatFragment"
+        android:name="com.sleewell.sleewell.mvp.menu.statistics.view.StatFragment"
         android:label="new_fragment_stat"
         tools:layout="@layout/new_fragment_stat" />
 </navigation>
