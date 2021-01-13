@@ -28,7 +28,7 @@ class HomeFragment : Fragment(), HomeContract.View {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.new_fragment_home, container, false)
         initActivityWidgets()

@@ -26,19 +26,39 @@
         <activity
             android:name="com.spotify.sdk.android.authentication.LoginActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".mvp.mainActivity.view.MainActivity"
+        <activity
+            android:name=".mvp.mainActivity.view.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:theme="@style/DesignTheme"
-            >
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
+            <!-- Open the app on this specific activity when a NFC tag contain a mime type as described below -->
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/com.sleewell.sleewell" />
+            </intent-filter>
+
+            <!-- Open the app on this specific activity when a NFC tag contain a url with http://www.sleewell.fr -->
+            <!-- <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="http"
+                    android:host="www.sleewell.fr"
+                    android:pathPrefix="/"/>
+            </intent-filter> -->
+
         </activity>
+        <activity
+            android:name="com.sleewell.sleewell.reveil.DesactivationActivity"
+            android:label="Desactivation"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <receiver android:name=".reveil.AlarmReceiver" />
         <receiver android:name=".reveil.AlertReceiver" />
         <receiver android:name=".reveil.GlobalReceiver" />

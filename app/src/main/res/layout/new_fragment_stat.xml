@@ -5,40 +5,52 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mvp.menu.stat.view.StatFragment">
+    tools:context=".mvp.menu.statistics.view.StatFragment">
 
-    <com.aachartmodel.aainfographics.AAInfographicsLib.AAChartCreator.AAChartView
+    <com.github.aachartmodel.aainfographics.aachartcreator.AAChartView
         android:id="@+id/AAChartView"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/AAChartView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.aachartmodel.aainfographics.AAInfographicsLib.AAChartCreator.AAChartView
-        android:id="@+id/AAChartView2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/AAChartView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/AAChartView" />
-
-
-    <com.aachartmodel.aainfographics.AAInfographicsLib.AAChartCreator.AAChartView
-        android:id="@+id/AAChartView3"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="300dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AAChartView2"
-        app:layout_constraintVertical_bias="0">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
 
-    </com.aachartmodel.aainfographics.AAInfographicsLib.AAChartCreator.AAChartView>
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/textOnBackground"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AAChartView" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/textOnBackground"
+        app:layout_constraintBottom_toBottomOf="@+id/AAChartView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/AAChartView" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="113dp"
+        android:layout_height="129dp"
+        android:src="?android:attr/alertDialogIcon"
+        android:visibility="gone"
+        app:tint="@color/textButOnImage"
+        app:layout_constraintBottom_toBottomOf="@+id/AAChartView"
+        app:layout_constraintEnd_toEndOf="@+id/AAChartView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/AAChartView" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -45,7 +45,7 @@ class Spectrogram(
         queueBuffer.add(buffer)
 
         // if coroutine not started, start it
-        if (jobStarted) {
+        if (!jobStarted) {
             scopeDefault.launch {
                 while (queueBuffer.size != 0) {
                     val data = queueBuffer.poll()
