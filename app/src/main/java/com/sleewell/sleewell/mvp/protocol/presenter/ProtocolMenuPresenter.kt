@@ -1,6 +1,7 @@
 package com.sleewell.sleewell.mvp.protocol.presenter
 
 import android.os.CountDownTimer
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.modules.lockScreen.ILockScreenManager
@@ -9,6 +10,7 @@ import com.sleewell.sleewell.modules.network.INetworkManager
 import com.sleewell.sleewell.modules.network.NetworkManager
 import com.sleewell.sleewell.modules.settings.ISettingsManager
 import com.sleewell.sleewell.modules.settings.SettingsManager
+import com.sleewell.sleewell.mvp.music.view.MusicFragment
 import com.sleewell.sleewell.mvp.protocol.ProtocolContract
 import com.sleewell.sleewell.mvp.protocol.ProtocolMenuContract
 import com.sleewell.sleewell.mvp.protocol.model.ProtocolModel
@@ -21,6 +23,7 @@ import com.sleewell.sleewell.mvp.protocol.model.ProtocolModel
  * @param ctx context is from the current activity / view
  * @author Hugo Berthomé
  */
+
 class ProtocolMenuPresenter(private var view: ProtocolMenuContract.View, private val ctx: AppCompatActivity) : ProtocolMenuContract.Presenter {
 
     private var model: ProtocolContract.Model = ProtocolModel(this, this, ctx)
@@ -71,23 +74,31 @@ class ProtocolMenuPresenter(private var view: ProtocolMenuContract.View, private
         connection.switchToSleepMode(false)
         lockScreen.disableKeepScreenOn()
 
+        model.stopMusique()
         model.cleanUp()
     }
 
     override fun playMusic() {
         if (settings.getMusic()) {
             view.animateEqualizer(true)
+            if (MusicFragment.music_selected) {
+                val name = MusicFragment.musicName
+                if (name != null) {
+                    model.startMusique(name)
+                }
+            }
         } else {
             view.animateEqualizer(false)
+            model.stopMusique()
         }
     }
 
     override fun pauseMusic() {
         if (view.isMusicPlaying()) {
-            // TODO: stop the music
+            model.pauseMusique()
             view.animateEqualizer(false) // When you want equalizer stops animating
         } else {
-            // TODO: play the music
+            model.resumeMusique()
             view.animateEqualizer(true) // Whenever you want to tart the animation
         }
     }

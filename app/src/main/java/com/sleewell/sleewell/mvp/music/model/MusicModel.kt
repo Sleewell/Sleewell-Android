@@ -74,7 +74,6 @@ class MusicModel(context: Context) : MainContract.Model {
         val singh = context.resources.getIdentifier(aList[musicInt].getName(), "raw", context.packageName)
         mediaPlayer = MediaPlayer.create(context, singh)
         mediaPlayer!!.start()
-        MusicFragment.music_select = music_select
     }
 
     /**

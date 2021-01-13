@@ -52,7 +52,8 @@ class MusicFragment : Fragment(), MainContract.View  {
     private lateinit var playlistSelected: SpotifyPlaylist
 
     companion object {
-        var music_select = 0
+        var music_selected: Boolean = false
+        lateinit var musicName: String
     }
 
     override fun onCreateView(
@@ -100,6 +101,10 @@ class MusicFragment : Fragment(), MainContract.View  {
                 presenter.launchMusique(i)
             }
             musicSelected = i
+            music_selected = true
+            val main = main_text!!.text.toString()
+            val title = viewItem.findViewById<TextView>(R.id.soundTitle)!!.text.toString()
+            musicName = main + "_" + title
         }
     }
 
@@ -126,35 +131,35 @@ class MusicFragment : Fragment(), MainContract.View  {
             setCircleInvisible()
             circle_forest.visibility = View.VISIBLE
             listView.adapter = presenter.getAdapterMusiqueByName("forest")
-            main_text.text = "Forest"
+            main_text.text = "forest"
         }
 
         button_wind.setOnClickListener{
             setCircleInvisible()
             circle_wind.visibility = View.VISIBLE
             listView.adapter = presenter.getAdapterMusiqueByName("wind")
-            main_text.text = "Wind"
+            main_text.text = "wind"
         }
 
         button_water.setOnClickListener{
             setCircleInvisible()
             circle_water.visibility = View.VISIBLE
             listView.adapter = presenter.getAdapterMusiqueByName("water")
-            main_text.text = "Water"
+            main_text.text = "water"
         }
 
         button_fire.setOnClickListener{
             setCircleInvisible()
             circle_fire.visibility = View.VISIBLE
             listView.adapter = presenter.getAdapterMusiqueByName("fire")
-            main_text.text = "Fire"
+            main_text.text = "fire"
         }
 
         button_rain.setOnClickListener{
             setCircleInvisible()
             circle_rain.visibility = View.VISIBLE
             listView.adapter = presenter.getAdapterMusiqueByName("rain")
-            main_text.text = "Rain"
+            main_text.text = "rain"
         }
 
         val menu = root.findViewById<Button>(R.id.MenuButton)
