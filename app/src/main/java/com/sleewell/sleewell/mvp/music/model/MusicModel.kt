@@ -28,7 +28,7 @@ class MusicModel(context: Context) : MainContract.Model {
     private var context = context
     private var mediaPlayer: MediaPlayer? = null
 
-    private val clientId = "42d9f9b3f8ef4a419766c3f14566f110"
+    private val clientId = ""
     private val redirectUri = "http://com.sleewell.sleewell/callback"
     private var spotifyAppRemote: SpotifyAppRemote? = null
 

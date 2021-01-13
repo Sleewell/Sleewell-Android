@@ -58,8 +58,12 @@ interface MainContract {
          * @author gabin warnier de wailly
          */
         fun onViewCreated()
-
-
+        /**
+         * this method launch the music
+         *
+         * @param name it's the frist name of the music from the menu
+         * @author gabin warnier de wailly
+         */
         fun getAdapterMusiqueByName(name: String) : MusicPlaylistAdapter
         /**
          * this method launch the music
@@ -69,6 +73,11 @@ interface MainContract {
          */
         fun launchMusique(musicInt: Int)
 
+        /**
+         * this method stop the music
+         *
+         * @author gabin warnier de wailly
+         */
         fun stopMusique()
         /**
          * This method call a model method for the connection to spotify

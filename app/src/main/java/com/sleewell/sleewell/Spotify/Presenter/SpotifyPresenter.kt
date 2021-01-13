@@ -6,7 +6,6 @@ import com.sleewell.sleewell.Spotify.ApiResultSpotify
 import com.sleewell.sleewell.Spotify.MainContract
 import com.sleewell.sleewell.Spotify.Model.SpotifyModel
 import com.sleewell.sleewell.Spotify.SpotifyPlaylist
-import com.sleewell.sleewell.Spotify.View.SpotifyActivity
 import com.sleewell.sleewell.Spotify.View.SpotifyFragment
 
 class SpotifyPresenter(view: SpotifyFragment, context: Context) : MainContract.Presenter,
