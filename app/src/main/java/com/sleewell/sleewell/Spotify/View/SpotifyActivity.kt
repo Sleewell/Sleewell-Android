@@ -27,7 +27,7 @@ class SpotifyActivity :  AppCompatActivity(), MainContract.View {
     private lateinit var accessToken: String
     private lateinit var musicSelected: SpotifyPlaylist
 
-    private val clientId = "NEED TO FILL" // /!\ need to hide
+    private val clientId = "42d9f9b3f8ef4a419766c3f14566f110" // /!\ need to hide
     private val redirectUri = "http://com.sleewell.sleewell/callback"
 
     override fun onCreate(savedInstanceState: Bundle?) {
