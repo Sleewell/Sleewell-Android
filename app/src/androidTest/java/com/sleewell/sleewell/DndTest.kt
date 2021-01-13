@@ -42,10 +42,11 @@ class DndTest {
         utils.startProtocol()
 
         utils.exitNetworkPanel()
-        assertEquals(isDndEnable(), true)
+
+        assertEquals(true, isDndEnable())
         utils.phoneReturnButton()
         utils.exitNetworkPanel()
-        assertEquals(isDndEnable(), false)
+        assertEquals(false, isDndEnable())
     }
 
     private fun isDndEnable() : Boolean
