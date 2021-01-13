@@ -71,7 +71,7 @@
         app:layout_constraintStart_toStartOf="@+id/MusicButton"
         app:layout_constraintTop_toTopOf="@+id/MusicButton"
         app:layout_constraintVertical_bias="0.50"
-        app:srcCompat="@drawable/ic_music_nav" />
+        app:srcCompat="@drawable/ic_music" />
 
     <Button
         android:id="@+id/MusicButton"

@@ -45,7 +45,6 @@
         <action
             android:id="@+id/action_protocolFragment_to_protocolMenuFragment"
             app:destination="@id/protocolMenuFragment" />
-    </fragment>
     <fragment
         android:id="@+id/protocolMenuFragment"
         android:name="com.sleewell.sleewell.mvp.protocol.view.ProtocolMenuFragment"
