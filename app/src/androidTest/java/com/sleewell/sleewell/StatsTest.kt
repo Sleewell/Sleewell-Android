@@ -63,7 +63,6 @@ class StatsTest {
 
         assert(textDate.exists())
         assert(!icon.exists())
-        assert(graph.exists())
     }
 
     @Test

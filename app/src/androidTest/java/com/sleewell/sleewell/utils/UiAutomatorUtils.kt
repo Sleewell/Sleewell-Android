@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.nfc.NfcAdapter
 import androidx.test.uiautomator.*
+import java.lang.Thread.sleep
 
 class UiAutomatorUtils(
     private val mDevice: UiDevice,
@@ -88,12 +89,6 @@ class UiAutomatorUtils(
     }
 
     fun switchWifi() {
-
-        mDevice.wait(
-            Until.hasObject(By.pkg(SETTING_PANEL_PACKAGE)),
-            LAUNCH_TIMEOUT
-        )
-
         val switchWifi: UiObject = mDevice.findObject(
             UiSelector().className("androidx.recyclerview.widget.RecyclerView")
                 .instance(0)
@@ -105,12 +100,6 @@ class UiAutomatorUtils(
     }
 
     fun switchNetwork() {
-
-        mDevice.wait(
-            Until.hasObject(By.pkg(SETTING_PANEL_PACKAGE)),
-            LAUNCH_TIMEOUT
-        )
-
         val switchNetwork: UiObject = mDevice.findObject(
             UiSelector().className("androidx.recyclerview.widget.RecyclerView")
                 .childSelector(
@@ -126,11 +115,6 @@ class UiAutomatorUtils(
         val doneButton: UiObject =
             mDevice.findObject(UiSelector().resourceId("com.android.settings:id/done"))
         doneButton.click()
-
-        mDevice.wait(
-            Until.hasObject(By.pkg(BASIC_SAMPLE_PACKAGE)),
-            LAUNCH_TIMEOUT
-        )
     }
 
     fun openStatTab() {
@@ -138,11 +122,6 @@ class UiAutomatorUtils(
             UiSelector().resourceId("com.sleewell.sleewell:id/stats_nav")
         )
         buttonSetting.click()
-
-        mDevice.wait(
-            Until.findObject(By.res("com.sleewell.sleewell:id/textView")),
-            LAUNCH_TIMEOUT
-        )
     }
 
 }
