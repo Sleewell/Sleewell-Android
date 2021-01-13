@@ -38,9 +38,13 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <receiver android:name=".reveil.AlarmReceiver" />
-        <receiver android:name=".reveil.AlertReceiver" />
-        <receiver android:name=".reveil.GlobalReceiver" />
+        <activity android:name="com.sleewell.sleewell.reveil.DesactivationActivity"
+            android:label="Desactivation"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <receiver android:name=".reveil.AlarmReceiver"/>
+        <receiver android:name=".reveil.AlertReceiver"/>
+        <receiver android:name=".reveil.GlobalReceiver"/>
     </application>
 
 </manifest>

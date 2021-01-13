@@ -4,13 +4,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="start">Start</string>
-    <string name="create_reminder">Create Reminder</string>
-    <string name="edit_reminder">Edit Reminder</string>
-    <string name="select_time">Select a time</string>
-    <string name="no_reminders">No Reminders</string>
-    <string name="time">Time</string>
-    <string name="time_required">Time is a required field</string>
-    <string name="launch_activity">Launch Activity</string>
+    <string name="time_desactivation">TIME</string>
 
     <!-- Menu -->
     <string name="nav_button_home">HOME</string>

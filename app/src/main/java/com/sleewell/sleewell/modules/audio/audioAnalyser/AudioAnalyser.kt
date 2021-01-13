@@ -39,11 +39,23 @@ class AudioAnalyser(
     private var stopThread = false
     private var isThreadRunning = false
 
+    /**
+     * Add a window from spectrogram to analyse
+     *
+     * @param data window from the spectrogram
+     * @author Hugo Berthomé
+     */
     fun addSpectrogramData(data: DoubleArray) {
         queueData.add(data)
         launchAnalyse()
     }
 
+    /**
+     * Add a spectrogram to analyse
+     *
+     * @param datas spectrogram
+     * @author Hugo Berthomé
+     */
     fun addSpectrogramDatas(datas: Array<DoubleArray>) {
         datas.forEach {
             queueData.add(it)
@@ -51,6 +63,11 @@ class AudioAnalyser(
         launchAnalyse()
     }
 
+    /**
+     * Launch the analyse of the spectrogram in the queue
+     *
+     * @author Hugo Berthomé
+     */
     private fun launchAnalyse() {
         if (!isInitialised) {
             fileUtil.deleteAnalyses(fileUtil.readDirectory())
@@ -67,6 +84,11 @@ class AudioAnalyser(
         }
     }
 
+    /**
+     * Analyse the data in the queue
+     *
+     * @author Hugo Berthomé
+     */
     private fun analyseQueue() {
         isThreadRunning = true
         while (queueData.size != 0) {
@@ -79,6 +101,12 @@ class AudioAnalyser(
         isThreadRunning = false
     }
 
+    /**
+     * Analyse a part of the spectrogram
+     *
+     * @param spectrogram
+     * @author Hugo Berthomé
+     */
     private fun analyse(spectrogram: DoubleArray) {
         val datas = extractFrequencies(minHz, maxHz, spectrogram)
 
@@ -89,6 +117,15 @@ class AudioAnalyser(
         }
     }
 
+    /**
+     * Extracts a part of the window of the spectrogram between to frequencies
+     *
+     * @param minHz
+     * @param maxHz
+     * @param spectrogram
+     * @return doubleArray
+     * @author Hugo Berthomé
+     */
     private fun extractFrequencies(minHz: Int, maxHz: Int, spectrogram: DoubleArray): DoubleArray {
         val indexMin: Int = minHz * spectrogram.size / (samplingRate / 2)
         val indexMax: Int = maxHz * spectrogram.size / (samplingRate / 2)
@@ -96,28 +133,58 @@ class AudioAnalyser(
         return spectrogram.sliceArray(IntRange(indexMin, indexMax))
     }
 
+    /**
+     * Converts an amplitude into a dB
+     *
+     * @param amp
+     * @param ref
+     * @return double
+     * @author Hugo Berthomé
+     */
     private fun ampToDb(amp: Double?, ref: Double = 1.0): Double {
         if (amp == null)
             return 0.0
         return 10 * log((amp / ref), 10.0)
     }
 
+    /**
+     * Function to call at the end to be sure that all the thread are stopped !
+     *
+     * @author Hugo Berthomé
+     */
     fun cleanUp() {
         stopThread = true
         isInitialised = false
         fileUtil.stopSavingNewAnalyse()
     }
 
+    /**
+     * Function called when the analyse record has stopped
+     *
+     * @author Hugo Berthomé
+     */
     override fun onAnalyseRecordEnd() {
         listener.onFinish()
     }
 
+    /**
+     * Function called when an error occur
+     *
+     * @param msg to display
+     * @author Hugo Berthomé
+     */
     override fun onAnalyseRecordError(msg: String) {
         Log.e(CLASS_TAG, "An error occurred while saving analyse")
         listener.onError("An error occurred while saving analyse")
     }
 
-    // do nothing because we only save
+    /**
+     * Function called when an analyse is read from a file
+     *
+     * @param data of the analyse file
+     * @author Hugo Berthomé
+     */
     override fun onReadAnalyseRecord(data: Array<AnalyseValue>) {
+        // do nothing because we only save
     }
 }

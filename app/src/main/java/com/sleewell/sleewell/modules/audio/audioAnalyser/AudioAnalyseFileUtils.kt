@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.modules.audio.audioAnalyser
 
+import android.content.Context
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
@@ -22,7 +23,7 @@ import java.util.*
  *
  * @author Hugo Berthomé
  */
-class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: IAudioAnalyseRecordListener) {
+class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordListener) {
     private val CLASS_TAG = "AUDIO_ANALYSE_FILE_UTIL"
 
     private val gson = Gson()
@@ -48,14 +49,14 @@ class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: IAudioAnal
         val dir = File(outputDirectory)
 
         if (!dir.exists()) {
-            return Array(0) { _ -> File(".") }
+            return arrayOf()
         }
         val files = dir.listFiles()
         if (files != null) {
             files.sortBy { it.name }
             return files
         }
-        return Array(0) { _ -> File(".") }
+        return arrayOf()
     }
 
     /**
@@ -67,7 +68,7 @@ class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: IAudioAnal
     fun readAnalyse(analyse: File) {
 
         scopeIO.run {
-            val emptyArray = Array(0) { _ -> AnalyseValue() }
+            val emptyArray = arrayOf<AnalyseValue>()
 
             if (!analyse.exists()) {
                 listener.onAnalyseRecordError("File " + analyse.name + " doesn't exist")
@@ -248,13 +249,9 @@ class AudioAnalyseFileUtils(context: AppCompatActivity, val listener: IAudioAnal
      * @return the current date with the time
      */
     private fun getCurrentDateHour(): String {
-        /*val stringTime2 = DateTimeFormatter
-            .ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")
-            .withZone(ZoneOffset.systemDefault())
-            .format(Instant.ofEpochSecond(Instant.now()))*/
 
         return DateTimeFormatter
-            .ofPattern("yyyy-MM-dd-HH:mm:ss")
+            .ofPattern("yyyy-MM-dd_HH:mm:ss")
             .withZone(ZoneOffset.systemDefault())
             .format(Instant.now())
     }

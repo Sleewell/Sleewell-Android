@@ -19,4 +19,5 @@
     <color name="level4LightOnDark">#29FFFFFF</color>
 
     <color name="transparent">#00FFFFFF</color>
+    <color name="blueButton">#324B76</color>
 </resources>

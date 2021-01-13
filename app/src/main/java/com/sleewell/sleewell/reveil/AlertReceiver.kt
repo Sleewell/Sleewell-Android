@@ -3,7 +3,7 @@ package com.sleewell.sleewell.reveil
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.media.MediaPlayer
+import com.sleewell.sleewell.reveil.data.model.Alarm
 
 /**
  * Receiver of the alarm
@@ -11,12 +11,6 @@ import android.media.MediaPlayer
  * @author Romane Bézier
  */
 class AlertReceiver : BroadcastReceiver() {
-
-    companion object {
-        lateinit var mp: MediaPlayer
-        fun isMpInitialised() = Companion::mp.isInitialized
-    }
-
     /**
      * When alert receiver receive a signal
      *
@@ -25,9 +19,14 @@ class AlertReceiver : BroadcastReceiver() {
      * @author Romane Bézier
      */
     override fun onReceive(context: Context, intent: Intent) {
-        val notificationHelper = AlertNotificationHelper(context)
-        val nb = notificationHelper.channelNotification
-        notificationHelper.manager?.notify(1, nb.build())
-    }
+        val alarm: Alarm
 
+        val bundle = intent.getBundleExtra("ALARM")
+        if (bundle != null) {
+            alarm = bundle.getParcelable("alarm")!!
+            val notificationHelper = AlertNotificationHelper(context, alarm)
+            val nb = notificationHelper.channelNotification
+            notificationHelper.manager?.notify(alarm.id, nb.build())
+        }
+    }
 }
