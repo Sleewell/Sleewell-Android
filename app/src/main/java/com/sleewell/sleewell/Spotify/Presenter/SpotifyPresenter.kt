@@ -7,11 +7,12 @@ import com.sleewell.sleewell.Spotify.MainContract
 import com.sleewell.sleewell.Spotify.Model.SpotifyModel
 import com.sleewell.sleewell.Spotify.SpotifyPlaylist
 import com.sleewell.sleewell.Spotify.View.SpotifyActivity
+import com.sleewell.sleewell.Spotify.View.SpotifyFragment
 
-class SpotifyPresenter(view: SpotifyActivity, context: Context) : MainContract.Presenter,
+class SpotifyPresenter(view: SpotifyFragment, context: Context) : MainContract.Presenter,
     MainContract.Model.OnFinishedListener {
 
-    private var view: SpotifyActivity? = view
+    private var view: SpotifyFragment? = view
     private var model: SpotifyModel = SpotifyModel(context)
     private var context = context
 
@@ -36,7 +37,9 @@ class SpotifyPresenter(view: SpotifyActivity, context: Context) : MainContract.P
         if (namePlaylist.toString() == "") {
             view!!.displayToast("Enter a name of playlist")
         } else {
-            model?.getPlaylistSpotifySearch(this, view?.getAccessToken(), namePlaylist.toString())
+            val accessToken = view?.getAccessToken()
+            if (accessToken!!.isNotEmpty())
+                model.getPlaylistSpotifySearch(this, view?.getAccessToken(), namePlaylist.toString())
         }
     }
 

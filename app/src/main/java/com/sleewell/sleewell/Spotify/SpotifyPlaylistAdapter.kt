@@ -19,7 +19,7 @@ class SpotifyPlaylistAdapter(context: Context, aList: ArrayList<SpotifyPlaylist>
 
         val holder = MyHolder(view)
         holder.name!!.text = aList[position].getName()
-        holder.uri!!.text = aList[position].getUri()
+        //holder.uri!!.text = aList[position].getUri()
         LoaderUrlImage().downloadImage(context, aList[position].getUrlImage(), holder.img)
         return view
     }

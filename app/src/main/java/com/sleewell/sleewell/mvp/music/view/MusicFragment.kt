@@ -9,12 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.Spotify.SpotifyPlaylist
 import com.sleewell.sleewell.mvp.music.MainContract
 import com.sleewell.sleewell.mvp.music.presenter.MusicPresenter
 import es.claucookie.miniequalizerlibrary.EqualizerView
-import org.w3c.dom.Text
 
  /**
  * A simple [Fragment] subclass.
@@ -158,8 +158,15 @@ class MusicFragment : Fragment(), MainContract.View  {
         }
 
         val menu = root.findViewById<Button>(R.id.MenuButton)
+        val spotify_button = root.findViewById<Button>(R.id.MusicButton)
+
         menu.setOnClickListener {
             fragmentManager?.popBackStack()
+        }
+
+        val navController = Navigation.findNavController(requireActivity(), R.id.nav_main)
+        spotify_button.setOnClickListener {
+            navController.navigate(R.id.action_musicFragment_to_spotifyFragment)
         }
 
         playlistSelected = SpotifyPlaylist("Hollow knight", "spotify:album:4XgGOMRY7H4hl6OQi5wb2Z", "")
@@ -225,5 +232,4 @@ class MusicFragment : Fragment(), MainContract.View  {
             playlistSelected = SpotifyPlaylist(name, uri, "")
         }
     }
-
 }

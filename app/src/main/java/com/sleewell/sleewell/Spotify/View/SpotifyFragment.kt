@@ -3,14 +3,20 @@ package com.sleewell.sleewell.Spotify.View
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.Spotify.MainContract
 import com.sleewell.sleewell.Spotify.Presenter.SpotifyPresenter
 import com.sleewell.sleewell.Spotify.SpotifyPlaylist
 import com.sleewell.sleewell.Spotify.SpotifyPlaylistAdapter
+import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
@@ -18,9 +24,10 @@ import com.spotify.sdk.android.authentication.LoginActivity
 import com.spotify.sdk.android.authentication.LoginActivity.REQUEST_CODE
 
 
-class SpotifyActivity :  AppCompatActivity(), MainContract.View {
+class SpotifyFragment: Fragment(), MainContract.View {
 
     private lateinit var presenter: MainContract.Presenter
+    private lateinit var root: View
     private lateinit var listView: ListView
     private lateinit var editTextSpotify: EditText
     private lateinit var rearchButtonSpotify: Button
@@ -30,18 +37,29 @@ class SpotifyActivity :  AppCompatActivity(), MainContract.View {
     private val clientId = "42d9f9b3f8ef4a419766c3f14566f110" // /!\ need to hide
     private val redirectUri = "http://com.sleewell.sleewell/callback"
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_select_playlist_spotify)
-        //setPresenter(SpotifyPresenter(this, this))
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        root = inflater.inflate(R.layout.new_fragment_spotify, container, false)
+
+        setPresenter(SpotifyPresenter(this, this.activity as AppCompatActivity))
         presenter.onViewCreated()
 
+        InitFragmentWidget()
+        return root
+    }
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    private fun InitFragmentWidget() {
+        val menu = root.findViewById<Button>(R.id.MusicButton)
+        menu.setOnClickListener {
+            fragmentManager?.popBackStack()
+        }
 
-        editTextSpotify = findViewById(R.id.editMusicId)
-        rearchButtonSpotify = findViewById(R.id.searchSpotifyButton)
-        listView = findViewById(R.id.playlistSpotifyListView)
+        editTextSpotify = root.findViewById(R.id.editMusicId)
+        rearchButtonSpotify = root.findViewById(R.id.searchSpotifyButton)
+        listView = root.findViewById(R.id.playlistSpotifyListView)
 
         rearchButtonSpotify.setOnClickListener{
             presenter.rearchPlaylist(editTextSpotify.text)
@@ -56,14 +74,15 @@ class SpotifyActivity :  AppCompatActivity(), MainContract.View {
                 return@OnItemClickListener
             resultIntent.putExtra("nameMusicSelected", musicSelected.getName())
             resultIntent.putExtra("uriMusicSelected", musicSelected.getUri())
-            setResult(Activity.RESULT_OK, resultIntent)
-            finish()
+            fragmentManager?.popBackStack()
         }
-
         authenticateSpotify()
     }
 
     override fun getAccessToken() : String {
+        if (!MainActivity.getAccessToken)
+            return ""
+        accessToken = MainActivity.accessToken
         return accessToken
     }
 
@@ -75,27 +94,7 @@ class SpotifyActivity :  AppCompatActivity(), MainContract.View {
         )
         builder.setScopes(arrayOf("streaming"))
         val request = builder.build()
-        AuthenticationClient.openLoginActivity(this, LoginActivity.REQUEST_CODE, request)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intent)
-
-        if (requestCode == REQUEST_CODE) {
-            val response =
-                AuthenticationClient.getResponse(resultCode, intent)
-            when (response.type) {
-                AuthenticationResponse.Type.TOKEN -> {
-                    displayToast("Connected to Spotify")
-                    accessToken = response.accessToken
-                }
-                AuthenticationResponse.Type.ERROR -> {
-                    displayToast("Connection to Spotify Failed")
-                }
-                else -> {
-                }
-            }
-        }
+        AuthenticationClient.openLoginActivity(context as Activity?, LoginActivity.REQUEST_CODE, request)
     }
 
     override fun displayPlaylistSpotify(spotifyAdapter: SpotifyPlaylistAdapter) {
@@ -107,15 +106,15 @@ class SpotifyActivity :  AppCompatActivity(), MainContract.View {
     }
 
     override fun displayToast(message: String) {
-        Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
 
-        if (id == android.R.id.home) {
-            finish()
-        }
+        //if (id == android.R.id.home) {
+        //    finish()
+        //}
         return super.onOptionsItemSelected(item)
     }
 

@@ -65,8 +65,10 @@
             android:dividerHeight="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/main_image" />
+            app:layout_constraintTop_toBottomOf="@+id/main_image"
+            app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -338,11 +340,11 @@
             android:id="@+id/menu_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.08"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/MenuButton"
+            app:layout_constraintEnd_toEndOf="@+id/MenuButton"
+            app:layout_constraintHorizontal_bias="0.10"
+            app:layout_constraintStart_toStartOf="@+id/MenuButton"
+            app:layout_constraintTop_toTopOf="@+id/MenuButton"
             app:srcCompat="@drawable/ic_apps_24px_outlined" />
 
         <Button
@@ -355,8 +357,33 @@
             android:textColor="@color/textOnBackground"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/MusicButton"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/music_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/MusicButton"
+            app:layout_constraintEnd_toEndOf="@+id/MusicButton"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@+id/MusicButton"
+            app:layout_constraintTop_toTopOf="@+id/MusicButton"
+            app:srcCompat="@mipmap/ic_spotify" />
+
+        <Button
+            android:id="@+id/MusicButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/transparent"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Spotify"
+            android:textColor="@color/textOnBackground"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/MenuButton"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
