@@ -13,7 +13,7 @@
 
     <item
         android:id="@+id/navigation_music"
-        android:icon="@drawable/ic_music_nav"
+        android:icon="@drawable/ic_music"
         android:title="Music" />
 
     <item
