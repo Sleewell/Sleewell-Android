@@ -29,8 +29,6 @@ class NetworkManager(private val ctx: Context) : INetworkManager {
      * @author Hugo Berthomé
      */
     override fun initPermissions() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
-            return
         if (!notificationManager.isNotificationPolicyAccessGranted) {
             val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
             ctx.startActivity(intent)
@@ -87,7 +85,7 @@ class NetworkManager(private val ctx: Context) : INetworkManager {
             return
 
         // Check if the notification policy access has been granted for the app.
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || !notificationManager.isNotificationPolicyAccessGranted)
+        if (!notificationManager.isNotificationPolicyAccessGranted)
             return
         if (value) {
             notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALARMS)

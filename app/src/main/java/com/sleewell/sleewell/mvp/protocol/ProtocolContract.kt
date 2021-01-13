@@ -2,6 +2,8 @@ package com.sleewell.sleewell.mvp.protocol
 
 import android.app.Dialog
 import android.graphics.ColorFilter
+import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderListener
+import com.sleewell.sleewell.modules.audio.audioTransformation.ISpectrogramListener
 import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
 
@@ -53,9 +55,77 @@ interface ProtocolContract {
          * @author gabin warnier de wailly
          */
         fun openColorPicker(): Dialog
+
+        /**
+         * Record the audio from the mic source
+         *
+         * @param state
+         * @author Hugo Berthomé
+         */
+        fun onRecordAudio(state: Boolean)
+
+        /**
+         * Return if the smartphone is recording
+         *
+         * @return True if recording, False otherwise
+         * @author Hugo Berthomé
+         */
+        fun isRecording() : Boolean
+
+        /**
+         * Convert an audio pcm buffer to spectrogram equivalent
+         *
+         * @param pcmAudio
+         * @author Hugo Berthomé
+         */
+        fun convertToSpectrogram(pcmAudio: ShortArray)
+
+        /**
+         * Analyse audio and Save the results
+         *
+         * @author Hugo Berthomé
+         */
+        fun analyseAndSave(spectrogram: Array<DoubleArray>)
+
+        /**
+         * Clean up all the resources
+         *
+         * @author Hugo Berthomé
+         */
+        fun cleanUp()
+
+        /**
+         * This method start the music
+         *
+         * @param name name of the music
+         *
+         * @author gabin warnier de wailly
+         */
+        fun startMusique(name : String)
+
+        /**
+         * This method stop the current music launch
+         *
+         * @author gabin warnier de wailly
+         */
+        fun stopMusique()
+
+        /**
+         * This method pause the music
+         *
+         * @author gabin warnier de wailly
+         */
+        fun pauseMusique()
+
+        /**
+         * This method resume the music
+         *
+         * @author gabin warnier de wailly
+         */
+        fun resumeMusique()
     }
 
-    interface Presenter : BasePresenter {
+    interface Presenter : BasePresenter, IRecorderListener, ISpectrogramListener {
         /**
          * Function to call at the creation of the view
          *
@@ -66,7 +136,7 @@ interface ProtocolContract {
         /**
          * this method start the protocol with a specific number of repetition
          *
-         * @param Int the number of repetition for the halo
+         * @param number the number of repetition for the halo
          * @author gabin warnier de wailly
          */
         fun startProtocol(number: Int)
@@ -84,17 +154,31 @@ interface ProtocolContract {
          * @author gabin warnier de wailly
          */
         fun openDialog()
+
+        /**
+         * Start the sleep analyse
+         * Will record audio, analyse and save the data from the night in a file
+         *
+         * @author Hugo Berthomé
+         */
+        fun startAnalyse()
+
+        /**
+         * Pause the sleep analyse
+         *
+         * @author Hugo Berthomé
+         */
+        fun pauseAnalyse()
+
+        /**
+         * Resume the paused sleep analyse
+         *
+         * @author Hugo Berthomé
+         */
+        fun resumeAnalyse()
     }
 
     interface View : BaseView<Presenter> {
-        /**
-         * Function that enable the phone auto lock on the activity
-         *
-         * @param value : true or false
-         * @author Hugo Berthomé
-         */
-        fun enableAutoLock(value: Boolean)
-
         /**
          * This method display the halo with the size give in param
          *

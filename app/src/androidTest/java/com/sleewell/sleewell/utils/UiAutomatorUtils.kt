@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.nfc.NfcAdapter
 import androidx.test.uiautomator.*
+import java.lang.Thread.sleep
 
 class UiAutomatorUtils(
     private val mDevice: UiDevice,
@@ -12,6 +13,7 @@ class UiAutomatorUtils(
 ) {
     companion object {
         const val BASIC_SAMPLE_PACKAGE = "com.sleewell.sleewell"
+        const val SETTING_PANEL_PACKAGE = "com.android.settings"
         const val LAUNCH_TIMEOUT = 5000L
         const val START_BUTTON = "START"
         const val DONE_BUTTON = "Done"
@@ -44,7 +46,7 @@ class UiAutomatorUtils(
 
     fun openSettings() {
         val buttonSetting: UiObject = mDevice.findObject(
-            UiSelector().resourceId("com.sleewell.sleewell:id/settings_action")
+            UiSelector().resourceId("com.sleewell.sleewell:id/settings_nav")
         )
         buttonSetting.click()
     }
@@ -72,11 +74,14 @@ class UiAutomatorUtils(
     }
 
     fun startProtocol() {
-        val clickStart = mDevice.findObject(By.text(START_BUTTON))
+        val clickStart = mDevice.findObject(
+            UiSelector().resourceId("com.sleewell.sleewell:id/button_protocol")
+        )
         clickStart.click()
     }
 
     fun startProtocolNfc() {
+        // TODO ne marche plus car on est dans un fragment à présent
         val intent = Intent(NfcAdapter.ACTION_NDEF_DISCOVERED)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         intent.type = "application/com.sleewell.sleewell"
@@ -110,6 +115,13 @@ class UiAutomatorUtils(
         val doneButton: UiObject =
             mDevice.findObject(UiSelector().resourceId("com.android.settings:id/done"))
         doneButton.click()
+    }
+
+    fun openStatTab() {
+        val buttonSetting: UiObject = mDevice.findObject(
+            UiSelector().resourceId("com.sleewell.sleewell:id/stats_nav")
+        )
+        buttonSetting.click()
     }
 
 }
