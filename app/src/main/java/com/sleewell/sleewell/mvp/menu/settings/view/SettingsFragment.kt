@@ -3,10 +3,8 @@ package com.sleewell.sleewell.mvp.menu.settings.view
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.NavHostFragment
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.sleewell.sleewell.R
@@ -15,19 +13,15 @@ import com.sleewell.sleewell.mvp.menu.settings.presenter.SettingsPresenter
 
 private const val TITLE_TAG = "Settings"
 
-/**
- * A simple [Fragment] subclass.
- */
 class SettingsFragment : Fragment(), SettingsContract.View, PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
     //Context
     private lateinit var presenter: SettingsContract.Presenter
     private lateinit var root: View
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.new_fragment_settings, container, false)
         if (savedInstanceState == null) {
@@ -39,37 +33,16 @@ class SettingsFragment : Fragment(), SettingsContract.View, PreferenceFragmentCo
             requireActivity().title = savedInstanceState.getCharSequence(TITLE_TAG)
         }
         //supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        initActivityWidgets()
         setPresenter(SettingsPresenter(this))
 
         return root
     }
 
-    /**
-     * Initialise all the widgets from the layout
-     */
-    private fun initActivityWidgets() {
-        val nestedNavHostFragment = childFragmentManager.findFragmentById(R.id.nav_menu) as? NavHostFragment
-        val navController = nestedNavHostFragment?.navController
-
-    }
-
-    /**
-     * Set the presenter inside the class
-     *
-     * @param presenter
-     * @author Gabin Warnier de wailly
-     */
     override fun setPresenter(presenter: SettingsContract.Presenter) {
         this.presenter = presenter
         presenter.onViewCreated()
     }
 
-    /**
-     * Function called when quitting the activity
-     *
-     * @author Gabin Warnier de wailly
-     */
     override fun onStop() {
         super.onStop()
         presenter.onDestroy()
@@ -106,6 +79,7 @@ class SettingsFragment : Fragment(), SettingsContract.View, PreferenceFragmentCo
         outState.putCharSequence(TITLE_TAG, activity!!.title)
     }
 
+
     /*override fun onSupportNavigateUp(): Boolean {
         if (activity!!.supportFragmentManager.popBackStackImmediate()) {
             return true
@@ -120,7 +94,7 @@ class SettingsFragment : Fragment(), SettingsContract.View, PreferenceFragmentCo
      */
     class SettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-            setPreferencesFromResource(R.xml.new_settings, rootKey)
+            setPreferencesFromResource(R.xml.settings_preferences, rootKey)
         }
     }
 
@@ -132,6 +106,11 @@ class SettingsFragment : Fragment(), SettingsContract.View, PreferenceFragmentCo
     class NetworkPreferencesFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.network, rootKey)
+            val returnPref = findPreference<Preference>(getString(R.string.setting_network_return_key))
+            returnPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                activity!!.supportFragmentManager.popBackStackImmediate()
+                true
+            }
         }
     }
 
@@ -143,26 +122,27 @@ class SettingsFragment : Fragment(), SettingsContract.View, PreferenceFragmentCo
     class NotificationPreferencesFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.notification, rootKey)
+            val returnPref = findPreference<Preference>(getString(R.string.setting_notification_return_key))
+            returnPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                activity!!.supportFragmentManager.popBackStackImmediate()
+                true
+            }
         }
     }
 
     /**
-     * This hook is called whenever an item in your options menu is selected.
-     * It's will exit the settings activity's
+     * Class instantiate to display Halo settings
      *
-     * @param item The menu item that was selected.
-     *
-     * @return boolean Return false to allow normal menu processing to
-     *         proceed, true to consume it here.
-     *
-     * @author Gabin warnier de wailly
+     * @author Gabin Warnier de wailly
      */
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-
-        /*if (id == android.R.id.home) {
-            finish()
-        }*/
-        return super.onOptionsItemSelected(item)
+    class ProtocolPreferencesFragment : PreferenceFragmentCompat() {
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            setPreferencesFromResource(R.xml.protocol, rootKey)
+            val returnPref = findPreference<Preference>(getString(R.string.setting_protocol_return_key))
+            returnPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                activity!!.supportFragmentManager.popBackStackImmediate()
+                true
+            }
+        }
     }
 }
