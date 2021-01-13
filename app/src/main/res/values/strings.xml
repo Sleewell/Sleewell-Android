@@ -4,18 +4,41 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="start">Start</string>
-    <string name="create_reminder">Create Reminder</string>
-    <string name="edit_reminder">Edit Reminder</string>
-    <string name="select_time">Select a time</string>
-    <string name="no_reminders">No Reminders</string>
-    <string name="time">Time</string>
-    <string name="time_required">Time is a required field</string>
-    <string name="launch_activity">Launch Activity</string>
+    <string name="time_desactivation">TIME</string>
+
+    <!-- Menu -->
+    <string name="nav_button_home">HOME</string>
+    <string name="nav_button_settings">SETTINGS</string>
+    <string name="nav_button_stats">STATS</string>
+    <string name="nav_button_music">MUSIC</string>
+
+    <!-- Home -->
+    <string name="protocol_button">Launch protocol</string>
+
     <!-- Settings -->
     <string name="setting_network_name">Network</string>
     <string name="setting_network_summary">Customise the network during the protocol</string>
+    <string name="setting_network_return_key">network_return_pref</string>
+
+    <string name="setting_protocol_name">Protocol</string>
+    <string name="setting_protocol_summary">Customise the protocol</string>
+    <string name="setting_protocol_return_key">protocol_return_pref</string>
+
+    <string name="setting_halo_name">Halo</string>
+    <string name="settings_halo_key">halo</string>
+    <string name="setting_halo_summary">Customise the halo during the protocol</string>
+    <string name="setting_halo_return_key">halo_return_pref</string>
+    <string name="setting_halo_summary_on">halo turn on during protocol</string>
+    <string name="setting_halo_summary_off">halo turn off during protocol</string>
+
+    <string name="setting_music_name">Music</string>
+    <string name="settings_music_key">music</string>
+    <string name="setting_music_summary_on">music turn on during protocol</string>
+    <string name="setting_music_summary_off">music turn off during protocol</string>
+
     <string name="setting_notification_name">Notifications</string>
     <string name="setting_notification_summary">Customise the notifications</string>
+    <string name="setting_notification_return_key">notification_return_pref</string>
     <string name="setting_wifi_key">wifi</string>
     <string name="setting_wifi_name">Wifi</string>
     <string name="setting_wifi_summary_on">Wifi is on during protocol</string>
@@ -35,4 +58,19 @@
     <!-- Settings file name-->
     <string name="setting_file_network">com.sleewell.sleewell.network</string>
     <string name="setting_file_notification">com.sleewell.sleewell.notification</string>
+
+    <!-- Fragment labels -->
+    <string name="home_label">new_fragment_home</string>
+    <string name="alarm_label">new_fragment_alarm</string>
+    <string name="settings_label">new_fragment_settings</string>
+    <string name="statistics_label">new_fragment_stat</string>
+
+    <!-- Music page -->
+    <string name="forest_menu">FOREST</string>
+    <string name="wind_menu">WIND</string>
+    <string name="fire_menu">FIRE</string>
+    <string name="water_menu">WATER</string>
+    <string name="rain_menu">RAIN</string>
+    <string name="menu_button">Home</string>
+    <string name="main_image_title">Forest</string>
 </resources>

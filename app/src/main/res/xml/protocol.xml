@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        android:title="@string/setting_protocol_name"
+        android:key="@string/setting_protocol_return_key"
+        android:icon="@drawable/arrow_back_24px"
+        />
+    <SwitchPreferenceCompat
+        app:icon="@drawable/ic_music"
+        app:key="@string/settings_music_key"
+        app:defaultValue="@bool/setting_music_default_value"
+        app:summaryOff="@string/setting_music_summary_off"
+        app:summaryOn="@string/setting_music_summary_on"
+        app:title="@string/settings_music_key" />
+
+    <SwitchPreferenceCompat
+        app:icon="@drawable/ic_halo"
+        app:key="@string/settings_halo_key"
+        app:defaultValue="@bool/setting_halo_default_value"
+        app:summaryOff="@string/setting_halo_summary_off"
+        app:summaryOn="@string/setting_halo_summary_on"
+        app:title="@string/settings_halo_key" />
+</androidx.preference.PreferenceScreen>

@@ -10,7 +10,8 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.sleewell.sleewell.R
-import com.sleewell.sleewell.mvp.main.view.MainActivity
+import com.sleewell.sleewell.mvp.menu.alarm.view.AlarmsFragment
+import com.sleewell.sleewell.reveil.data.model.Alarm
 
 /**
  * Alert notification helper of the application
@@ -18,8 +19,9 @@ import com.sleewell.sleewell.mvp.main.view.MainActivity
  * @param base Context of the application
  * @author Romane Bézier
  */
-class AlertNotificationHelper(base: Context?) : ContextWrapper(base) {
+class AlertNotificationHelper(base: Context?, currentAlarm: Alarm) : ContextWrapper(base) {
     private var mManager: NotificationManager? = null
+    private var alarm: Alarm = currentAlarm
 
     /**
      * Create channel for the notification
@@ -42,14 +44,14 @@ class AlertNotificationHelper(base: Context?) : ContextWrapper(base) {
 
     val channelNotification: NotificationCompat.Builder
         get() {
-            val intent = Intent(this, MainActivity::class.java)
-            val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+            val intent = Intent(this, AlarmsFragment::class.java)
+            val pendingIntent = PendingIntent.getActivity(this, alarm.id, intent, 0)
             return NotificationCompat.Builder(applicationContext, channelID)
-                    .setContentTitle("Sleewell")
-                    .setContentText("It's time to sleep ! Alarm in 8 hours")
-                    .setSmallIcon(R.drawable.logo_sleewell)
-                    .setContentIntent(pendingIntent)
-                    .setAutoCancel(true)
+                .setContentTitle("Sleewell")
+                .setContentText("It's time to sleep ! Alarm in 8 hours")
+                .setSmallIcon(R.drawable.logo_sleewell)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
         }
 
     companion object {

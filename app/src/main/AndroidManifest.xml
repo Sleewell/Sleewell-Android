@@ -4,14 +4,15 @@
 
     <uses-permission android:name="android.permission.INTERNET" /> <!-- Do Not Disturb mode -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
     <uses-permission android:name="android.permission.NFC" /> <!-- Nfc detection -->
-    <uses-permission android:name="android.permission.BLUETOOTH" />  <!-- Bluetooth accessibility -->
+    <uses-permission android:name="android.permission.BLUETOOTH" /> <!-- Bluetooth accessibility -->
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- Wifi accessibility -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- Mic accessibility -->
 
     <application
         android:allowBackup="true"
@@ -20,7 +21,19 @@
         android:roundIcon="@mipmap/icon_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvp.protocol.view.ProtocolActivity" android:launchMode="singleTask">
+        <activity
+            android:name="com.spotify.sdk.android.authentication.LoginActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".mvp.mainActivity.view.MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
             <!-- Open the app on this specific activity when a NFC tag contain a mime type as described below -->
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
@@ -36,25 +49,16 @@
                     android:host="www.sleewell.fr"
                     android:pathPrefix="/"/>
             </intent-filter> -->
+
         </activity>
         <activity
-            android:name=".mvp.main.view.MainActivity"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:name="com.sleewell.sleewell.reveil.DesactivationActivity"
+            android:label="Desactivation"
+            android:theme="@style/AppTheme.NoActionBar" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".mvp.settings.view.SettingsActivity"
-            android:label="Settings" />
-
-        <receiver android:name=".reveil.AlarmReceiver"/>
-        <receiver android:name=".reveil.AlertReceiver"/>
-        <receiver android:name=".reveil.GlobalReceiver"/>
+        <receiver android:name=".reveil.AlarmReceiver" />
+        <receiver android:name=".reveil.AlertReceiver" />
+        <receiver android:name=".reveil.GlobalReceiver" />
     </application>
 
 </manifest>
