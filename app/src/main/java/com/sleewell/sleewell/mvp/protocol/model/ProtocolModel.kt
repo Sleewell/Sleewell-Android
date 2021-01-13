@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.ColorFilter
 import android.graphics.drawable.ColorDrawable
+import android.media.MediaPlayer
 import android.view.MotionEvent
 import android.view.Window
 import android.widget.ImageView
@@ -43,6 +44,9 @@ class ProtocolModel(
     private val recorder: IRecorderManager = RawRecorderManager(context, audioListener, samplingRate)
     private val spectrogram = Spectrogram(spectrogramListener, samplingRate)
     private val analyser = AudioAnalyser(context, this, samplingRate)
+
+    //Music
+    private var mediaPlayer: MediaPlayer? = null
 
     override fun getSizeOfCircle(): Int {
         return size
@@ -159,6 +163,33 @@ class ProtocolModel(
         recorder.onRecord(false)
         spectrogram.cleanUp()
         analyser.cleanUp()
+    }
+
+    override fun startMusique(name: String) {
+        if (mediaPlayer != null) {
+            mediaPlayer!!.release()
+        }
+        val singh = context.resources.getIdentifier(name, "raw", context.packageName)
+        mediaPlayer = MediaPlayer.create(context, singh)
+        mediaPlayer!!.start()
+    }
+
+    override fun pauseMusique() {
+        if (mediaPlayer != null) {
+            mediaPlayer!!.pause()
+        }
+    }
+
+    override fun resumeMusique() {
+        if (mediaPlayer != null) {
+            mediaPlayer!!.start()
+        }
+    }
+
+    override fun stopMusique() {
+        if (mediaPlayer != null) {
+            mediaPlayer!!.stop()
+        }
     }
 
     /**

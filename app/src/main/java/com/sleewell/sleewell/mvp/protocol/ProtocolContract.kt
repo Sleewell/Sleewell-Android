@@ -93,6 +93,36 @@ interface ProtocolContract {
          * @author Hugo Berthomé
          */
         fun cleanUp()
+
+        /**
+         * This method start the music
+         *
+         * @param name name of the music
+         *
+         * @author gabin warnier de wailly
+         */
+        fun startMusique(name : String)
+
+        /**
+         * This method stop the current music launch
+         *
+         * @author gabin warnier de wailly
+         */
+        fun stopMusique()
+
+        /**
+         * This method pause the music
+         *
+         * @author gabin warnier de wailly
+         */
+        fun pauseMusique()
+
+        /**
+         * This method resume the music
+         *
+         * @author gabin warnier de wailly
+         */
+        fun resumeMusique()
     }
 
     interface Presenter : BasePresenter, IRecorderListener, ISpectrogramListener {
