@@ -107,6 +107,8 @@ dependencies {
     implementation 'com.ebanx:swipe-button:0.4.0'
     implementation project(':spotify-app-remote')
     implementation "com.google.code.gson:gson:2.6.1"
+
+    compile 'com.github.claucookie.miniequalizer:library:1.0.0'
     implementation 'com.spotify.android:auth:1.1.0'
     implementation 'com.github.AAChartModel:AAChartCore-Kotlin:-SNAPSHOT'
 }

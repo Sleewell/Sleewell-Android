@@ -8,7 +8,7 @@ import com.sleewell.sleewell.R
 class MyHolder(v: View?) {
 
     var name: TextView? = v!!.findViewById(R.id.listview_spotify_title)
-    var uri: TextView? = v!!.findViewById(R.id.listview_spotify_uri)
+    //var uri: TextView? = v!!.findViewById(R.id.listview_spotify_uri)
     var img: ImageView? = v!!.findViewById(R.id.listview_spotify_images)
 
 }

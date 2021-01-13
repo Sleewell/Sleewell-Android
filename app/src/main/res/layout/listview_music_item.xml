@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:padding="7dp">
+
+    <View
+        android:id="@+id/circle_forest"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="23dp"
+        android:background="@drawable/circle"
+        android:backgroundTint="@color/textOnBackground"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/rain_forest_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/rain_forest" />
+
+    <es.claucookie.miniequalizerlibrary.EqualizerView
+        android:id="@+id/equalizer_view"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="-45dp"
+        android:visibility="invisible"
+        app:animDuration="3500"
+        app:foregroundColor="@color/textOnBackground" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/soundTitle"
+            android:layout_width="250dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="SoundTitle"
+            android:textColor="@color/textOnBackground"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/soundDescription"
+            android:layout_width="250dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="0dp"
+            android:fontFamily="@font/roboto_regular"
+            android:text="Description"
+            android:textColor="@color/textButDarker"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>
