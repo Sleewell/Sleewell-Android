@@ -52,14 +52,19 @@ class ProtocolMenuPresenter(private var view: ProtocolMenuContract.View, private
         connection.switchToSleepMode(true)
         lockScreen.enableShowWhenLock()
         lockScreen.enableKeepScreenOn()
+
         view.printHalo(model.getSizeOfCircle())
-        // TODO: if (settings.getHalo()) {
-        startHalo()
-        // TODO: setColorAccordingToSettings
+        if (settings.getHalo()) {
+            startHalo()
+        }
 
         playMusic()
 
         startAnalyse()
+    }
+
+    override fun isHaloOn(): Boolean {
+        return settings.getHalo()
     }
 
     override fun onDestroy() {
@@ -70,11 +75,11 @@ class ProtocolMenuPresenter(private var view: ProtocolMenuContract.View, private
     }
 
     override fun playMusic() {
-        // TODO: if (settings.getMusicAutoPlay()) {
-        view.animateEqualizer(true)
-        /*else {
-             view.animateEqualizer(false)
-        }*/
+        if (settings.getMusic()) {
+            view.animateEqualizer(true)
+        } else {
+            view.animateEqualizer(false)
+        }
     }
 
     override fun pauseMusic() {
@@ -96,7 +101,6 @@ class ProtocolMenuPresenter(private var view: ProtocolMenuContract.View, private
 
     override fun stopHalo() {
         timer.cancel()
-        // TODO: go to menu
     }
 
     override fun disableShowWhenLock() {

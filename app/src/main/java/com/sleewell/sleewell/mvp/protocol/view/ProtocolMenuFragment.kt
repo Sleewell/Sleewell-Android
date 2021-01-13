@@ -60,9 +60,9 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
         root =  inflater.inflate(R.layout.new_fragment_protocol_menu, container, false)
 
         (requireActivity() as MainActivity).setUserInteractionListener(this)
-        onUserInteraction()
         initActivityWidgets()
         setPresenter(ProtocolMenuPresenter(this, this.activity as AppCompatActivity))
+        onUserInteraction()
 
         return root
     }
@@ -125,7 +125,7 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
         if (isHaloDisplayed) {
             hideHalo()
             handler.removeCallbacks(displayHaloRunnable)
-        } else {
+        } else if (presenter.isHaloOn()) {
             handler.removeCallbacks(displayHaloRunnable)
             handler.postDelayed(displayHaloRunnable,  inactivityDuration * 1000)
         }

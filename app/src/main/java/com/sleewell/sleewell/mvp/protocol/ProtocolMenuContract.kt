@@ -16,6 +16,14 @@ interface ProtocolMenuContract {
         fun onViewCreated()
 
         /**
+         * Get the settings for halo display
+         *
+         * @return True - halo displayed | False - halo not displayed
+         * @author Titouan FIANCETTE
+         */
+        fun isHaloOn(): Boolean
+
+        /**
          * Plays the music at the start of the protocol
          *
          * @author Titouan FIANCETTE

@@ -69,4 +69,36 @@ interface ISettingsManager {
      * @author Hugo Berthomé
      */
     fun setDnd(state : Boolean)
+
+    /**
+     * Get the halo state setting
+     *
+     * @return True - halo displayed during protocol | False - halo not displayed during protocol
+     * @author Titouan FIANCETTE
+     */
+    fun getHalo() : Boolean
+
+    /**
+     * Set the halo state setting
+     *
+     * @param state True - halo displayed during protocol | False - halo not displayed during protocol
+     * @author Titouan FIANCETTE
+     */
+    fun setHalo(state: Boolean)
+
+    /**
+     * Get the music state setting
+     *
+     * @return True - music played during protocol | False - music not played during protocol
+     * @author Titouan FIANCETTE
+     */
+    fun getMusic() : Boolean
+
+    /**
+     * Set the music state setting
+     *
+     * @param state True - music played during protocol | False - music not played during protocol
+     * @author Titouan FIANCETTE
+     */
+    fun setMusic(state: Boolean)
 }

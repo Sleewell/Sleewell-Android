@@ -103,4 +103,27 @@ class SettingsManager(private val ctx: Context) : ISettingsManager {
         }
     }
 
+    override fun setHalo(state: Boolean) {
+        with(sharedPref.edit()) {
+            putBoolean(ctx.resources.getString(R.string.settings_halo_key), state)
+            commit()
+        }
+    }
+
+    override fun getHalo(): Boolean {
+        val defaultValue = ctx.resources.getBoolean(R.bool.setting_halo_default_value)
+        return sharedPref.getBoolean(ctx.resources.getString(R.string.settings_halo_key), defaultValue)
+    }
+
+    override fun setMusic(state: Boolean) {
+        with(sharedPref.edit()) {
+            putBoolean(ctx.resources.getString(R.string.settings_music_key), state)
+            commit()
+        }
+    }
+
+    override fun getMusic(): Boolean {
+        val defaultValue = ctx.resources.getBoolean(R.bool.setting_music_default_value)
+        return sharedPref.getBoolean(ctx.resources.getString(R.string.settings_music_key), defaultValue)
+    }
 }
