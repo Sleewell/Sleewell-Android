@@ -6,30 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ToggleButton
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.modules.navigation.CustomNavBar
+import com.sleewell.sleewell.mvp.menu.MenuContract
+import com.sleewell.sleewell.mvp.menu.presenter.MenuPresenter
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class MenuFragment : Fragment(), MenuContract.View {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MenuFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class MenuFragment : Fragment() {
     private lateinit var root: View
+    private lateinit var presenter: MenuContract.Presenter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.new_fragment_menu, container, false)
         initActivityWidgets()
+        setPresenter(MenuPresenter(this, this.activity as AppCompatActivity))
 
         return root
     }
@@ -38,7 +34,6 @@ class MenuFragment : Fragment() {
      * Initialise all the widgets from the layout
      */
     private fun initActivityWidgets() {
-
         val nestedNavHostFragment = childFragmentManager.findFragmentById(R.id.nav_menu) as? NavHostFragment
         val navController = nestedNavHostFragment?.navController
 
@@ -54,5 +49,10 @@ class MenuFragment : Fragment() {
         customNavBar.addButton(statNav, getString(R.string.statistics_label), R.id.statFragment)
 
         customNavBar.setNavigation(navController!!)
+    }
+
+    override fun setPresenter(presenter: MenuContract.Presenter) {
+        this.presenter = presenter
+        presenter.onViewCreated()
     }
 }

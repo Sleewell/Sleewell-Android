@@ -2,31 +2,33 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory
-        app:key="network_category"
-        app:title="@string/setting_network_name">
-        <SwitchPreferenceCompat
-            app:icon="@drawable/ic_setting"
-            app:key="@string/setting_wifi_key"
-            app:defaultValue="@bool/setting_wifi_default_value"
-            app:summaryOff="@string/setting_wifi_summary_off"
-            app:summaryOn="@string/setting_wifi_summary_on"
-            app:title="@string/setting_wifi_name" />
+    <Preference
+        android:title="@string/setting_network_name"
+        android:key="@string/setting_network_return_key"
+        android:icon="@drawable/arrow_back_24px"
+        />
 
-        <SwitchPreferenceCompat
-            app:icon="@drawable/ic_setting"
-            app:key="@string/setting_bluetooth_key"
-            app:defaultValue="@bool/setting_bluetooth_default_value"
-            app:summaryOff="@string/setting_bluetooth_summary_off"
-            app:summaryOn="@string/setting_bluetooth_summary_on"
-            app:title="@string/setting_bluetooth_name" />
+    <SwitchPreferenceCompat
+        app:icon="@drawable/wifi_24px"
+        app:key="@string/setting_wifi_key"
+        app:defaultValue="@bool/setting_wifi_default_value"
+        app:summaryOff="@string/setting_wifi_summary_off"
+        app:summaryOn="@string/setting_wifi_summary_on"
+        app:title="@string/setting_wifi_name" />
 
-        <SwitchPreferenceCompat
-            app:icon="@drawable/ic_setting"
-            app:key="@string/setting_cellular_key"
-            app:defaultValue="@bool/setting_cellular_default_value"
-            app:summaryOff="@string/setting_cellular_summary_off"
-            app:summaryOn="@string/setting_cellular_summary_on"
-            app:title="@string/setting_cellular_name" />
-    </PreferenceCategory>
+    <SwitchPreferenceCompat
+        app:icon="@drawable/bluetooth_24px"
+        app:key="@string/setting_bluetooth_key"
+        app:defaultValue="@bool/setting_bluetooth_default_value"
+        app:summaryOff="@string/setting_bluetooth_summary_off"
+        app:summaryOn="@string/setting_bluetooth_summary_on"
+        app:title="@string/setting_bluetooth_name" />
+
+    <SwitchPreferenceCompat
+        app:icon="@drawable/network_cell_24px"
+        app:key="@string/setting_cellular_key"
+        app:defaultValue="@bool/setting_cellular_default_value"
+        app:summaryOff="@string/setting_cellular_summary_off"
+        app:summaryOn="@string/setting_cellular_summary_on"
+        app:title="@string/setting_cellular_name" />
 </androidx.preference.PreferenceScreen>

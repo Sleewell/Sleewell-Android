@@ -28,7 +28,7 @@ class HomeFragment : Fragment(), HomeContract.View {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.new_fragment_home, container, false)
         initActivityWidgets()
@@ -50,7 +50,7 @@ class HomeFragment : Fragment(), HomeContract.View {
 
         val buttonProtocol = root.findViewById<Button>(R.id.button_protocol)
         buttonProtocol.setOnClickListener {
-            navController.navigate(R.id.action_menuFragment_to_protocolFragment)
+            navController.navigate(R.id.action_menuFragment_to_protocolMenuFragment)
         }
 
         val buttonMusic = root.findViewById<Button>(R.id.button_music)

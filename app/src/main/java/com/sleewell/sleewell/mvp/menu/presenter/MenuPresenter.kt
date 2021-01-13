@@ -1,6 +1,9 @@
 package com.sleewell.sleewell.mvp.menu.presenter
 
 import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
+import com.sleewell.sleewell.modules.lockScreen.ILockScreenManager
+import com.sleewell.sleewell.modules.lockScreen.LockScreenManager
 import com.sleewell.sleewell.mvp.menu.MenuContract
 
 /**
@@ -11,23 +14,13 @@ import com.sleewell.sleewell.mvp.menu.MenuContract
  * @param context Context of the activity / view
  * @author Hugo Berthomé
  */
-class MenuPresenter(view: MenuContract.View, context: Context) : MenuContract.Presenter {
+class MenuPresenter(private var view: MenuContract.View, private val ctx: AppCompatActivity) : MenuContract.Presenter {
+    private val lockScreen: ILockScreenManager = LockScreenManager(ctx)
 
-    private var view: MenuContract.View? = view
-
-    /**
-     * Function to call at the creation of the view
-     *
-     * @author Hugo Berthomé
-     */
     override fun onViewCreated() {
+        lockScreen.disableShowWhenLock()
     }
 
-    /**
-     * onDestroy is called at each time e presenter will be destroyed
-     * @author Hugo Berthomé
-     */
     override fun onDestroy() {
-        view = null
     }
 }
