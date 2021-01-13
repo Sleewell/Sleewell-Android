@@ -36,7 +36,7 @@ class NfcTest {
         utils.launchApp()
     }
 
-    @Test
+    /*@Test
     fun launchAlreadyOpenedAndLeaveProtocol() {
         utils.startProtocolNfc()
 
@@ -54,5 +54,5 @@ class NfcTest {
         utils.exitNetworkPanel()
         utils.phoneReturnButton()
         utils.exitNetworkPanel()
-    }
+    }*/
 }
