@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- Wifi accessibility -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- Background service for analyse -->
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- Mic accessibility -->
 
@@ -27,8 +28,8 @@
         <activity
             android:name=".mvp.mainActivity.view.MainActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -59,6 +60,18 @@
         <receiver android:name=".reveil.AlarmReceiver" />
         <receiver android:name=".reveil.AlertReceiver" />
         <receiver android:name=".reveil.GlobalReceiver" />
+        <receiver
+            android:name=".modules.audio.service.AnalyseServiceBroadcast"
+            android:directBootAware="true"
+            android:exported="false" />
+
+        <service
+            android:name=".modules.audio.service.AnalyseService"
+            android:description="@string/foreground_service_analyse_description"
+            android:exported="false"
+            android:foregroundServiceType="microphone"
+            android:icon="@mipmap/icon_launcher"
+            android:label="@string/foreground_service_analyse_label" />
     </application>
 
 </manifest>

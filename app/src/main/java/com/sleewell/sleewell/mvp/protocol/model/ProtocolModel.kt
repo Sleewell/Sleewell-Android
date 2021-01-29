@@ -2,12 +2,16 @@ package com.sleewell.sleewell.mvp.protocol.model
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.ColorFilter
 import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
+import android.os.IBinder
 import android.view.MotionEvent
 import android.view.Window
 import android.widget.ImageView
@@ -22,6 +26,7 @@ import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderManager
 import com.sleewell.sleewell.modules.audio.audioRecord.RawRecorderManager
 import com.sleewell.sleewell.modules.audio.audioTransformation.ISpectrogramListener
 import com.sleewell.sleewell.modules.audio.audioTransformation.Spectrogram
+import com.sleewell.sleewell.modules.audio.service.AnalyseService
 import com.sleewell.sleewell.mvp.protocol.ProtocolContract
 
 /**
@@ -114,6 +119,7 @@ class ProtocolModel(
      * @author Hugo Berthomé
      */
     override fun onRecordAudio(state: Boolean) {
+        bindToService()
         if (!recorder.permissionGranted()) {
             recorder.askPermission()
             if (!recorder.permissionGranted()) {
@@ -219,5 +225,40 @@ class ProtocolModel(
      */
     override fun onDataAnalysed(data: AnalyseValue) {
         // Do nothing but is existing if necessary
+    }
+
+    override fun onDestroy() {
+        cleanUp()
+        unbindFromService()
+    }
+
+    private var mService : AnalyseService? = null
+    private var isBound = false
+    private val mConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            val binder = service as AnalyseService.AnalyseServiceBinder
+            mService = binder.service
+            isBound = true
+            if (mService?.isStarted() == false) {
+                mService?.startAnalyse()
+            }
+        }
+        override fun onServiceDisconnected(name: ComponentName?) {
+            mService = null
+            isBound = false
+        }
+
+    }
+
+    private fun bindToService() {
+        Intent(context, AnalyseService::class.java).also {
+            context.bindService(it, mConnection, Context.BIND_AUTO_CREATE)
+        }
+    }
+
+    private fun unbindFromService() {
+        Intent(context, AnalyseService::class.java).also {
+            context.unbindService(mConnection)
+        }
     }
 }

@@ -123,6 +123,12 @@ interface ProtocolContract {
          * @author gabin warnier de wailly
          */
         fun resumeMusique()
+
+        /**
+         * Method to cal at the end of the view
+         *
+         */
+        fun onDestroy()
     }
 
     interface Presenter : BasePresenter, IRecorderListener, ISpectrogramListener {

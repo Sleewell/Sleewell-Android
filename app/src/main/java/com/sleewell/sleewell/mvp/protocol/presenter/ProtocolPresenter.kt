@@ -56,7 +56,7 @@ class ProtocolPresenter(view: ProtocolContract.View, private val ctx: AppCompatA
         connection.switchToSleepMode(false)
         lockScreen.disableShowWhenLock()
         lockScreen.disableKeepScreenOn()
-        model.cleanUp()
+        model.onDestroy()
     }
 
     /**
