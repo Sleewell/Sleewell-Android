@@ -12,6 +12,15 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.modules.audio.audioAnalyser.AudioAnalyser
+import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseListener
+import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
+import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
+import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderListener
+import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderManager
+import com.sleewell.sleewell.modules.audio.audioRecord.RawRecorderManager
+import com.sleewell.sleewell.modules.audio.audioTransformation.ISpectrogramListener
+import com.sleewell.sleewell.modules.audio.audioTransformation.Spectrogram
 
 class AnalyseService : Service() {
 
@@ -19,14 +28,64 @@ class AnalyseService : Service() {
         const val STOP = "stopAnalyse"
     }
 
+    // Service var
+    private var isServiceStarted = false
     private val mBinder = AnalyseServiceBinder()
     private var stopPendingIntent: PendingIntent? = null
 
-    private var isStarted = false
+    // Audio analyser
+    private val samplingRate = 44100
+    private var isAnalyseRunning = false
+    private val spectrogramListener = SpectrogramListener()
+    private val audioListener = AudioListener()
+    private val analyseListener = AudioAnalyseListener()
+
+    //private val recorder: IRecorderManager = RawRecorderManager(this, audioListener, samplingRate)
+    //private val spectrogram = Spectrogram(spectrogramListener, samplingRate)
+    //private val analyser = AudioAnalyser(this, analyseListener, samplingRate)
+
+    inner class SpectrogramListener : ISpectrogramListener {
+        override fun onBufferReceived(spectrogram: Array<DoubleArray>) {
+            TODO("Not yet implemented")
+        }
+
+        override fun onErrorSpec(msg: String) {
+            TODO("Not yet implemented")
+        }
+    }
+
+    inner class AudioListener : IRecorderListener {
+        override fun onAudio(buffer: ShortArray) {
+            TODO("Not yet implemented")
+        }
+
+        override fun onAudioError(message: String) {
+            TODO("Not yet implemented")
+        }
+
+        override fun onAudioFinished() {
+            TODO("Not yet implemented")
+        }
+    }
+
+    inner class AudioAnalyseListener : IAudioAnalyseListener {
+        override fun onError(msg: String) {
+            TODO("Not yet implemented")
+        }
+
+        override fun onFinish() {
+            TODO("Not yet implemented")
+        }
+
+        override fun onDataAnalysed(data: AnalyseValue) {
+            TODO("Not yet implemented")
+        }
+    }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
+        //val test = this.cacheDir
         startService()
         parseCmd(intent?.action)
         return START_NOT_STICKY
@@ -48,6 +107,7 @@ class AnalyseService : Service() {
         Log.d("AnalyseService", "Unbind")
         return super.onUnbind(intent)
     }
+
     // TODO register last data in file
     override fun onDestroy() {
         super.onDestroy()
@@ -70,7 +130,7 @@ class AnalyseService : Service() {
         } else {
             startForeground(1, notification)
         }
-        isStarted = true
+        isServiceStarted = true
     }
 
     private fun stopService() {
@@ -79,7 +139,7 @@ class AnalyseService : Service() {
             override fun onTick(p0: Long) {}
             override fun onFinish() {
                 stopForeground(true)
-                isStarted = false
+                isServiceStarted = false
             }
         }
         endTimer.start()
@@ -96,22 +156,28 @@ class AnalyseService : Service() {
     // ================ Notifications =========================
 
     fun startAnalyse() {
-        if (!isStarted) {
+        if (!isServiceStarted) {
             startService()
         }
 
         // TODO register sound and analyse here
+        if (!isAnalyseRunning) {
+
+        }
     }
 
     fun isStarted(): Boolean {
-        return isStarted
+        return isAnalyseRunning
     }
 
     private fun createStatusNotification(): Notification {
-        return NotificationCompat.Builder(this, resources.getString(R.string.notification_analyse_channel_id))
+        return NotificationCompat.Builder(
+            this,
+            resources.getString(R.string.notification_analyse_channel_id)
+        )
             .setContentTitle(resources.getString(R.string.analyse_foreground_notification_name))
             .setContentText(resources.getString(R.string.analyse_foreground_notification_content_text))
-            .setSmallIcon(R.drawable.logo_sleewell)
+            .setSmallIcon(R.drawable.ic_sleewell)
             .addAction(R.drawable.ic_close, "Stop", stopPendingIntent)
             .build()
     }
@@ -123,7 +189,7 @@ class AnalyseService : Service() {
         }
     }
 
-    //TODO ID à changer
+    // TODO ID à changer
     private fun displayNotification(notification: Notification) {
         with(NotificationManagerCompat.from(this@AnalyseService)) {
             notify(1, notification)
@@ -131,10 +197,15 @@ class AnalyseService : Service() {
     }
 
     private fun displayStoppingNotification() {
-        displayNotification(NotificationCompat.Builder(this, resources.getString(R.string.notification_analyse_channel_id))
-            .setContentTitle(resources.getString(R.string.analyse_foreground_notification_name))
-            .setContentText(resources.getString(R.string.analyse_foreground_stopping_notification_content_text))
-            .setSmallIcon(R.drawable.logo_sleewell)
-            .build())
+        displayNotification(
+            NotificationCompat.Builder(
+                this,
+                resources.getString(R.string.notification_analyse_channel_id)
+            )
+                .setContentTitle(resources.getString(R.string.analyse_foreground_notification_name))
+                .setContentText(resources.getString(R.string.analyse_foreground_stopping_notification_content_text))
+                .setSmallIcon(R.drawable.ic_sleewell)
+                .build()
+        )
     }
 }

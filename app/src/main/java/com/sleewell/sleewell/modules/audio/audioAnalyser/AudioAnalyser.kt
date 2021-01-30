@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.modules.audio.audioAnalyser
 
+import android.content.Context
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseListener
@@ -17,7 +18,7 @@ import kotlin.math.log
  * @author Hugo Berthomé
  */
 class AudioAnalyser(
-    context: AppCompatActivity,
+    context: Context,
     private val listener: IAudioAnalyseListener,
     private val samplingRate: Int = 44100
 ) :

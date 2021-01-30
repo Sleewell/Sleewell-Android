@@ -37,7 +37,7 @@ import com.sleewell.sleewell.mvp.protocol.ProtocolContract
  */
 class ProtocolModel(
     private val audioListener: IRecorderListener,
-    private val spectrogramListener: ISpectrogramListener,
+    spectrogramListener: ISpectrogramListener,
     private val context: AppCompatActivity
 ) : ProtocolContract.Model, IAudioAnalyseListener {
     private var size: Int = 10
@@ -108,7 +108,7 @@ class ProtocolModel(
             true
         }
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCanceledOnTouchOutside(true)
         return dialog
     }
 
@@ -119,13 +119,8 @@ class ProtocolModel(
      * @author Hugo Berthomé
      */
     override fun onRecordAudio(state: Boolean) {
-        bindToService()
-        if (!recorder.permissionGranted()) {
-            recorder.askPermission()
-            if (!recorder.permissionGranted()) {
-                audioListener.onAudioError("Permission not granted to record audio, check you phone parameters")
-            }
-        }
+        //bindToService()
+        startForeground()
         if (recorder.permissionGranted()) {
             recorder.onRecord(state)
         }
@@ -248,6 +243,16 @@ class ProtocolModel(
             isBound = false
         }
 
+    }
+
+    private fun startForeground() {
+        Intent(context, AnalyseService::class.java).also {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                this.context.startForegroundService(it)
+            } else {
+                this.context.startService(it)
+            }
+        }
     }
 
     private fun bindToService() {

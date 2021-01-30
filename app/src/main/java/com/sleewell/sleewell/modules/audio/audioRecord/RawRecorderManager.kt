@@ -1,12 +1,15 @@
 package com.sleewell.sleewell.modules.audio.audioRecord
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -25,7 +28,7 @@ private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
  * @author Hugo Berthomé
  */
 class RawRecorderManager(
-    private val ctx: AppCompatActivity,
+    private val ctx: Context,
     private val onListener: IRecorderListener,
     private val samplingRate : Int = 44100
 ) : IRecorderManager {
@@ -156,23 +159,13 @@ class RawRecorderManager(
     }
 
     /**
-     * Ask the permissions to the user to use microphone
-     *
-     * @return true if accepted otherwise false
-     * @author Hugo Berthomé
-     */
-    override fun askPermission() {
-        ctx.requestPermissions(permissions, REQUEST_RECORD_AUDIO_PERMISSION)
-    }
-
-    /**
      * Check if the permission to record has been granted
      *
      * @return true if granted otherwise false
      * @author Hugo Berthomé
      */
     override fun permissionGranted(): Boolean {
-        return ctx.checkSelfPermission(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+        return ActivityCompat.checkSelfPermission(ctx, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
     }
 
     /**

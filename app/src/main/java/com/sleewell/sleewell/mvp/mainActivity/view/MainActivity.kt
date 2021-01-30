@@ -11,6 +11,7 @@ import com.sleewell.sleewell.mvp.mainActivity.MainContract
 import com.sleewell.sleewell.mvp.mainActivity.presenter.MainPresenter
 import android.content.Intent
 import android.os.Build
+import com.sleewell.sleewell.modules.permissions.PermissionManager
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.spotify.sdk.android.authentication.LoginActivity
@@ -29,8 +30,13 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         super.onCreate(savedInstanceState)
         createNotificationChannel()
         setContentView(R.layout.new_activity_main)
-        setPresenter(MainPresenter(this, this))
+        setPresenter(MainPresenter(this))
         presenter.onViewCreated()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        askAuthorisation();
     }
 
     /**
@@ -107,6 +113,14 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+    }
 
+    /**
+     * Ask for all the permissions of the application
+     * MANDATORY DO NOT DELETE
+     */
+    private fun askAuthorisation() {
+        val permissionManager = PermissionManager(this)
+        permissionManager.askAllPermission()
     }
 }
