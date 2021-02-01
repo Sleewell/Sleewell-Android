@@ -26,7 +26,7 @@ import com.sleewell.sleewell.mvp.protocol.model.ProtocolModel
 
 class ProtocolMenuPresenter(private var view: ProtocolMenuContract.View, private val ctx: AppCompatActivity) : ProtocolMenuContract.Presenter {
 
-    private var model: ProtocolContract.Model = ProtocolModel(this, this, ctx)
+    private var model: ProtocolContract.Model = ProtocolModel(ctx)
 
     private val connection: INetworkManager = NetworkManager(ctx)
     private val lockScreen: ILockScreenManager = LockScreenManager(ctx)
@@ -75,7 +75,7 @@ class ProtocolMenuPresenter(private var view: ProtocolMenuContract.View, private
         lockScreen.disableKeepScreenOn()
 
         model.stopMusique()
-        model.cleanUp()
+        model.onDestroy()
     }
 
     override fun playMusic() {
@@ -122,32 +122,11 @@ class ProtocolMenuPresenter(private var view: ProtocolMenuContract.View, private
         model.onRecordAudio(true)
     }
 
-    override fun pauseAnalyse() {
-        TODO("Not yet implemented")
-    }
-
-    override fun resumeAnalyse() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onAudio(buffer: ShortArray) {
-        model.convertToSpectrogram(buffer)
-    }
-
-    override fun onAudioError(message: String) {
-        Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
-    }
-
-    override fun onAudioFinished() {
-        Toast.makeText(ctx, "Record stopped", Toast.LENGTH_LONG).show()
-    }
-
-    override fun onBufferReceived(spectrogram: Array<DoubleArray>) {
-        model.analyseAndSave(spectrogram)
-    }
-
-
-    override fun onErrorSpec(msg: String) {
-        Toast.makeText(ctx, msg, Toast.LENGTH_LONG).show()
+    /**
+     * Stop the analyse
+     *
+     */
+    override fun stopAnalyse() {
+        model.onRecordAudio(false)
     }
 }

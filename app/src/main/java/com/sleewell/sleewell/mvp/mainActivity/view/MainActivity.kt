@@ -10,6 +10,7 @@ import com.sleewell.sleewell.modules.gesturelistener.UserInteractionListener
 import com.sleewell.sleewell.mvp.mainActivity.MainContract
 import com.sleewell.sleewell.mvp.mainActivity.presenter.MainPresenter
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import com.sleewell.sleewell.modules.permissions.PermissionManager
 import com.spotify.sdk.android.authentication.AuthenticationClient
@@ -106,6 +107,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                 NotificationManager.IMPORTANCE_MIN
             ).apply {
                 description = resources.getString(R.string.notification_analyse_channel_description)
+                enableLights(true)
+                lightColor = Color.argb(255, 207, 123, 45)
+                enableVibration(false)
             }
 
             // Register the channel with the system

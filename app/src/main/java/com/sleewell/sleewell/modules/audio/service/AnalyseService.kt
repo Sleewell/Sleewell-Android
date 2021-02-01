@@ -1,14 +1,12 @@
 package com.sleewell.sleewell.modules.audio.service
 
-import android.app.Notification
-import android.app.PendingIntent
-import android.app.Service
+import android.app.*
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
-import android.os.Binder
-import android.os.CountDownTimer
-import android.os.IBinder
+import android.os.*
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.sleewell.sleewell.R
@@ -21,191 +19,249 @@ import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderManager
 import com.sleewell.sleewell.modules.audio.audioRecord.RawRecorderManager
 import com.sleewell.sleewell.modules.audio.audioTransformation.ISpectrogramListener
 import com.sleewell.sleewell.modules.audio.audioTransformation.Spectrogram
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
+/**
+ * Service that record and analyse sound from the night
+ *
+ * @author Hugo Berthomé
+ */
 class AnalyseService : Service() {
 
     companion object {
         const val STOP = "stopAnalyse"
+        const val START = "startAnalyse"
     }
 
     // Service var
+    private var wakeLock: PowerManager.WakeLock? = null
     private var isServiceStarted = false
-    private val mBinder = AnalyseServiceBinder()
+
     private var stopPendingIntent: PendingIntent? = null
 
     // Audio analyser
     private val samplingRate = 44100
     private var isAnalyseRunning = false
-    private val spectrogramListener = SpectrogramListener()
-    private val audioListener = AudioListener()
-    private val analyseListener = AudioAnalyseListener()
 
-    //private val recorder: IRecorderManager = RawRecorderManager(this, audioListener, samplingRate)
-    //private val spectrogram = Spectrogram(spectrogramListener, samplingRate)
-    //private val analyser = AudioAnalyser(this, analyseListener, samplingRate)
+    // =============== Service ==============
 
-    inner class SpectrogramListener : ISpectrogramListener {
-        override fun onBufferReceived(spectrogram: Array<DoubleArray>) {
-            TODO("Not yet implemented")
-        }
-
-        override fun onErrorSpec(msg: String) {
-            TODO("Not yet implemented")
-        }
-    }
-
-    inner class AudioListener : IRecorderListener {
-        override fun onAudio(buffer: ShortArray) {
-            TODO("Not yet implemented")
-        }
-
-        override fun onAudioError(message: String) {
-            TODO("Not yet implemented")
-        }
-
-        override fun onAudioFinished() {
-            TODO("Not yet implemented")
-        }
-    }
-
-    inner class AudioAnalyseListener : IAudioAnalyseListener {
-        override fun onError(msg: String) {
-            TODO("Not yet implemented")
-        }
-
-        override fun onFinish() {
-            TODO("Not yet implemented")
-        }
-
-        override fun onDataAnalysed(data: AnalyseValue) {
-            TODO("Not yet implemented")
-        }
-    }
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        super.onStartCommand(intent, flags, startId)
-
-        //val test = this.cacheDir
-        startService()
-        parseCmd(intent?.action)
-        return START_NOT_STICKY
-    }
-
-    /**
-     * Class that can connect a service to an activity as a binder
-     *
-     */
-    inner class AnalyseServiceBinder() : Binder() {
-        val service get() = this@AnalyseService
-    }
-
-    override fun onBind(intent: Intent?): IBinder {
-        return mBinder
-    }
-
-    override fun onUnbind(intent: Intent?): Boolean {
-        Log.d("AnalyseService", "Unbind")
-        return super.onUnbind(intent)
-    }
-
-    // TODO register last data in file
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("AnalyseService", "End of service")
-    }
-
-    // =============== All analyse cmds =======
-
-
-    // TODO change ID from start foreground
-    private fun startService() {
+    override fun onCreate() {
+        super.onCreate()
+        Log.d("AnalyseService", "Create")
         if (stopPendingIntent == null) {
             val stopIntent = Intent(this, AnalyseServiceBroadcast::class.java).setAction(STOP)
             stopPendingIntent = PendingIntent.getBroadcast(this, 0, stopIntent, 0)
         }
         val notification = createStatusNotification()
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             startForeground(1, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE)
         } else {
             startForeground(1, notification)
         }
-        isServiceStarted = true
     }
 
-    private fun stopService() {
-        displayStoppingNotification()
-        val endTimer = object : CountDownTimer(200L, 500) {
-            override fun onTick(p0: Long) {}
-            override fun onFinish() {
-                stopForeground(true)
-                isServiceStarted = false
-            }
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
+
+        Log.d("AnalyseService", "Start")
+        if (intent != null) {
+            parseCmd(intent.action)
         }
-        endTimer.start()
+        return START_STICKY
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("AnalyseService", "Destroy")
+    }
+
+    override fun onBind(intent: Intent?): IBinder? {
+        return null
     }
 
     private fun parseCmd(action: String?) {
         when (action) {
+            START -> {
+                startService()
+            }
             STOP -> {
                 stopService()
             }
         }
     }
 
-    // ================ Notifications =========================
+    /**
+     * Stop the service and the analyse at the same time
+     *
+     * @author Hugo Berthomé
+     */
+    private fun stopService() {
+        try {
+            Log.d("AnalyseService", "Service stop")
+            wakeLock?.let {
+                if (it.isHeld) {
+                    it.release()
+                }
+            }
+            stopAnalyse()
+            stopForeground(true)
+            stopSelf()
+        } catch (e: Exception) {
+            Log.e(this.javaClass.name, "Service stopped without being started: ${e.message}")
+        }
+        isServiceStarted = false
+        AnalyseServiceTracker.setServiceState(this, AnalyseServiceTracker.ServiceState.STOPPED)
+    }
 
-    fun startAnalyse() {
+    /**
+     * Start the service and the analyse
+     *
+     * @author Hugo Berthomé
+     */
+    private fun startService() {
+        if (isServiceStarted) return
+
+        AnalyseServiceTracker.setServiceState(this, AnalyseServiceTracker.ServiceState.STARTED)
+        isServiceStarted = true
+
+        wakeLock =
+            (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
+                newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "EndlessService::lock").apply {
+                    acquire()
+                }
+            }
+
+        startAnalyse()
+    }
+
+    // ================ Analyse =========================
+
+    /**
+     * Start the analyse
+     *
+     * @author Hugo Berthomé
+     */
+    private fun startAnalyse() {
         if (!isServiceStarted) {
             startService()
         }
 
-        // TODO register sound and analyse here
         if (!isAnalyseRunning) {
+            isAnalyseRunning = true
+            GlobalScope.launch(Dispatchers.Default) {
+                val analyser = AudioAnalyser(this@AnalyseService, object : IAudioAnalyseListener {
+                    override fun onError(msg: String) {
+                        Log.e("ServiceAnalyse", "Audio analyser $msg")
+                        displayToast(msg)
+                        isAnalyseRunning = false
+                    }
+                    override fun onFinish() {
+                        Log.d("ServiceAnalyse", "Analyse finished")
+                    }
+                    override fun onDataAnalysed(data: AnalyseValue) {
+                    }
 
+                }, samplingRate)
+                val spectrogram = Spectrogram(object : ISpectrogramListener {
+                    override fun onBufferReceived(spectrogram: Array<DoubleArray>) {
+                        analyser.addSpectrogramDatas(spectrogram)
+                    }
+
+                    override fun onErrorSpec(msg: String) {
+                        Log.e("ServiceAnalyse", "Spectrogram $msg")
+                        displayToast(msg)
+                        isAnalyseRunning = false
+                    }
+                }, samplingRate)
+                val recorder = RawRecorderManager(this@AnalyseService, object : IRecorderListener {
+                    override fun onAudio(buffer: ShortArray) {
+                        spectrogram.convertToSpectrogramAsync(buffer)
+                    }
+
+                    override fun onAudioError(message: String) {
+                        Log.e("ServiceAnalyse", "Record : $message")
+                        displayToast(message)
+                        isAnalyseRunning = false
+                    }
+
+                    override fun onAudioFinished() {
+                        Log.d("ServiceAnalyse", "Record finished")
+                        displayToast("Record stopped")
+                    }
+
+                }, samplingRate)
+
+                if (!recorder.permissionGranted()) {
+                    isAnalyseRunning = false
+                    return@launch
+                }
+
+                recorder.onRecord(true)
+                while (isAnalyseRunning) {
+                    delay(500);
+                }
+                recorder.onRecord(false)
+                spectrogram.cleanUp()
+                analyser.cleanUp()
+            }
         }
     }
 
-    fun isStarted(): Boolean {
-        return isAnalyseRunning
+    /**
+     * Stop the analyse
+     *
+     * @author Hugo Berthomé
+     */
+    private fun stopAnalyse() {
+        if (isAnalyseRunning) {
+            isAnalyseRunning = false
+        }
     }
 
+    /*============ Notifications ============*/
+
+    /**
+     * Create the main notification to display as a foreground service
+     *
+     * @return the nnotification
+     */
     private fun createStatusNotification(): Notification {
-        return NotificationCompat.Builder(
-            this,
-            resources.getString(R.string.notification_analyse_channel_id)
-        )
+        val builder: Notification.Builder =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) Notification.Builder(
+                this,
+                resources.getString(R.string.notification_analyse_channel_id)
+            ) else Notification.Builder(this)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            builder.addAction(
+                Notification.Action.Builder(
+                    R.drawable.ic_close,
+                    "Stop",
+                    stopPendingIntent
+                ).build()
+            )
+        else
+            builder.addAction(R.drawable.ic_close, "Stop", stopPendingIntent)
+
+        return builder
             .setContentTitle(resources.getString(R.string.analyse_foreground_notification_name))
             .setContentText(resources.getString(R.string.analyse_foreground_notification_content_text))
             .setSmallIcon(R.drawable.ic_sleewell)
-            .addAction(R.drawable.ic_close, "Stop", stopPendingIntent)
             .build()
     }
 
-    // TODO ID à changer
-    private fun displayNotification() {
-        with(NotificationManagerCompat.from(this@AnalyseService)) {
-            notify(1, createStatusNotification())
+    /**
+     * Display a toast in the main thread
+     *
+     * @param msg to display
+     */
+    private fun displayToast(msg: String) {
+        GlobalScope.launch(Dispatchers.Main) {
+            Toast.makeText(this@AnalyseService, msg, Toast.LENGTH_LONG).show()
         }
-    }
-
-    // TODO ID à changer
-    private fun displayNotification(notification: Notification) {
-        with(NotificationManagerCompat.from(this@AnalyseService)) {
-            notify(1, notification)
-        }
-    }
-
-    private fun displayStoppingNotification() {
-        displayNotification(
-            NotificationCompat.Builder(
-                this,
-                resources.getString(R.string.notification_analyse_channel_id)
-            )
-                .setContentTitle(resources.getString(R.string.analyse_foreground_notification_name))
-                .setContentText(resources.getString(R.string.analyse_foreground_stopping_notification_content_text))
-                .setSmallIcon(R.drawable.ic_sleewell)
-                .build()
-        )
     }
 }

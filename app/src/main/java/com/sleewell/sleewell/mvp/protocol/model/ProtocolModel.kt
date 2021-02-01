@@ -15,19 +15,15 @@ import android.os.IBinder
 import android.view.MotionEvent
 import android.view.Window
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.R
-import com.sleewell.sleewell.modules.audio.audioAnalyser.AudioAnalyser
-import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseListener
-import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderListener
-import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderManager
-import com.sleewell.sleewell.modules.audio.audioRecord.RawRecorderManager
 import com.sleewell.sleewell.modules.audio.audioTransformation.ISpectrogramListener
-import com.sleewell.sleewell.modules.audio.audioTransformation.Spectrogram
 import com.sleewell.sleewell.modules.audio.service.AnalyseService
+import com.sleewell.sleewell.modules.audio.service.AnalyseServiceBroadcast
+import com.sleewell.sleewell.modules.audio.service.AnalyseServiceTracker
 import com.sleewell.sleewell.mvp.protocol.ProtocolContract
+import com.sleewell.sleewell.mvp.protocol.ProtocolMenuContract
 
 /**
  * this class is the model of the halo
@@ -36,19 +32,11 @@ import com.sleewell.sleewell.mvp.protocol.ProtocolContract
  * @author gabin warnier de wailly
  */
 class ProtocolModel(
-    private val audioListener: IRecorderListener,
-    spectrogramListener: ISpectrogramListener,
     private val context: AppCompatActivity
-) : ProtocolContract.Model, IAudioAnalyseListener {
+) : ProtocolMenuContract.Model, ProtocolContract.Model {
     private var size: Int = 10
     private lateinit var bitmap: Bitmap
     private lateinit var color: ColorFilter
-
-    // Audio analyser
-    private val samplingRate = 44100
-    private val recorder: IRecorderManager = RawRecorderManager(context, audioListener, samplingRate)
-    private val spectrogram = Spectrogram(spectrogramListener, samplingRate)
-    private val analyser = AudioAnalyser(context, this, samplingRate)
 
     //Music
     private var mediaPlayer: MediaPlayer? = null
@@ -119,10 +107,10 @@ class ProtocolModel(
      * @author Hugo Berthomé
      */
     override fun onRecordAudio(state: Boolean) {
-        //bindToService()
-        startForeground()
-        if (recorder.permissionGranted()) {
-            recorder.onRecord(state)
+        if (state) {
+            startForeground()
+        } else {
+            stopForeground()
         }
     }
 
@@ -133,45 +121,15 @@ class ProtocolModel(
      * @author Hugo Berthomé
      */
     override fun isRecording(): Boolean {
-        return recorder.isRecording()
-    }
-
-    /**
-     * Convert an audio pcm buffer to spectrogram equivalent
-     *
-     * @param pcmAudio
-     * @author Hugo Berthomé
-     */
-    override fun convertToSpectrogram(pcmAudio: ShortArray) {
-        spectrogram.convertToSpectrogramAsync(pcmAudio)
-    }
-
-    /**
-     * Analyse audio and Save the results
-     *
-     * @author Hugo Berthomé
-     */
-    override fun analyseAndSave(spectrogram: Array<DoubleArray>) {
-        analyser.addSpectrogramDatas(spectrogram)
-    }
-
-    /**
-     * Clean up all the resources
-     *
-     * @author Hugo Berthomé
-     */
-    override fun cleanUp() {
-        recorder.onRecord(false)
-        spectrogram.cleanUp()
-        analyser.cleanUp()
+        return AnalyseServiceTracker.getServiceState(context) == AnalyseServiceTracker.ServiceState.STARTED
     }
 
     override fun startMusique(name: String) {
         if (mediaPlayer != null) {
             mediaPlayer!!.release()
         }
-        val singh = context.resources.getIdentifier(name, "raw", context.packageName)
-        mediaPlayer = MediaPlayer.create(context, singh)
+        val song = context.resources.getIdentifier(name, "raw", context.packageName)
+        mediaPlayer = MediaPlayer.create(context, song)
         mediaPlayer!!.start()
     }
 
@@ -187,6 +145,13 @@ class ProtocolModel(
         }
     }
 
+    /**
+     * Method to cal at the end of the view
+     *
+     */
+    override fun onDestroy() {
+    }
+
     override fun stopMusique() {
         if (mediaPlayer != null) {
             mediaPlayer!!.stop()
@@ -194,59 +159,13 @@ class ProtocolModel(
     }
 
     /**
-     * Function called when an error occur
-     *
-     * @param msg to display
-     * @author Hugo Berthomé
-     */
-    override fun onError(msg : String) {
-        Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
-    }
-
-    /**
-     * Function called when the analyse is stopped
+     * Start the foreground service and the analyse
      *
      * @author Hugo Berthomé
      */
-    override fun onFinish() {
-        // Do nothing but is existing if necessary
-    }
-
-    /**
-     * Function called to receive the result of the analyse
-     *
-     * @param data
-     * @author Hugo Berthomé
-     */
-    override fun onDataAnalysed(data: AnalyseValue) {
-        // Do nothing but is existing if necessary
-    }
-
-    override fun onDestroy() {
-        cleanUp()
-        unbindFromService()
-    }
-
-    private var mService : AnalyseService? = null
-    private var isBound = false
-    private val mConnection = object : ServiceConnection {
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            val binder = service as AnalyseService.AnalyseServiceBinder
-            mService = binder.service
-            isBound = true
-            if (mService?.isStarted() == false) {
-                mService?.startAnalyse()
-            }
-        }
-        override fun onServiceDisconnected(name: ComponentName?) {
-            mService = null
-            isBound = false
-        }
-
-    }
-
     private fun startForeground() {
         Intent(context, AnalyseService::class.java).also {
+            it.action = AnalyseService.START
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 this.context.startForegroundService(it)
             } else {
@@ -255,15 +174,17 @@ class ProtocolModel(
         }
     }
 
-    private fun bindToService() {
-        Intent(context, AnalyseService::class.java).also {
-            context.bindService(it, mConnection, Context.BIND_AUTO_CREATE)
-        }
-    }
-
-    private fun unbindFromService() {
-        Intent(context, AnalyseService::class.java).also {
-            context.unbindService(mConnection)
+    /**
+     * Stop the analyse and the foreground service
+     *
+     * @author Hugo Berthomé
+     */
+    private fun stopForeground() {
+        if (AnalyseServiceTracker.getServiceState(context) != AnalyseServiceTracker.ServiceState.STARTED)
+            return
+        with(Intent(context, AnalyseService::class.java)) {
+            action = AnalyseService.STOP
+            context.startService(this)
         }
     }
 }

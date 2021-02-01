@@ -73,28 +73,6 @@ interface ProtocolContract {
         fun isRecording() : Boolean
 
         /**
-         * Convert an audio pcm buffer to spectrogram equivalent
-         *
-         * @param pcmAudio
-         * @author Hugo Berthomé
-         */
-        fun convertToSpectrogram(pcmAudio: ShortArray)
-
-        /**
-         * Analyse audio and Save the results
-         *
-         * @author Hugo Berthomé
-         */
-        fun analyseAndSave(spectrogram: Array<DoubleArray>)
-
-        /**
-         * Clean up all the resources
-         *
-         * @author Hugo Berthomé
-         */
-        fun cleanUp()
-
-        /**
          * This method start the music
          *
          * @param name name of the music
@@ -131,7 +109,7 @@ interface ProtocolContract {
         fun onDestroy()
     }
 
-    interface Presenter : BasePresenter, IRecorderListener, ISpectrogramListener {
+    interface Presenter : BasePresenter {
         /**
          * Function to call at the creation of the view
          *
@@ -170,18 +148,11 @@ interface ProtocolContract {
         fun startAnalyse()
 
         /**
-         * Pause the sleep analyse
+         * Stop the analyse
          *
          * @author Hugo Berthomé
          */
-        fun pauseAnalyse()
-
-        /**
-         * Resume the paused sleep analyse
-         *
-         * @author Hugo Berthomé
-         */
-        fun resumeAnalyse()
+        fun stopAnalyse()
     }
 
     interface View : BaseView<Presenter> {

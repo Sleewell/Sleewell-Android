@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- Wifi accessibility -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- Background service for analyse -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- Mic accessibility -->
 
@@ -68,11 +68,13 @@
 
         <service
             android:name=".modules.audio.service.AnalyseService"
+            android:enabled="true"
             android:description="@string/foreground_service_analyse_description"
             android:exported="false"
             android:foregroundServiceType="microphone"
             android:icon="@mipmap/icon_launcher"
-            android:label="@string/foreground_service_analyse_label" />
+            android:label="@string/foreground_service_analyse_label"
+            android:stopWithTask="false"/>
     </application>
 
 </manifest>

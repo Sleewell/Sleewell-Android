@@ -5,15 +5,22 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 
+/**
+ * Broadcast intent for stopping the analyse by clicking on the notification
+ *
+ * @author Hugo Berthomé
+ */
 class AnalyseServiceBroadcast : BroadcastReceiver() {
 
-    override fun onReceive(context: Context?, intent: Intent?) {
+    override fun onReceive(context: Context, intent: Intent?) {
         val txt = if (intent == null || intent.action == null) "No action" else intent.action
         Log.d("ServiceBroadcast", txt!!)
 
-        with(Intent(context, AnalyseService::class.java)) {
-            action = intent?.action
-            context?.startService(this)
+        if (AnalyseServiceTracker.getServiceState(context) == AnalyseServiceTracker.ServiceState.STARTED) {
+            with(Intent(context, AnalyseService::class.java)) {
+                action = intent?.action
+                context?.startService(this)
+            }
         }
     }
 }

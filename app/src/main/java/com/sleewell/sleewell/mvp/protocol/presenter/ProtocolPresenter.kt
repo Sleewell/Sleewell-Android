@@ -24,7 +24,7 @@ import com.sleewell.sleewell.mvp.protocol.model.ProtocolModel
 class ProtocolPresenter(view: ProtocolContract.View, private val ctx: AppCompatActivity) : ProtocolContract.Presenter {
 
     private var view: ProtocolContract.View? = view
-    private var model: ProtocolContract.Model = ProtocolModel(this, this, ctx)
+    private var model: ProtocolContract.Model = ProtocolModel(ctx)
 
     private val connection: INetworkManager = NetworkManager(ctx)
     private val lockScreen: ILockScreenManager = LockScreenManager(ctx)
@@ -111,70 +111,11 @@ class ProtocolPresenter(view: ProtocolContract.View, private val ctx: AppCompatA
     }
 
     /**
-     * Pause the sleep analyse
+     * Stop the analyse
      *
      * @author Hugo Berthomé
      */
-    override fun pauseAnalyse() {
-        TODO("Not yet implemented")
-    }
-
-    /**
-     * Resume the paused sleep analyse
-     *
-     * @author Hugo Berthomé
-     */
-    override fun resumeAnalyse() {
-        TODO("Not yet implemented")
-    }
-
-
-    /**
-     * When a buffer is filled, it will be sent to this callback
-     *
-     * @param buffer with audio data inside
-     * @author Hugo Berthomé
-     */
-    override fun onAudio(buffer: ShortArray) {
-        model.convertToSpectrogram(buffer)
-    }
-
-    /**
-     * If an error occurred, a message will be sent
-     * The record will be stopped
-     *
-     * @param message - error message
-     * @author Hugo Berthomé
-     */
-    override fun onAudioError(message: String) {
-        Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
-    }
-
-    /**
-     * On finished event is called when the recording is stopped
-     * (not called when an error occurred but onError instead)
-     *
-     * @author Hugo Berthomé
-     */
-    override fun onAudioFinished() {
-        Toast.makeText(ctx, "Record stopped", Toast.LENGTH_LONG).show()
-    }
-
-    /**
-     * Function called in async when a list of spectrogram windows has been calculated
-     *
-     * @param spectrogram
-     */
-    override fun onBufferReceived(spectrogram: Array<DoubleArray>) {
-        model.analyseAndSave(spectrogram)
-    }
-
-    /**
-     * Function called when an error occurred
-     *
-     * @param msg
-     */
-    override fun onErrorSpec(msg: String) {
-        Toast.makeText(ctx, msg, Toast.LENGTH_LONG).show()
+    override fun stopAnalyse() {
+        model.onRecordAudio(false)
     }
 }
