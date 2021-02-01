@@ -38,14 +38,14 @@ class MenuFragment : Fragment(), MenuContract.View {
         val navController = nestedNavHostFragment?.navController
 
         val homeNav = root.findViewById<ToggleButton>(R.id.home_nav)
-        val settingsNav = root.findViewById<ToggleButton>(R.id.settings_nav)
         val alarmNav = root.findViewById<ToggleButton>(R.id.alarm_nav)
+        val settingsNav = root.findViewById<ToggleButton>(R.id.settings_nav)
         val statNav = root.findViewById<ToggleButton>(R.id.stats_nav)
 
         val customNavBar = CustomNavBar()
         customNavBar.addButton(homeNav, getString(R.string.home_label), R.id.homeFragment)
-        customNavBar.addButton(settingsNav, getString(R.string.settings_label), R.id.settingsFragment)
         customNavBar.addButton(alarmNav, getString(R.string.alarm_label), R.id.alarmFragment)
+        customNavBar.addButton(settingsNav, getString(R.string.settings_label), R.id.settingsFragment)
         customNavBar.addButton(statNav, getString(R.string.statistics_label), R.id.statFragment)
 
         customNavBar.setNavigation(navController!!)
