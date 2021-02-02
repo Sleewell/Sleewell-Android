@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Sleewell</string>
+    <string name="foreground_service_analyse_description">Foreground service which analyse the sound from you nights</string>
+    <string name="foreground_service_analyse_label">Sleep Analyse</string>
+
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -73,4 +76,12 @@
     <string name="rain_menu">RAIN</string>
     <string name="menu_button">Home</string>
     <string name="main_image_title">forest</string>
+
+    <!-- Notifications -->
+    <string name="notification_analyse_channel_name">Sleewell Analyse</string>
+    <string name="notification_analyse_channel_id">SleewellAnalyse</string>
+    <string name="notification_analyse_channel_description">The notification are sent to the user to inform about analyse or news about their nights</string>
+    <string name="analyse_foreground_notification_name">Night analyse</string>
+    <string name="analyse_foreground_notification_content_text">Analyse in progress</string>
+    <string name="analyse_foreground_stopping_notification_content_text">Stopping analyse…</string>
 </resources>

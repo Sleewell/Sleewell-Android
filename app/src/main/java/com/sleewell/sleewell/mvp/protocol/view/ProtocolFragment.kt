@@ -105,4 +105,8 @@ class ProtocolFragment : Fragment(), ProtocolContract.View {
         super.onStop()
         presenter.onDestroy()
     }
+
+    override fun onPause() {
+        super.onPause()
+    }
 }

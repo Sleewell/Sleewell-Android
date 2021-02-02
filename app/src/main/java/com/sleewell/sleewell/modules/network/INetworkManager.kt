@@ -6,14 +6,6 @@ package com.sleewell.sleewell.modules.network
  */
 interface INetworkManager {
     /**
-     * initPermissions
-     *
-     * Initialise the permission to access bluetooth and wifi config
-     * @author Hugo Berthomé
-     */
-    fun initPermissions()
-
-    /**
      * Enable / disable bluetooth on the devise
      *
      * @param value true - enable, false - disable

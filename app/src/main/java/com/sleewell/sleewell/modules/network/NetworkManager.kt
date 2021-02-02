@@ -23,19 +23,6 @@ class NetworkManager(private val ctx: Context) : INetworkManager {
     private val setting : ISettingsManager = SettingsManager(ctx)
 
     /**
-     * initPermissions
-     *
-     * Initialise the permission to access bluetooth and wifi config
-     * @author Hugo Berthomé
-     */
-    override fun initPermissions() {
-        if (!notificationManager.isNotificationPolicyAccessGranted) {
-            val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
-            ctx.startActivity(intent)
-        }
-    }
-
-    /**
      * Enable / disable bluetooth on the devise
      *
      * @param value true - enable, false - disable

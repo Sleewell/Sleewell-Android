@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:rotationX="-14"
+    android:rotationX="0"
     tools:context=".mvp.menu.view.MenuFragment">
 
     <View

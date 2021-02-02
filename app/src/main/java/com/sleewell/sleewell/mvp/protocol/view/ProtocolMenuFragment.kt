@@ -89,6 +89,7 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
             override fun onSwipeTop() {
                 // navigate to menu
                 navController.navigate(R.id.action_protocolMenuFragment_to_menuFragment)
+                presenter.stopAnalyse()
                 presenter.disableShowWhenLock()
             }
 

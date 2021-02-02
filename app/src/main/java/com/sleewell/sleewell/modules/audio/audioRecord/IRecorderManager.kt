@@ -16,14 +16,6 @@ interface IRecorderManager {
     }
 
     /**
-     * Ask the permissions to the user to use microphone
-     *
-     * @return true if accepted otherwise false
-     * @author Hugo Berthomé
-     */
-    fun askPermission()
-
-    /**
      * Check if the permission to record has been granted
      *
      * @return true if granted oterwise false

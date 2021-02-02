@@ -21,16 +21,6 @@ class RecorderManager(private val ctx: AppCompatActivity) : IRecorderManager{
     private var outputFormat : Int = IRecorderManager.THREE_GPP
 
     /**
-     * Ask the permissions to the user to use microphone
-     *
-     * @return true if accepted otherwise false
-     * @author Hugo Berthomé
-     */
-    override fun askPermission() {
-        ctx.requestPermissions(permissions, REQUEST_RECORD_AUDIO_PERMISSION)
-    }
-
-    /**
      * Check if the permission to record has been granted
      *
      * @return true if granted otherwise false

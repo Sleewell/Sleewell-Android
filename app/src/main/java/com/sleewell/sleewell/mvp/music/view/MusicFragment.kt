@@ -232,9 +232,9 @@ class MusicFragment : Fragment(), MainContract.View  {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            val name: String = data!!.getStringExtra("nameMusicSelected")
-            val uri: String = data!!.getStringExtra("uriMusicSelected")
-            playlistSelected = SpotifyPlaylist(name, uri, "")
+            val name: String? = data?.getStringExtra("nameMusicSelected")
+            val uri: String? = data?.getStringExtra("uriMusicSelected")
+            playlistSelected = SpotifyPlaylist(name!!, uri!!, "")
         }
     }
 }
