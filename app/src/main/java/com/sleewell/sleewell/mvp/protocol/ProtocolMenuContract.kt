@@ -199,6 +199,13 @@ interface ProtocolMenuContract {
         fun hideSystemUI()
 
         /**
+         * This method shows the system UI for android
+         *
+         * @author Titouan FIANCETTE
+         */
+        fun showSystemUI()
+
+        /**
          * the method set the color of the halo
          *
          * @param color color rgb for the halo

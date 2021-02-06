@@ -2,19 +2,19 @@ package com.sleewell.sleewell.mvp.protocol.view
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.graphics.Color.blue
 import android.graphics.ColorFilter
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -70,7 +70,7 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
     override fun initActivityWidgets() {
         navController = Navigation.findNavController(requireActivity(), R.id.nav_main)
 
-        dateView = root.findViewById(R.id.date_protoc)
+        dateView = root.findViewById(R.id.date_protocol)
         musicButton = root.findViewById(R.id.musicButton)
         equalizer = root.findViewById<View>(R.id.equalizer_view) as EqualizerView
         container = root.findViewById(R.id.protocol_layout)
@@ -91,6 +91,7 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
                 navController.navigate(R.id.action_protocolMenuFragment_to_menuFragment)
                 presenter.stopAnalyse()
                 presenter.disableShowWhenLock()
+                showSystemUI()
             }
 
             override fun onSwipeBottom() {}
@@ -114,12 +115,25 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
     }
 
     override fun hideSystemUI() {
-        activity!!.window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LOW_PROFILE or
-                View.SYSTEM_UI_FLAG_FULLSCREEN or
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
-                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            activity!!.window.decorView.fitsSystemWindows = false
+            activity!!.window.insetsController?.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
+            activity!!.window.insetsController?.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        } else {
+            activity!!.window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LOW_PROFILE
+                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+        }
+    }
+
+    override fun showSystemUI() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            activity!!.window.insetsController?.show(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
+        } else {
+            activity!!.window.decorView.systemUiVisibility = 0
+        }
     }
 
     override fun onUserInteraction() {
@@ -128,12 +142,13 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
             handler.removeCallbacks(displayHaloRunnable)
         } else if (presenter.isHaloOn()) {
             handler.removeCallbacks(displayHaloRunnable)
-            handler.postDelayed(displayHaloRunnable,  inactivityDuration * 1000)
+            handler.postDelayed(displayHaloRunnable, inactivityDuration * 1000)
         }
     }
 
     private fun displayHalo() {
         isHaloDisplayed = true
+        activity!!.window.statusBarColor = resources.getColor(android.R.color.black, resources.newTheme())
 
         haloBackground.apply {
             alpha = 0f
@@ -152,6 +167,7 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
 
     private fun hideHalo() {
         isHaloDisplayed = false
+        activity!!.window.statusBarColor = resources.getColor(R.color.colorPrimaryDark, resources.newTheme())
 
         haloBackground.animate().alpha(0f).setDuration(shortAnimationDuration.toLong())
             .setListener(object : AnimatorListenerAdapter() {
