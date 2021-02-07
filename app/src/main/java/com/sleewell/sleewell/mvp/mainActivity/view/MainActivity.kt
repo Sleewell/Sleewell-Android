@@ -58,7 +58,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
      * @author Titouan FIANCETTE
      */
     fun setUserInteractionListener(userInteractionListener: UserInteractionListener?) {
-        this.userInteractionListener = userInteractionListener!!
+        if (userInteractionListener == null) {
+            this.userInteractionListener = null
+        } else {
+            this.userInteractionListener = userInteractionListener
+        }
     }
 
     /**
