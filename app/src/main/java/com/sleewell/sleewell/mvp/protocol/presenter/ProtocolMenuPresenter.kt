@@ -1,9 +1,6 @@
 package com.sleewell.sleewell.mvp.protocol.presenter
 
 import android.os.CountDownTimer
-import android.util.Log
-import android.widget.Toast
-import android.widget.ViewAnimator
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.modules.lockScreen.ILockScreenManager
 import com.sleewell.sleewell.modules.lockScreen.LockScreenManager
@@ -12,7 +9,6 @@ import com.sleewell.sleewell.modules.network.NetworkManager
 import com.sleewell.sleewell.modules.settings.ISettingsManager
 import com.sleewell.sleewell.modules.settings.SettingsManager
 import com.sleewell.sleewell.mvp.music.view.MusicFragment
-import com.sleewell.sleewell.mvp.protocol.ProtocolContract
 import com.sleewell.sleewell.mvp.protocol.ProtocolMenuContract
 import com.sleewell.sleewell.mvp.protocol.model.ProtocolModel
 
@@ -27,7 +23,7 @@ import com.sleewell.sleewell.mvp.protocol.model.ProtocolModel
 
 class ProtocolMenuPresenter(private var view: ProtocolMenuContract.View, private val ctx: AppCompatActivity) : ProtocolMenuContract.Presenter {
 
-    private var model: ProtocolContract.Model = ProtocolModel(ctx)
+    private var model: ProtocolMenuContract.Model = ProtocolModel(ctx)
 
     private val connection: INetworkManager = NetworkManager(ctx)
     private val lockScreen: ILockScreenManager = LockScreenManager(ctx)

@@ -2,27 +2,19 @@ package com.sleewell.sleewell.mvp.protocol.model
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.ColorFilter
 import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
-import android.os.IBinder
 import android.view.MotionEvent
 import android.view.Window
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.R
-import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderListener
-import com.sleewell.sleewell.modules.audio.audioTransformation.ISpectrogramListener
 import com.sleewell.sleewell.modules.audio.service.AnalyseService
-import com.sleewell.sleewell.modules.audio.service.AnalyseServiceBroadcast
 import com.sleewell.sleewell.modules.audio.service.AnalyseServiceTracker
-import com.sleewell.sleewell.mvp.protocol.ProtocolContract
 import com.sleewell.sleewell.mvp.protocol.ProtocolMenuContract
 
 /**
@@ -33,7 +25,7 @@ import com.sleewell.sleewell.mvp.protocol.ProtocolMenuContract
  */
 class ProtocolModel(
     private val context: AppCompatActivity
-) : ProtocolMenuContract.Model, ProtocolContract.Model {
+) : ProtocolMenuContract.Model {
     private var size: Int = 10
     private lateinit var bitmap: Bitmap
     private lateinit var color: ColorFilter

@@ -3,27 +3,22 @@ package com.sleewell.sleewell.mvp.protocol.view
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
-import android.graphics.Color.blue
 import android.graphics.ColorFilter
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.*
-import android.view.animation.TranslateAnimation
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.modules.gesturelistener.OnSwipeListener
 import com.sleewell.sleewell.modules.gesturelistener.UserInteractionListener
-import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.protocol.ProtocolMenuContract
 import com.sleewell.sleewell.mvp.protocol.presenter.ProtocolMenuPresenter
 import es.claucookie.miniequalizerlibrary.EqualizerView
@@ -38,9 +33,10 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
 
     private var shortAnimationDuration: Int = 0
     private var inactivityDuration: Long = 4 // in seconds
-    private var handler = Handler()
     private var displayHaloRunnable = Runnable {
-        displayHalo()
+        if (view != null) {
+            displayHalo()
+        }
     }
     private var isHaloDisplayed: Boolean = false
 
@@ -147,10 +143,10 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
     override fun onUserInteraction() {
         if (isHaloDisplayed) {
             hideHalo()
-            handler.removeCallbacks(displayHaloRunnable)
+            Handler(Looper.getMainLooper()).removeCallbacks(displayHaloRunnable)
         } else if (presenter.isHaloOn()) {
-            handler.removeCallbacks(displayHaloRunnable)
-            handler.postDelayed(displayHaloRunnable, inactivityDuration * 1000)
+            Handler(Looper.getMainLooper()).removeCallbacks(displayHaloRunnable)
+            Handler(Looper.getMainLooper()).postDelayed(displayHaloRunnable, inactivityDuration * 1000)
         }
     }
 
@@ -212,6 +208,11 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
     override fun setPresenter(presenter: ProtocolMenuContract.Presenter) {
         this.presenter = presenter
         presenter.onViewCreated()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        hideSystemUI()
     }
 
     override fun onStop() {
