@@ -22,7 +22,24 @@
         android:roundIcon="@mipmap/icon_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvp.protocol.view.ProtocolContainer"></activity>
+        <activity android:name=".mvp.protocol.view.ProtocolContainer">
+            <!-- Open the app on this specific activity when a NFC tag contain a mime type as described below -->
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/com.sleewell.sleewell" />
+            </intent-filter>
+            <!-- Open the app on this specific activity when a NFC tag contain a url with http://www.sleewell.fr -->
+            <!--
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="http"
+                    android:host="www.sleewell.fr"
+                    android:pathPrefix="/"/>
+            </intent-filter>
+            -->
+        </activity>
         <activity
             android:name="com.spotify.sdk.android.authentication.LoginActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
@@ -38,25 +55,6 @@
 
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
-            <!-- Open the app on this specific activity when a NFC tag contain a mime type as described below -->
-            <intent-filter>
-                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="application/com.sleewell.sleewell" />
-            </intent-filter>
-
-            <!-- Open the app on this specific activity when a NFC tag contain a url with http://www.sleewell.fr -->
-            <!--
-            <intent-filter>
-                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="http"
-                    android:host="www.sleewell.fr"
-                    android:pathPrefix="/"/>
-            </intent-filter>
-            -->
 
         </activity>
         <activity
