@@ -16,6 +16,7 @@
         android:layout_marginEnd="16dp"
         android:hint="Enter music"
         android:inputType="textPersonName"
+        android:textColor="@color/textOnBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/searchSpotifyButton"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="menu_nav_bar_margin">7dp</dimen>
-    <dimen name="menu_title_margin">25dp</dimen>
 </resources>
