@@ -14,10 +14,6 @@
             android:id="@+id/action_menuFragment_to_musicFragment"
             app:destination="@id/musicFragment" />
         <action
-            android:id="@+id/action_menuFragment_to_protocolFragment"
-            app:destination="@id/protocolFragment"
-            app:enterAnim="@anim/slide_in_up" />
-        <action
             android:id="@+id/action_menuFragment_to_protocolMenuFragment"
             app:destination="@id/protocolMenuFragment"
             app:enterAnim="@anim/slide_in_up"
@@ -33,11 +29,6 @@
             app:destination="@id/spotifyFragment" />
     </fragment>
     <fragment
-        android:id="@+id/protocolFragment"
-        android:name="com.sleewell.sleewell.mvp.protocol.view.ProtocolFragment"
-        android:label="new_fragment_protocol"
-        tools:layout="@layout/new_fragment_protocol" />
-    <fragment
         android:id="@+id/spotifyFragment"
         android:name="com.sleewell.sleewell.Spotify.View.SpotifyFragment"
         android:label="new_fragment_spotify"
@@ -50,11 +41,6 @@
         android:name="com.sleewell.sleewell.mvp.protocol.view.ProtocolMenuFragment"
         android:label="new_fragment_protocol_menu"
         tools:layout="@layout/new_fragment_protocol_menu" >
-        <action
-            android:id="@+id/action_protocolMenuFragment_to_protocolFragment"
-            app:destination="@id/protocolFragment"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_protocolMenuFragment_to_menuFragment"
             app:destination="@id/menuFragment"

@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.mvp.menu.home.view
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import androidx.navigation.Navigation
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.menu.home.HomeContract
 import com.sleewell.sleewell.mvp.menu.home.presenter.HomePresenter
+import com.sleewell.sleewell.mvp.protocol.view.ProtocolContainer
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -50,7 +52,8 @@ class HomeFragment : Fragment(), HomeContract.View {
 
         val buttonProtocol = root.findViewById<Button>(R.id.button_protocol)
         buttonProtocol.setOnClickListener {
-            navController.navigate(R.id.action_menuFragment_to_protocolMenuFragment)
+            val protocol = Intent(context, ProtocolContainer::class.java)
+            startActivity(protocol)
         }
 
         val buttonMusic = root.findViewById<Button>(R.id.button_music)
