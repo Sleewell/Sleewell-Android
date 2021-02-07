@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.*
+import android.view.animation.TranslateAnimation
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -90,7 +91,11 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
                 presenter.stopAnalyse()
                 presenter.disableShowWhenLock()
                 showSystemUI()
-                activity?.finish()
+
+                if (activity != null)
+                    (activity as ProtocolContainer).quitActivity()
+                else
+                    activity?.finish()
             }
 
             override fun onSwipeBottom() {}
