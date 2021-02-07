@@ -2,6 +2,7 @@ package com.sleewell.sleewell.mvp.protocol.view
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.graphics.Color.blue
 import android.graphics.ColorFilter
 import android.os.Build
@@ -43,7 +44,6 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
     private var isHaloDisplayed: Boolean = false
 
     //widgets
-    private lateinit var navController: NavController
 
     private lateinit var dateView: TextView
     private lateinit var musicButton: Button
@@ -59,7 +59,7 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
     ): View {
         root =  inflater.inflate(R.layout.new_fragment_protocol_menu, container, false)
 
-        (requireActivity() as MainActivity).setUserInteractionListener(this)
+        (requireActivity() as ProtocolContainer).setUserInteractionListener(this)
         initActivityWidgets()
         setPresenter(ProtocolMenuPresenter(this, this.activity as AppCompatActivity))
         onUserInteraction()
@@ -67,8 +67,8 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
         return root
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun initActivityWidgets() {
-        navController = Navigation.findNavController(requireActivity(), R.id.nav_main)
 
         dateView = root.findViewById(R.id.date_protocol)
         musicButton = root.findViewById(R.id.musicButton)
@@ -87,11 +87,10 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
 
         container.setOnTouchListener(object : OnSwipeListener(root.context) {
             override fun onSwipeTop() {
-                // navigate to menu
-                navController.navigate(R.id.action_protocolMenuFragment_to_menuFragment)
                 presenter.stopAnalyse()
                 presenter.disableShowWhenLock()
                 showSystemUI()
+                activity?.finish()
             }
 
             override fun onSwipeBottom() {}
@@ -115,6 +114,8 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
     }
 
     override fun hideSystemUI() {
+        if (activity == null)
+            return
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             activity!!.window.decorView.fitsSystemWindows = false
             activity!!.window.insetsController?.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
@@ -129,6 +130,8 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
     }
 
     override fun showSystemUI() {
+        if (activity == null)
+            return
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             activity!!.window.insetsController?.show(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
         } else {
@@ -147,6 +150,8 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
     }
 
     private fun displayHalo() {
+        if (activity == null)
+            return
         isHaloDisplayed = true
         activity!!.window.statusBarColor = resources.getColor(android.R.color.black, resources.newTheme())
 
@@ -166,6 +171,8 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
     }
 
     private fun hideHalo() {
+        if (activity == null)
+            return
         isHaloDisplayed = false
         activity!!.window.statusBarColor = resources.getColor(R.color.colorPrimaryDark, resources.newTheme())
 

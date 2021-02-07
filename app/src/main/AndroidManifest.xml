@@ -13,8 +13,7 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- Background service for analyse -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- Mic accessibility -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:allowBackup="true"
@@ -23,6 +22,7 @@
         android:roundIcon="@mipmap/icon_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".mvp.protocol.view.ProtocolContainer"></activity>
         <activity
             android:name="com.spotify.sdk.android.authentication.LoginActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
@@ -33,28 +33,34 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
+
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
             <!-- Open the app on this specific activity when a NFC tag contain a mime type as described below -->
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="application/com.sleewell.sleewell" />
             </intent-filter>
 
             <!-- Open the app on this specific activity when a NFC tag contain a url with http://www.sleewell.fr -->
-            <!-- <intent-filter>
+            <!--
+            <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:scheme="http"
                     android:host="www.sleewell.fr"
                     android:pathPrefix="/"/>
-            </intent-filter> -->
+            </intent-filter>
+            -->
 
         </activity>
         <activity
-            android:name="com.sleewell.sleewell.reveil.DesactivationActivity"
+            android:name=".reveil.DesactivationActivity"
             android:label="Desactivation"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -68,13 +74,13 @@
 
         <service
             android:name=".modules.audio.service.AnalyseService"
-            android:enabled="true"
             android:description="@string/foreground_service_analyse_description"
+            android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="microphone"
             android:icon="@mipmap/icon_launcher"
             android:label="@string/foreground_service_analyse_label"
-            android:stopWithTask="false"/>
+            android:stopWithTask="false" />
     </application>
 
 </manifest>
