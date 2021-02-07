@@ -42,6 +42,11 @@ class ProtocolContainer : AppCompatActivity() {
         if (userInteractionListener != null) userInteractionListener?.onUserInteraction()
     }
 
+    /**
+     * Function to call for triggering the animation and leaving the protocol
+     *
+     * @author Hugo Berthomé
+     */
     fun quitActivity() {
         AnimationUtils.loadAnimation(this, R.anim.slide_out_up).also { animation ->
             animation.setAnimationListener(object : Animation.AnimationListener {
