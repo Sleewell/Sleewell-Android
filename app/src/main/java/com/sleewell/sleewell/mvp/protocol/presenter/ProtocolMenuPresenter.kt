@@ -3,6 +3,7 @@ package com.sleewell.sleewell.mvp.protocol.presenter
 import android.os.CountDownTimer
 import android.util.Log
 import android.widget.Toast
+import android.widget.ViewAnimator
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.modules.lockScreen.ILockScreenManager
 import com.sleewell.sleewell.modules.lockScreen.LockScreenManager
@@ -55,6 +56,7 @@ class ProtocolMenuPresenter(private var view: ProtocolMenuContract.View, private
         connection.switchToSleepMode(true)
         lockScreen.enableShowWhenLock()
         lockScreen.enableKeepScreenOn()
+        view.hideSystemUI()
 
         view.printHalo(model.getSizeOfCircle())
         if (settings.getHalo()) {
@@ -73,6 +75,7 @@ class ProtocolMenuPresenter(private var view: ProtocolMenuContract.View, private
     override fun onDestroy() {
         connection.switchToSleepMode(false)
         lockScreen.disableKeepScreenOn()
+        view.showSystemUI()
 
         model.stopMusique()
         model.onDestroy()
