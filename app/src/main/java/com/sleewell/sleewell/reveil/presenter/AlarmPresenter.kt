@@ -3,6 +3,7 @@ package com.sleewell.sleewell.reveil.presenter
 import android.app.AlarmManager
 import android.content.Context
 import android.content.Intent
+import androidx.lifecycle.LifecycleOwner
 import com.sleewell.sleewell.reveil.AlarmContract
 import com.sleewell.sleewell.reveil.data.model.Alarm
 import com.sleewell.sleewell.reveil.data.viewmodel.AlarmViewModel
@@ -29,6 +30,18 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
      */
     override fun onViewCreated() {
 
+    }
+
+    /**
+     * Get the alarm by id
+     *
+     * @param id Id of the Alarm
+     * @param mAlarmViewModel View model of the alarm
+     * @return Alarm
+     * @author Romane Bézier
+     */
+    override fun getAlarmById(id: Int, mAlarmViewModel: AlarmViewModel) : Alarm {
+        return model.getAlarmById(id, mAlarmViewModel)
     }
 
     /**
@@ -59,8 +72,8 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
      * @param time Time of the alarm
      * @author Romane Bézier
      */
-    override fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel) {
-        model.saveAlarm(time,mAlarmViewModel)
+    override fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner) {
+        model.saveAlarm(time,mAlarmViewModel, lifecycleOwner)
     }
 
     /**

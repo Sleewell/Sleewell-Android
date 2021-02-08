@@ -7,8 +7,8 @@ import com.sleewell.sleewell.reveil.data.model.Alarm
 class AlarmRepository(private val alarmDao: AlarmDao) {
     val readAllData: LiveData<List<Alarm>> = alarmDao.readAllData()
 
-    suspend fun addAlarm(alarm: Alarm) {
-        alarmDao.addAlarm(alarm)
+    suspend fun addAlarm(alarm: Alarm): Long {
+        return alarmDao.addAlarm(alarm)
     }
 
     suspend fun updateAlarm(alarm: Alarm) {
@@ -21,5 +21,9 @@ class AlarmRepository(private val alarmDao: AlarmDao) {
 
     suspend fun deleteAllAlarms() {
         alarmDao.deleteAllAlarms()
+    }
+
+    fun getById(id: Int) : Alarm {
+        return alarmDao.getById(id)
     }
 }

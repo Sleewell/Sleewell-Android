@@ -3,6 +3,7 @@ package com.sleewell.sleewell.reveil
 import android.app.AlarmManager
 import android.content.Context
 import android.content.Intent
+import androidx.lifecycle.LifecycleOwner
 import com.sleewell.sleewell.reveil.data.model.Alarm
 import com.sleewell.sleewell.reveil.data.viewmodel.AlarmViewModel
 import com.sleewell.sleewell.reveil.global.BasePresenter
@@ -15,6 +16,16 @@ import com.sleewell.sleewell.reveil.global.BaseView
 interface AlarmContract {
 
     interface Model {
+        /**
+         * Get the alarm by id
+         *
+         * @param id Id of the Alarm
+         * @param mAlarmViewModel View model of the alarm
+         * @return Alarm
+         * @author Romane Bézier
+         */
+        fun getAlarmById(id: Int, mAlarmViewModel: AlarmViewModel) : Alarm
+
         /**
          * Update the alarm
          *
@@ -39,7 +50,7 @@ interface AlarmContract {
          * @param time Time of the alarm
          * @author Romane Bézier
          */
-        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel)
+        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner)
 
         /**
          * Start the alarm
@@ -116,6 +127,16 @@ interface AlarmContract {
         fun onViewCreated()
 
         /**
+         * Get the alarm by id
+         *
+         * @param id Id of the Alarm
+         * @param mAlarmViewModel View model of the alarm
+         * @return Alarm
+         * @author Romane Bézier
+         */
+        fun getAlarmById(id: Int, mAlarmViewModel: AlarmViewModel) : Alarm
+
+        /**
          * Update the alarm
          *
          * @param updateAlarm Alarm to update
@@ -140,7 +161,7 @@ interface AlarmContract {
          * @param time Time of the alarm
          * @author Romane Bézier
          */
-        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel)
+        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner)
 
         /**
          * Start the alarm

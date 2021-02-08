@@ -84,7 +84,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
                 calendar.add(Calendar.DATE, 1)
             }
             presenter.getTime(hour, minute)
-            presenter.saveAlarm(calendar.timeInMillis, mAlarmViewModel)
+            presenter.saveAlarm(calendar.timeInMillis, mAlarmViewModel, viewLifecycleOwner)
+
         }
         TimePickerDialog(context, timePickerDialog, calendar.get(Calendar.HOUR_OF_DAY),
             calendar.get(Calendar.MINUTE), true).show()

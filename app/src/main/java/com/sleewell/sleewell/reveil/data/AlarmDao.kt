@@ -8,8 +8,7 @@ import com.sleewell.sleewell.reveil.data.model.Alarm
 interface AlarmDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addAlarm(alarm: Alarm)
-
+    suspend fun addAlarm(alarm: Alarm) : Long
     @Update
     suspend fun updateAlarm(alarm: Alarm)
 
@@ -21,4 +20,7 @@ interface AlarmDao {
 
     @Query("SELECT * FROM alarm_table ORDER BY id ASC")
     fun readAllData(): LiveData<List<Alarm>>
+
+    @Query("SELECT * FROM alarm_table WHERE id = :idAlarm")
+    fun getById(idAlarm: Int): Alarm
 }
