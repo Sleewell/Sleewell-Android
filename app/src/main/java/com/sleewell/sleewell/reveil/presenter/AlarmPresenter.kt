@@ -11,7 +11,7 @@ import com.sleewell.sleewell.reveil.model.AlarmModel
 
 class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
 
-    private var model: AlarmContract.Model = AlarmModel()
+    private var model: AlarmContract.Model = AlarmModel(this)
     private var view: AlarmContract.View? = view
 
     /**
@@ -30,18 +30,6 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
      */
     override fun onViewCreated() {
 
-    }
-
-    /**
-     * Get the alarm by id
-     *
-     * @param id Id of the Alarm
-     * @param mAlarmViewModel View model of the alarm
-     * @return Alarm
-     * @author Romane Bézier
-     */
-    override fun getAlarmById(id: Int, mAlarmViewModel: AlarmViewModel) : Alarm {
-        return model.getAlarmById(id, mAlarmViewModel)
     }
 
     /**
@@ -74,6 +62,16 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
      */
     override fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner) {
         model.saveAlarm(time,mAlarmViewModel, lifecycleOwner)
+    }
+
+    /**
+     * Start the new alarm
+     *
+     * @param alarm Current alarm
+     * @author Romane Bézier
+     */
+    override fun startNewAlarm(alarm: Alarm) {
+        view?.startAlarm(alarm)
     }
 
     /**

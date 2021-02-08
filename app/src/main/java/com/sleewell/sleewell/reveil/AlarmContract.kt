@@ -16,15 +16,6 @@ import com.sleewell.sleewell.reveil.global.BaseView
 interface AlarmContract {
 
     interface Model {
-        /**
-         * Get the alarm by id
-         *
-         * @param id Id of the Alarm
-         * @param mAlarmViewModel View model of the alarm
-         * @return Alarm
-         * @author Romane Bézier
-         */
-        fun getAlarmById(id: Int, mAlarmViewModel: AlarmViewModel) : Alarm
 
         /**
          * Update the alarm
@@ -127,16 +118,6 @@ interface AlarmContract {
         fun onViewCreated()
 
         /**
-         * Get the alarm by id
-         *
-         * @param id Id of the Alarm
-         * @param mAlarmViewModel View model of the alarm
-         * @return Alarm
-         * @author Romane Bézier
-         */
-        fun getAlarmById(id: Int, mAlarmViewModel: AlarmViewModel) : Alarm
-
-        /**
          * Update the alarm
          *
          * @param updateAlarm Alarm to update
@@ -162,6 +143,14 @@ interface AlarmContract {
          * @author Romane Bézier
          */
         fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner)
+
+        /**
+         * Start the new alarm
+         *
+         * @param alarm Current alarm
+         * @author Romane Bézier
+         */
+        fun startNewAlarm(alarm: Alarm)
 
         /**
          * Start the alarm
