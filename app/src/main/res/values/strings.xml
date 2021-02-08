@@ -84,4 +84,5 @@
     <string name="analyse_foreground_notification_name">Night analyse</string>
     <string name="analyse_foreground_notification_content_text">Analyse in progress</string>
     <string name="analyse_foreground_stopping_notification_content_text">Stopping analyse…</string>
+    <string name="music_screen_title">Sounds to sleep to</string>
 </resources>
