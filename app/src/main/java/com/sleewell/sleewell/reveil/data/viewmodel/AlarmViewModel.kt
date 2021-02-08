@@ -48,7 +48,11 @@ class AlarmViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun getById(id: Int) : Alarm {
-        return repository.getById(id)
+    fun getById(id: Int) : LiveData<Alarm> {
+        val liveData = MutableLiveData<Alarm>()
+        viewModelScope.launch(Dispatchers.IO) {
+            liveData.postValue(repository.getById(id))
+        }
+        return liveData
     }
 }

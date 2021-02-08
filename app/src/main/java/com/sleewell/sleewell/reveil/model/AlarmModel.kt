@@ -16,28 +16,16 @@ import java.text.SimpleDateFormat
 import java.util.*
 import androidx.lifecycle.Observer
 
-
 /**
  * Alarm Model for the Alarm activity
  *
  *
  * @author Romane Bézier
  */
-class AlarmModel : AlarmContract.Model {
+class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
 
+    private var presenter: AlarmContract.Presenter? = presenter
     var c : Calendar = Calendar.getInstance()
-
-
-    /**
-     * Get the alarm by id
-     *
-     * @param id Id of the Alarm
-     * @param mAlarmViewModel View model of the alarm
-     * @author Romane Bézier
-     */
-    override fun getAlarmById(id: Int, mAlarmViewModel: AlarmViewModel) : Alarm {
-        return mAlarmViewModel.getById(id)
-    }
 
     /**
      * Update the alarm
@@ -69,8 +57,10 @@ class AlarmModel : AlarmContract.Model {
      */
     override fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner) {
         val alarm = Alarm(0, time, false)
-        mAlarmViewModel.addAlarm(alarm).observe(lifecycleOwner, Observer { id ->
-            Log.d("Debug", "ID = $id")
+        mAlarmViewModel.addAlarm(alarm).observe(lifecycleOwner, { id ->
+            mAlarmViewModel.getById(id.toInt()).observe(lifecycleOwner, { alarm ->
+                presenter?.startNewAlarm(alarm)
+            })
         })
     }
 
