@@ -6,12 +6,16 @@ import android.content.Context
 import android.content.Intent
 import android.text.format.DateUtils
 import android.text.format.Time
+import android.util.Log
+import androidx.lifecycle.LifecycleOwner
 import com.sleewell.sleewell.reveil.AlarmContract
 import com.sleewell.sleewell.reveil.AlarmReceiver
 import com.sleewell.sleewell.reveil.data.model.Alarm
 import com.sleewell.sleewell.reveil.data.viewmodel.AlarmViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.lifecycle.Observer
+
 
 /**
  * Alarm Model for the Alarm activity
@@ -22,6 +26,18 @@ import java.util.*
 class AlarmModel : AlarmContract.Model {
 
     var c : Calendar = Calendar.getInstance()
+
+
+    /**
+     * Get the alarm by id
+     *
+     * @param id Id of the Alarm
+     * @param mAlarmViewModel View model of the alarm
+     * @author Romane Bézier
+     */
+    override fun getAlarmById(id: Int, mAlarmViewModel: AlarmViewModel) : Alarm {
+        return mAlarmViewModel.getById(id)
+    }
 
     /**
      * Update the alarm
@@ -51,9 +67,11 @@ class AlarmModel : AlarmContract.Model {
      * @param time Time of the alarm
      * @author Romane Bézier
      */
-    override fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel) {
+    override fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner) {
         val alarm = Alarm(0, time, false)
-        mAlarmViewModel.addAlarm(alarm)
+        mAlarmViewModel.addAlarm(alarm).observe(lifecycleOwner, Observer { id ->
+            Log.d("Debug", "ID = $id")
+        })
     }
 
     /**
