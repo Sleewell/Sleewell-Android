@@ -67,6 +67,7 @@
     <string name="alarm_label">new_fragment_alarm</string>
     <string name="settings_label">new_fragment_settings</string>
     <string name="statistics_label">new_fragment_stat</string>
+    <string name="routine_label">new_fragment_routine</string>
 
     <!-- Music page -->
     <string name="forest_menu">FOREST</string>
