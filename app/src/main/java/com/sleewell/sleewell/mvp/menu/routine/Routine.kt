@@ -1,19 +1,19 @@
 package com.sleewell.sleewell.mvp.menu.routine
 
-class Routine {
+class Routine(red: Int, green: Int, blue: Int, halo: Boolean, duration: Int, music: Boolean, play: musicPlayer) {
 
     // Color
-    private var colorRed: Int = 0
-    private var colorGreen: Int = 0
-    private var colorBlue: Int = 0
+    private var colorRed: Int = red
+    private var colorGreen: Int = green
+    private var colorBlue: Int = blue
 
     // Duration
-    private var useHalo: Boolean = false
-    private var duration: Int = 0
+    private var useHalo: Boolean = halo
+    private var duration: Int = duration
 
     // Music
-    private var useMusic: Boolean = false
-    private var player: musicPlayer = musicPlayer.MUSIC
+    private var useMusic: Boolean = music
+    private var player: musicPlayer = play
 
     // Color
     fun getColorRed() : Int { return colorRed }
