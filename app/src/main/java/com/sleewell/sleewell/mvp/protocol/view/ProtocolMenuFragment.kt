@@ -217,7 +217,6 @@ class ProtocolMenuFragment : Fragment(), ProtocolMenuContract.View, UserInteract
 
     override fun onStop() {
         super.onStop()
-        (requireActivity() as MainActivity).setUserInteractionListener(null)
         presenter.onDestroy()
     }
 }
