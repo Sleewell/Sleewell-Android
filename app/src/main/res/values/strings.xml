@@ -84,4 +84,6 @@
     <string name="analyse_foreground_notification_name">Night analyse</string>
     <string name="analyse_foreground_notification_content_text">Analyse in progress</string>
     <string name="analyse_foreground_stopping_notification_content_text">Stopping analyse…</string>
+    <string name="snooze_5_min">Snooze 5 min</string>
+    <string name="stars">Stars</string>
 </resources>
