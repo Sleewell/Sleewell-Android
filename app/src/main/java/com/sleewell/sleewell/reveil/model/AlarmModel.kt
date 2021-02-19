@@ -92,7 +92,7 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
      */
     override fun startAlert(alarmManager: AlarmManager, intent: Intent, context: Context, alarm: Alarm) {
         val pendingIntent = PendingIntent.getBroadcast(context,  alarm.id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        c.add(Calendar.HOUR, -8)
+        c.add(Calendar.MINUTE, -1)
         if (c.before(Calendar.getInstance())) {
             c.add(Calendar.DATE, 1)
         }

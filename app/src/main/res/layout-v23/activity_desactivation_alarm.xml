@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.ebanx.swipebtn.SwipeButton
-        android:id="@+id/swipe_button"
-        app:button_background="@drawable/button_shape"
-        app:inner_text_background="@drawable/inner_text_shape"
-        android:layout_width="match_parent"
+
+    <ImageView
+        android:id="@+id/stars"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:inner_text="Swipe To Stop"
-        app:inner_text_color="@color/black"
-        app:inner_text_size="20sp"
-        app:inner_text_bottom_padding="15dp"
-        app:inner_text_top_padding="15dp"
-        app:button_image_disabled="@drawable/ic_alarm_off"
-        app:button_image_enabled="@drawable/ic_alarm_off"
-        app:button_top_padding="15dp"
-        app:button_right_padding="15dp"
-        app:button_bottom_padding="15dp"
-        app:button_left_padding="15dp"
-        android:layout_margin="18sp"/>
+        android:layout_marginStart="5dp"
+        android:contentDescription="@string/stars"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/full_stars" />
 
     <TextView
         android:id="@+id/time_desactivation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/time_desactivation"
-        android:textSize="100sp"
-        android:textAlignment="center"
         android:paddingTop="50dp"
-        android:textColor="@color/black"/>
+        android:text="@string/time_desactivation"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="85sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.100000024" />
 
     <ImageButton
         android:id="@+id/snooze_desactivation"
@@ -41,8 +41,48 @@
         android:layout_above="@+id/swipe_button"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="50dp"
         android:background="@color/transparent"
+        app:layout_constraintBottom_toTopOf="@+id/snooze_text"
+        app:layout_constraintEnd_toEndOf="@+id/time_desactivation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/time_desactivation"
+        app:layout_constraintVertical_bias="0.95"
         app:srcCompat="@drawable/ic_snooze" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/snooze_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/snooze_5_min"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/time_desactivation"
+        app:layout_constraintVertical_bias="0.75" />
+
+    <com.ebanx.swipebtn.SwipeButton
+        android:id="@+id/swipe_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="18sp"
+        app:button_background="@drawable/button_shape"
+        app:button_bottom_padding="15dp"
+        app:button_image_disabled="@drawable/ic_alarm_off"
+        app:button_image_enabled="@drawable/ic_alarm_off"
+        app:button_left_padding="15dp"
+        app:button_right_padding="15dp"
+        app:button_top_padding="15dp"
+        app:inner_text="Swipe To Stop"
+        app:inner_text_background="@drawable/inner_text_shape"
+        app:inner_text_bottom_padding="15dp"
+        app:inner_text_color="@color/white"
+        app:inner_text_size="20sp"
+        app:inner_text_top_padding="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/snooze_text" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
