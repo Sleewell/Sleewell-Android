@@ -12,10 +12,19 @@ import com.sleewell.sleewell.mvp.mainActivity.presenter.MainPresenter
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
+import android.util.Log
+import androidx.room.Room
+import com.sleewell.sleewell.database.analyse.night.Analyse
+import com.sleewell.sleewell.database.analyse.night.Night
+import com.sleewell.sleewell.database.analyse.night.NightDatabase
 import com.sleewell.sleewell.modules.permissions.PermissionManager
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.spotify.sdk.android.authentication.LoginActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), MainContract.View {
     private var userInteractionListener: UserInteractionListener? = null
@@ -32,6 +41,37 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         createNotificationChannel()
         setContentView(R.layout.new_activity_main)
         setPresenter(MainPresenter(this))
+
+        /*val db = NightDatabase.getDatabase(applicationContext)
+        val nightDao = db.nightDao()
+        val analyseDao = db.analyseDao()
+
+        CoroutineScope(Job() + Dispatchers.IO).launch {
+            val night = Night(start = 10, end = 20)
+            val nightId = nightDao.insertNight(night)
+
+            val analyses = listOf(
+                Analyse(nightId = nightId, db = 1.0),
+                Analyse(nightId = nightId, db = 2.0),
+                Analyse(nightId = nightId, db = 3.0),
+                Analyse(nightId = nightId, db = 4.0),
+                Analyse(nightId = nightId, db = 5.0),
+                Analyse(nightId = nightId, db = 6.0),
+                Analyse(nightId = nightId, db = 7.0),
+                Analyse(nightId = nightId, db = 8.0),
+            )
+
+            analyses.forEach { it -> analyseDao.insertAnalyse(it) }
+
+            val resNightAnalyse = nightDao.getNightAnalyse(nightId)
+
+            val res = nightDao.getAll()
+            *//*res.forEach { nightIt -> nightDao.deleteNight(nightIt) }*//*
+            val resAnalyse = analyseDao.getAll()
+            *//*resAnalyse.forEach { it -> analyseDao.deleteAnalyse(it) }*//*
+            *//*db.close()*//*
+        }*/
+
         presenter.onViewCreated()
     }
 
