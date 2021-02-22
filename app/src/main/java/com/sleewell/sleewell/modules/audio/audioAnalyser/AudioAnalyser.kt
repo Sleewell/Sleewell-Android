@@ -2,13 +2,15 @@ package com.sleewell.sleewell.modules.audio.audioAnalyser
 
 import android.content.Context
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
+import com.sleewell.sleewell.modules.audio.audioAnalyser.DataManager.AnalyseDataManager
+import com.sleewell.sleewell.modules.audio.audioAnalyser.DataManager.AudioAnalyseFileUtils
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import java.time.Instant
 import java.util.*
 import kotlin.math.log
 
@@ -32,7 +34,7 @@ class AudioAnalyser(
 
     // file save
     private var isInitialised = false
-    private val fileUtil = AudioAnalyseFileUtils(context, this)
+    private val fileUtil : AnalyseDataManager = AudioAnalyseFileUtils(context, this)
 
     // coroutine
     private val queueData: Queue<DoubleArray> = LinkedList<DoubleArray>()
@@ -71,8 +73,11 @@ class AudioAnalyser(
      */
     private fun launchAnalyse() {
         if (!isInitialised) {
-            fileUtil.deleteAnalyses(fileUtil.readDirectory())
-            if (!fileUtil.initSaveNewAnalyse()) {
+            val availableAnalyses = fileUtil.getAvailableAnalyse()
+            availableAnalyses.forEach { it ->
+                fileUtil.deleteAnalyse(it)
+            }
+            if (!fileUtil.initNewAnalyse()) {
                 listener.onError("Couldn't initialised ")
                 return
             }
@@ -114,7 +119,7 @@ class AudioAnalyser(
         //val averageDb = ampToDb(datas.average())
         val averageDb = ampToDb(datas.maxOrNull())
         if (averageDb >= dbMinDetection) {
-            fileUtil.addToAnalyse(AnalyseValue(averageDb, fileUtil.getCurrentTimestamp()))
+            fileUtil.addToAnalyse(AnalyseValue(averageDb, getCurrentTimestamp()))
         }
     }
 
@@ -156,7 +161,7 @@ class AudioAnalyser(
     fun cleanUp() {
         stopThread = true
         isInitialised = false
-        fileUtil.stopSavingNewAnalyse()
+        fileUtil.endNewAnalyse()
     }
 
     /**
@@ -187,5 +192,14 @@ class AudioAnalyser(
      */
     override fun onReadAnalyseRecord(data: Array<AnalyseValue>) {
         // do nothing because we only save
+    }
+
+    /**
+     * Return the current timestamp in seconds
+     *
+     * @return Long timestamp
+     */
+    fun getCurrentTimestamp(): Long {
+        return Instant.now().epochSecond
     }
 }

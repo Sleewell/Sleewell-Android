@@ -1,7 +1,8 @@
 package com.sleewell.sleewell.mvp.menu.statistics.model
 
 import androidx.appcompat.app.AppCompatActivity
-import com.sleewell.sleewell.modules.audio.audioAnalyser.AudioAnalyseFileUtils
+import com.sleewell.sleewell.modules.audio.audioAnalyser.DataManager.AnalyseDataManager
+import com.sleewell.sleewell.modules.audio.audioAnalyser.DataManager.AudioAnalyseFileUtils
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.mvp.menu.statistics.StatisticsContract
@@ -12,7 +13,7 @@ class StatisticsModel(
 ) :
     StatisticsContract.Model, IAudioAnalyseRecordListener {
 
-    private val analyse = AudioAnalyseFileUtils(context, this)
+    private val analyse : AnalyseDataManager = AudioAnalyseFileUtils(context, this)
     private var analyseFileDate = ""
 
     /**
@@ -21,11 +22,11 @@ class StatisticsModel(
      * @author Hugo Berthomé
      */
     override fun getLastAnalyse() {
-        val files = analyse.readDirectory()
+        val files = analyse.getAvailableAnalyse()
         if (files.isEmpty()) {
             listener.onDataAnalyse(arrayOf())
         } else {
-            analyseFileDate = files[0].name
+            analyseFileDate = AudioAnalyseFileUtils.timestampToDateString(files[0])
             analyse.readAnalyse(files[0])
         }
     }

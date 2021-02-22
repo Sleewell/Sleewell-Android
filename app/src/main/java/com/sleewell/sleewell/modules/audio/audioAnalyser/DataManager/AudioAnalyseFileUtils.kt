@@ -1,8 +1,7 @@
-package com.sleewell.sleewell.modules.audio.audioAnalyser
+package com.sleewell.sleewell.modules.audio.audioAnalyser.DataManager
 
 import android.content.Context
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.google.gson.JsonIOException
 import com.google.gson.JsonSyntaxException
@@ -13,8 +12,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import java.io.*
 import java.time.Instant
+import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.util.*
 
 /**
@@ -23,7 +25,8 @@ import java.util.*
  *
  * @author Hugo Berthomé
  */
-class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordListener) {
+class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordListener) :
+    AnalyseDataManager {
     private val CLASS_TAG = "AUDIO_ANALYSE_FILE_UTIL"
 
     private val gson = Gson()
@@ -40,35 +43,43 @@ class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordL
     private var threadRunning = false
 
     /**
-     * Read the analyse directory and return all the files existing
+     * List all the analyses register on the device
      *
-     * @return Array<File> array with all the file existing
+     * @return Array of all the available analyse by their timestamp
      * @author Hugo Berthomé
      */
-    fun readDirectory(): Array<File> {
-        val dir = File(outputDirectory)
+    override fun getAvailableAnalyse(): List<Long> {
+        val listFiles = readDirectory()
+        val listAvailableAnalyse = mutableListOf<Long>()
 
-        if (!dir.exists()) {
-            return arrayOf()
+        listFiles.forEach { file ->
+            try {
+                val currentFileDate = file.name.replace(".json", "")
+                listAvailableAnalyse.add(dateStringToTimestamp(currentFileDate))
+            } catch (error: DateTimeParseException) {
+                Log.e(
+                    CLASS_TAG,
+                    "Invalid file name for analyse, cannot be converted to epoch seconds : " + file.name.replace(
+                        ".json",
+                        ""
+                    )
+                )
+            }
         }
-        val files = dir.listFiles()
-        if (files != null) {
-            files.sortBy { it.name }
-            return files
-        }
-        return arrayOf()
+        return listAvailableAnalyse
     }
 
     /**
-     * Read an analyse and return the data values
+     * Read an analyse
      *
-     * @param analyse File of the analyse to read
+     * @param timestamp identifying the analyse
      * @author Hugo Berthomé
      */
-    fun readAnalyse(analyse: File) {
-
+    override fun readAnalyse(timestamp: Long) {
         scopeIO.run {
             val emptyArray = arrayOf<AnalyseValue>()
+            val fileName = timestampToDateString(timestamp)
+            val analyse = File("$outputDirectory/$fileName.json")
 
             if (!analyse.exists()) {
                 listener.onAnalyseRecordError("File " + analyse.name + " doesn't exist")
@@ -91,51 +102,25 @@ class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordL
     }
 
     /**
-     * Delete an analyse from the directory
+     * Delete an analyse
      *
-     * @param analyse File to delete
+     * @param timestamp identifying the analyse
      * @author Hugo Berthomé
      */
-    fun deleteAnalyse(analyse: File) {
+    override fun deleteAnalyse(timestamp: Long) {
+        val fileName = timestampToDateString(timestamp)
+        val analyse = File("$outputDirectory/$fileName.json")
+
         if (analyse.exists())
             analyse.delete()
     }
 
     /**
-     * Delete an array of analyse from a directory
+     * Init the registration on a new analyse
      *
-     * @param analyses - Array of files
-     */
-    fun deleteAnalyses(analyses: Array<File>) {
-        analyses.forEach { file -> deleteAnalyse(file) }
-    }
-
-    /**
-     * Create the save directory in the cache
-     *
-     * @return true if succeed false otherwise
-     */
-    private fun createDir(): Boolean {
-        val dir = File(outputDirectory)
-
-        if (!dir.exists()) {
-            try {
-                dir.mkdirs()
-            } catch (e: SecurityException) {
-                Log.e(CLASS_TAG, "Directory $outputDirectory couldn't be created")
-                return false
-            }
-        }
-        return true
-    }
-
-    /**
-     * Will create a new analyse file and init the header
-     *
-     * @return True if init with success, false otherwise
      * @author Hugo Berthomé
      */
-    fun initSaveNewAnalyse(): Boolean {
+    override fun initNewAnalyse(): Boolean {
         val outputFileName = getCurrentDateHour()
         outputFile = File("$outputDirectory/$outputFileName.json")
         try {
@@ -155,13 +140,12 @@ class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordL
     }
 
     /**
-     * Add some data to the analyse in the file
+     * Add a value to the analyse
      *
-     * @param value Data value to add inside the file
-     * @return True if success, false otherwise
+     * @param value to add
      * @author Hugo Berthomé
      */
-    fun addToAnalyse(value: AnalyseValue) {
+    override fun addToAnalyse(value: AnalyseValue) {
         if (!isSaving())
             listener.onAnalyseRecordError("Record not initialized")
 
@@ -198,21 +182,21 @@ class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordL
     }
 
     /**
-     * Return if an analyse file has been initialised and we can save
+     * Return if an analyse is currently being saved
      *
-     * @return True if can save, False otherwise
+     * @return Boolean
      * @author Hugo Berthomé
      */
-    fun isSaving(): Boolean {
+    override fun isSaving(): Boolean {
         return outputStream != null || outputFile != null
     }
 
     /**
-     * Close the file and stop saving
+     * Stop the recording of the new analyse
      *
      * @author Hugo Berthomé
      */
-    fun stopSavingNewAnalyse() {
+    override fun endNewAnalyse() {
         if (!isSaving())
             return
 
@@ -235,24 +219,83 @@ class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordL
     }
 
     /**
-     * Return the current timestamp in seconds
+     * Read the analyse directory and return all the files existing
      *
-     * @return Long timestamp
+     * @return Array<File> array with all the file existing
+     * @author Hugo Berthomé
      */
-    fun getCurrentTimestamp(): Long {
-        return Instant.now().epochSecond
+    private fun readDirectory(): Array<File> {
+        val dir = File(outputDirectory)
+
+        if (!dir.exists()) {
+            return arrayOf()
+        }
+        val files = dir.listFiles()
+        if (files != null) {
+            files.sortBy { it.name }
+            return files
+        }
+        return arrayOf()
     }
 
     /**
-     * Return the current date formatted
+     * Create the save directory in the cache
      *
-     * @return the current date with the time
+     * @return true if succeed false otherwise
      */
-    private fun getCurrentDateHour(): String {
+    private fun createDir(): Boolean {
+        val dir = File(outputDirectory)
 
-        return DateTimeFormatter
-            .ofPattern("yyyy-MM-dd_HH:mm:ss")
-            .withZone(ZoneOffset.systemDefault())
-            .format(Instant.now())
+        if (!dir.exists()) {
+            try {
+                dir.mkdirs()
+            } catch (e: SecurityException) {
+                Log.e(CLASS_TAG, "Directory $outputDirectory couldn't be created")
+                return false
+            }
+        }
+        return true
+    }
+
+    companion object {
+        val DATE_FORMAT = "yyyy-MM-dd_HH:mm:ss"
+
+        /**
+         * Convert a string date to timestamp
+         *
+         * @param date
+         * @return timestamp
+         */
+        private fun dateStringToTimestamp(date: String): Long {
+            return LocalDateTime.parse(
+                date,
+                DateTimeFormatter.ofPattern(DATE_FORMAT)
+            ).toEpochSecond(OffsetDateTime.now().offset)
+        }
+
+        /**
+         * Convert a timestamp to date string format
+         *
+         * @param timestamp
+         * @return
+         */
+        fun timestampToDateString(timestamp: Long): String {
+            return DateTimeFormatter
+                .ofPattern(DATE_FORMAT)
+                .withZone(ZoneOffset.systemDefault())
+                .format(Instant.ofEpochSecond(timestamp))
+        }
+
+        /**
+         * Return the current date formatted
+         *
+         * @return the current date with the time
+         */
+        private fun getCurrentDateHour(): String {
+            return DateTimeFormatter
+                .ofPattern(DATE_FORMAT)
+                .withZone(ZoneOffset.systemDefault())
+                .format(Instant.now())
+        }
     }
 }
