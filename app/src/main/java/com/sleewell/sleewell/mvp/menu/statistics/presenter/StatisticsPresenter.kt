@@ -18,7 +18,6 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
     StatisticsContract.Presenter {
 
     private val scopeDefault = CoroutineScope(Job() + Dispatchers.Default)
-    private var scopeMainThread = CoroutineScope(Job() + Dispatchers.Main)
     private val model: StatisticsContract.Model = StatisticsModel(context, this)
 
     private var startAnalyse: Long = 0

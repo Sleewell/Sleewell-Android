@@ -12,19 +12,11 @@ import com.sleewell.sleewell.mvp.mainActivity.presenter.MainPresenter
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
-import android.util.Log
-import androidx.room.Room
-import com.sleewell.sleewell.database.analyse.night.Analyse
-import com.sleewell.sleewell.database.analyse.night.Night
 import com.sleewell.sleewell.database.analyse.night.NightDatabase
 import com.sleewell.sleewell.modules.permissions.PermissionManager
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.spotify.sdk.android.authentication.LoginActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), MainContract.View {
     private var userInteractionListener: UserInteractionListener? = null

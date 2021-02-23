@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.database.analyse.night
+package com.sleewell.sleewell.database.analyse.night.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Embedded

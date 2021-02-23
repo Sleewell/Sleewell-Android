@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.database.analyse.night
+package com.sleewell.sleewell.database.analyse.night.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -1,8 +1,9 @@
 package com.sleewell.sleewell.mvp.menu.statistics.model
 
 import androidx.appcompat.app.AppCompatActivity
-import com.sleewell.sleewell.modules.audio.audioAnalyser.DataManager.AnalyseDataManager
-import com.sleewell.sleewell.modules.audio.audioAnalyser.DataManager.AudioAnalyseFileUtils
+import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseDbUtils
+import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.IAnalyseDataManager
+import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseFileUtils
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.mvp.menu.statistics.StatisticsContract
@@ -13,7 +14,7 @@ class StatisticsModel(
 ) :
     StatisticsContract.Model, IAudioAnalyseRecordListener {
 
-    private val analyse : AnalyseDataManager = AudioAnalyseFileUtils(context, this)
+    private val analyse : IAnalyseDataManager = AudioAnalyseDbUtils(context, this)
     private var analyseFileDate = ""
 
     /**
@@ -22,12 +23,15 @@ class StatisticsModel(
      * @author Hugo Berthomé
      */
     override fun getLastAnalyse() {
-        val files = analyse.getAvailableAnalyse()
-        if (files.isEmpty()) {
+        analyse.getAvailableAnalyse()
+    }
+
+    override fun onListAvailableAnalyses(analyses: List<Long>) {
+        if (analyses.isEmpty()) {
             listener.onDataAnalyse(arrayOf())
         } else {
-            analyseFileDate = AudioAnalyseFileUtils.timestampToDateString(files[0])
-            analyse.readAnalyse(files[0])
+            analyseFileDate = AudioAnalyseFileUtils.timestampToDateString(analyses[0])
+            analyse.readAnalyse(analyses[0])
         }
     }
 

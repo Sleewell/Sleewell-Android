@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.modules.audio.audioAnalyser.DataManager
+package com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager
 
 import android.content.Context
 import android.util.Log
@@ -26,7 +26,7 @@ import java.util.*
  * @author Hugo Berthomé
  */
 class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordListener) :
-    AnalyseDataManager {
+    IAnalyseDataManager {
     private val CLASS_TAG = "AUDIO_ANALYSE_FILE_UTIL"
 
     private val gson = Gson()
@@ -48,7 +48,7 @@ class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordL
      * @return Array of all the available analyse by their timestamp
      * @author Hugo Berthomé
      */
-    override fun getAvailableAnalyse(): List<Long> {
+    override fun getAvailableAnalyse() {
         val listFiles = readDirectory()
         val listAvailableAnalyse = mutableListOf<Long>()
 
@@ -66,7 +66,7 @@ class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordL
                 )
             }
         }
-        return listAvailableAnalyse
+        listener.onListAvailableAnalyses(listAvailableAnalyse)
     }
 
     /**

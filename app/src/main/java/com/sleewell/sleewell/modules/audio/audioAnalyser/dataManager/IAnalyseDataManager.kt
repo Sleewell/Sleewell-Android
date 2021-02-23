@@ -1,8 +1,8 @@
-package com.sleewell.sleewell.modules.audio.audioAnalyser.DataManager
+package com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager
 
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 
-interface AnalyseDataManager {
+interface IAnalyseDataManager {
 
     // INFO read operations
 
@@ -12,7 +12,7 @@ interface AnalyseDataManager {
      * @return Array of all the available analyse by their timestamp
      * @author Hugo Berthomé
      */
-    fun getAvailableAnalyse() : List<Long>
+    fun getAvailableAnalyse()
 
     /**
      * Read an analyse

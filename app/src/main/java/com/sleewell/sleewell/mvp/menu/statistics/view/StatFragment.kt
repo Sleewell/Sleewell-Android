@@ -16,9 +16,14 @@ import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.menu.statistics.StatisticsContract
 import com.sleewell.sleewell.mvp.menu.statistics.presenter.StatisticsPresenter
 import com.sleewell.sleewell.mvp.menu.statistics.model.AnalyseValueStatistic
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class StatFragment : Fragment(), StatisticsContract.View {
 
+    private var scopeMainThread = CoroutineScope(Job() + Dispatchers.Main)
     private lateinit var presenter: StatisticsContract.Presenter
     private lateinit var root: View
 
@@ -125,8 +130,10 @@ function () {
         options.yAxis?.gridLineWidth(0f)
 
         options.tooltip = toolTips
-        aaChartView.aa_drawChartWithChartOptions(options)
-        loadingProgressBar.visibility = View.INVISIBLE
+        scopeMainThread.launch {
+            aaChartView.aa_drawChartWithChartOptions(options)
+            loadingProgressBar.visibility = View.INVISIBLE
+        }
     }
 
     /**
@@ -136,7 +143,9 @@ function () {
      * @author Hugo Berthomé
      */
     override fun displayAnalyseDate(date: String) {
-        textView.text = date
+        scopeMainThread.launch {
+            textView.text = date
+        }
     }
 
     /**
@@ -145,9 +154,11 @@ function () {
      * @author Hugo Berthomé
      */
     override fun noAnalyseFound() {
-        textView.text = "No analyse found"
-        errorIcon.visibility = View.VISIBLE
-        loadingProgressBar.visibility = View.GONE
+        scopeMainThread.launch {
+            textView.text = "No analyse found"
+            errorIcon.visibility = View.VISIBLE
+            loadingProgressBar.visibility = View.GONE
+        }
     }
 
     /**
@@ -157,9 +168,11 @@ function () {
      * @author Hugo Berthomé
      */
     override fun onError(msg: String) {
-        Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
-        loadingProgressBar.visibility = View.GONE
-        errorIcon.visibility = View.VISIBLE
+        scopeMainThread.launch {
+            Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
+            loadingProgressBar.visibility = View.GONE
+            errorIcon.visibility = View.VISIBLE
+        }
     }
 
     /**

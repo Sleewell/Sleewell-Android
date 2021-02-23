@@ -2,14 +2,16 @@ package com.sleewell.sleewell.modules.audio.audioAnalyser
 
 import android.content.Context
 import android.util.Log
-import com.sleewell.sleewell.modules.audio.audioAnalyser.DataManager.AnalyseDataManager
-import com.sleewell.sleewell.modules.audio.audioAnalyser.DataManager.AudioAnalyseFileUtils
+import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseDbUtils
+import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.IAnalyseDataManager
+import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseFileUtils
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.time.Instant
 import java.util.*
 import kotlin.math.log
@@ -34,7 +36,8 @@ class AudioAnalyser(
 
     // file save
     private var isInitialised = false
-    private val fileUtil : AnalyseDataManager = AudioAnalyseFileUtils(context, this)
+    private var isInitializing = false
+    private val fileUtil : IAnalyseDataManager = AudioAnalyseDbUtils(context, this)
 
     // coroutine
     private val queueData: Queue<DoubleArray> = LinkedList<DoubleArray>()
@@ -72,18 +75,12 @@ class AudioAnalyser(
      * @author Hugo Berthomé
      */
     private fun launchAnalyse() {
-        if (!isInitialised) {
-            val availableAnalyses = fileUtil.getAvailableAnalyse()
-            availableAnalyses.forEach { it ->
-                fileUtil.deleteAnalyse(it)
-            }
-            if (!fileUtil.initNewAnalyse()) {
-                listener.onError("Couldn't initialised ")
-                return
-            }
-            isInitialised = true
+        if (!isInitialised && !isInitializing) {
+            isInitializing = true
+            fileUtil.getAvailableAnalyse()
+            return
         }
-        if (!isThreadRunning) {
+        if (isInitializing || !isInitialised || !isThreadRunning) {
             scopeDefault.run {
                 analyseQueue()
             }
@@ -185,6 +182,33 @@ class AudioAnalyser(
     }
 
     /**
+     * Function called when received the list of available analyses
+     *
+     * @param analyses
+     */
+    override fun onListAvailableAnalyses(analyses: List<Long>) {
+        scopeDefault.launch {
+            analyses.forEach { it ->
+                fileUtil.deleteAnalyse(it)
+            }
+            if (!fileUtil.initNewAnalyse()) {
+                listener.onError("Couldn't initialised ")
+                return@launch
+            }
+            isInitialised = true
+            isInitializing = false
+
+            if (!isThreadRunning) {
+                scopeDefault.run {
+                    analyseQueue()
+                }
+            }
+
+            listener.onDataManagerInitialized()
+        }
+    }
+
+    /**
      * Function called when an analyse is read from a file
      *
      * @param data of the analyse file
@@ -199,7 +223,7 @@ class AudioAnalyser(
      *
      * @return Long timestamp
      */
-    fun getCurrentTimestamp(): Long {
+    private fun getCurrentTimestamp(): Long {
         return Instant.now().epochSecond
     }
 }

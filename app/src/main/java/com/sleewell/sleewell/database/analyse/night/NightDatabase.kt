@@ -4,7 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import java.util.concurrent.ExecutorService
+import com.sleewell.sleewell.database.analyse.night.entities.Analyse
+import com.sleewell.sleewell.database.analyse.night.entities.Night
 
 @Database(entities = arrayOf(Night::class, Analyse::class), exportSchema = false, version = 1)
 abstract class NightDatabase : RoomDatabase() {
