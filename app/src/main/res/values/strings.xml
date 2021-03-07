@@ -86,4 +86,6 @@
     <string name="analyse_foreground_stopping_notification_content_text">Stopping analyse…</string>
     <string name="snooze_5_min">Snooze 5 min</string>
     <string name="stars">Stars</string>
+    <string name="repeat">Repeat</string>
+    <string name="add_alarm">Add alarm</string>
 </resources>
