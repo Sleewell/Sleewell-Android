@@ -6,10 +6,15 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,7 +32,8 @@ import kotlinx.android.synthetic.main.new_fragment_alarm.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AlarmsFragment : Fragment(), AlarmContract.View {
+
+class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelectedListener {
 
     private lateinit var mAlarmViewModel: AlarmViewModel
     private lateinit var presenter: AlarmContract.Presenter
@@ -41,7 +47,11 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
      *
      * @param savedInstanceState Save of the instance state
      */
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         instance = this
         val root = inflater.inflate(R.layout.new_fragment_alarm, container, false)
@@ -59,16 +69,33 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
             changeVisibilityLayouts()
         }
 
+        val spinnerAlarm : Spinner = root.findViewById(R.id.spinner_alarm)
+        spinnerAlarm.onItemSelectedListener = this
+        val sounds: MutableList<String> = ArrayList()
+        sounds.add("First")
+        sounds.add("Second")
+        sounds.add("Third")
+
+        val dataAdapter: ArrayAdapter<String> =
+            ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item, sounds)
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerAlarm.adapter = dataAdapter
+
         val adapter = ListAdapter(this)
 
         val recyclerView: RecyclerView = root.findViewById(R.id.recyclerView_alarm)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL))
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                recyclerView.context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
 
         mAlarmViewModel = ViewModelProvider(this).get(AlarmViewModel::class.java)
         mAlarmViewModel = ViewModelProvider(this).get(AlarmViewModel::class.java)
-        mAlarmViewModel.readAllData.observe(viewLifecycleOwner, Observer { alarm ->
+        mAlarmViewModel.readAllData.observe(viewLifecycleOwner, { alarm ->
             adapter.setData(alarm)
         })
 
@@ -122,8 +149,10 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
             presenter.saveAlarm(calendar.timeInMillis, mAlarmViewModel, viewLifecycleOwner)
 
         }
-        TimePickerDialog(context, timePickerDialog, calendar.get(Calendar.HOUR_OF_DAY),
-            calendar.get(Calendar.MINUTE), true).show()
+        TimePickerDialog(
+            context, timePickerDialog, calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE), true
+        ).show()
     }
 
     /**
@@ -135,7 +164,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
     override fun launchTimePickerUpdate(currentAlarm: Alarm) {
         val calendar = Calendar.getInstance()
 
-        val timePickerDialog = TimePickerDialog.OnTimeSetListener {_, hour, minute ->
+        val timePickerDialog = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
             calendar.set(Calendar.HOUR_OF_DAY, hour)
             calendar.set(Calendar.MINUTE, minute)
             if (calendar.before(Calendar.getInstance())) {
@@ -316,5 +345,16 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
         bundleAlert.putParcelable("alarm", currentAlarm)
         intentAlert.putExtra("ALARM", bundleAlert)
         presenter.stopAlert(alarmManager, intentAlert, requireContext(), currentAlarm)
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+        val item: String = parent!!.getItemAtPosition(position).toString()
+
+        Toast.makeText(parent.context, "Selected: $item", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+        TODO("Not yet implemented")
     }
 }

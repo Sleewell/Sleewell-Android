@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <ToggleButton
         android:id="@+id/tD"
         android:layout_width="35dp"
@@ -13,6 +15,7 @@
         android:textOn="@string/m"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
+
     <ToggleButton
         android:id="@+id/tL"
         android:layout_marginLeft="3dp"
