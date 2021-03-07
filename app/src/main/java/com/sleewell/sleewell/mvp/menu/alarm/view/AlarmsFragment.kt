@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -22,6 +23,7 @@ import com.sleewell.sleewell.reveil.data.ListAdapter
 import com.sleewell.sleewell.reveil.data.model.Alarm
 import com.sleewell.sleewell.reveil.data.viewmodel.AlarmViewModel
 import com.sleewell.sleewell.reveil.presenter.AlarmPresenter
+import kotlinx.android.synthetic.main.new_fragment_alarm.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -46,15 +48,20 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
 
         setHasOptionsMenu(true)
 
-        val floatingActionButton: FloatingActionButton = root.findViewById(R.id.floatingActionButton)
-
+        val floatingActionButton: FloatingActionButton = root.findViewById(R.id.add_alarm_button)
         floatingActionButton.setOnClickListener {
-            launchTimePicker()
+            //launchTimePicker()
+            changeVisibilityLayouts()
+        }
+
+        val toolbarAlarm : Toolbar = root.findViewById(R.id.toolbar_alarm)
+        toolbarAlarm.setNavigationOnClickListener {
+            changeVisibilityLayouts()
         }
 
         val adapter = ListAdapter(this)
-        val recyclerView: RecyclerView = root.findViewById(R.id.recyclerView)
 
+        val recyclerView: RecyclerView = root.findViewById(R.id.recyclerView_alarm)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL))
@@ -67,6 +74,34 @@ class AlarmsFragment : Fragment(), AlarmContract.View {
 
         setPresenter(AlarmPresenter(this))
         return root
+    }
+
+    private fun changeVisibilityLayouts() {
+        toolbar_alarm.visibility = if (toolbar_alarm.visibility == View.VISIBLE) {
+            View.INVISIBLE
+        } else {
+            View.VISIBLE
+        }
+        time_picker_alarm.visibility = if (time_picker_alarm.visibility == View.VISIBLE) {
+            View.INVISIBLE
+        } else {
+            View.VISIBLE
+        }
+        repeat_text.visibility = if (repeat_text.visibility == View.VISIBLE) {
+            View.INVISIBLE
+        } else {
+            View.VISIBLE
+        }
+        recyclerView_alarm.visibility = if (recyclerView_alarm.visibility == View.VISIBLE) {
+            View.INVISIBLE
+        } else {
+            View.VISIBLE
+        }
+        if (add_alarm_button.visibility == View.VISIBLE) {
+            add_alarm_button.hide()
+        } else {
+            add_alarm_button.show()
+        }
     }
 
     /**

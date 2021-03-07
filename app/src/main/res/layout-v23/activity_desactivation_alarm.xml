@@ -6,7 +6,6 @@
     android:background="@color/background"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <ImageView
         android:id="@+id/stars"
         android:layout_width="wrap_content"
