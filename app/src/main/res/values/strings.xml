@@ -97,4 +97,5 @@
     <string name="vibrate">Vibrate</string>
     <string name="label">Label</string>
     <string name="name_of_label">Name of label</string>
+    <string name="check">Check</string>
 </resources>

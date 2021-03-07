@@ -9,10 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -69,12 +66,23 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             changeVisibilityLayouts()
         }
 
+        val validateAlarm : ImageView = root.findViewById(R.id.validate_alarm)
+        validateAlarm.setOnClickListener {
+            changeVisibilityLayouts()
+        }
+
         val spinnerAlarm : Spinner = root.findViewById(R.id.spinner_alarm)
         spinnerAlarm.onItemSelectedListener = this
         val sounds: MutableList<String> = ArrayList()
         sounds.add("First")
         sounds.add("Second")
         sounds.add("Third")
+
+        val calendar = Calendar.getInstance()
+        val timePicker : TimePicker = root.findViewById(R.id.time_picker_alarm)
+        timePicker.setIs24HourView(true)
+        timePicker.hour = calendar.get(Calendar.HOUR_OF_DAY)
+        timePicker.minute = calendar.get(Calendar.MINUTE)
 
         val dataAdapter: ArrayAdapter<String> =
             ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item, sounds)
@@ -103,43 +111,14 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         return root
     }
 
-    private fun changeVisibilityLayouts() {
-        toolbar_alarm.visibility = if (toolbar_alarm.visibility == View.VISIBLE) {
-            View.INVISIBLE
-        } else {
-            View.VISIBLE
-        }
-        time_picker_alarm.visibility = if (time_picker_alarm.visibility == View.VISIBLE) {
-            View.INVISIBLE
-        } else {
-            View.VISIBLE
-        }
-        repeat_text.visibility = if (repeat_text.visibility == View.VISIBLE) {
-            View.INVISIBLE
-        } else {
-            View.VISIBLE
-        }
-        recyclerView_alarm.visibility = if (recyclerView_alarm.visibility == View.VISIBLE) {
-            View.INVISIBLE
-        } else {
-            View.VISIBLE
-        }
-        if (add_alarm_button.visibility == View.VISIBLE) {
-            add_alarm_button.hide()
-        } else {
-            add_alarm_button.show()
-        }
-    }
-
     /**
-     * Launch the time picker
+     * Start the alarm base on the time picker
      *
      * @author Romane Bézier
      */
-    private fun launchTimePicker() {
-        val calendar = Calendar.getInstance()
-
-        val timePickerDialog = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+    private fun startAlarmTimePicker(timePicker: TimePicker) {
+/*
+        timePicker.OnTimeSetListener { _, hour, minute ->
             calendar.set(Calendar.HOUR_OF_DAY, hour)
             calendar.set(Calendar.MINUTE, minute)
             if (calendar.before(Calendar.getInstance())) {
@@ -152,7 +131,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         TimePickerDialog(
             context, timePickerDialog, calendar.get(Calendar.HOUR_OF_DAY),
             calendar.get(Calendar.MINUTE), true
-        ).show()
+        ).show()*/
     }
 
     /**
@@ -348,13 +327,78 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
         val item: String = parent!!.getItemAtPosition(position).toString()
-
-        Toast.makeText(parent.context, "Selected: $item", Toast.LENGTH_LONG).show()
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
         TODO("Not yet implemented")
+    }
+
+    /**
+     * Change visibility of the layout alarm
+     *
+     * @author Romane Bézier
+     */
+    private fun changeVisibilityLayouts() {
+        toolbar_alarm.visibility = if (toolbar_alarm.visibility == View.VISIBLE) {
+            View.INVISIBLE
+        } else {
+            View.VISIBLE
+        }
+        time_picker_alarm.visibility = if (time_picker_alarm.visibility == View.VISIBLE) {
+            View.INVISIBLE
+        } else {
+            View.VISIBLE
+        }
+        repeat_text.visibility = if (repeat_text.visibility == View.VISIBLE) {
+            View.INVISIBLE
+        } else {
+            View.VISIBLE
+        }
+        daypicker_layout.visibility = if (daypicker_layout.visibility == View.VISIBLE) {
+            View.INVISIBLE
+        } else {
+            View.VISIBLE
+        }
+        alarm_ringtone.visibility = if (alarm_ringtone.visibility == View.VISIBLE) {
+            View.INVISIBLE
+        } else {
+            View.VISIBLE
+        }
+        spinner_alarm.visibility = if (spinner_alarm.visibility == View.VISIBLE) {
+            View.INVISIBLE
+        } else {
+            View.VISIBLE
+        }
+        vibrate.visibility = if (vibrate.visibility == View.VISIBLE) {
+            View.INVISIBLE
+        } else {
+            View.VISIBLE
+        }
+        checkBox_vibrate.visibility = if (checkBox_vibrate.visibility == View.VISIBLE) {
+            View.INVISIBLE
+        } else {
+            View.VISIBLE
+        }
+        label_alarm.visibility = if (label_alarm.visibility == View.VISIBLE) {
+            View.INVISIBLE
+        } else {
+            View.VISIBLE
+        }
+        editText_alarm.visibility = if (editText_alarm.visibility == View.VISIBLE) {
+            View.INVISIBLE
+        } else {
+            View.VISIBLE
+        }
+        recyclerView_alarm.visibility = if (recyclerView_alarm.visibility == View.VISIBLE) {
+            View.INVISIBLE
+        } else {
+            View.VISIBLE
+        }
+        if (add_alarm_button.visibility == View.VISIBLE) {
+            add_alarm_button.hide()
+        } else {
+            add_alarm_button.show()
+        }
     }
 }
