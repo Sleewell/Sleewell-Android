@@ -93,4 +93,8 @@
     <string name="w">W</string>
     <string name="f">F</string>
     <string name="s">S</string>
+    <string name="alarm_ringtone">Alarm ringtone</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="label">Label</string>
+    <string name="name_of_label">Name of label</string>
 </resources>
