@@ -88,4 +88,9 @@
     <string name="stars">Stars</string>
     <string name="repeat">Repeat</string>
     <string name="add_alarm">Add alarm</string>
+    <string name="m">M</string>
+    <string name="t">T</string>
+    <string name="w">W</string>
+    <string name="f">F</string>
+    <string name="s">S</string>
 </resources>

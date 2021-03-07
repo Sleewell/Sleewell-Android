@@ -17,7 +17,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/white"
+        android:textColor="@color/textOnBackground"
         tools:text="6:00" />
 
     <androidx.appcompat.widget.SwitchCompat
