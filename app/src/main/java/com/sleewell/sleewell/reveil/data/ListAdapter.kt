@@ -31,6 +31,7 @@ class ListAdapter(private val view: AlarmContract.View): RecyclerView.Adapter<Li
         val currentItem = alarmList[position]
         holder.itemView.textViewTime.text = view.convertTime(currentItem.time)
         holder.itemView.checkBoxTime.isChecked = currentItem.activate
+        holder.itemView.textLabel.text = currentItem.label
 
         holder.itemView.rowLayout.setOnClickListener {
             view.updateAlarm(currentItem)
