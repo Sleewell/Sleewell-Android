@@ -20,6 +20,18 @@
         android:textColor="@color/textOnBackground"
         tools:text="6:00" />
 
+    <TextView
+        android:id="@+id/textLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="@color/textOnBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textViewTime"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Label" />
+
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/checkBoxTime"
         android:layout_width="wrap_content"

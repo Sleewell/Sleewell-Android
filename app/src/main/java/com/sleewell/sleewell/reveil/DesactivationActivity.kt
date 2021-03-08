@@ -26,6 +26,7 @@ class DesactivationActivity : AppCompatActivity() {
             val time = currentDateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
 
             time_desactivation.text = time
+            label_alarm.text = alarm.label
 
             val stopIntent = Intent(applicationContext, GlobalReceiver::class.java).apply {
                 action = "Stop"
