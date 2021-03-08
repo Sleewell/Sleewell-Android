@@ -84,8 +84,7 @@
                 android:id="@+id/daypicker"
                 layout="@layout/daypicker_layout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="invisible" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <TextView
@@ -252,8 +251,7 @@
                 android:id="@+id/daypicker"
                 layout="@layout/daypicker_layout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="invisible" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <TextView
