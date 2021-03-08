@@ -1,6 +1,8 @@
 package com.sleewell.sleewell.modules.audio.audioAnalyser.model
 
+import androidx.room.ColumnInfo
+
 data class AnalyseValue(
-    val db: Double,
-    val ts: Long
+    @ColumnInfo(name = "db") val db: Double,
+    @ColumnInfo(name = "ts") val ts: Long
 )

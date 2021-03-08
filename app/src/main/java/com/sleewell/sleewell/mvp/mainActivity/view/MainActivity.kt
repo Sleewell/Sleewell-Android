@@ -12,6 +12,7 @@ import com.sleewell.sleewell.mvp.mainActivity.presenter.MainPresenter
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
+import com.sleewell.sleewell.database.analyse.night.NightDatabase
 import com.sleewell.sleewell.modules.permissions.PermissionManager
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationResponse
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         createNotificationChannel()
         setContentView(R.layout.new_activity_main)
         setPresenter(MainPresenter(this))
+
         presenter.onViewCreated()
     }
 

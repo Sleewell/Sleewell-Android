@@ -31,4 +31,11 @@ interface IAudioAnalyseListener {
      * @author Hugo Berthomé
      */
     fun onDataAnalysed(data : AnalyseValue)
+
+    /**
+     * Function called when the DataManager has been initialized
+     *
+     * @author Hugo Berthomé
+     */
+    fun onDataManagerInitialized()
 }
