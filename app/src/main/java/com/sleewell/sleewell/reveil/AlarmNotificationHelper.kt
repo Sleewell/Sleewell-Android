@@ -66,6 +66,12 @@ class AlarmNotificationHelper(base: Context?, currentAlarm: Alarm) : ContextWrap
             intent.putExtra("ALARM", bundle)
             val pendingIntent = PendingIntent.getActivity(this, alarm.id, intent, 0)
 
+            val arrayVibrate : LongArray = if (alarm.vibrate) {
+                longArrayOf( 1000, 1000, 1000, 1000, 1000 )
+            } else {
+                longArrayOf(0L)
+            }
+
             return NotificationCompat.Builder(applicationContext, channelID)
                 .setContentTitle("Sleewell")
                 .setContentText("It's time to wake up !")
@@ -74,6 +80,7 @@ class AlarmNotificationHelper(base: Context?, currentAlarm: Alarm) : ContextWrap
                 .setAutoCancel(false)
                 .addAction(R.drawable.logo_sleewell, "Stop", stopPendingIntent)
                 .addAction(R.drawable.logo_sleewell, "Snooze", snoozePendingIntent)
+                .setVibrate(arrayVibrate)
         }
 
     companion object {

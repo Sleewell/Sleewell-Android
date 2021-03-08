@@ -5,11 +5,15 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.SpannableStringBuilder
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ImageView
+import android.widget.TimePicker
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -28,13 +32,13 @@ import com.sleewell.sleewell.reveil.presenter.AlarmPresenter
 import kotlinx.android.synthetic.main.new_fragment_alarm.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.time.hours
 
 
 class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelectedListener {
 
     private lateinit var mAlarmViewModel: AlarmViewModel
     private lateinit var presenter: AlarmContract.Presenter
+    private lateinit var validateupdateAlarm: ImageView
 
     companion object {
         lateinit var instance: AlarmsFragment
@@ -61,8 +65,13 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             changeVisibilityLayoutsCreate()
         }
 
-        val toolbarAlarm : Toolbar = root.findViewById(R.id.toolbar_create_alarm)
-        toolbarAlarm.setNavigationOnClickListener {
+        val toolbarCreateAlarm : Toolbar = root.findViewById(R.id.toolbar_create_alarm)
+        toolbarCreateAlarm.setNavigationOnClickListener {
+            changeVisibilityLayoutsAlarm()
+        }
+
+        val toolbarModifyAlarm : Toolbar = root.findViewById(R.id.toolbar_modify_alarm)
+        toolbarModifyAlarm.setNavigationOnClickListener {
             changeVisibilityLayoutsAlarm()
         }
 
@@ -75,8 +84,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         val validatesaveAlarm : ImageView = root.findViewById(R.id.validate_create_alarm)
         validateSaveAlarm(validatesaveAlarm, timePicker, calendar)
 
-        val validateupdateAlarm : ImageView = root.findViewById(R.id.validate_modify_alarm)
-        validateUpdateAlarm(validateupdateAlarm, timePicker, calendar)
+        validateupdateAlarm = root.findViewById(R.id.validate_modify_alarm)
 
 /*        val spinnerAlarm : Spinner = root.findViewById(R.id.spinner_alarm)
         spinnerAlarm.onItemSelectedListener = this
@@ -121,23 +129,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
                 calendar.add(Calendar.DATE, 1)
             }
             presenter.getTime(timePicker.hour, timePicker.minute)
-            presenter.saveAlarm(calendar.timeInMillis, mAlarmViewModel, viewLifecycleOwner, checkBox_create_vibrate.isChecked, label_create_alarm.text.toString())
+            presenter.saveAlarm(calendar.timeInMillis, mAlarmViewModel, viewLifecycleOwner, checkBox_create_vibrate.isChecked, editText_create_alarm.text.toString())
         }
     }
-
-    private fun validateUpdateAlarm(validateAlarm: ImageView, timePicker: TimePicker, calendar: Calendar) {
-        validateAlarm.setOnClickListener {
-            changeVisibilityLayoutsAlarm()
-            calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
-            calendar.set(Calendar.MINUTE, timePicker.minute)
-            if (calendar.before(Calendar.getInstance())) {
-                calendar.add(Calendar.DATE, 1)
-            }
-            presenter.getTime(timePicker.hour, timePicker.minute)
-            //presenter.updateAlarm(calendar.timeInMillis, mAlarmViewModel, viewLifecycleOwner, checkBox_create_vibrate.isChecked, label_create_alarm.text.toString())
-        }
-    }
-
 
     /**
      * Update the alarm
@@ -146,28 +140,41 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
      * @author Romane Bézier
      */
     override fun updateAlarm(currentAlarm: Alarm) {
+
         changeVisibilityLayoutsModify()
         //changer les valeurs: timepicker, vibrate, label
         //validate update Alarm
 
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = currentAlarm.time
+
+        time_picker_modify_alarm.setIs24HourView(true)
         val hour = SimpleDateFormat("HH").format(calendar.time)
         val minute = SimpleDateFormat("mm").format(calendar.time)
-        time_picker_modify_alarm.setIs24HourView(true)
         time_picker_modify_alarm.hour = hour.toInt()
         time_picker_modify_alarm.minute = minute.toInt()
 
+        checkBox_modify_vibrate.isChecked = currentAlarm.vibrate
+        val editable: Editable = SpannableStringBuilder(currentAlarm.label)
+        editText_modify_alarm.text = editable
 
+        validateupdateAlarm.setOnClickListener {
+            changeVisibilityLayoutsAlarm()
 
-/*        val timePickerDialog = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
-            calendar.set(Calendar.HOUR_OF_DAY, hour)
-            calendar.set(Calendar.MINUTE, minute)
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.HOUR_OF_DAY, time_picker_modify_alarm.hour)
+            calendar.set(Calendar.MINUTE, time_picker_modify_alarm.minute)
             if (calendar.before(Calendar.getInstance())) {
                 calendar.add(Calendar.DATE, 1)
             }
-            presenter.getTime(hour, minute)
-            val updateAlarm = Alarm(currentAlarm.id, calendar.timeInMillis, currentAlarm.activate)
+            presenter.getTime(time_picker_modify_alarm.hour, time_picker_modify_alarm.minute)
+            val updateAlarm = Alarm(
+                currentAlarm.id,
+                calendar.timeInMillis,
+                currentAlarm.activate,
+                checkBox_modify_vibrate.isChecked,
+                label_modify_alarm.text.toString()
+            )
             presenter.updateAlarm(updateAlarm, mAlarmViewModel)
             if (currentAlarm.activate) {
                 val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -179,11 +186,6 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
                 initStartAlert(alarmManager, updateAlarm)
             }
         }
-        TimePickerDialog(
-            context, timePickerDialog, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(
-                Calendar.MINUTE
-            ), true
-        ).show()*/
     }
 
     /**
@@ -211,7 +213,13 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
      */
     override fun startAlarm(currentAlarm: Alarm) {
 
-        val updateAlarm = Alarm(currentAlarm.id, currentAlarm.time, true, currentAlarm.vibrate, currentAlarm.label) //ADD PARAMETERS
+        val updateAlarm = Alarm(
+            currentAlarm.id,
+            currentAlarm.time,
+            true,
+            currentAlarm.vibrate,
+            currentAlarm.label
+        ) //ADD PARAMETERS
         presenter.updateAlarm(updateAlarm, mAlarmViewModel)
 
         val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -245,7 +253,13 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
      * @author Romane Bézier
      */
     override fun stopAlarm(currentAlarm: Alarm) {
-        val updateAlarm = Alarm(currentAlarm.id, currentAlarm.time, false, currentAlarm.vibrate, currentAlarm.label) //ADD PARAMETERS
+        val updateAlarm = Alarm(
+            currentAlarm.id,
+            currentAlarm.time,
+            false,
+            currentAlarm.vibrate,
+            currentAlarm.label
+        ) //ADD PARAMETERS
         presenter.updateAlarm(updateAlarm, mAlarmViewModel)
 
         val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
