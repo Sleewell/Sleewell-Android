@@ -34,36 +34,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         setContentView(R.layout.new_activity_main)
         setPresenter(MainPresenter(this))
 
-        /*val db = NightDatabase.getDatabase(applicationContext)
-        val nightDao = db.nightDao()
-        val analyseDao = db.analyseDao()
-
-        CoroutineScope(Job() + Dispatchers.IO).launch {
-            val night = Night(start = 10, end = 20)
-            val nightId = nightDao.insertNight(night)
-
-            val analyses = listOf(
-                Analyse(nightId = nightId, db = 1.0),
-                Analyse(nightId = nightId, db = 2.0),
-                Analyse(nightId = nightId, db = 3.0),
-                Analyse(nightId = nightId, db = 4.0),
-                Analyse(nightId = nightId, db = 5.0),
-                Analyse(nightId = nightId, db = 6.0),
-                Analyse(nightId = nightId, db = 7.0),
-                Analyse(nightId = nightId, db = 8.0),
-            )
-
-            analyses.forEach { it -> analyseDao.insertAnalyse(it) }
-
-            val resNightAnalyse = nightDao.getNightAnalyse(nightId)
-
-            val res = nightDao.getAll()
-            *//*res.forEach { nightIt -> nightDao.deleteNight(nightIt) }*//*
-            val resAnalyse = analyseDao.getAll()
-            *//*resAnalyse.forEach { it -> analyseDao.deleteAnalyse(it) }*//*
-            *//*db.close()*//*
-        }*/
-
         presenter.onViewCreated()
     }
 
