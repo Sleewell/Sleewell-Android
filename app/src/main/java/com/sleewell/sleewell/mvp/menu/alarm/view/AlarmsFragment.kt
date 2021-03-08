@@ -11,9 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ImageView
-import android.widget.TimePicker
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -86,17 +84,21 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
 
         validateupdateAlarm = root.findViewById(R.id.validate_modify_alarm)
 
-/*        val spinnerAlarm : Spinner = root.findViewById(R.id.spinner_alarm)
+        val spinnerCreateAlarm : Spinner = root.findViewById(R.id.spinner_create_alarm)
+        spinnerCreateAlarm.onItemSelectedListener = this
+        val spinnerAlarm : Spinner = root.findViewById(R.id.spinner_create_alarm)
         spinnerAlarm.onItemSelectedListener = this
+
         val sounds: MutableList<String> = ArrayList()
         sounds.add("First")
         sounds.add("Second")
         sounds.add("Third")
-
         val dataAdapter: ArrayAdapter<String> =
             ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item, sounds)
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerAlarm.adapter = dataAdapter */
+
+        spinnerCreateAlarm.adapter = dataAdapter
+        spinnerAlarm.adapter = dataAdapter
 
         val adapter = ListAdapter(this)
 
