@@ -71,10 +71,14 @@ class AlarmNotificationHelper(base: Context?, currentAlarm: Alarm) : ContextWrap
             } else {
                 longArrayOf(0L)
             }
-
+            val contentText : String = if (alarm.label.compareTo("") == 0) {
+                "It's time to wake up!"
+            } else {
+                alarm.label
+            }
             return NotificationCompat.Builder(applicationContext, channelID)
                 .setContentTitle("Sleewell")
-                .setContentText("It's time to wake up !")
+                .setContentText(contentText)
                 .setSmallIcon(R.drawable.logo_sleewell)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(false)
