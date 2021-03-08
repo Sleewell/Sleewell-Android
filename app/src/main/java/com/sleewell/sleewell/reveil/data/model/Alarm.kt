@@ -11,5 +11,9 @@ data class Alarm(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val time: Long,
-    val activate: Boolean
+    val activate: Boolean,
+/*    val days: List<String>,
+    val sound: String,*/
+    val vibrate: Boolean,
+    val label: String
 ): Parcelable

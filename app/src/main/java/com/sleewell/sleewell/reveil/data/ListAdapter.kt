@@ -33,7 +33,7 @@ class ListAdapter(private val view: AlarmContract.View): RecyclerView.Adapter<Li
         holder.itemView.checkBoxTime.isChecked = currentItem.activate
 
         holder.itemView.rowLayout.setOnClickListener {
-            view.launchTimePickerUpdate(currentItem)
+            view.updateAlarm(currentItem)
         }
         holder.itemView.deleteButton.setOnClickListener {
             view.deleteAlarm(currentItem)

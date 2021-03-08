@@ -2,10 +2,10 @@ package com.sleewell.sleewell.mvp.menu.alarm.view
 
 import android.app.AlarmManager
 import android.app.AlertDialog
-import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +28,7 @@ import com.sleewell.sleewell.reveil.presenter.AlarmPresenter
 import kotlinx.android.synthetic.main.new_fragment_alarm.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.time.hours
 
 
 class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelectedListener {
@@ -57,37 +58,37 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
 
         val floatingActionButton: FloatingActionButton = root.findViewById(R.id.add_alarm_button)
         floatingActionButton.setOnClickListener {
-            //launchTimePicker()
-            changeVisibilityLayouts()
+            changeVisibilityLayoutsCreate()
         }
 
-        val toolbarAlarm : Toolbar = root.findViewById(R.id.toolbar_alarm)
+        val toolbarAlarm : Toolbar = root.findViewById(R.id.toolbar_create_alarm)
         toolbarAlarm.setNavigationOnClickListener {
-            changeVisibilityLayouts()
+            changeVisibilityLayoutsAlarm()
         }
 
-        val validateAlarm : ImageView = root.findViewById(R.id.validate_alarm)
-        validateAlarm.setOnClickListener {
-            changeVisibilityLayouts()
-        }
+        val calendar = Calendar.getInstance()
+        val timePicker : TimePicker = root.findViewById(R.id.time_picker_create_alarm)
+        timePicker.setIs24HourView(true)
+        timePicker.hour = calendar.get(Calendar.HOUR_OF_DAY)
+        timePicker.minute = calendar.get(Calendar.MINUTE)
 
-        val spinnerAlarm : Spinner = root.findViewById(R.id.spinner_alarm)
+        val validatesaveAlarm : ImageView = root.findViewById(R.id.validate_create_alarm)
+        validateSaveAlarm(validatesaveAlarm, timePicker, calendar)
+
+        val validateupdateAlarm : ImageView = root.findViewById(R.id.validate_modify_alarm)
+        validateUpdateAlarm(validateupdateAlarm, timePicker, calendar)
+
+/*        val spinnerAlarm : Spinner = root.findViewById(R.id.spinner_alarm)
         spinnerAlarm.onItemSelectedListener = this
         val sounds: MutableList<String> = ArrayList()
         sounds.add("First")
         sounds.add("Second")
         sounds.add("Third")
 
-        val calendar = Calendar.getInstance()
-        val timePicker : TimePicker = root.findViewById(R.id.time_picker_alarm)
-        timePicker.setIs24HourView(true)
-        timePicker.hour = calendar.get(Calendar.HOUR_OF_DAY)
-        timePicker.minute = calendar.get(Calendar.MINUTE)
-
         val dataAdapter: ArrayAdapter<String> =
             ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item, sounds)
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerAlarm.adapter = dataAdapter
+        spinnerAlarm.adapter = dataAdapter */
 
         val adapter = ListAdapter(this)
 
@@ -111,39 +112,55 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         return root
     }
 
-    /**
-     * Start the alarm base on the time picker
-     *
-     * @author Romane Bézier
-     */
-    private fun startAlarmTimePicker(timePicker: TimePicker) {
-/*
-        timePicker.OnTimeSetListener { _, hour, minute ->
-            calendar.set(Calendar.HOUR_OF_DAY, hour)
-            calendar.set(Calendar.MINUTE, minute)
+    private fun validateSaveAlarm(validateAlarm: ImageView, timePicker: TimePicker, calendar: Calendar) {
+        validateAlarm.setOnClickListener {
+            changeVisibilityLayoutsAlarm()
+            calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
+            calendar.set(Calendar.MINUTE, timePicker.minute)
             if (calendar.before(Calendar.getInstance())) {
                 calendar.add(Calendar.DATE, 1)
             }
-            presenter.getTime(hour, minute)
-            presenter.saveAlarm(calendar.timeInMillis, mAlarmViewModel, viewLifecycleOwner)
-
+            presenter.getTime(timePicker.hour, timePicker.minute)
+            presenter.saveAlarm(calendar.timeInMillis, mAlarmViewModel, viewLifecycleOwner, checkBox_create_vibrate.isChecked, label_create_alarm.text.toString())
         }
-        TimePickerDialog(
-            context, timePickerDialog, calendar.get(Calendar.HOUR_OF_DAY),
-            calendar.get(Calendar.MINUTE), true
-        ).show()*/
     }
 
+    private fun validateUpdateAlarm(validateAlarm: ImageView, timePicker: TimePicker, calendar: Calendar) {
+        validateAlarm.setOnClickListener {
+            changeVisibilityLayoutsAlarm()
+            calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
+            calendar.set(Calendar.MINUTE, timePicker.minute)
+            if (calendar.before(Calendar.getInstance())) {
+                calendar.add(Calendar.DATE, 1)
+            }
+            presenter.getTime(timePicker.hour, timePicker.minute)
+            //presenter.updateAlarm(calendar.timeInMillis, mAlarmViewModel, viewLifecycleOwner, checkBox_create_vibrate.isChecked, label_create_alarm.text.toString())
+        }
+    }
+
+
     /**
-     * Launch the time picker to update the alarm
+     * Update the alarm
      *
      * @param currentAlarm Alarm to update
      * @author Romane Bézier
      */
-    override fun launchTimePickerUpdate(currentAlarm: Alarm) {
-        val calendar = Calendar.getInstance()
+    override fun updateAlarm(currentAlarm: Alarm) {
+        changeVisibilityLayoutsModify()
+        //changer les valeurs: timepicker, vibrate, label
+        //validate update Alarm
 
-        val timePickerDialog = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = currentAlarm.time
+        val hour = SimpleDateFormat("HH").format(calendar.time)
+        val minute = SimpleDateFormat("mm").format(calendar.time)
+        time_picker_modify_alarm.setIs24HourView(true)
+        time_picker_modify_alarm.hour = hour.toInt()
+        time_picker_modify_alarm.minute = minute.toInt()
+
+
+
+/*        val timePickerDialog = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
             calendar.set(Calendar.HOUR_OF_DAY, hour)
             calendar.set(Calendar.MINUTE, minute)
             if (calendar.before(Calendar.getInstance())) {
@@ -166,7 +183,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             context, timePickerDialog, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(
                 Calendar.MINUTE
             ), true
-        ).show()
+        ).show()*/
     }
 
     /**
@@ -193,7 +210,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
      * @author Romane Bézier
      */
     override fun startAlarm(currentAlarm: Alarm) {
-        val updateAlarm = Alarm(currentAlarm.id, currentAlarm.time, true)
+
+        val updateAlarm = Alarm(currentAlarm.id, currentAlarm.time, true, currentAlarm.vibrate, currentAlarm.label) //ADD PARAMETERS
         presenter.updateAlarm(updateAlarm, mAlarmViewModel)
 
         val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -227,7 +245,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
      * @author Romane Bézier
      */
     override fun stopAlarm(currentAlarm: Alarm) {
-        val updateAlarm = Alarm(currentAlarm.id, currentAlarm.time, false)
+        val updateAlarm = Alarm(currentAlarm.id, currentAlarm.time, false, currentAlarm.vibrate, currentAlarm.label) //ADD PARAMETERS
         presenter.updateAlarm(updateAlarm, mAlarmViewModel)
 
         val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -335,70 +353,92 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Change visibility of the layout alarm
+     * Change visibility of the layout alarm to create alarm
      *
      * @author Romane Bézier
      */
-    private fun changeVisibilityLayouts() {
-        toolbar_alarm.visibility = if (toolbar_alarm.visibility == View.VISIBLE) {
-            View.INVISIBLE
-        } else {
-            View.VISIBLE
-        }
-        time_picker_alarm.visibility = if (time_picker_alarm.visibility == View.VISIBLE) {
-            View.INVISIBLE
-        } else {
-            View.VISIBLE
-        }
-        repeat_text.visibility = if (repeat_text.visibility == View.VISIBLE) {
-            View.INVISIBLE
-        } else {
-            View.VISIBLE
-        }
-        daypicker_layout.visibility = if (daypicker_layout.visibility == View.VISIBLE) {
-            View.INVISIBLE
-        } else {
-            View.VISIBLE
-        }
-        alarm_ringtone.visibility = if (alarm_ringtone.visibility == View.VISIBLE) {
-            View.INVISIBLE
-        } else {
-            View.VISIBLE
-        }
-        spinner_alarm.visibility = if (spinner_alarm.visibility == View.VISIBLE) {
-            View.INVISIBLE
-        } else {
-            View.VISIBLE
-        }
-        vibrate.visibility = if (vibrate.visibility == View.VISIBLE) {
-            View.INVISIBLE
-        } else {
-            View.VISIBLE
-        }
-        checkBox_vibrate.visibility = if (checkBox_vibrate.visibility == View.VISIBLE) {
-            View.INVISIBLE
-        } else {
-            View.VISIBLE
-        }
-        label_alarm.visibility = if (label_alarm.visibility == View.VISIBLE) {
-            View.INVISIBLE
-        } else {
-            View.VISIBLE
-        }
-        editText_alarm.visibility = if (editText_alarm.visibility == View.VISIBLE) {
-            View.INVISIBLE
-        } else {
-            View.VISIBLE
-        }
-        recyclerView_alarm.visibility = if (recyclerView_alarm.visibility == View.VISIBLE) {
-            View.INVISIBLE
-        } else {
-            View.VISIBLE
-        }
-        if (add_alarm_button.visibility == View.VISIBLE) {
-            add_alarm_button.hide()
-        } else {
-            add_alarm_button.show()
-        }
+    private fun changeVisibilityLayoutsCreate() {
+        toolbar_create_alarm.visibility = View.VISIBLE
+        time_picker_create_alarm.visibility = View.VISIBLE
+        repeat_create_text.visibility = View.VISIBLE
+        daypicker_create_layout.visibility = View.VISIBLE
+        create_alarm_ringtone.visibility = View.VISIBLE
+        spinner_create_alarm.visibility = View.VISIBLE
+        create_vibrate.visibility = View.VISIBLE
+        checkBox_create_vibrate.visibility = View.VISIBLE
+        label_create_alarm.visibility = View.VISIBLE
+        editText_create_alarm.visibility = View.VISIBLE
+        recyclerView_alarm.visibility = View.INVISIBLE
+        add_alarm_button.hide()
+        toolbar_modify_alarm.visibility = View.INVISIBLE
+        time_picker_modify_alarm.visibility = View.INVISIBLE
+        repeat_modify_text.visibility = View.INVISIBLE
+        daypicker_modify_layout.visibility = View.INVISIBLE
+        modify_alarm_ringtone.visibility = View.INVISIBLE
+        spinner_modify_alarm.visibility = View.INVISIBLE
+        modify_vibrate.visibility = View.INVISIBLE
+        checkBox_modify_vibrate.visibility = View.INVISIBLE
+        label_modify_alarm.visibility = View.INVISIBLE
+        editText_modify_alarm.visibility = View.INVISIBLE
+    }
+
+    /**
+     * Change visibility of the layout alarm to modify alarm
+     *
+     * @author Romane Bézier
+     */
+    private fun changeVisibilityLayoutsModify() {
+        toolbar_create_alarm.visibility = View.INVISIBLE
+        time_picker_create_alarm.visibility = View.INVISIBLE
+        repeat_create_text.visibility = View.INVISIBLE
+        daypicker_create_layout.visibility = View.INVISIBLE
+        create_alarm_ringtone.visibility = View.INVISIBLE
+        spinner_create_alarm.visibility = View.INVISIBLE
+        create_vibrate.visibility = View.INVISIBLE
+        checkBox_create_vibrate.visibility = View.INVISIBLE
+        label_create_alarm.visibility = View.INVISIBLE
+        editText_create_alarm.visibility = View.INVISIBLE
+        recyclerView_alarm.visibility = View.INVISIBLE
+        add_alarm_button.hide()
+        toolbar_modify_alarm.visibility = View.VISIBLE
+        time_picker_modify_alarm.visibility = View.VISIBLE
+        repeat_modify_text.visibility = View.VISIBLE
+        daypicker_modify_layout.visibility = View.VISIBLE
+        modify_alarm_ringtone.visibility = View.VISIBLE
+        spinner_modify_alarm.visibility = View.VISIBLE
+        modify_vibrate.visibility = View.VISIBLE
+        checkBox_modify_vibrate.visibility = View.VISIBLE
+        label_modify_alarm.visibility = View.VISIBLE
+        editText_modify_alarm.visibility = View.VISIBLE
+    }
+
+    /**
+     * Change visibility of the layout alarm to show alarm
+     *
+     * @author Romane Bézier
+     */
+    private fun changeVisibilityLayoutsAlarm() {
+        toolbar_create_alarm.visibility = View.INVISIBLE
+        time_picker_create_alarm.visibility = View.INVISIBLE
+        repeat_create_text.visibility = View.INVISIBLE
+        daypicker_create_layout.visibility = View.INVISIBLE
+        create_alarm_ringtone.visibility = View.INVISIBLE
+        spinner_create_alarm.visibility = View.INVISIBLE
+        create_vibrate.visibility = View.INVISIBLE
+        checkBox_create_vibrate.visibility = View.INVISIBLE
+        label_create_alarm.visibility = View.INVISIBLE
+        editText_create_alarm.visibility = View.INVISIBLE
+        recyclerView_alarm.visibility = View.VISIBLE
+        add_alarm_button.show()
+        toolbar_modify_alarm.visibility = View.INVISIBLE
+        time_picker_modify_alarm.visibility = View.INVISIBLE
+        repeat_modify_text.visibility = View.INVISIBLE
+        daypicker_modify_layout.visibility = View.INVISIBLE
+        modify_alarm_ringtone.visibility = View.INVISIBLE
+        spinner_modify_alarm.visibility = View.INVISIBLE
+        modify_vibrate.visibility = View.INVISIBLE
+        checkBox_modify_vibrate.visibility = View.INVISIBLE
+        label_modify_alarm.visibility = View.INVISIBLE
+        editText_modify_alarm.visibility = View.INVISIBLE
     }
 }

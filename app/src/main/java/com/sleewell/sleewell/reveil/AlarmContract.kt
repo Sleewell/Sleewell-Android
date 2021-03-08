@@ -41,7 +41,7 @@ interface AlarmContract {
          * @param time Time of the alarm
          * @author Romane Bézier
          */
-        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner)
+        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, vibrate: Boolean, label: String)
 
         /**
          * Start the alarm
@@ -142,7 +142,7 @@ interface AlarmContract {
          * @param time Time of the alarm
          * @author Romane Bézier
          */
-        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner)
+        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, vibrate: Boolean, label: String)
 
         /**
          * Start the new alarm
@@ -221,12 +221,12 @@ interface AlarmContract {
     interface View : BaseView<Presenter> {
 
         /**
-         * Launch the time picker to update the alarm
+         * Update the alarm
          *
          * @param currentAlarm Alarm to update
          * @author Romane Bézier
          */
-        fun launchTimePickerUpdate(currentAlarm: Alarm)
+        fun updateAlarm(currentAlarm: Alarm)
 
         /**
          * Convert the time to String
