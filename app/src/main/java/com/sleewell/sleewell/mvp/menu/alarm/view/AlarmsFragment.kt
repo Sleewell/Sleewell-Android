@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -86,7 +85,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
 
         val spinnerCreateAlarm : Spinner = root.findViewById(R.id.spinner_create_alarm)
         spinnerCreateAlarm.onItemSelectedListener = this
-        val spinnerAlarm : Spinner = root.findViewById(R.id.spinner_create_alarm)
+        val spinnerAlarm : Spinner = root.findViewById(R.id.spinner_modify_alarm)
         spinnerAlarm.onItemSelectedListener = this
 
         val sounds: MutableList<String> = ArrayList()
@@ -175,7 +174,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
                 calendar.timeInMillis,
                 currentAlarm.activate,
                 checkBox_modify_vibrate.isChecked,
-                label_modify_alarm.text.toString()
+                editText_modify_alarm.text.toString()
             )
             presenter.updateAlarm(updateAlarm, mAlarmViewModel)
             if (currentAlarm.activate) {
@@ -396,6 +395,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         checkBox_modify_vibrate.visibility = View.INVISIBLE
         label_modify_alarm.visibility = View.INVISIBLE
         editText_modify_alarm.visibility = View.INVISIBLE
+        editText_create_alarm.text.clear()
+        checkBox_create_vibrate.isChecked = true;
     }
 
     /**
