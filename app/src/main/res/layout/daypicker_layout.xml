@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ToggleButton
-        android:id="@+id/tD"
+        android:id="@+id/tM"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginLeft="3dp"
@@ -17,7 +17,7 @@
         android:background="@drawable/toggle_bg" />
 
     <ToggleButton
-        android:id="@+id/tL"
+        android:id="@+id/tT"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
         android:layout_width="35dp"
@@ -28,7 +28,7 @@
         android:background="@drawable/toggle_bg" />
 
     <ToggleButton
-        android:id="@+id/tM"
+        android:id="@+id/tW"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
         android:layout_width="35dp"
@@ -39,7 +39,7 @@
         android:background="@drawable/toggle_bg" />
 
     <ToggleButton
-        android:id="@+id/tMi"
+        android:id="@+id/tTh"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
         android:layout_width="35dp"
@@ -50,7 +50,7 @@
         android:background="@drawable/toggle_bg" />
 
     <ToggleButton
-        android:id="@+id/tJ"
+        android:id="@+id/tF"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
         android:layout_width="35dp"
@@ -61,7 +61,7 @@
         android:background="@drawable/toggle_bg" />
 
     <ToggleButton
-        android:id="@+id/tV"
+        android:id="@+id/tS"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
         android:layout_width="35dp"
@@ -72,7 +72,7 @@
         android:background="@drawable/toggle_bg" />
 
     <ToggleButton
-        android:id="@+id/tS"
+        android:id="@+id/tSu"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
         android:layout_width="35dp"

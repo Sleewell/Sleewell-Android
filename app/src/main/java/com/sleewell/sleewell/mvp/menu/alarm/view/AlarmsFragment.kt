@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,14 +19,15 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.sleewell.sleewell.R
-import com.sleewell.sleewell.reveil.AlarmContract
+import com.sleewell.sleewell.R import com.sleewell.sleewell.reveil.AlarmContract
 import com.sleewell.sleewell.reveil.AlarmReceiver
 import com.sleewell.sleewell.reveil.AlertReceiver
 import com.sleewell.sleewell.reveil.data.ListAdapter
 import com.sleewell.sleewell.reveil.data.model.Alarm
 import com.sleewell.sleewell.reveil.data.viewmodel.AlarmViewModel
 import com.sleewell.sleewell.reveil.presenter.AlarmPresenter
+import kotlinx.android.synthetic.main.daypicker_layout.*
+import kotlinx.android.synthetic.main.daypicker_layout.view.*
 import kotlinx.android.synthetic.main.new_fragment_alarm.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -130,7 +132,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
                 calendar.add(Calendar.DATE, 1)
             }
             presenter.getTime(timePicker.hour, timePicker.minute)
-            presenter.saveAlarm(calendar.timeInMillis, mAlarmViewModel, viewLifecycleOwner, checkBox_create_vibrate.isChecked, editText_create_alarm.text.toString())
+
+            val days = listOf( daypicker_create_layout.tM.isChecked, daypicker_create_layout.tT.isChecked, daypicker_create_layout.tW.isChecked, daypicker_create_layout.tTh.isChecked, daypicker_create_layout.tF.isChecked, daypicker_create_layout.tS.isChecked, daypicker_create_layout.tSu.isChecked )
+            presenter.saveAlarm(calendar.timeInMillis, mAlarmViewModel, viewLifecycleOwner, days, checkBox_create_vibrate.isChecked, editText_create_alarm.text.toString())
         }
     }
 
@@ -159,6 +163,14 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         val editable: Editable = SpannableStringBuilder(currentAlarm.label)
         editText_modify_alarm.text = editable
 
+        daypicker_modify_layout.tM.isChecked = currentAlarm.days[0]
+        daypicker_modify_layout.tT.isChecked = currentAlarm.days[1]
+        daypicker_modify_layout.tW.isChecked = currentAlarm.days[2]
+        daypicker_modify_layout.tTh.isChecked = currentAlarm.days[3]
+        daypicker_modify_layout.tF.isChecked = currentAlarm.days[4]
+        daypicker_modify_layout.tS.isChecked = currentAlarm.days[5]
+        daypicker_modify_layout.tSu.isChecked = currentAlarm.days[6]
+
         validateupdateAlarm.setOnClickListener {
             changeVisibilityLayoutsAlarm()
 
@@ -169,14 +181,20 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
                 calendar.add(Calendar.DATE, 1)
             }
             presenter.getTime(time_picker_modify_alarm.hour, time_picker_modify_alarm.minute)
+
+            val days = listOf( daypicker_modify_layout.tM.isChecked, daypicker_modify_layout.tT.isChecked, daypicker_modify_layout.tW.isChecked, daypicker_modify_layout.tTh.isChecked, daypicker_modify_layout.tF.isChecked, daypicker_modify_layout.tS.isChecked, daypicker_modify_layout.tSu.isChecked )
+
             val updateAlarm = Alarm(
                 currentAlarm.id,
                 calendar.timeInMillis,
                 currentAlarm.activate,
+                days,
                 checkBox_modify_vibrate.isChecked,
                 editText_modify_alarm.text.toString()
             )
+
             presenter.updateAlarm(updateAlarm, mAlarmViewModel)
+
             if (currentAlarm.activate) {
                 val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -218,6 +236,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             currentAlarm.id,
             currentAlarm.time,
             true,
+            currentAlarm.days,
             currentAlarm.vibrate,
             currentAlarm.label
         ) //ADD PARAMETERS
@@ -258,6 +277,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             currentAlarm.id,
             currentAlarm.time,
             false,
+            currentAlarm.days,
             currentAlarm.vibrate,
             currentAlarm.label
         ) //ADD PARAMETERS
@@ -396,7 +416,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         label_modify_alarm.visibility = View.INVISIBLE
         editText_modify_alarm.visibility = View.INVISIBLE
         editText_create_alarm.text.clear()
-        checkBox_create_vibrate.isChecked = true;
+        checkBox_create_vibrate.isChecked = true
     }
 
     /**

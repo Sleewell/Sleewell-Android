@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.room.TypeConverters
 import com.sleewell.sleewell.reveil.data.model.Alarm
-
+import com.sleewell.sleewell.reveil.data.model.DataConverter
 
 @Database(entities = [Alarm::class], version = 2, exportSchema = false)
+@TypeConverters(DataConverter::class)
 abstract class AlarmDatabase: RoomDatabase() {
 
     abstract fun alarmDao(): AlarmDao
