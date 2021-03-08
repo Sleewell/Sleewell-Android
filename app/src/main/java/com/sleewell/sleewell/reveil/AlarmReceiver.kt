@@ -7,6 +7,7 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.media.RingtoneManager
 import android.os.CountDownTimer
+import android.util.Log
 import com.sleewell.sleewell.reveil.data.model.Alarm
 
 /**
@@ -31,6 +32,7 @@ class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
 
         val alarm: Alarm
+
 
         val bundle = intent.getBundleExtra("ALARM")
         if (bundle != null) {

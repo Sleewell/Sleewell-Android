@@ -55,8 +55,8 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
      * @param time Time of the alarm
      * @author Romane Bézier
      */
-    override fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner) {
-        val alarm = Alarm(0, time, false)
+    override fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, vibrate: Boolean, label: String) {
+        val alarm = Alarm(0, time, false, vibrate, label)
         mAlarmViewModel.addAlarm(alarm).observe(lifecycleOwner, { id ->
             mAlarmViewModel.getById(id.toInt()).observe(lifecycleOwner, { alarm ->
                 presenter?.startNewAlarm(alarm)
