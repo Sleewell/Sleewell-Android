@@ -30,6 +30,7 @@ import kotlinx.android.synthetic.main.daypicker_layout.*
 import kotlinx.android.synthetic.main.daypicker_layout.view.*
 import kotlinx.android.synthetic.main.new_fragment_alarm.*
 import java.text.SimpleDateFormat
+import java.time.DayOfWeek
 import java.util.*
 
 
@@ -123,18 +124,44 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         return root
     }
 
+    private fun setAlarmWithDay(dayOfWeek: Int, calendar: Calendar, timePicker: TimePicker, days: List<Boolean>) {
+        calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek)
+        calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
+        calendar.set(Calendar.MINUTE, timePicker.minute)
+        calendar.set(Calendar.SECOND, 0)
+
+        presenter.getTime(timePicker.hour, timePicker.minute)
+        presenter.saveAlarm(calendar.timeInMillis, mAlarmViewModel, viewLifecycleOwner, days, checkBox_create_vibrate.isChecked, editText_create_alarm.text.toString())
+    }
+
+    private fun setAlarmWithoutDay(calendar: Calendar, timePicker: TimePicker, days: List<Boolean>) {
+        calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
+        calendar.set(Calendar.MINUTE, timePicker.minute)
+        calendar.set(Calendar.SECOND, 0)
+        if (calendar.before(Calendar.getInstance())) {
+            calendar.add(Calendar.DATE, 1)
+        }
+        presenter.getTime(timePicker.hour, timePicker.minute)
+        presenter.saveAlarm(calendar.timeInMillis, mAlarmViewModel, viewLifecycleOwner, days, checkBox_create_vibrate.isChecked, editText_create_alarm.text.toString())
+    }
+
     private fun validateSaveAlarm(validateAlarm: ImageView, timePicker: TimePicker, calendar: Calendar) {
         validateAlarm.setOnClickListener {
             changeVisibilityLayoutsAlarm()
-            calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
-            calendar.set(Calendar.MINUTE, timePicker.minute)
-            if (calendar.before(Calendar.getInstance())) {
-                calendar.add(Calendar.DATE, 1)
-            }
-            presenter.getTime(timePicker.hour, timePicker.minute)
-
             val days = listOf( daypicker_create_layout.tM.isChecked, daypicker_create_layout.tT.isChecked, daypicker_create_layout.tW.isChecked, daypicker_create_layout.tTh.isChecked, daypicker_create_layout.tF.isChecked, daypicker_create_layout.tS.isChecked, daypicker_create_layout.tSu.isChecked )
-            presenter.saveAlarm(calendar.timeInMillis, mAlarmViewModel, viewLifecycleOwner, days, checkBox_create_vibrate.isChecked, editText_create_alarm.text.toString())
+            if (days.contains(true)) {
+                var i = 0
+                while (i < days.size) {
+                    if (days[i] && i < 6) {
+                        setAlarmWithDay(i + 2, calendar, timePicker, days)
+                    } else if (days[i] && i == 6) {
+                        setAlarmWithDay(1, calendar, timePicker, days)
+                    }
+                    i++
+                }
+            } else {
+                setAlarmWithoutDay(calendar, timePicker, days)
+            }
         }
     }
 
