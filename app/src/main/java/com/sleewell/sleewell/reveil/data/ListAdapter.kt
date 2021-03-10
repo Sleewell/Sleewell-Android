@@ -9,6 +9,7 @@ import com.sleewell.sleewell.R
 import com.sleewell.sleewell.reveil.AlarmContract
 import com.sleewell.sleewell.reveil.data.model.Alarm
 import kotlinx.android.synthetic.main.custom_row.view.*
+import kotlinx.android.synthetic.main.new_fragment_stat.view.*
 
 class ListAdapter(private val view: AlarmContract.View): RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
@@ -31,7 +32,42 @@ class ListAdapter(private val view: AlarmContract.View): RecyclerView.Adapter<Li
         val currentItem = alarmList[position]
         holder.itemView.textViewTime.text = view.convertTime(currentItem.time)
         holder.itemView.checkBoxTime.isChecked = currentItem.activate
-        holder.itemView.textLabel.text = currentItem.label
+
+        if (currentItem.label.compareTo("") == 0) {
+            holder.itemView.textLabel.visibility = View.GONE
+        } else {
+            holder.itemView.textLabel.visibility = View.VISIBLE
+            holder.itemView.textLabel.text = currentItem.label
+        }
+
+        var days = ""
+        if (currentItem.days[0]) {
+            days += "M "
+        }
+        if (currentItem.days[1]) {
+            days += "T "
+        }
+        if (currentItem.days[2]) {
+            days += "W "
+        }
+        if (currentItem.days[3]) {
+            days += "Th "
+        }
+        if (currentItem.days[4]) {
+            days += "F "
+        }
+        if (currentItem.days[5]) {
+            days += "S "
+        }
+        if (currentItem.days[6]) {
+            days += "Su "
+        }
+        if (days.compareTo("") == 0) {
+            holder.itemView.textDays.visibility = View.GONE
+        } else {
+            holder.itemView.textDays.visibility = View.VISIBLE
+            holder.itemView.textDays.text = days
+        }
 
         holder.itemView.rowLayout.setOnClickListener {
             view.updateAlarm(currentItem)
