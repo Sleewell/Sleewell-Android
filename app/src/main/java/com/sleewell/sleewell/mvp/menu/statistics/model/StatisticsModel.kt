@@ -30,8 +30,8 @@ class StatisticsModel(
         if (analyses.isEmpty()) {
             listener.onDataAnalyse(arrayOf())
         } else {
-            analyseFileDate = AudioAnalyseFileUtils.timestampToDateString(analyses[0])
-            analyse.readAnalyse(analyses[0])
+            analyseFileDate = AudioAnalyseFileUtils.timestampToDateString(analyses[analyses.size - 1])
+            analyse.readAnalyse(analyses[analyses.size - 1])
         }
     }
 

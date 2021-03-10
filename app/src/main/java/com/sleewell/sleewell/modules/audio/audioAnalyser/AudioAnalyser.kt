@@ -40,7 +40,7 @@ class AudioAnalyser(
     private val fileUtil : IAnalyseDataManager = AudioAnalyseDbUtils(context, this)
 
     // coroutine
-    private val queueData: Queue<DoubleArray> = LinkedList<DoubleArray>()
+    private val queueData: Queue<DoubleArray> = LinkedList()
     private val scopeDefault = CoroutineScope(Job() + Dispatchers.Default)
     private var stopThread = false
     private var isThreadRunning = false
@@ -113,7 +113,6 @@ class AudioAnalyser(
     private fun analyse(spectrogram: DoubleArray) {
         val datas = extractFrequencies(minHz, maxHz, spectrogram)
 
-        //val averageDb = ampToDb(datas.average())
         val averageDb = ampToDb(datas.maxOrNull())
         if (averageDb >= dbMinDetection) {
             fileUtil.addToAnalyse(AnalyseValue(averageDb, getCurrentTimestamp()))

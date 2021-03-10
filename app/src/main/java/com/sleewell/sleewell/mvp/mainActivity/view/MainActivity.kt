@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         createNotificationChannel()
         setContentView(R.layout.new_activity_main)
         setPresenter(MainPresenter(this))
-
         presenter.onViewCreated()
     }
 
