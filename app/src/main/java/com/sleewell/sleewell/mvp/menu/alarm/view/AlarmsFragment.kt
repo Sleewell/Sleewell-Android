@@ -124,14 +124,14 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         return root
     }
 
-    private fun setAlarmWithDay(dayOfWeek: Int, calendar: Calendar, timePicker: TimePicker, days: List<Boolean>) {
+    private fun setAlarmWithDay(dayOfWeek: Int, calendar: Calendar, timePicker: TimePicker, days: List<Boolean>, index: Int) {
         calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek)
         calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
         calendar.set(Calendar.MINUTE, timePicker.minute)
         calendar.set(Calendar.SECOND, 0)
 
         presenter.getTime(timePicker.hour, timePicker.minute)
-        presenter.saveAlarm(calendar.timeInMillis, mAlarmViewModel, viewLifecycleOwner, days, checkBox_create_vibrate.isChecked, editText_create_alarm.text.toString())
+        presenter.saveAlarm(calendar.timeInMillis, mAlarmViewModel, viewLifecycleOwner, days, checkBox_create_vibrate.isChecked, editText_create_alarm.text.toString(), index)
     }
 
     private fun setAlarmWithoutDay(calendar: Calendar, timePicker: TimePicker, days: List<Boolean>) {
@@ -142,7 +142,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             calendar.add(Calendar.DATE, 1)
         }
         presenter.getTime(timePicker.hour, timePicker.minute)
-        presenter.saveAlarm(calendar.timeInMillis, mAlarmViewModel, viewLifecycleOwner, days, checkBox_create_vibrate.isChecked, editText_create_alarm.text.toString())
+        presenter.saveAlarm(calendar.timeInMillis, mAlarmViewModel, viewLifecycleOwner, days, checkBox_create_vibrate.isChecked, editText_create_alarm.text.toString(), 0)
     }
 
     private fun validateSaveAlarm(validateAlarm: ImageView, timePicker: TimePicker, calendar: Calendar) {
@@ -151,11 +151,14 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             val days = listOf( daypicker_create_layout.tM.isChecked, daypicker_create_layout.tT.isChecked, daypicker_create_layout.tW.isChecked, daypicker_create_layout.tTh.isChecked, daypicker_create_layout.tF.isChecked, daypicker_create_layout.tS.isChecked, daypicker_create_layout.tSu.isChecked )
             if (days.contains(true)) {
                 var i = 0
+                var index = 0
                 while (i < days.size) {
                     if (days[i] && i < 6) {
-                        setAlarmWithDay(i + 2, calendar, timePicker, days)
+                        setAlarmWithDay(i + 2, calendar, timePicker, days, index)
+                        index++
                     } else if (days[i] && i == 6) {
-                        setAlarmWithDay(1, calendar, timePicker, days)
+                        setAlarmWithDay(1, calendar, timePicker, days, index)
+                        index++
                     }
                     i++
                 }

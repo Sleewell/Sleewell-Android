@@ -41,7 +41,7 @@ interface AlarmContract {
          * @param time Time of the alarm
          * @author Romane Bézier
          */
-        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, days: List<Boolean>, vibrate: Boolean, label: String)
+        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, days: List<Boolean>, vibrate: Boolean, label: String, index: Int)
 
         /**
          * Start the alarm
@@ -142,7 +142,7 @@ interface AlarmContract {
          * @param time Time of the alarm
          * @author Romane Bézier
          */
-        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, days: List<Boolean>, vibrate: Boolean, label: String)
+        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, days: List<Boolean>, vibrate: Boolean, label: String, index: Int)
 
         /**
          * Start the new alarm
