@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="550dp"
+    android:background="@drawable/dialog_corner"
+    android:theme="@style/Theme.AppCompat">
+
+    <ImageView
+        android:id="@+id/dialog_routine_separator"
+        android:layout_width="50dp"
+        android:layout_height="3dp"
+        android:background="@color/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.01"
+        app:srcCompat="@drawable/button_light_rounded" />
+
+    <Button
+        android:id="@+id/dialog_routine_close"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/ic_close"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.02" />
+
+    <EditText
+        android:id="@+id/dialog_routine_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:background="@null"
+        android:fontFamily="@font/roboto_medium"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:text="ID"
+        android:textColor="@color/background"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/dialog_routine_separator_1"
+        android:layout_width="350dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_title"
+        app:srcCompat="@drawable/button_light_rounded" />
+
+    <ImageView
+        android:id="@+id/dialog_routine_music_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_separator_1"
+        app:srcCompat="@drawable/ic_music_on_blue" />
+
+    <TextView
+        android:id="@+id/dialog_routine_music_title"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Turn on the music"
+        android:textColor="@color/background"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/dialog_routine_music_icon"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_separator_1" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/dialog_routine_music_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:thumb="@drawable/thumb_routine_dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_separator_1"
+        app:track="@drawable/switch_routine_dialog" />
+
+    <ImageView
+        android:id="@+id/dialog_routine_separator_2"
+        android:layout_width="350dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_music_title"
+        app:srcCompat="@drawable/button_light_rounded" />
+
+    <ImageView
+        android:id="@+id/dialog_routine_halo_icon"
+        android:layout_width="20dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:rotation="90"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_separator_2"
+        app:srcCompat="@drawable/ic_halo_on_blue" />
+
+    <TextView
+        android:id="@+id/dialog_routine_halo_title"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Turn on the halo"
+        android:textColor="@color/background"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/dialog_routine_halo_icon"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_separator_2" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/dialog_routine_halo_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:thumb="@drawable/thumb_routine_dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_separator_2"
+        app:track="@drawable/switch_routine_dialog" />
+
+    <ImageView
+        android:id="@+id/dialog_routine_halo_color"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_halo_icon"
+        app:srcCompat="@drawable/ic_color" />
+
+    <Button
+        android:id="@+id/dialog_routine_halo_color_1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/haloColorBlue"
+        app:layout_constraintStart_toEndOf="@+id/dialog_routine_halo_color"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_halo_icon" />
+
+    <Button
+        android:id="@+id/dialog_routine_halo_color_2"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/haloColorWhite"
+        app:layout_constraintStart_toEndOf="@+id/dialog_routine_halo_color_1"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_halo_icon" />
+
+    <Button
+        android:id="@+id/dialog_routine_halo_color_3"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/haloColorRed"
+        app:layout_constraintStart_toEndOf="@+id/dialog_routine_halo_color_2"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_halo_icon" />
+
+    <ImageButton
+        android:id="@+id/dialog_routine_button_delete"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/button_rounded"
+        android:src="@drawable/ic_delete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.98" />
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_edit" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

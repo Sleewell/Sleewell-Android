@@ -47,10 +47,10 @@ class SpotifyModel(context: Context) : MainContract.Model {
 
     override fun updateListPlaylistSpotify(response :ApiResultSpotify) : SpotifyPlaylistAdapter {
         aList.clear()
-        for (i in 0 until response.playlists!!.items!!.size) {
-            val name = response.playlists!!.items!!.get(i).name
-            val uri = response.playlists!!.items!!.get(i).uri
-            val image = response.playlists!!.items!!.get(i).images!!.get(0).url
+        for (i in response.playlists!!.items!!.indices) {
+            val name = response.playlists!!.items!![i].name
+            val uri = response.playlists!!.items!![i].uri
+            val image = response.playlists!!.items!![i].images!![0].url
             aList.add(SpotifyPlaylist(name!!, uri!!, image!!))
         }
         if (aList.size == 0) {

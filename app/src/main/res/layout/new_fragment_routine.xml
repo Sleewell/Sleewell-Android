@@ -8,104 +8,32 @@
     android:background="@color/background"
     tools:context=".mvp.menu.routine.view.RoutineFragment">
 
-    <ImageView
-        android:id="@+id/resultColor"
-        android:layout_width="100dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
+    <ListView
+        android:id="@+id/routineListView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
+        android:divider="@null"
+        android:dividerHeight="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/button"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/button_rounded"
+        android:backgroundTint="@color/BackgroundLightFull"
+        android:src="@drawable/ic_add"
+        android:tint="@color/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.97"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1" />
-
-    <TextView
-        android:id="@+id/duration"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="75dp"
-        android:fontFamily="@font/roboto_medium"
-        android:text="Duration: Not use"
-        android:textAlignment="center"
-        android:textColor="@drawable/button_text_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resultColor" />
-
-    <TextView
-        android:id="@+id/musicPlayer"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="32dp"
-        android:fontFamily="@font/roboto_medium"
-        android:text="Music: Not use"
-        android:textAlignment="center"
-        android:textColor="@drawable/button_text_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/duration" />
-
-    <Switch
-        android:id="@+id/switch_halo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="75dp"
-        android:textColor="@drawable/button_text_color"
-        android:trackTint="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.25"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resultColor" />
-
-    <Switch
-        android:id="@+id/switch_music"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:textColor="@drawable/button_text_color"
-        android:trackTint="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.25"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_halo" />
-
-    <SeekBar
-        android:id="@+id/redBar"
-        android:layout_width="230dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="232dp"
-        android:max="250"
-        android:progress="100"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resultColor" />
-
-    <SeekBar
-        android:id="@+id/greenBar"
-        android:layout_width="230dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="32dp"
-        android:max="250"
-        android:progress="100"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/redBar" />
-
-    <SeekBar
-        android:id="@+id/blueBar"
-        android:layout_width="230dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="32dp"
-        android:max="250"
-        android:progress="100"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/greenBar" />
+        app:layout_constraintVertical_bias="0.97" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
