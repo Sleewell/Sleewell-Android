@@ -66,7 +66,39 @@ interface StatisticsContract {
          * @param datas from the analyse
          * @author Hugo Berthomé
          */
-        fun displayAnalyse(datas: Array<AnalyseValueStatistic>)
+        fun displayAnalyse(datas: Array<AnalyseValueStatistic>) // TODO to delete
+
+        /**
+         * Update the graph for the daily analyse
+         *
+         * TODO params
+         * @author Hugo Berthomé
+         */
+        fun displayAnalyseDay(/*TODO définir les données de l'analyse*/)
+
+        /**
+         * Update the graph for the Weekly analyse
+         *
+         * TODO params
+         * @author Hugo Berthomé
+         */
+        fun displayAnalyseWeek(/*TODO définir les données de l'analyse*/)
+
+        /**
+         * Update the graph for the Month analyse
+         *
+         * TODO params
+         * @author Hugo Berthomé
+         */
+        fun displayAnalyseMonth(/*TODO définir les données de l'analyse*/)
+
+        /**
+         * Update the graph for the year analyse
+         *
+         * TODO params
+         * @author Hugo Berthomé
+         */
+        fun displayAnalyseYear(/*TODO définir les données de l'analyse*/)
 
         /**
          * Display the date and time of the analyse
@@ -90,5 +122,15 @@ interface StatisticsContract {
          * @author Hugo Berthomé
          */
         fun onError(msg: String)
+
+        /**
+         * Display the night information
+         *
+         * @param timeSleeping total sleeping time
+         * @param timeGoingToSleep time when going to sleep
+         * @param timeWakingUp time when waking up
+         * @author Hugo Berthomé
+         */
+        fun displayNightData(timeSleeping: Long, timeGoingToSleep: Long, timeWakingUp: Long)
     }
 }

@@ -23,12 +23,12 @@ import kotlinx.coroutines.launch
 
 class StatFragment : Fragment(), StatisticsContract.View {
 
-    private var scopeMainThread = CoroutineScope(Job() + Dispatchers.Main)
     private lateinit var presenter: StatisticsContract.Presenter
     private lateinit var root: View
 
     // Chart
     private lateinit var aaChartModel: AAChartModel
+    private var scopeMainThread = CoroutineScope(Job() + Dispatchers.Main)
 
     //widgets
     private lateinit var aaChartView: AAChartView
@@ -55,7 +55,7 @@ class StatFragment : Fragment(), StatisticsContract.View {
      */
     private fun initWidgets() {
         aaChartView = root.findViewById(R.id.AAChartView)
-        textView = root.findViewById(R.id.textView)
+        textView = root.findViewById(R.id.textDate)
         loadingProgressBar = root.findViewById(R.id.progressBar)
         errorIcon = root.findViewById(R.id.imageView)
 
@@ -64,13 +64,109 @@ class StatFragment : Fragment(), StatisticsContract.View {
     }
 
     /**
-     * Update the graph from the analyse data
+     * Update the graph for the daily analyse
      *
-     * @param datas from the analyse
+     * TODO params
      * @author Hugo Berthomé
      */
+    override fun displayAnalyseDay() {
+        TODO("Not yet implemented")
+    }
+
+    /**
+     * Update the graph for the Weekly analyse
+     *
+     * TODO params
+     * @author Hugo Berthomé
+     */
+    override fun displayAnalyseWeek() {
+        TODO("Not yet implemented")
+    }
+
+    /**
+     * Update the graph for the Month analyse
+     *
+     * TODO params
+     * @author Hugo Berthomé
+     */
+    override fun displayAnalyseMonth() {
+        TODO("Not yet implemented")
+    }
+
+    /**
+     * Update the graph for the year analyse
+     *
+     * TODO params
+     * @author Hugo Berthomé
+     */
+    override fun displayAnalyseYear() {
+        TODO("Not yet implemented")
+    }
+
+    /**
+     * Display the date and time of the analyse
+     *
+     * @param date to display
+     * @author Hugo Berthomé
+     */
+    override fun displayAnalyseDate(date: String) {
+        scopeMainThread.launch {
+            textView.text = date
+        }
+    }
+
+    /**
+     * Display a message saying no analyse and an error icon
+     *
+     * @author Hugo Berthomé
+     */
+    override fun noAnalyseFound() {
+        scopeMainThread.launch {
+            textView.text = "No analyse found"
+            errorIcon.visibility = View.VISIBLE
+            loadingProgressBar.visibility = View.GONE
+        }
+    }
+
+    /**
+     * Display an error message
+     *
+     * @param msg to display
+     * @author Hugo Berthomé
+     */
+    override fun onError(msg: String) {
+        scopeMainThread.launch {
+            Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
+            loadingProgressBar.visibility = View.GONE
+            errorIcon.visibility = View.VISIBLE
+        }
+    }
+
+    /**
+     * Display the night information
+     *
+     * @param timeSleeping total sleeping time
+     * @param timeGoingToSleep time when going to sleep
+     * @param timeWakingUp time when waking up
+     * @author Hugo Berthomé
+     */
+    override fun displayNightData(timeSleeping: Long, timeGoingToSleep: Long, timeWakingUp: Long) {
+        TODO("Not yet implemented")
+    }
+
+    /**
+     * Set the presenter inside the class
+     *
+     * @param presenter
+     * @author Hugo Berthomé
+     */
+    override fun setPresenter(presenter: StatisticsContract.Presenter) {
+        this.presenter = presenter
+    }
+
+    // INFO will disappear
     override fun displayAnalyse(datas: Array<AnalyseValueStatistic>) {
-        aaChartModel = AAChartModel()
+        /*aaChartModel = AAChartModel()
             .chartType(AAChartType.Areaspline)
             .axesTextColor("#8a9198")
             .backgroundColor("none")
@@ -134,55 +230,6 @@ function () {
         scopeMainThread.launch {
             aaChartView.aa_drawChartWithChartOptions(options)
             loadingProgressBar.visibility = View.INVISIBLE
-        }
-    }
-
-    /**
-     * Display the date and time of the analyse
-     *
-     * @param date to display
-     * @author Hugo Berthomé
-     */
-    override fun displayAnalyseDate(date: String) {
-        scopeMainThread.launch {
-            textView.text = date
-        }
-    }
-
-    /**
-     * Display a message saying no analyse and an error icon
-     *
-     * @author Hugo Berthomé
-     */
-    override fun noAnalyseFound() {
-        scopeMainThread.launch {
-            textView.text = "No analyse found"
-            errorIcon.visibility = View.VISIBLE
-            loadingProgressBar.visibility = View.GONE
-        }
-    }
-
-    /**
-     * Display an error message
-     *
-     * @param msg to display
-     * @author Hugo Berthomé
-     */
-    override fun onError(msg: String) {
-        scopeMainThread.launch {
-            Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
-            loadingProgressBar.visibility = View.GONE
-            errorIcon.visibility = View.VISIBLE
-        }
-    }
-
-    /**
-     * Set the presenter inside the class
-     *
-     * @param presenter
-     * @author Hugo Berthomé
-     */
-    override fun setPresenter(presenter: StatisticsContract.Presenter) {
-        this.presenter = presenter
+        }*/
     }
 }
