@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.mvp.menu.statistics.view
 
+import android.graphics.drawable.Icon
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,15 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.github.aachartmodel.aainfographics.aachartcreator.*
-import com.github.aachartmodel.aainfographics.aaoptionsmodel.AACrosshair
-import com.github.aachartmodel.aainfographics.aaoptionsmodel.AAStyle
-import com.github.aachartmodel.aainfographics.aaoptionsmodel.AATooltip
-import com.github.aachartmodel.aainfographics.aatools.AAGradientColor
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.menu.statistics.StatisticsContract
 import com.sleewell.sleewell.mvp.menu.statistics.presenter.StatisticsPresenter
 import com.sleewell.sleewell.mvp.menu.statistics.model.AnalyseValueStatistic
+import com.sleewell.sleewell.mvp.menu.statistics.model.dataClass.AnalyseDetail
+import com.sleewell.sleewell.mvp.menu.statistics.view.recyclerView.AnalyseRecyclerAdapter
+import kotlinx.android.synthetic.main.new_fragment_alarm.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -35,6 +38,10 @@ class StatFragment : Fragment(), StatisticsContract.View {
     private lateinit var textView: TextView
     private lateinit var loadingProgressBar: ProgressBar
     private lateinit var errorIcon: ImageView
+    private lateinit var detailRecyclerView: RecyclerView
+
+    //recyclerView
+    private val detailList = ArrayList<AnalyseDetail>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,6 +52,13 @@ class StatFragment : Fragment(), StatisticsContract.View {
         setPresenter(StatisticsPresenter(root.context as AppCompatActivity, this))
         initWidgets()
         presenter.refreshAnalyse()
+
+        val test = Icon.createWithResource(context, R.drawable.ic_moon)
+        val test2 = Icon.createWithResource(context, R.drawable.ic_smiley_sleep)
+        detailList.add(AnalyseDetail(test, "ceci est le premier message"))
+        detailList.add(AnalyseDetail(test2, "ceci est le 2 eme message"))
+
+        initRecyclerView()
         return root
     }
 
@@ -58,9 +72,19 @@ class StatFragment : Fragment(), StatisticsContract.View {
         textView = root.findViewById(R.id.textDate)
         loadingProgressBar = root.findViewById(R.id.progressBar)
         errorIcon = root.findViewById(R.id.imageView)
+        detailRecyclerView = root.findViewById(R.id.StatsRecyclerView)
 
         loadingProgressBar.visibility = View.VISIBLE
         errorIcon.visibility = View.INVISIBLE
+    }
+
+    private fun initRecyclerView() {
+        val adapter = AnalyseRecyclerAdapter(detailList)
+
+        detailRecyclerView.isNestedScrollingEnabled = false
+        detailRecyclerView.layoutManager = LinearLayoutManager(root.context.applicationContext)
+        detailRecyclerView.itemAnimator = DefaultItemAnimator()
+        detailRecyclerView.adapter = adapter
     }
 
     /**

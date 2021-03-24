@@ -95,4 +95,5 @@
     <string name="card_average_title">Statistics</string>
     <string name="cart_average_title_time_to_sleep">Sleeping</string>
     <string name="cart_average_title_time_to_wake_up">WakingUp</string>
+    <string name="card_analyse_title">Analyse</string>
 </resources>
