@@ -1,9 +1,15 @@
 package com.sleewell.sleewell.mvp.menu.statistics
 
+import com.sleewell.sleewell.api.sleewell.model.ListAnalyse
+import com.sleewell.sleewell.api.sleewell.model.NightAnalyse
+import com.sleewell.sleewell.api.sleewell.model.PostResponse
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
 import com.sleewell.sleewell.mvp.menu.statistics.model.AnalyseValueStatistic
+import com.sleewell.sleewell.mvp.menu.statistics.model.dataClass.AnalyseDetail
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Interface that defines how the statistic activity will work
@@ -19,6 +25,37 @@ interface StatisticsContract {
          * @author Hugo Berthomé
          */
         fun getLastAnalyse()
+
+        /**
+         * Fetch the night in the API
+         *
+         * @param nightDate nighDate format YYYYMMDD, if empty fetch last night
+         * @author Hugo Berthomé
+         */
+        fun getNight(nightDate: Date)
+
+        /**
+         * Fetch the week in the API
+         *
+         * @param weekDate weekDate format YYYYMMDD, if empty fetch last week
+         * @author Hugo Berthomé
+         */
+        fun getWeek(weekDate: Date)
+
+        /**
+         * Fetch the month in the API
+         *
+         * @param monthDate monthDate format YYYYMM, if empty fetch last month
+         * @author Hugo Berthomé
+         */
+        fun getMonth(monthDate: Date)
+
+        /**
+         * Fetch the year in the API
+         *
+         * @param yearDate yearDate format YYYY, if empty fetch last year
+         */
+        fun getYear(yearDate: Date)
 
         interface Listener {
 
@@ -46,16 +83,82 @@ interface StatisticsContract {
              */
             fun onError(msg: String)
         }
+
+        interface onApiFinishedListener {
+            /**
+             * Function called after Night received from the API sleewell
+             *
+             * @param night
+             * @author Hugo Berthomé
+             */
+            fun onNight(night: NightAnalyse)
+
+            /**
+             * Function called after List of Analyse received from the API sleewell
+             *
+             * @param list
+             * @author Hugo Berthomé
+             */
+            fun onWeekAnalyse(list: ListAnalyse)
+
+            /**
+             * Function called after List of Analyse received from the API sleewell
+             *
+             * @param list
+             * @author Hugo Berthomé
+             */
+            fun onMonthAnalyse(list: ListAnalyse)
+
+            /**
+             * Function called after List of Analyse received from the API sleewell
+             *
+             * @param list
+             * @author Hugo Berthomé
+             */
+            fun onYearAnalyse(list: ListAnalyse)
+
+            /**
+             * Function called after a Night has been successfully posted
+             *
+             * @param res
+             * @author Hugo Berthomé
+             */
+            fun onPostRes(res: PostResponse)
+
+            /**
+             * Function called if a error occurred when calling the API
+             *
+             * @param t
+             * @author Hugo Berthomé
+             */
+            fun onFailure(t: Throwable)
+        }
     }
 
-    interface Presenter : BasePresenter, Model.Listener {
+    interface Presenter : BasePresenter, Model.Listener, Model.onApiFinishedListener {
 
         /**
          * Refresh the data from the last analyse
          *
          * @author Hugo Berthomé
          */
-        fun refreshAnalyse()
+        fun refreshAnalyse(date: Date)
+
+        /**
+         * Get the current state of the analyse
+         *
+         * @return State
+         * @author Hugo Berthomé
+         */
+        fun getCurrentState() : State
+
+        /**
+         * Set the current state of the analyse
+         *
+         * @param state
+         * @author Hugo Berthomé
+         */
+        fun setCurrentState(state: State)
     }
 
     interface View : BaseView<Presenter> {
@@ -132,5 +235,13 @@ interface StatisticsContract {
          * @author Hugo Berthomé
          */
         fun displayNightData(timeSleeping: Long, timeGoingToSleep: Long, timeWakingUp: Long)
+
+        /**
+         * Display night analyse advices to the use
+         *
+         * @param advices List of the advices to display (if list empty ward will be gone)
+         * @author Hugo Berthomé
+         */
+        fun displayAnalyseAdvices(advices: ArrayList<AnalyseDetail>)
     }
 }

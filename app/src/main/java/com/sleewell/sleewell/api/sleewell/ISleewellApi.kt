@@ -1,31 +1,57 @@
 package com.sleewell.sleewell.api.sleewell
 
-import com.sleewell.sleewell.api.sleewell.model.MonthAnalyse
-import com.sleewell.sleewell.api.sleewell.model.WeekAnalyse
-import com.sleewell.sleewell.api.sleewell.model.NighAnalyse
-import com.sleewell.sleewell.api.sleewell.model.YearAnalyse
+import com.sleewell.sleewell.api.sleewell.model.*
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ISleewellApi {
-    @POST("stat")
-    fun postStat(@Query("key") key: String, @Body night: NighAnalyse): Call<String>
+    @POST("stats/night")
+    fun postNight(
+        @Header("Authorization") token: String,
+        @Body night: NightAnalyse
+    ): Call<PostResponse>
 
-    @GET("stat")
-    fun getLastNight(@Query("key") key: String): Call<NighAnalyse>
+    @GET("stats/night")
+    fun getLastNight(
+        @Header("Authorization") token: String
+    ): Call<NightAnalyse>
 
-    @GET("stat")
-    fun getNight(@Query("key") key: String, @Query("night") date: String): Call<NighAnalyse>
+    @GET("stats/night/{nightDate}")
+    fun getNight(
+        @Header("Authorization") token: String,
+        @Path("nightDate") nightDate: String
+    ): Call<NightAnalyse>
 
-    @GET("stat")
-    fun getWeek(@Query("key") key: String, @Query("week") date: String): Call<WeekAnalyse>
+    @GET("stats/week")
+    fun getLastWeek(
+        @Header("Authorization") token: String
+    ): Call<ListAnalyse>
 
-    @GET("stat")
-    fun getMonth(@Query("key") key: String, @Query("month") date: String): Call<MonthAnalyse>
+    @GET("stats/week/{weekDate}")
+    fun getWeek(
+        @Header("Authorization") token: String,
+        @Path("weekDate") weekDate: String
+    ): Call<ListAnalyse>
 
-    @GET("stat")
-    fun getYear(@Query("key") key: String, @Query("year") date: String): Call<YearAnalyse>
+    @GET("stats/month")
+    fun getLastMonth(
+        @Header("Authorization") token: String
+    ): Call<ListAnalyse>
+
+    @GET("stats/month/{monthDate}")
+    fun getMonth(
+        @Header("Authorization") token: String,
+        @Path("monthDate") monthDate: String
+    ): Call<ListAnalyse>
+
+    @GET("stats/year")
+    fun getLastYear(
+        @Header("Authorization") token: String
+    ): Call<ListAnalyse>
+
+    @GET("stats/year/{yearDate}")
+    fun getYear(
+        @Header("Authorization") token: String,
+        @Path("yearDate") yearDate: String
+    ): Call<ListAnalyse>
 }

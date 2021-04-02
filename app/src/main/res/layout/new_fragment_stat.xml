@@ -94,7 +94,7 @@
         android:src="?android:attr/alertDialogIcon"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/AAChartView"
-        app:layout_constraintEnd_toEndOf="@+id/AAChartView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/AAChartView"
         app:tint="@color/textButOnImage" />
@@ -345,7 +345,7 @@
                                 android:textSize="12sp" />
 
                             <TextView
-                                android:id="@+id/textStatsTimeSleeping2"
+                                android:id="@+id/textStatsTimeWakingUp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="5h39"
