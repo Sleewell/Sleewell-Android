@@ -102,13 +102,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/daypicker_create_layout" />
 
-        <Spinner
+        <Button
             android:id="@+id/spinner_create_alarm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
+            android:background="@color/transparent"
+            android:text="@string/ringtone"
+            android:textAlignment="viewStart"
+            android:textAllCaps="false"
+            android:textColorHint="@color/textOnBackground"
+            android:textSize="14sp"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -269,13 +275,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/daypicker_modify_layout" />
 
-        <Spinner
+        <Button
             android:id="@+id/spinner_modify_alarm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
+            android:background="@color/transparent"
+            android:text="@string/ringtone"
+            android:textAlignment="viewStart"
+            android:textAllCaps="false"
+            android:textColorHint="@color/textOnBackground"
+            android:textSize="14sp"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

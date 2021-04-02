@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.reveil.data.model
 
+import android.net.Uri
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -17,7 +18,7 @@ data class Alarm(
     val time: Long,
     val activate: Boolean,
     val days: List<Boolean>,
-/*    val sound: String,*/
+    val ringtone: String,
     val vibrate: Boolean,
     val label: String
 ): Parcelable

@@ -3,6 +3,7 @@ package com.sleewell.sleewell.reveil
 import android.app.AlarmManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.lifecycle.LifecycleOwner
 import com.sleewell.sleewell.reveil.data.model.Alarm
 import com.sleewell.sleewell.reveil.data.viewmodel.AlarmViewModel
@@ -41,7 +42,7 @@ interface AlarmContract {
          * @param time Time of the alarm
          * @author Romane Bézier
          */
-        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, days: List<Boolean>, vibrate: Boolean, label: String, index: Int)
+        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, days: List<Boolean>, ringtone: Uri, vibrate: Boolean, label: String, index: Int)
 
         /**
          * Start the alarm
@@ -142,7 +143,7 @@ interface AlarmContract {
          * @param time Time of the alarm
          * @author Romane Bézier
          */
-        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, days: List<Boolean>, vibrate: Boolean, label: String, index: Int)
+        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, days: List<Boolean>, ringtone: Uri, vibrate: Boolean, label: String, index: Int)
 
         /**
          * Start the new alarm

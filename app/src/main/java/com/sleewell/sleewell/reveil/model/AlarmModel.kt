@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.text.format.DateUtils
 import android.text.format.Time
 import android.util.Log
@@ -55,8 +56,8 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
      * @param time Time of the alarm
      * @author Romane Bézier
      */
-    override fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, days: List<Boolean>, vibrate: Boolean, label: String, index: Int) {
-        val alarm = Alarm(0, time, false, days, vibrate, label)
+    override fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, days: List<Boolean>, ringtone: Uri, vibrate: Boolean, label: String, index: Int) {
+        val alarm = Alarm(0, time, false, days, ringtone.toString(), vibrate, label)
         if (index == 0) {
             mAlarmViewModel.addAlarm(alarm).observe(lifecycleOwner, { id ->
                 mAlarmViewModel.getById(id.toInt()).observe(lifecycleOwner, { alarm ->

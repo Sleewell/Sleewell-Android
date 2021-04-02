@@ -7,8 +7,10 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.reveil.data.model.Alarm
@@ -81,6 +83,7 @@ class AlarmNotificationHelper(base: Context?, currentAlarm: Alarm) : ContextWrap
                 .setContentText(contentText)
                 .setSmallIcon(R.drawable.logo_sleewell)
                 .setContentIntent(pendingIntent)
+                .setSound(Uri.parse(alarm.ringtone))
                 .setAutoCancel(false)
                 .addAction(R.drawable.logo_sleewell, "Stop", stopPendingIntent)
                 .addAction(R.drawable.logo_sleewell, "Snooze", snoozePendingIntent)

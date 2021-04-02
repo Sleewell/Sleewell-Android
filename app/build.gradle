@@ -111,4 +111,6 @@ dependencies {
     implementation 'com.github.claucookie.miniequalizer:library:1.0.0'
     implementation 'com.spotify.android:auth:1.1.0'
     implementation 'com.github.AAChartModel:AAChartCore-Kotlin:-SNAPSHOT'
+
+    implementation 'com.kevalpatel2106:ringtonepicker:1.1'
 }
