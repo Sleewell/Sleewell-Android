@@ -15,7 +15,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.aachartmodel.aainfographics.aachartcreator.*
+import com.github.aachartmodel.aainfographics.aaoptionsmodel.AACrosshair
+import com.github.aachartmodel.aainfographics.aaoptionsmodel.AAStyle
+import com.github.aachartmodel.aainfographics.aaoptionsmodel.AATooltip
+import com.github.aachartmodel.aainfographics.aatools.AAGradientColor
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.api.sleewell.model.NightAnalyse
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseFileUtils
 import com.sleewell.sleewell.mvp.menu.statistics.State
 import com.sleewell.sleewell.mvp.menu.statistics.StatisticsContract
@@ -93,7 +98,10 @@ class StatFragment : Fragment(), StatisticsContract.View {
         //TODO exemple de detail analyse qui sera envoyé directement du présenteur
         /*val detailList = ArrayList<AnalyseDetail>()
         val test = Icon.createWithResource(context, R.drawable.ic_moon)
-        val test2 = Icon.createWithResource(context, R.drawable.ic_smiley_sleep)*/
+        val test2 = Icon.createWithResource(context, R.drawable.ic_smiley_sleep)
+        detailList.add(AnalyseDetail(test, "Message 1"))
+        detailList.add(AnalyseDetail(test2, "Message 2 qui peut etre long si j'ecris sans m'arreter"))
+        displayAnalyseAdvices(detailList)*/
 
         return root
     }
@@ -142,6 +150,8 @@ class StatFragment : Fragment(), StatisticsContract.View {
                 }
             }
             refreshDateView()
+            setInLoadingState()
+            presenter.refreshAnalyse(calendar.time)
         }
         nextDate.setOnClickListener {
             when (presenter.getCurrentState()) {
@@ -159,6 +169,8 @@ class StatFragment : Fragment(), StatisticsContract.View {
                 }
             }
             refreshDateView()
+            setInLoadingState()
+            presenter.refreshAnalyse(calendar.time)
         }
 
         toggleOffAll()
@@ -221,40 +233,109 @@ class StatFragment : Fragment(), StatisticsContract.View {
     /**
      * Update the graph for the daily analyse
      *
-     * TODO params
+     * @param data from the night analyse
      * @author Hugo Berthomé
      */
-    override fun displayAnalyseDay() {
-        TODO("Not yet implemented")
+    override fun displayAnalyseDay(data: NightAnalyse) {
+        if (data.data == null)
+            return
+        aaChartModel = AAChartModel()
+            .chartType(AAChartType.Areaspline)
+            .axesTextColor("#8a9198")
+            .backgroundColor("none")
+            .legendEnabled(false)
+            .dataLabelsEnabled(false)
+            .colorsTheme(arrayOf(AAGradientColor.linearGradient("#04141c", "#8a9198")))
+            .markerRadius(0f)
+            .gradientColorEnable(true)
+            .yAxisMin(10f)
+            .yAxisMax(data.data.maxOf { it.db }.toFloat())
+            .yAxisGridLineWidth(0f)
+            .yAxisTitle("dB")
+            .yAxisVisible(false)
+            .xAxisVisible(false)
+            .zoomType(AAChartZoomType.X)
+            .animationType(AAChartAnimationType.EaseInOutSine)
+            .animationDuration(1000)
+            .categories(
+                Array(data.data.size) { i -> timestampToDateString(data.data[i].ts) }
+            )
+            .series(
+                arrayOf(
+                    AASeriesElement().data(
+                        Array(data.data.size) { i -> data.data[i].db }
+                    )
+                )
+            )
+
+        val toolTips = AATooltip()
+            .useHTML(true)
+            .formatter(
+                """
+function () {
+        return '<b> '
+        +  this.y.toFixed(0)
+        + ' </b> dB around <b>'
+        +  this.x
+        + '</b>';
+        }
+             """.trimIndent()
+            )
+            .valueDecimals(2)
+            .backgroundColor("#000000")
+            .borderColor("#000000")
+            .style(
+                AAStyle()
+                    .color("#8a9198")
+                    .fontSize(12f)
+            )
+        val options = aaChartModel.aa_toAAOptions()
+
+        if (options.xAxis != null) {
+            options.xAxis!!
+                .lineColor("none")
+                .crosshair(
+                    AACrosshair()
+                        .color("none")
+                )
+        }
+        options.yAxis?.gridLineWidth(0f)
+
+        options.tooltip = toolTips
+        scopeMainThread.launch {
+            aaChartView.aa_drawChartWithChartOptions(options)
+            loadingProgressBar.visibility = View.INVISIBLE
+            aaChartView.visibility = View.VISIBLE
+        }
     }
 
     /**
      * Update the graph for the Weekly analyse
      *
-     * TODO params
+     * @param datas list of data from the nights analyse
      * @author Hugo Berthomé
      */
-    override fun displayAnalyseWeek() {
+    override fun displayAnalyseWeek(datas: Array<NightAnalyse>) {
         TODO("Not yet implemented")
     }
 
     /**
      * Update the graph for the Month analyse
      *
-     * TODO params
+     * @param datas list of data from the nights analyse
      * @author Hugo Berthomé
      */
-    override fun displayAnalyseMonth() {
+    override fun displayAnalyseMonth(datas: Array<NightAnalyse>) {
         TODO("Not yet implemented")
     }
 
     /**
      * Update the graph for the year analyse
      *
-     * TODO params
+     * @param datas list of data from the nights analyse
      * @author Hugo Berthomé
      */
-    override fun displayAnalyseYear() {
+    override fun displayAnalyseYear(datas: Array<NightAnalyse>) {
         TODO("Not yet implemented")
     }
 
@@ -295,6 +376,7 @@ class StatFragment : Fragment(), StatisticsContract.View {
             Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
             loadingProgressBar.visibility = View.GONE
             errorIcon.visibility = View.VISIBLE
+            aaChartView.visibility = View.INVISIBLE
             hideAllCards()
         }
     }
@@ -311,8 +393,8 @@ class StatFragment : Fragment(), StatisticsContract.View {
         scopeMainThread.launch {
             statCard.visibility = View.VISIBLE
             statTimeSlept.text = timestampToDuration(timeSleeping)
-            statTimeSleeping.text = timestampToDuration(timeGoingToSleep)
-            statTimeWakingUp.text = timestampToDuration(timeWakingUp)
+            statTimeSleeping.text = timestampToDateString(timeGoingToSleep)
+            statTimeWakingUp.text = timestampToDateString(timeWakingUp)
         }
     }
 
@@ -379,18 +461,6 @@ class StatFragment : Fragment(), StatisticsContract.View {
         loadingProgressBar.visibility = View.VISIBLE
     }
 
-    private fun timestampToDuration(timestamp: Long): String {
-        var duration = DateUtils.formatElapsedTime(timestamp)
-        if (duration.length == 5) {
-            duration = "0:$duration"
-        }
-        return duration.substring(IntRange(0, duration.length - 4))
-        /*return DateTimeFormatter
-            .ofPattern(AudioAnalyseFileUtils.DATE_FORMAT)
-            .withZone(ZoneOffset.systemDefault())
-            .format(Instant.ofEpochSecond(timestamp))*/
-    }
-
     private fun refreshDateView() {
         if (presenter.getCurrentState() == State.WEEK) {
             var weekDate = dateToString(calendar.time) + " - "
@@ -420,6 +490,25 @@ class StatFragment : Fragment(), StatisticsContract.View {
             .format(date.toInstant())
         }
         return SimpleDateFormat(dateFormat).format(date)
+    }
+
+    private fun timestampToDateString(timestamp: Long, dateFormat: String = "HH:mm"): String {
+        return DateTimeFormatter
+            .ofPattern(dateFormat)
+            .withZone(ZoneOffset.systemDefault())
+            .format(Instant.ofEpochSecond(timestamp))
+    }
+
+    private fun timestampToDuration(timestamp: Long): String {
+        var duration = DateUtils.formatElapsedTime(timestamp)
+        if (duration.length == 5) {
+            duration = "0:$duration"
+        }
+        return duration.substring(IntRange(0, duration.length - 4))
+        /*return DateTimeFormatter
+            .ofPattern(AudioAnalyseFileUtils.DATE_FORMAT)
+            .withZone(ZoneOffset.systemDefault())
+            .format(Instant.ofEpochSecond(timestamp))*/
     }
 
     // INFO will disappear

@@ -54,7 +54,7 @@ class StatisticsModel(
      * @author Hugo Berthomé
      */
     override fun getNight(nightDate: Date) {
-        val call: Call<NightAnalyse> = api.getNight(TOKEN, dateToDateString(nightDate, FORMAT_DAY))
+        /*val call: Call<NightAnalyse> = api.getNight(TOKEN, dateToDateString(nightDate, FORMAT_DAY))
 
         call.enqueue(object : Callback<NightAnalyse> {
 
@@ -75,8 +75,8 @@ class StatisticsModel(
                 apiListener.onFailure(t)
             }
 
-        })
-        /*apiListener.onNight(NightAnalyse(1616654202, arrayOf(AnalyseValue(1616654202.0, 1616654202)), 1616654202, null))*/
+        })*/
+        apiListener.onNight(NightAnalyse(1617461454, arrayOf(AnalyseValue(0.0, 1616654202), AnalyseValue(32.0, 1616654220), AnalyseValue(28.0, 1616654222), AnalyseValue(34.0, 1616654224), AnalyseValue(0.0, 1616654240)), 1617483954, null))
     }
 
     /**

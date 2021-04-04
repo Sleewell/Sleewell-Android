@@ -1,7 +1,9 @@
 package com.sleewell.sleewell.mvp.menu.statistics.presenter
 
+import android.graphics.drawable.Icon
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.model.ListAnalyse
 import com.sleewell.sleewell.api.sleewell.model.NightAnalyse
 import com.sleewell.sleewell.api.sleewell.model.PostResponse
@@ -9,24 +11,23 @@ import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.mvp.menu.statistics.State
 import com.sleewell.sleewell.mvp.menu.statistics.StatisticsContract
 import com.sleewell.sleewell.mvp.menu.statistics.model.StatisticsModel
+import com.sleewell.sleewell.mvp.menu.statistics.model.dataClass.AnalyseDetail
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.lang.StringBuilder
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.OffsetDateTime
-import java.time.ZoneOffset
+import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.collections.ArrayList
 
 class StatisticsPresenter(context: AppCompatActivity, private val view: StatisticsContract.View) :
     StatisticsContract.Presenter {
 
     private var currentState: State = State.DAY
-
-    private var waitingQuery: Date? = null
-    private var isWaiting = false
+    val iconMoon = Icon.createWithResource(context, R.drawable.ic_moon)
+    val iconSleep = Icon.createWithResource(context, R.drawable.ic_smiley_sleep)
 
     private val scopeDefault = CoroutineScope(Job() + Dispatchers.Default)
     private val model: StatisticsContract.Model = StatisticsModel(context, this, this)
@@ -46,11 +47,6 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
      * @author Hugo Berthomé
      */
     override fun refreshAnalyse(date: Date) {
-        if (isWaiting) {
-            waitingQuery = date
-            return
-        }
-
         when (currentState) {
             State.DAY -> {
                 model.getNight(date)
@@ -65,7 +61,6 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
                 model.getYear(date)
             }
         }
-        isWaiting = true
     }
 
     /**
@@ -95,38 +90,38 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
      * @author Hugo Berthomé
      */
     override fun onDataAnalyse(datas: Array<AnalyseValue>) {
-       /* scopeDefault.run {
-            if (datas.isEmpty()) {
-                view.noAnalyseFound()
-                return
-            }
+        /* scopeDefault.run {
+             if (datas.isEmpty()) {
+                 view.noAnalyseFound()
+                 return
+             }
 
-            val listData = mutableListOf(
-                AnalyseValueStatistic(
-                    dbNone,
-                    formatter.format(Instant.ofEpochSecond(datas.first().ts))
-                )
-            )
+             val listData = mutableListOf(
+                 AnalyseValueStatistic(
+                     dbNone,
+                     formatter.format(Instant.ofEpochSecond(datas.first().ts))
+                 )
+             )
 
-            initQueueFromTimestamp(datas[0].ts)
-            datas.forEachIndexed { index, analyseValue ->
-                nextData = analyseValue
-                while (!checkDataTimestampLimit(analyseValue)) {
-                    popQueueInList(queueData, listData)
-                }
-                lastData = analyseValue
-                addInPriorityQueue(analyseValue)
-            }
-            popQueueInList(queueData, listData)
+             initQueueFromTimestamp(datas[0].ts)
+             datas.forEachIndexed { index, analyseValue ->
+                 nextData = analyseValue
+                 while (!checkDataTimestampLimit(analyseValue)) {
+                     popQueueInList(queueData, listData)
+                 }
+                 lastData = analyseValue
+                 addInPriorityQueue(analyseValue)
+             }
+             popQueueInList(queueData, listData)
 
-            listData.add(
-                AnalyseValueStatistic(
-                    dbNone,
-                    listData[listData.size - 1].ts
-                )
-            )
-            view.displayAnalyse(listData.toTypedArray())
-        }*/
+             listData.add(
+                 AnalyseValueStatistic(
+                     dbNone,
+                     listData[listData.size - 1].ts
+                 )
+             )
+             view.displayAnalyse(listData.toTypedArray())
+         }*/
     }
 
     /**
@@ -162,9 +157,11 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
      * @author Hugo Berthomé
      */
     override fun onNight(night: NightAnalyse) {
-        if (checkIfWaiting())
-            return
-        // TODO display analyse
+        scopeDefault.launch {
+            view.displayAnalyseDay(night)
+            view.displayNightData(night.end - night.start, night.start, night.end)
+            view.displayAnalyseAdvices(determineAnalyseAdvices(night.start, night.end))
+        }
     }
 
     /**
@@ -174,8 +171,8 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
      * @author Hugo Berthomé
      */
     override fun onWeekAnalyse(list: ListAnalyse) {
-        if (checkIfWaiting())
-            return
+        scopeDefault.launch {
+        }
         TODO("Not yet implemented")
     }
 
@@ -186,8 +183,8 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
      * @author Hugo Berthomé
      */
     override fun onMonthAnalyse(list: ListAnalyse) {
-        if (checkIfWaiting())
-            return
+        scopeDefault.launch {
+        }
         TODO("Not yet implemented")
     }
 
@@ -198,8 +195,8 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
      * @author Hugo Berthomé
      */
     override fun onYearAnalyse(list: ListAnalyse) {
-        if (checkIfWaiting())
-            return
+        scopeDefault.launch {
+        }
         TODO("Not yet implemented")
     }
 
@@ -221,28 +218,54 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
      */
     override fun onFailure(t: Throwable) {
         Log.e(this.javaClass.name, t.message.toString())
-        if (checkIfWaiting())
-            return
-        view.onError("An error occurred while fetching analyse")
-    }
-
-    private fun timestampToDateString(timestamp: Long, dateFormat: String = "dd / MM"): String {
-        return DateTimeFormatter
-            .ofPattern(dateFormat)
-            .withZone(ZoneOffset.systemDefault())
-            .format(Instant.ofEpochSecond(timestamp))
-    }
-
-    private fun checkIfWaiting() : Boolean {
-        isWaiting = false
-        if (waitingQuery != null) {
-            waitingQuery?.let {
-                refreshAnalyse(it)
-                waitingQuery = null
-            }
-            return true
+        scopeDefault.launch {
+            view.onError("An error occurred while fetching analyse")
         }
-        return false
+    }
+
+    /**
+     * Return a list of advices from the time of sleep
+     *
+     * @param start of the night
+     * @param end of the night
+     * @return ArrayList<AnalyseDetail>
+     */
+    private fun determineAnalyseAdvices(start: Long, end: Long): ArrayList<AnalyseDetail> {
+        if (end < start)
+            return ArrayList()
+
+        val advices = ArrayList<AnalyseDetail>()
+        val calendar = Calendar.getInstance()
+
+        calendar.timeInMillis = start * 1000
+        val hours = calendar.get(Calendar.HOUR_OF_DAY)
+        val difference = Duration.ofSeconds(end - start).toHours()
+
+        if (hours > 22 || hours < 8)
+            advices.add(
+                AnalyseDetail(
+                    iconMoon,
+                    "You slept late, try to sleep before 10pm every night"
+                )
+            )
+        if (start < end) {
+            if (difference < 7) {
+                advices.add(
+                    AnalyseDetail(
+                        iconSleep,
+                        "Your sleeping time is not long enough, try to sleep an average of 7 to 8 hours per night"
+                    )
+                )
+            }
+        }
+        return advices
+    }
+
+    private fun timestampToDate(ts: Long): Date {
+        val date = Date()
+
+        date.time = ts
+        return date
     }
 
     // TODO vvvvvvvv a déplacer lors de l'enregistrement de l'analyse vvvvvv

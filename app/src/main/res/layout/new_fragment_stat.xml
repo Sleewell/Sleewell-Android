@@ -66,9 +66,7 @@
         android:id="@+id/AAChartView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginLeft="30dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="30dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -111,7 +109,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.4">
+        app:layout_constraintVertical_bias="0.5">
 
         <ToggleButton
             android:id="@+id/day_nav"

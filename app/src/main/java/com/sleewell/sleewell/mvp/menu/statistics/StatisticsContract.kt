@@ -174,34 +174,34 @@ interface StatisticsContract {
         /**
          * Update the graph for the daily analyse
          *
-         * TODO params
+         * @param data from the night analyse
          * @author Hugo Berthomé
          */
-        fun displayAnalyseDay(/*TODO définir les données de l'analyse*/)
+        fun displayAnalyseDay(data: NightAnalyse)
 
         /**
          * Update the graph for the Weekly analyse
          *
-         * TODO params
+         * @param datas list of data from the nights analyse
          * @author Hugo Berthomé
          */
-        fun displayAnalyseWeek(/*TODO définir les données de l'analyse*/)
+        fun displayAnalyseWeek(datas: Array<NightAnalyse>)
 
         /**
          * Update the graph for the Month analyse
          *
-         * TODO params
+         * @param datas list of data from the nights analyse
          * @author Hugo Berthomé
          */
-        fun displayAnalyseMonth(/*TODO définir les données de l'analyse*/)
+        fun displayAnalyseMonth(datas: Array<NightAnalyse>)
 
         /**
          * Update the graph for the year analyse
          *
-         * TODO params
+         * @param datas list of data from the nights analyse
          * @author Hugo Berthomé
          */
-        fun displayAnalyseYear(/*TODO définir les données de l'analyse*/)
+        fun displayAnalyseYear(datas: Array<NightAnalyse>)
 
         /**
          * Display the date and time of the analyse
