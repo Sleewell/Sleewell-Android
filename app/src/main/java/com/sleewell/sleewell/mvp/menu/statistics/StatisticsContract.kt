@@ -118,14 +118,6 @@ interface StatisticsContract {
             fun onYearAnalyse(list: ListAnalyse)
 
             /**
-             * Function called after a Night has been successfully posted
-             *
-             * @param res
-             * @author Hugo Berthomé
-             */
-            fun onPostRes(res: PostResponse)
-
-            /**
              * Function called if a error occurred when calling the API
              *
              * @param t

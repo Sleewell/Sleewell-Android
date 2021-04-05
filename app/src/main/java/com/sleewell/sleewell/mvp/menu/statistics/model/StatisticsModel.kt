@@ -76,7 +76,20 @@ class StatisticsModel(
             }
 
         })*/
-        apiListener.onNight(NightAnalyse(1617461454, arrayOf(AnalyseValue(0.0, 1616654202), AnalyseValue(32.0, 1616654220), AnalyseValue(28.0, 1616654222), AnalyseValue(34.0, 1616654224), AnalyseValue(0.0, 1616654240)), 1617483954, null))
+        apiListener.onNight(
+            NightAnalyse(
+                1617461454,
+                arrayOf(
+                    AnalyseValue(0.0, 1616654202),
+                    AnalyseValue(32.0, 1616654220),
+                    AnalyseValue(28.0, 1616654222),
+                    AnalyseValue(34.0, 1616654224),
+                    AnalyseValue(0.0, 1616654240)
+                ),
+                1617483954,
+                null
+            )
+        )
     }
 
     /**
@@ -86,7 +99,7 @@ class StatisticsModel(
      * @author Hugo Berthomé
      */
     override fun getWeek(weekDate: Date) {
-        val call: Call<ListAnalyse> = api.getWeek(TOKEN, dateToDateString(weekDate, FORMAT_WEEK))
+        /*val call: Call<ListAnalyse> = api.getWeek(TOKEN, dateToDateString(weekDate, FORMAT_WEEK))
 
         call.enqueue(object : Callback<ListAnalyse> {
 
@@ -107,7 +120,37 @@ class StatisticsModel(
                 apiListener.onFailure(t)
             }
 
-        })
+        })*/
+        apiListener.onWeekAnalyse(
+            ListAnalyse(
+                arrayOf(
+                    NightAnalyse(
+                        1617461454,
+                        arrayOf(
+                            AnalyseValue(0.0, 1616654202),
+                            AnalyseValue(32.0, 1616654220),
+                            AnalyseValue(28.0, 1616654222),
+                            AnalyseValue(34.0, 1616654224),
+                            AnalyseValue(0.0, 1616654240)
+                        ),
+                        1617483954,
+                        null
+                    ),
+                    NightAnalyse(
+                        1617461454,
+                        arrayOf(
+                            AnalyseValue(0.0, 1616654202),
+                            AnalyseValue(32.0, 1616654220),
+                            AnalyseValue(28.0, 1616654222),
+                            AnalyseValue(34.0, 1616654224),
+                            AnalyseValue(0.0, 1616654240)
+                        ),
+                        1617483954,
+                        null
+                    )
+                ), 1617461454, 1617483954
+            )
+        )
     }
 
     /**
@@ -117,7 +160,7 @@ class StatisticsModel(
      * @author Hugo Berthomé
      */
     override fun getMonth(monthDate: Date) {
-        val call: Call<ListAnalyse> = api.getMonth(TOKEN, dateToDateString(monthDate, FORMAT_MONTH))
+        /*val call: Call<ListAnalyse> = api.getMonth(TOKEN, dateToDateString(monthDate, FORMAT_MONTH))
 
         call.enqueue(object : Callback<ListAnalyse> {
 
@@ -138,7 +181,37 @@ class StatisticsModel(
                 apiListener.onFailure(t)
             }
 
-        })
+        })*/
+        apiListener.onMonthAnalyse(
+            ListAnalyse(
+                arrayOf(
+                    NightAnalyse(
+                        1617461454,
+                        arrayOf(
+                            AnalyseValue(0.0, 1616654202),
+                            AnalyseValue(32.0, 1616654220),
+                            AnalyseValue(28.0, 1616654222),
+                            AnalyseValue(34.0, 1616654224),
+                            AnalyseValue(0.0, 1616654240)
+                        ),
+                        1617483954,
+                        null
+                    ),
+                    NightAnalyse(
+                        1617461454,
+                        arrayOf(
+                            AnalyseValue(0.0, 1616654202),
+                            AnalyseValue(32.0, 1616654220),
+                            AnalyseValue(28.0, 1616654222),
+                            AnalyseValue(34.0, 1616654224),
+                            AnalyseValue(0.0, 1616654240)
+                        ),
+                        1617483954,
+                        null
+                    )
+                ), 1617461454, 1617483954
+            )
+        )
     }
 
     /**
@@ -147,7 +220,7 @@ class StatisticsModel(
      * @param yearDate yearDate format YYYY, if empty fetch last year
      */
     override fun getYear(yearDate: Date) {
-        val call: Call<ListAnalyse> = api.getWeek(TOKEN, dateToDateString(yearDate, FORMAT_YEAR))
+        /*val call: Call<ListAnalyse> = api.getWeek(TOKEN, dateToDateString(yearDate, FORMAT_YEAR))
 
         call.enqueue(object : Callback<ListAnalyse> {
 
@@ -168,7 +241,37 @@ class StatisticsModel(
                 apiListener.onFailure(t)
             }
 
-        })
+        })*/
+        apiListener.onYearAnalyse(
+            ListAnalyse(
+                arrayOf(
+                    NightAnalyse(
+                        1617461454,
+                        arrayOf(
+                            AnalyseValue(0.0, 1616654202),
+                            AnalyseValue(32.0, 1616654220),
+                            AnalyseValue(28.0, 1616654222),
+                            AnalyseValue(34.0, 1616654224),
+                            AnalyseValue(0.0, 1616654240)
+                        ),
+                        1617483954,
+                        null
+                    ),
+                    NightAnalyse(
+                        1617461454,
+                        arrayOf(
+                            AnalyseValue(0.0, 1616654202),
+                            AnalyseValue(32.0, 1616654220),
+                            AnalyseValue(28.0, 1616654222),
+                            AnalyseValue(34.0, 1616654224),
+                            AnalyseValue(0.0, 1616654240)
+                        ),
+                        1617483954,
+                        null
+                    )
+                ), 1617461454, 1617483954
+            )
+        )
     }
 
     override fun onListAvailableAnalyses(analyses: List<Long>) {

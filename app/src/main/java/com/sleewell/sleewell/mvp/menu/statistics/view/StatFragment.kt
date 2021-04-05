@@ -64,6 +64,8 @@ class StatFragment : Fragment(), StatisticsContract.View {
 
     //widgets graph
     private lateinit var aaChartView: AAChartView
+    private lateinit var toolTipBarChar: AATooltip
+    private lateinit var toolTipGrapChar: AATooltip
     private lateinit var loadingProgressBar: ProgressBar
     private lateinit var errorIcon: ImageView
 
@@ -94,14 +96,6 @@ class StatFragment : Fragment(), StatisticsContract.View {
         initRecyclerView()
 
         presenter.refreshAnalyse(calendar.time)
-
-        //TODO exemple de detail analyse qui sera envoyé directement du présenteur
-        /*val detailList = ArrayList<AnalyseDetail>()
-        val test = Icon.createWithResource(context, R.drawable.ic_moon)
-        val test2 = Icon.createWithResource(context, R.drawable.ic_smiley_sleep)
-        detailList.add(AnalyseDetail(test, "Message 1"))
-        detailList.add(AnalyseDetail(test2, "Message 2 qui peut etre long si j'ecris sans m'arreter"))
-        displayAnalyseAdvices(detailList)*/
 
         return root
     }
@@ -222,6 +216,8 @@ class StatFragment : Fragment(), StatisticsContract.View {
 
         errorIcon.visibility = View.INVISIBLE
         setInLoadingState()
+        initToolTipBarChart()
+        initToolTipGraphChart()
     }
 
     private fun initRecyclerView() {
@@ -268,27 +264,6 @@ class StatFragment : Fragment(), StatisticsContract.View {
                 )
             )
 
-        val toolTips = AATooltip()
-            .useHTML(true)
-            .formatter(
-                """
-function () {
-        return '<b> '
-        +  this.y.toFixed(0)
-        + ' </b> dB around <b>'
-        +  this.x
-        + '</b>';
-        }
-             """.trimIndent()
-            )
-            .valueDecimals(2)
-            .backgroundColor("#000000")
-            .borderColor("#000000")
-            .style(
-                AAStyle()
-                    .color("#8a9198")
-                    .fontSize(12f)
-            )
         val options = aaChartModel.aa_toAAOptions()
 
         if (options.xAxis != null) {
@@ -301,7 +276,7 @@ function () {
         }
         options.yAxis?.gridLineWidth(0f)
 
-        options.tooltip = toolTips
+        options.tooltip = toolTipGrapChar
         scopeMainThread.launch {
             aaChartView.aa_drawChartWithChartOptions(options)
             loadingProgressBar.visibility = View.INVISIBLE
@@ -316,7 +291,25 @@ function () {
      * @author Hugo Berthomé
      */
     override fun displayAnalyseWeek(datas: Array<NightAnalyse>) {
-        TODO("Not yet implemented")
+        createBarChartModel(arrayListOf("Mon", "Tue", "Wed", "Thu", "Fry", "Sat", "Sun"), datas)
+        val options = aaChartModel.aa_toAAOptions()
+
+        if (options.xAxis != null) {
+            options.xAxis!!
+                .lineColor("none")
+                .crosshair(
+                    AACrosshair()
+                        .color("none")
+                )
+        }
+
+        options.yAxis?.gridLineWidth(0f)
+        options.tooltip = toolTipBarChar
+        scopeMainThread.launch {
+            aaChartView.aa_drawChartWithChartOptions(options)
+            loadingProgressBar.visibility = View.INVISIBLE
+            aaChartView.visibility = View.VISIBLE
+        }
     }
 
     /**
@@ -326,7 +319,36 @@ function () {
      * @author Hugo Berthomé
      */
     override fun displayAnalyseMonth(datas: Array<NightAnalyse>) {
-        TODO("Not yet implemented")
+        val calendarWeek = Calendar.getInstance()
+        calendarWeek.time = calendar.time
+        calendarWeek.set(Calendar.WEEK_OF_MONTH, 1)
+        val max = calendarWeek.getActualMaximum(Calendar.WEEK_OF_MONTH)
+
+        val categories = ArrayList<String>()
+        for (i in 1..max) {
+            categories.add("Week $i")
+        }
+        createBarChartModel(
+            categories, datas
+        )
+        val options = aaChartModel.aa_toAAOptions()
+
+        if (options.xAxis != null) {
+            options.xAxis!!
+                .lineColor("none")
+                .crosshair(
+                    AACrosshair()
+                        .color("none")
+                )
+        }
+
+        options.yAxis?.gridLineWidth(0f)
+        options.tooltip = toolTipBarChar
+        scopeMainThread.launch {
+            aaChartView.aa_drawChartWithChartOptions(options)
+            loadingProgressBar.visibility = View.INVISIBLE
+            aaChartView.visibility = View.VISIBLE
+        }
     }
 
     /**
@@ -336,7 +358,38 @@ function () {
      * @author Hugo Berthomé
      */
     override fun displayAnalyseYear(datas: Array<NightAnalyse>) {
-        TODO("Not yet implemented")
+        createBarChartModel(
+            arrayListOf(
+                "Jan",
+                "Feb",
+                "Mar",
+                "Avp",
+                "Jun",
+                "Jul",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec"
+            ), datas
+        )
+        val options = aaChartModel.aa_toAAOptions()
+
+        if (options.xAxis != null) {
+            options.xAxis!!
+                .lineColor("none")
+                .crosshair(
+                    AACrosshair()
+                        .color("none")
+                )
+        }
+
+        options.yAxis?.gridLineWidth(0f)
+        options.tooltip = toolTipBarChar
+        scopeMainThread.launch {
+            aaChartView.aa_drawChartWithChartOptions(options)
+            loadingProgressBar.visibility = View.INVISIBLE
+            aaChartView.visibility = View.VISIBLE
+        }
     }
 
     /**
@@ -461,6 +514,11 @@ function () {
         loadingProgressBar.visibility = View.VISIBLE
     }
 
+    /**
+     * Refresh the date on the view
+     *
+     * @author Hugo Berthomé
+     */
     private fun refreshDateView() {
         if (presenter.getCurrentState() == State.WEEK) {
             var weekDate = dateToString(calendar.time) + " - "
@@ -473,48 +531,16 @@ function () {
         }
     }
 
-    private fun dateToString(date: Date): String {
-        val dateFormat = when (presenter.getCurrentState()) {
-            State.DAY -> FORMAT_DAY
-            State.WEEK -> FORMAT_WEEK
-            State.MONTH -> FORMAT_MONTH
-            State.YEAR -> FORMAT_YEAR
-            else -> {
-                FORMAT_DAY
-            }
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return DateTimeFormatter
-            .ofPattern(dateFormat)
-            .withZone(ZoneOffset.systemDefault())
-            .format(date.toInstant())
-        }
-        return SimpleDateFormat(dateFormat).format(date)
-    }
-
-    private fun timestampToDateString(timestamp: Long, dateFormat: String = "HH:mm"): String {
-        return DateTimeFormatter
-            .ofPattern(dateFormat)
-            .withZone(ZoneOffset.systemDefault())
-            .format(Instant.ofEpochSecond(timestamp))
-    }
-
-    private fun timestampToDuration(timestamp: Long): String {
-        var duration = DateUtils.formatElapsedTime(timestamp)
-        if (duration.length == 5) {
-            duration = "0:$duration"
-        }
-        return duration.substring(IntRange(0, duration.length - 4))
-        /*return DateTimeFormatter
-            .ofPattern(AudioAnalyseFileUtils.DATE_FORMAT)
-            .withZone(ZoneOffset.systemDefault())
-            .format(Instant.ofEpochSecond(timestamp))*/
-    }
-
-    // INFO will disappear
-    override fun displayAnalyse(datas: Array<AnalyseValueStatistic>) {
-        /*aaChartModel = AAChartModel()
-            .chartType(AAChartType.Areaspline)
+    /**
+     * Creates a Bar chart model from data
+     *
+     * @param categories To display
+     * @param nights Data of each categories
+     * @author Hugo Berthomé
+     */
+    private fun createBarChartModel(categories: ArrayList<String>, nights: Array<NightAnalyse>) {
+        aaChartModel = AAChartModel()
+            .chartType(AAChartType.Column)
             .axesTextColor("#8a9198")
             .backgroundColor("none")
             .legendEnabled(false)
@@ -523,34 +549,54 @@ function () {
             .markerRadius(0f)
             .gradientColorEnable(true)
             .yAxisMin(10f)
-            .yAxisMax(datas.maxOf { it.db }.toFloat())
             .yAxisGridLineWidth(0f)
-            .yAxisTitle("dB")
-            .zoomType(AAChartZoomType.X)
+            .yAxisVisible(false)
             .animationType(AAChartAnimationType.EaseInOutSine)
             .animationDuration(1000)
             .categories(
-                Array(datas.size) { i -> datas[i].ts }
+                categories.toTypedArray()
             )
             .series(
                 arrayOf(
                     AASeriesElement().data(
-                        Array(datas.size) { i -> datas[i].db }
+                        Array(categories.size) { i ->
+                            if (i >= nights.size)
+                                0.0
+                            else
+                                nights[i].end - nights[i].start
+                        }
                     )
                 )
             )
+    }
 
-        val toolTips = AATooltip()
+    /**
+     * Initialise tool tip for the Bar chart
+     * Data overview indication
+     *
+     * @author Hugo Berthomé
+     */
+    private fun initToolTipBarChart() {
+        toolTipBarChar = AATooltip()
             .useHTML(true)
             .formatter(
                 """
-function () {
-        return ' Sound detected around <b> '
-        +  this.x
-        + ' </b> of <b>'
-        +  this.y.toFixed(2)
-        + '</b> dB';
-        }
+                function () {
+                    var hours   = Math.floor(this.y / 3600);
+                    var minutes = Math.floor((this.y - (hours * 3600)) / 60);
+        
+                    var hoursTxt = "0";
+                    var minTxt = "0";
+        
+                    if (hours   < 10) {hours   = "0"+hours;}
+                    if (minutes < 10) {minutes = "0"+minutes;}
+        
+                    return '<b> '
+                            +  hours
+                            +  ':'
+                            +  minutes
+                            + '</b>';
+                }
              """.trimIndent()
             )
             .valueDecimals(2)
@@ -561,22 +607,90 @@ function () {
                     .color("#8a9198")
                     .fontSize(12f)
             )
-        val options = aaChartModel.aa_toAAOptions()
+    }
 
-        if (options.xAxis != null) {
-            options.xAxis!!
-                .lineColor("none")
-                .crosshair(
-                    AACrosshair()
-                        .color("none")
-                )
+    /**
+     * Initialise tool tip for the graph chart
+     * Data overview indication
+     *
+     * @author Hugo Berthomé
+     */
+    private fun initToolTipGraphChart() {
+        toolTipGrapChar = AATooltip()
+            .useHTML(true)
+            .formatter(
+                """
+                function () {
+                    return '<b> '
+                            +  this.y.toFixed(0)
+                            + ' </b> dB around <b>'
+                            +  this.x
+                            + '</b>';
+                }
+             """.trimIndent()
+            )
+            .valueDecimals(2)
+            .backgroundColor("#000000")
+            .borderColor("#000000")
+            .style(
+                AAStyle()
+                    .color("#8a9198")
+                    .fontSize(12f)
+            )
+    }
+
+    /**
+     * Converts a date to string
+     *
+     * @param date to convert
+     * @return String representing the date
+     */
+    private fun dateToString(date: Date): String {
+        val dateFormat = when (presenter.getCurrentState()) {
+            State.DAY -> FORMAT_DAY
+            State.WEEK -> FORMAT_WEEK
+            State.MONTH -> FORMAT_MONTH
+            State.YEAR -> FORMAT_YEAR
         }
-        options.yAxis?.gridLineWidth(0f)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return DateTimeFormatter
+                .ofPattern(dateFormat)
+                .withZone(ZoneOffset.systemDefault())
+                .format(date.toInstant())
+        }
+        return SimpleDateFormat(dateFormat).format(date)
+    }
 
-        options.tooltip = toolTips
-        scopeMainThread.launch {
-            aaChartView.aa_drawChartWithChartOptions(options)
-            loadingProgressBar.visibility = View.INVISIBLE
-        }*/
+    /**
+     * Converts a timestamp into a String representation
+     *
+     * @param timestamp
+     * @param dateFormat Format of the string at the end
+     * @return String representing the date
+     */
+    private fun timestampToDateString(timestamp: Long, dateFormat: String = "HH:mm"): String {
+        return DateTimeFormatter
+            .ofPattern(dateFormat)
+            .withZone(ZoneOffset.systemDefault())
+            .format(Instant.ofEpochSecond(timestamp))
+    }
+
+    /**
+     * Converts a timestamp to duration String
+     *
+     * @param timestamp
+     * @return String representing the duration in HH:mm
+     */
+    private fun timestampToDuration(timestamp: Long): String {
+        var duration = DateUtils.formatElapsedTime(timestamp)
+        if (duration.length == 5) {
+            duration = "0:$duration"
+        }
+        return duration.substring(IntRange(0, duration.length - 4))
+    }
+
+
+    // TODO will disappear
+    override fun displayAnalyse(datas: Array<AnalyseValueStatistic>) {
     }
 }

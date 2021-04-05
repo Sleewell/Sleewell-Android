@@ -26,8 +26,8 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
     StatisticsContract.Presenter {
 
     private var currentState: State = State.DAY
-    val iconMoon = Icon.createWithResource(context, R.drawable.ic_moon)
-    val iconSleep = Icon.createWithResource(context, R.drawable.ic_smiley_sleep)
+    private val iconMoon = Icon.createWithResource(context, R.drawable.ic_moon)
+    private val iconSleep = Icon.createWithResource(context, R.drawable.ic_smiley_sleep)
 
     private val scopeDefault = CoroutineScope(Job() + Dispatchers.Default)
     private val model: StatisticsContract.Model = StatisticsModel(context, this, this)
@@ -172,8 +172,11 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
      */
     override fun onWeekAnalyse(list: ListAnalyse) {
         scopeDefault.launch {
+            if (list.data != null)
+                view.displayAnalyseWeek(list.data)
+            view.displayNightData(list.end - list.start, list.start, list.end)
+            view.displayAnalyseAdvices(determineAnalyseAdvices(list.start, list.end))
         }
-        TODO("Not yet implemented")
     }
 
     /**
@@ -184,8 +187,11 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
      */
     override fun onMonthAnalyse(list: ListAnalyse) {
         scopeDefault.launch {
+            if (list.data != null)
+                view.displayAnalyseMonth(list.data)
+            view.displayNightData(list.end - list.start, list.start, list.end)
+            view.displayAnalyseAdvices(determineAnalyseAdvices(list.start, list.end))
         }
-        TODO("Not yet implemented")
     }
 
     /**
@@ -196,18 +202,11 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
      */
     override fun onYearAnalyse(list: ListAnalyse) {
         scopeDefault.launch {
+            if (list.data != null)
+                view.displayAnalyseYear(list.data)
+            view.displayNightData(list.end - list.start, list.start, list.end)
+            view.displayAnalyseAdvices(determineAnalyseAdvices(list.start, list.end))
         }
-        TODO("Not yet implemented")
-    }
-
-    /**
-     * Function called after a Night has been successfully posted
-     *
-     * @param res
-     * @author Hugo Berthomé
-     */
-    override fun onPostRes(res: PostResponse) {
-        TODO("Not yet implemented")
     }
 
     /**
@@ -259,13 +258,6 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
             }
         }
         return advices
-    }
-
-    private fun timestampToDate(ts: Long): Date {
-        val date = Date()
-
-        date.time = ts
-        return date
     }
 
     // TODO vvvvvvvv a déplacer lors de l'enregistrement de l'analyse vvvvvv
