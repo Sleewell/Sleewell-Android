@@ -13,6 +13,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import com.sleewell.sleewell.database.analyse.night.NightDatabase
+import com.sleewell.sleewell.modules.audio.upload.AudioAnalyseUpload
 import com.sleewell.sleewell.modules.permissions.PermissionManager
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationResponse
@@ -21,17 +22,18 @@ import com.spotify.sdk.android.authentication.LoginActivity
 class MainActivity : AppCompatActivity(), MainContract.View {
     private var userInteractionListener: UserInteractionListener? = null
     private lateinit var presenter: MainContract.Presenter
+    private lateinit var statsUpload : AudioAnalyseUpload
 
     companion object {
         var getAccessToken: Boolean = false
         lateinit var accessToken: String
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         createNotificationChannel()
         setContentView(R.layout.new_activity_main)
+        statsUpload = AudioAnalyseUpload(applicationContext)
         setPresenter(MainPresenter(this))
         presenter.onViewCreated()
     }
@@ -39,6 +41,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun onStart() {
         super.onStart()
         askAuthorisation();
+    }
+
+    override fun onResume() {
+        super.onResume()
+        statsUpload.updateUpload()
     }
 
     /**
