@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +40,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     private lateinit var mAlarmViewModel: AlarmViewModel
     private lateinit var presenter: AlarmContract.Presenter
     private lateinit var validateupdateAlarm: ImageView
+    private lateinit var validatesaveAlarm: ImageView
     private lateinit var ringtone: Uri
 
     companion object {
@@ -59,13 +61,16 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         instance = this
         val root = inflater.inflate(R.layout.new_fragment_alarm, container, false)
 
-        ringtone = RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_ALARM)
-
         setHasOptionsMenu(true)
+
+        ringtone = RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_ALARM)
+        validatesaveAlarm = root.findViewById(R.id.validate_create_alarm)
+        validateupdateAlarm = root.findViewById(R.id.validate_modify_alarm)
 
         val floatingActionButton: FloatingActionButton = root.findViewById(R.id.add_alarm_button)
         floatingActionButton.setOnClickListener {
             changeVisibilityLayoutsCreate()
+            createAlarm(root)
         }
 
         val toolbarCreateAlarm : Toolbar = root.findViewById(R.id.toolbar_create_alarm)
@@ -77,17 +82,6 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         toolbarModifyAlarm.setNavigationOnClickListener {
             changeVisibilityLayoutsAlarm()
         }
-
-        val calendar = Calendar.getInstance()
-        val timePicker : TimePicker = root.findViewById(R.id.time_picker_create_alarm)
-        timePicker.setIs24HourView(true)
-        timePicker.hour = calendar.get(Calendar.HOUR_OF_DAY)
-        timePicker.minute = calendar.get(Calendar.MINUTE)
-
-        val validatesaveAlarm : ImageView = root.findViewById(R.id.validate_create_alarm)
-        validateSaveAlarm(validatesaveAlarm, timePicker, calendar)
-
-        validateupdateAlarm = root.findViewById(R.id.validate_modify_alarm)
 
         val spinnerCreateAlarm : Button = root.findViewById(R.id.spinner_create_alarm)
         spinnerCreateAlarm.setOnClickListener {
@@ -185,13 +179,16 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         )
     }
 
-    private fun validateSaveAlarm(
-        validateAlarm: ImageView,
-        timePicker: TimePicker,
-        calendar: Calendar
-    ) {
-        validateAlarm.setOnClickListener {
+    private fun createAlarm(root: View) {
+        val calendar = Calendar.getInstance()
+        val timePicker : TimePicker = root.findViewById(R.id.time_picker_create_alarm)
+        timePicker.setIs24HourView(true)
+        timePicker.hour = calendar.get(Calendar.HOUR_OF_DAY)
+        timePicker.minute = calendar.get(Calendar.MINUTE)
+
+        validatesaveAlarm.setOnClickListener {
             changeVisibilityLayoutsAlarm()
+
             val days = listOf(
                 daypicker_create_layout.tM.isChecked,
                 daypicker_create_layout.tT.isChecked,
@@ -201,6 +198,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
                 daypicker_create_layout.tS.isChecked,
                 daypicker_create_layout.tSu.isChecked
             )
+
             if (days.contains(true)) {
                 var i = 0
                 var index = 0
@@ -230,7 +228,6 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
 
         changeVisibilityLayoutsModify()
         spinner_modify_alarm.text = RingtoneManager.getRingtone(context, Uri.parse(currentAlarm.ringtone)).getTitle(context)
-        //validate update Alarm
 
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = currentAlarm.time
