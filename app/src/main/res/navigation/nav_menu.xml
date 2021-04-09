@@ -25,4 +25,11 @@
         android:name="com.sleewell.sleewell.mvp.menu.statistics.view.StatFragment"
         android:label="new_fragment_stat"
         tools:layout="@layout/new_fragment_stat" />
+
+    <fragment
+        android:id="@+id/connectionFragment"
+        android:name="com.sleewell.sleewell.mvp.menu.connection.view.ConnectionFragment"
+        android:label="new_fragment_connection_api"
+        tools:layout="@layout/new_fragment_connection_api" />
+
 </navigation>
