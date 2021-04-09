@@ -105,7 +105,6 @@ class RoutineModel(context: Context) : RoutineContract.Model {
 
         buttonClose.setOnClickListener { dialog.dismiss() }
         buttonDelete.setOnClickListener {
-            Toast.makeText(context, "Delete button", Toast.LENGTH_SHORT).show()
             CoroutineScope(Dispatchers.IO).launch {
                 removeNewItemRoutine(routine)
             }
