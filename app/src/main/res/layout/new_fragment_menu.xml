@@ -128,8 +128,8 @@
                 android:fontFamily="@font/roboto_medium"
                 android:textAlignment="center"
                 android:textColor="@drawable/button_text_color"
-                android:textOff="CONNECTION"
-                android:textOn="CONNECTION"
+                android:textOff="ACCOUNT"
+                android:textOn="ACCOUNT"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/stats_nav"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -1,9 +1,9 @@
-package com.sleewell.sleewell.mvp.menu.connection
+package com.sleewell.sleewell.mvp.menu.account.contract
 
 import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
 
-interface ConnectionContract {
+interface AccountContract {
     interface Model {
     }
 
@@ -15,4 +15,3 @@ interface ConnectionContract {
         fun displayToast(message: String)
     }
 }
-
