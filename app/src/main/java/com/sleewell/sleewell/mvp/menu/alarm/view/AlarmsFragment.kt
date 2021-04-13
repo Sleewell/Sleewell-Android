@@ -30,6 +30,7 @@ import com.sleewell.sleewell.reveil.data.ListAdapter
 import com.sleewell.sleewell.reveil.data.model.Alarm
 import com.sleewell.sleewell.reveil.data.viewmodel.AlarmViewModel
 import com.sleewell.sleewell.reveil.presenter.AlarmPresenter
+import kotlinx.android.synthetic.main.custom_row.view.*
 import kotlinx.android.synthetic.main.daypicker_layout.view.*
 import kotlinx.android.synthetic.main.new_fragment_alarm.*
 import java.text.SimpleDateFormat
@@ -476,6 +477,51 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
+     * Change visibility holder
+     *
+     * @author Romane Bézier
+     */
+    override fun changeVisibilityHolder() {
+        val childCount = recyclerView_alarm.childCount
+        var i = 0
+        while (i < childCount) {
+            val holder = recyclerView_alarm.getChildViewHolder(recyclerView_alarm.getChildAt(i))
+            holder.itemView.rowLayout.checkBoxAlarm.visibility = View.VISIBLE
+            holder.itemView.rowLayout.deleteButton.visibility = View.INVISIBLE
+            holder.itemView.rowLayout.checkBoxTime.visibility = View.INVISIBLE
+            i++
+        }
+    }
+
+    /**
+     * Check if the check boxed are not check
+     *
+     * @author Romane Bézier
+     */
+    override fun checkCheckList() {
+        val childCount = recyclerView_alarm.childCount
+        var i = 0
+        var check = false
+        while (i < childCount) {
+            val holder = recyclerView_alarm.getChildViewHolder(recyclerView_alarm.getChildAt(i))
+            if (holder.itemView.rowLayout.checkBoxAlarm.isChecked) {
+                check = true
+            }
+            i++
+        }
+        if (!check) {
+            i = 0
+            while (i < childCount) {
+                val holder = recyclerView_alarm.getChildViewHolder(recyclerView_alarm.getChildAt(i))
+                holder.itemView.rowLayout.checkBoxAlarm.visibility = View.INVISIBLE
+                holder.itemView.rowLayout.deleteButton.visibility = View.VISIBLE
+                holder.itemView.rowLayout.checkBoxTime.visibility = View.VISIBLE
+                i++
+            }
+        }
+    }
+
+    /**
      * Change visibility of the layout alarm to create alarm
      *
      * @author Romane Bézier
@@ -492,6 +538,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         label_create_alarm.visibility = View.VISIBLE
         editText_create_alarm.visibility = View.VISIBLE
         recyclerView_alarm.visibility = View.INVISIBLE
+        toolbar_alarm.visibility = View.INVISIBLE
         add_alarm_button.hide()
         toolbar_modify_alarm.visibility = View.INVISIBLE
         time_picker_modify_alarm.visibility = View.INVISIBLE
@@ -527,6 +574,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         label_create_alarm.visibility = View.INVISIBLE
         editText_create_alarm.visibility = View.INVISIBLE
         recyclerView_alarm.visibility = View.INVISIBLE
+        toolbar_alarm.visibility = View.INVISIBLE
         add_alarm_button.hide()
         toolbar_modify_alarm.visibility = View.VISIBLE
         time_picker_modify_alarm.visibility = View.VISIBLE
@@ -557,6 +605,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         label_create_alarm.visibility = View.INVISIBLE
         editText_create_alarm.visibility = View.INVISIBLE
         recyclerView_alarm.visibility = View.VISIBLE
+        toolbar_alarm.visibility = View.VISIBLE
         add_alarm_button.show()
         toolbar_modify_alarm.visibility = View.INVISIBLE
         time_picker_modify_alarm.visibility = View.INVISIBLE

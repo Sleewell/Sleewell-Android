@@ -269,5 +269,19 @@ interface AlarmContract {
          * @author Romane Bézier
          */
         fun deleteAlarm(currentAlarm: Alarm)
+
+        /**
+         * Change visibility holder
+         *
+         * @author Romane Bézier
+         */
+        fun changeVisibilityHolder()
+
+        /**
+         * Check if the check boxed are not check
+         *
+         * @author Romane Bézier
+         */
+        fun checkCheckList()
     }
 }

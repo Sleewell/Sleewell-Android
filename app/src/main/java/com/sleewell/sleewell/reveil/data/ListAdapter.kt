@@ -1,9 +1,11 @@
 package com.sleewell.sleewell.reveil.data
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.reveil.AlarmContract
@@ -72,15 +74,26 @@ class ListAdapter(private val view: AlarmContract.View): RecyclerView.Adapter<Li
         holder.itemView.rowLayout.setOnClickListener {
             view.updateAlarm(currentItem)
         }
+        holder.itemView.rowLayout.setOnLongClickListener {
+            Toast.makeText(context, "Long click detected", Toast.LENGTH_SHORT).show()
+            view.changeVisibilityHolder()
+            holder.itemView.rowLayout.checkBoxAlarm.isChecked = true
+            return@setOnLongClickListener true
+        }
         holder.itemView.deleteButton.setOnClickListener {
             view.deleteAlarm(currentItem)
         }
-        holder.itemView.checkBoxTime.setOnCheckedChangeListener {
-            _, isChecked ->
-                if (isChecked)
-                    view.startAlarm(currentItem)
-                else
-                    view.stopAlarm(currentItem)
+        holder.itemView.checkBoxTime.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked)
+                view.startAlarm(currentItem)
+            else
+                view.stopAlarm(currentItem)
+        }
+        holder.itemView.checkBoxAlarm.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked)
+                Toast.makeText(context, "tmp", Toast.LENGTH_SHORT).show()
+            else
+                view.checkCheckList()
         }
     }
 
