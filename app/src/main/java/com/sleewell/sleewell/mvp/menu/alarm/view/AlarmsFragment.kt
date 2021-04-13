@@ -134,6 +134,11 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             )
         )
 
+        val deleteSelectedButton : ImageView = root.findViewById(R.id.deleteSelectedButton)
+        deleteSelectedButton.setOnClickListener {
+            deleteSelectedAlarms(adapter)
+        }
+
         mAlarmViewModel = ViewModelProvider(this).get(AlarmViewModel::class.java)
         mAlarmViewModel = ViewModelProvider(this).get(AlarmViewModel::class.java)
         mAlarmViewModel.readAllData.observe(viewLifecycleOwner, { alarm ->
@@ -244,6 +249,20 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         while (i < childCount) {
             val holder = recyclerView_alarm.getChildViewHolder(recyclerView_alarm.getChildAt(i))
             holder.itemView.rowLayout.checkBoxAlarm.isChecked = false
+            i++
+        }
+    }
+
+    private fun deleteSelectedAlarms(adapter: ListAdapter) {
+        var alarmList = adapter.getAlarmList()
+        val childCount = recyclerView_alarm.childCount
+        var i = 0
+        while (i < childCount) {
+            val holder = recyclerView_alarm.getChildViewHolder(recyclerView_alarm.getChildAt(i))
+            if (holder.itemView.rowLayout.checkBoxAlarm.isChecked) {
+                holder.itemView.rowLayout.checkBoxAlarm.isChecked = false
+                deleteAlarm(alarmList[i], true)
+            }
             i++
         }
     }
@@ -412,9 +431,10 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
      * Delete the alarm
      *
      * @param currentAlarm Alarm to delete
+     * @param selectedAlarm Selected the alarm are delete
      * @author Romane Bézier
      */
-    override fun deleteAlarm(currentAlarm: Alarm) {
+    override fun deleteAlarm(currentAlarm: Alarm, selectedAlarm: Boolean) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setPositiveButton("Yes") { _, _ ->
             presenter.deleteAlarm(mAlarmViewModel, currentAlarm)
@@ -424,10 +444,12 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
                 initStopAlert(alarmManager, currentAlarm)
             }
         }
-        builder.setNegativeButton("No") { _, _ ->}
-        builder.setTitle("Delete the alarm of ${convertTime(currentAlarm.time)}?")
-        builder.setMessage("Are you sure you want to delete this alarm?")
-        builder.create().show()
+        if (!selectedAlarm) {
+            builder.setNegativeButton("No") { _, _ -> }
+            builder.setTitle("Delete the alarm of ${convertTime(currentAlarm.time)}?")
+            builder.setMessage("Are you sure you want to delete this alarm?")
+            builder.create().show()
+        }
     }
 
     /**

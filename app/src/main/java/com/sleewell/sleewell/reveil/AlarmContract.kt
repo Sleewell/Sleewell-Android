@@ -266,9 +266,10 @@ interface AlarmContract {
          * Delete the alarm
          *
          * @param currentAlarm Alarm to delete
+         * @param selectedAlarm Selected the alarm are delete
          * @author Romane Bézier
          */
-        fun deleteAlarm(currentAlarm: Alarm)
+        fun deleteAlarm(currentAlarm: Alarm, selectedAlarm: Boolean)
 
         /**
          * Change visibility holder

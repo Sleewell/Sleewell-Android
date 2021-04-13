@@ -20,6 +20,7 @@ class ListAdapter(private val view: AlarmContract.View): RecyclerView.Adapter<Li
 
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         context = parent.context
         return MyViewHolder(LayoutInflater.from(parent.context)
@@ -80,7 +81,7 @@ class ListAdapter(private val view: AlarmContract.View): RecyclerView.Adapter<Li
             return@setOnLongClickListener true
         }
         holder.itemView.deleteButton.setOnClickListener {
-            view.deleteAlarm(currentItem)
+            view.deleteAlarm(currentItem, false)
         }
         holder.itemView.checkBoxTime.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked)
@@ -92,6 +93,10 @@ class ListAdapter(private val view: AlarmContract.View): RecyclerView.Adapter<Li
             if (!isChecked)
                 view.checkCheckList()
         }
+    }
+
+    fun getAlarmList() : List<Alarm> {
+        return alarmList
     }
 
     fun setData(alarm: List<Alarm>) {
