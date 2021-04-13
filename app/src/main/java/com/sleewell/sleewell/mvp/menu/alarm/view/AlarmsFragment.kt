@@ -84,6 +84,15 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             changeVisibilityLayoutsAlarm()
         }
 
+        val checkBoxAllAlarms : CheckBox = root.findViewById(R.id.checkBoxAllAlarms)
+        checkBoxAllAlarms.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked)
+                checkAllAlarms()
+            else {
+                uncheckAllAlarms()
+            }
+        }
+
         val spinnerCreateAlarm : Button = root.findViewById(R.id.spinner_create_alarm)
         spinnerCreateAlarm.setOnClickListener {
             val ringtonePickerBuilder = RingtonePickerDialog.Builder(context!!, fragmentManager!!)
@@ -216,6 +225,26 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             } else {
                 setAlarmWithoutDay(calendar, timePicker, days)
             }
+        }
+    }
+
+    private fun checkAllAlarms() {
+        val childCount = recyclerView_alarm.childCount
+        var i = 0
+        while (i < childCount) {
+            val holder = recyclerView_alarm.getChildViewHolder(recyclerView_alarm.getChildAt(i))
+            holder.itemView.rowLayout.checkBoxAlarm.isChecked = true
+            i++
+        }
+    }
+
+    private fun uncheckAllAlarms() {
+        val childCount = recyclerView_alarm.childCount
+        var i = 0
+        while (i < childCount) {
+            val holder = recyclerView_alarm.getChildViewHolder(recyclerView_alarm.getChildAt(i))
+            holder.itemView.rowLayout.checkBoxAlarm.isChecked = false
+            i++
         }
     }
 
@@ -482,6 +511,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
      * @author Romane Bézier
      */
     override fun changeVisibilityHolder() {
+        checkBoxAllAlarms.visibility = View.VISIBLE
+        deleteSelectedButton.visibility = View.VISIBLE
+
         val childCount = recyclerView_alarm.childCount
         var i = 0
         while (i < childCount) {
@@ -510,6 +542,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             i++
         }
         if (!check) {
+            checkBoxAllAlarms.visibility = View.INVISIBLE
+            deleteSelectedButton.visibility = View.INVISIBLE
             i = 0
             while (i < childCount) {
                 val holder = recyclerView_alarm.getChildViewHolder(recyclerView_alarm.getChildAt(i))

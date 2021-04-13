@@ -75,7 +75,6 @@ class ListAdapter(private val view: AlarmContract.View): RecyclerView.Adapter<Li
             view.updateAlarm(currentItem)
         }
         holder.itemView.rowLayout.setOnLongClickListener {
-            Toast.makeText(context, "Long click detected", Toast.LENGTH_SHORT).show()
             view.changeVisibilityHolder()
             holder.itemView.rowLayout.checkBoxAlarm.isChecked = true
             return@setOnLongClickListener true
@@ -90,9 +89,7 @@ class ListAdapter(private val view: AlarmContract.View): RecyclerView.Adapter<Li
                 view.stopAlarm(currentItem)
         }
         holder.itemView.checkBoxAlarm.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked)
-                Toast.makeText(context, "tmp", Toast.LENGTH_SHORT).show()
-            else
+            if (!isChecked)
                 view.checkCheckList()
         }
     }

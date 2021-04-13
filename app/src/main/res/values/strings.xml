@@ -99,4 +99,5 @@
     <string name="name_of_label">Name of label</string>
     <string name="check">Check</string>
     <string name="ringtone">Ringtone</string>
+    <string name="deleteall">deleteAll</string>
 </resources>
