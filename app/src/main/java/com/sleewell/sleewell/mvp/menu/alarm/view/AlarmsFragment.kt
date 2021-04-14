@@ -435,20 +435,27 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
      * @author Romane Bézier
      */
     override fun deleteAlarm(currentAlarm: Alarm, selectedAlarm: Boolean) {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setPositiveButton("Yes") { _, _ ->
+        if (!selectedAlarm) {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setPositiveButton("Yes") { _, _ ->
+                presenter.deleteAlarm(mAlarmViewModel, currentAlarm)
+                if (currentAlarm.activate) {
+                    val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    initStopAlarm(alarmManager, currentAlarm)
+                    initStopAlert(alarmManager, currentAlarm)
+                }
+            }
+            builder.setNegativeButton("No") { _, _ -> }
+            builder.setTitle("Delete the alarm of ${convertTime(currentAlarm.time)}?")
+            builder.setMessage("Are you sure you want to delete this alarm?")
+            builder.create().show()
+        } else {
             presenter.deleteAlarm(mAlarmViewModel, currentAlarm)
             if (currentAlarm.activate) {
                 val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
                 initStopAlarm(alarmManager, currentAlarm)
                 initStopAlert(alarmManager, currentAlarm)
             }
-        }
-        if (!selectedAlarm) {
-            builder.setNegativeButton("No") { _, _ -> }
-            builder.setTitle("Delete the alarm of ${convertTime(currentAlarm.time)}?")
-            builder.setMessage("Are you sure you want to delete this alarm?")
-            builder.create().show()
         }
     }
 
