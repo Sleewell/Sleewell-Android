@@ -20,11 +20,11 @@
         app:layout_constraintStart_toStartOf="@+id/clock"
         app:layout_constraintTop_toTopOf="@+id/clock" />
 
-    <TextView
+    <TextClock
         android:id="@+id/clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_regular"
+        android:fontFamily="@font/nunito_light"
         android:letterSpacing="0.05"
         android:text="12:00"
         android:textAlignment="center"
@@ -52,7 +52,7 @@
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:fontFamily="@font/roboto_medium"
+        android:fontFamily="@font/nunito"
         android:text="jou. 10 mois"
         android:textAlignment="center"
         android:textColor="@color/textOnBackground"
@@ -68,7 +68,7 @@
         android:layout_marginBottom="50dp"
         android:background="@drawable/button_light_rounded"
         android:backgroundTint="@color/textOnBackground"
-        android:fontFamily="@font/roboto_medium"
+        android:fontFamily="@font/nunito_bold"
         android:text="Sleep assistance"
         android:textAlignment="center"
         android:textAllCaps="false"
@@ -96,7 +96,7 @@
         android:layout_width="350dp"
         android:layout_height="60dp"
         android:background="@drawable/button_rounded_with_stroke"
-        android:fontFamily="@font/roboto_medium"
+        android:fontFamily="@font/nunito"
         android:text="@string/protocol_button"
         android:textAllCaps="false"
         android:textColor="@drawable/button_text_color"
