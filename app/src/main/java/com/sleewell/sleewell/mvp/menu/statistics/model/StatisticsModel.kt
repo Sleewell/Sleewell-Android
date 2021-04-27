@@ -1,6 +1,5 @@
 package com.sleewell.sleewell.mvp.menu.statistics.model
 
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.api.sleewell.ApiClient
 import com.sleewell.sleewell.api.sleewell.ISleewellApi
@@ -12,9 +11,6 @@ import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalys
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.mvp.menu.statistics.StatisticsContract
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -22,7 +18,7 @@ import java.util.*
 class StatisticsModel(
     context: AppCompatActivity,
     private val listener: StatisticsContract.Model.Listener,
-    private val apiListener: StatisticsContract.Model.onApiFinishedListener
+    private val apiListener: StatisticsContract.Model.OnApiFinishedListener
 ) :
     StatisticsContract.Model, IAudioAnalyseRecordListener {
 

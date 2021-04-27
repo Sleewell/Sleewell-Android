@@ -2,7 +2,6 @@ package com.sleewell.sleewell.mvp.menu.statistics
 
 import com.sleewell.sleewell.api.sleewell.model.ListAnalyse
 import com.sleewell.sleewell.api.sleewell.model.NightAnalyse
-import com.sleewell.sleewell.api.sleewell.model.PostResponse
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
@@ -84,7 +83,7 @@ interface StatisticsContract {
             fun onError(msg: String)
         }
 
-        interface onApiFinishedListener {
+        interface OnApiFinishedListener {
             /**
              * Function called after Night received from the API sleewell
              *
@@ -127,7 +126,7 @@ interface StatisticsContract {
         }
     }
 
-    interface Presenter : BasePresenter, Model.Listener, Model.onApiFinishedListener {
+    interface Presenter : BasePresenter, Model.Listener, Model.OnApiFinishedListener {
 
         /**
          * Refresh the data from the last analyse
