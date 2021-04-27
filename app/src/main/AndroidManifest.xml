@@ -79,6 +79,9 @@
             android:icon="@mipmap/icon_launcher"
             android:label="@string/foreground_service_analyse_label"
             android:stopWithTask="false" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

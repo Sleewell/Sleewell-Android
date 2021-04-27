@@ -165,6 +165,9 @@ class AnalyseService : Service() {
                     override fun onDataAnalysed(data: AnalyseValue) {
                     }
 
+                    override fun onDataManagerInitialized() {
+                    }
+
                 }, samplingRate)
                 val spectrogram = Spectrogram(object : ISpectrogramListener {
                     override fun onBufferReceived(spectrogram: Array<DoubleArray>) {

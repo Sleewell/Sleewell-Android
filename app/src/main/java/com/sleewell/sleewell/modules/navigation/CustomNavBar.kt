@@ -9,7 +9,6 @@ import com.sleewell.sleewell.R
 
 class CustomNavBar : ICustomNavBar {
     private val buttons = mutableListOf<ToggleButton>()
-    private val labels = mutableListOf<String>()
     private val destinationIDs = mutableListOf<Int>()
     private var size = 0
     private val goRight = NavOptions.Builder()
@@ -19,12 +18,11 @@ class CustomNavBar : ICustomNavBar {
         .setExitAnim(R.anim.slide_out_to_right)
         .setEnterAnim(R.anim.slide_in_from_left)
 
-    override fun addButton(button: ToggleButton, label: String, destinationID: Int) {
+    override fun addButton(button: ToggleButton, destinationID: Int) {
         button.isChecked = size == 0
         button.isEnabled = !button.isChecked
 
         buttons.add(button)
-        labels.add(label)
         destinationIDs.add(destinationID)
         size += 1
     }
@@ -35,7 +33,7 @@ class CustomNavBar : ICustomNavBar {
                 button.isEnabled = !b
                 if (b) {
                     Log.d("StateMAGIQUE", index.toString())
-                    if (labels.indexOf(navController.currentDestination?.label.toString()) > index) {
+                    if (destinationIDs.indexOf(navController.currentDestination?.id) > index) {
                         navController.navigate(destinationIDs[index], null, goLeft.build())
                     } else {
                         navController.navigate(destinationIDs[index], null, goRight.build())
