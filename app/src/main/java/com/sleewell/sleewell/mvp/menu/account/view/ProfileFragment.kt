@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.mvp.menu.profile.view
+package com.sleewell.sleewell.mvp.menu.account.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,13 +12,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.textfield.TextInputLayout
 import com.sleewell.sleewell.R
-import com.sleewell.sleewell.mvp.menu.profile.ProfileContract
-import com.sleewell.sleewell.mvp.menu.profile.presenter.ProfilePresenter
+import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
+import com.sleewell.sleewell.mvp.menu.account.contract.ProfileContract
+import com.sleewell.sleewell.mvp.menu.account.presenter.ProfilePresenter
 import kotlinx.android.synthetic.main.fragment_profile.*
 
-/**
- * A simple [Fragment] subclass.
- */
 class ProfileFragment : Fragment(), ProfileContract.View {
     //Context
     private lateinit var presenter: ProfileContract.Presenter
@@ -33,9 +31,13 @@ class ProfileFragment : Fragment(), ProfileContract.View {
     ): View {
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_profile, container, false)
-        initActivityWidgets()
-        setPresenter(ProfilePresenter(this, this.activity as AppCompatActivity))
 
+        if (MainActivity.accessTokenSleewell.isEmpty()) {
+            fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, ConnectionFragment())?.commit()
+        } else {
+            initActivityWidgets()
+            setPresenter(ProfilePresenter(this, this.activity as AppCompatActivity))
+        }
         return root
     }
 

@@ -88,7 +88,7 @@
         app:srcCompat="@drawable/arrow_back_24px" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/logoGoogle"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:src="@drawable/dialog_corner"
@@ -118,6 +118,9 @@
         android:layout_marginStart="64dp"
         android:layout_marginEnd="64dp"
         android:background="@drawable/button_rounded_color_background"
+        android:drawableLeft="@drawable/ic_google_icon"
+        android:drawablePadding="0dp"
+        android:paddingLeft="40dp"
         android:text="Sign in with Google"
         android:textAlignment="center"
         android:textAllCaps="false"
@@ -127,18 +130,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView6"
+        app:layout_constraintTop_toTopOf="@+id/logoGoogle"
         app:layout_constraintVertical_bias="0.7" />
-
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/google_logo"
-        app:layout_constraintBottom_toBottomOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="@+id/button"
-        app:layout_constraintHorizontal_bias="0.07"
-        app:layout_constraintStart_toStartOf="@+id/button"
-        app:layout_constraintTop_toTopOf="@+id/button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

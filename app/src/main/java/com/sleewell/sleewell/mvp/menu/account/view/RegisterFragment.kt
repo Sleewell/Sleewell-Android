@@ -55,7 +55,6 @@ class RegisterFragment : Fragment(), RegisterContract.View {
         signUpButton.setOnClickListener {
             if (editPassword_1.text.toString() != editPassword_2.text.toString()) {
                 displayToast("Error : password are not identical")
-                Log.d("dfdf", editPassword_1.text.toString() + " " + editPassword_2.text.toString())
                 return@setOnClickListener
             }
             presenter.register(editLoginId.text.toString(),
@@ -74,7 +73,7 @@ class RegisterFragment : Fragment(), RegisterContract.View {
 
     override fun setAccessToken(token : String) {
         MainActivity.accessTokenSleewell = token
-        fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, AccountFragment())?.commit()
+        fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, ProfileFragment())?.commit()
     }
 
     override fun displayToast(message: String) {

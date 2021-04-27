@@ -1,10 +1,10 @@
-package com.sleewell.sleewell.mvp.menu.profile.presenter
+package com.sleewell.sleewell.mvp.menu.account.presenter
 
 import android.content.Context
 import com.sleewell.sleewell.api.sleewell.model.ProfileInfo
 import com.sleewell.sleewell.api.sleewell.model.ResponseSuccess
-import com.sleewell.sleewell.mvp.menu.profile.ProfileContract
-import com.sleewell.sleewell.mvp.menu.profile.model.ProfileModel
+import com.sleewell.sleewell.mvp.menu.account.contract.ProfileContract
+import com.sleewell.sleewell.mvp.menu.account.model.ProfileModel
 
 /**
  * Presenter for the Profile fragment, it will link the HomeView and the HomeModel

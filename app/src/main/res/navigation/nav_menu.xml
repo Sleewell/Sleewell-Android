@@ -27,13 +27,7 @@
         tools:layout="@layout/new_fragment_stat" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.sleewell.sleewell.mvp.menu.profile.view.ProfileFragment"
+        android:name="com.sleewell.sleewell.mvp.menu.account.view.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
-
-    <fragment
-        android:id="@+id/connectionFragment"
-        android:name="com.sleewell.sleewell.mvp.menu.account.view.AccountFragment"
-        android:label="new_fragment_connection_api" />
-
 </navigation>

@@ -1,6 +1,5 @@
-package com.sleewell.sleewell.mvp.menu.profile
+package com.sleewell.sleewell.mvp.menu.account.contract
 
-import com.sleewell.sleewell.Spotify.MainContract
 import com.sleewell.sleewell.api.sleewell.model.ProfileInfo
 import com.sleewell.sleewell.api.sleewell.model.ResponseSuccess
 import com.sleewell.sleewell.mvp.global.BasePresenter
@@ -35,7 +34,8 @@ interface ProfileContract {
          * @author Titouan Fiancette
          */
         fun updateProfileInformation(username: String, firstName: String, lastName: String,
-                                     onFinishedListener: OnUpdateProfileInfoListener)
+                                     onFinishedListener: OnUpdateProfileInfoListener
+        )
     }
 
     interface Presenter : BasePresenter {

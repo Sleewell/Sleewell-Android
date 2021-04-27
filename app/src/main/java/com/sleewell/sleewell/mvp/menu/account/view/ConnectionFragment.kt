@@ -49,7 +49,7 @@ class ConnectionFragment : Fragment(), ConnectionContract.View {
 
     override fun setAccessToken(token : String) {
         MainActivity.accessTokenSleewell = token
-        fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, AccountFragment())?.commit()
+        fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, ProfileFragment())?.commit()
     }
 
     override fun setPresenter(presenter: ConnectionContract.Presenter) {
