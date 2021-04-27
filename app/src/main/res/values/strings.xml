@@ -84,5 +84,11 @@
     <string name="analyse_foreground_notification_name">Night analyse</string>
     <string name="analyse_foreground_notification_content_text">Analyse in progress</string>
     <string name="analyse_foreground_stopping_notification_content_text">Stopping analyse…</string>
+
+    <!-- Underline -->
+    <string name="log_in_underline"><u>Log in</u>.</string>
+    <string name="sign_up_underline"><u>Sign up</u>.</string>
+
     <string name="music_screen_title">Sounds to sleep to</string>
+    <string name="hello_blank_fragment">New Fragment</string>
 </resources>

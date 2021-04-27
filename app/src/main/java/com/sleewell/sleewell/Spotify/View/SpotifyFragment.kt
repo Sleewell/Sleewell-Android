@@ -80,9 +80,9 @@ class SpotifyFragment: Fragment(), MainContract.View {
     }
 
     override fun getAccessToken() : String {
-        if (!MainActivity.getAccessToken)
+        if (!MainActivity.getAccessTokenSpotify)
             return ""
-        accessToken = MainActivity.accessToken
+        accessToken = MainActivity.accessTokenSpotify
         return accessToken
     }
 
