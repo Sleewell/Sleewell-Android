@@ -4,7 +4,7 @@ import com.sleewell.sleewell.api.sleewell.model.*
 import retrofit2.Call
 import retrofit2.http.*
 
-interface ISleewellApi {
+interface IStatsApi {
     @POST("stats/night")
     fun postNight(
         @Header("Authorization") token: String,
@@ -35,13 +35,15 @@ interface ISleewellApi {
 
     @GET("stats/month")
     fun getLastMonth(
-        @Header("Authorization") token: String
+        @Header("Authorization") token: String,
+        @Query("format") format: String = "week"
     ): Call<ListAnalyse>
 
     @GET("stats/month/{monthDate}")
     fun getMonth(
         @Header("Authorization") token: String,
-        @Path("monthDate") monthDate: String
+        @Path("monthDate") monthDate: String,
+        @Query("format") format: String = "week"
     ): Call<ListAnalyse>
 
     @GET("stats/year")

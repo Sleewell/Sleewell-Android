@@ -3,13 +3,14 @@ package com.sleewell.sleewell.modules.audio.upload
 import android.content.Context
 import android.util.Log
 import com.sleewell.sleewell.api.sleewell.ApiClient
-import com.sleewell.sleewell.api.sleewell.ISleewellApi
+import com.sleewell.sleewell.api.sleewell.IStatsApi
 import com.sleewell.sleewell.api.sleewell.model.NightAnalyse
 import com.sleewell.sleewell.api.sleewell.model.PostResponse
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseDbUtils
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.IAnalyseDataManager
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
+import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -34,8 +35,8 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
     private val analyse: IAnalyseDataManager = AudioAnalyseDbUtils(context, this)
 
     // API
-    private val TOKEN = ""
-    private val api: ISleewellApi = ApiClient.retrofit.create(ISleewellApi::class.java)
+    private val TOKEN = MainActivity.accessTokenSleewell
+    private val api: IStatsApi = ApiClient.retrofit.create(IStatsApi::class.java)
 
     // Filter datas
     private val dbNone = 0.0
@@ -48,6 +49,8 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
      * @author Hugo Berthomé
      */
     fun updateUpload() {
+        if (TOKEN.isEmpty())
+            return
         scopeIOThread.launch {
             analyse.getAvailableAnalyse()
         }
@@ -276,6 +279,8 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
     }
 
     private fun uploadData(toSend: NightAnalyse) {
+        if (TOKEN.isEmpty())
+            return
         val call: Call<PostResponse> = api.postNight(TOKEN, toSend)
 
         call.enqueue(object : Callback<PostResponse> {

@@ -2,7 +2,7 @@ package com.sleewell.sleewell.mvp.menu.statistics.model
 
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.api.sleewell.ApiClient
-import com.sleewell.sleewell.api.sleewell.ISleewellApi
+import com.sleewell.sleewell.api.sleewell.IStatsApi
 import com.sleewell.sleewell.api.sleewell.model.ListAnalyse
 import com.sleewell.sleewell.api.sleewell.model.NightAnalyse
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseDbUtils
@@ -10,6 +10,7 @@ import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.IAnalyseDat
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseFileUtils
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
+import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.statistics.StatisticsContract
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -23,8 +24,8 @@ class StatisticsModel(
     StatisticsContract.Model, IAudioAnalyseRecordListener {
 
     private val TAG = "StatsModel"
-    private val TOKEN = ""
-    private val api: ISleewellApi = ApiClient.retrofit.create(ISleewellApi::class.java)
+    private val TOKEN = MainActivity.accessTokenSleewell
+    private val api: IStatsApi = ApiClient.retrofit.create(IStatsApi::class.java)
     private val FORMAT_DAY = "yyyyMMdd"
     private val FORMAT_WEEK = "yyyyMMdd"
     private val FORMAT_MONTH = "yyyyMM"
@@ -40,6 +41,10 @@ class StatisticsModel(
      * @author Hugo Berthomé
      */
     override fun getLastAnalyse() {
+        if (TOKEN.isEmpty()) {
+            listener.onError("You're not connected, please connect and try again")
+            return
+        }
         analyse.getAvailableAnalyse()
     }
 
@@ -50,6 +55,11 @@ class StatisticsModel(
      * @author Hugo Berthomé
      */
     override fun getNight(nightDate: Date) {
+        if (TOKEN.isEmpty()) {
+            listener.onError("You're not connected, please connect and try again")
+            /*apiListener.onFailure(Throwable("You're not connected, please connect and try again"))*/
+            return
+        }
         /*val call: Call<NightAnalyse> = api.getNight(TOKEN, dateToDateString(nightDate, FORMAT_DAY))
 
         call.enqueue(object : Callback<NightAnalyse> {
@@ -95,6 +105,11 @@ class StatisticsModel(
      * @author Hugo Berthomé
      */
     override fun getWeek(weekDate: Date) {
+        if (TOKEN.isEmpty()) {
+            listener.onError("You're not connected, please connect and try again")
+            /*apiListener.onFailure(Throwable("You're not connected, please connect and try again"))*/
+            return
+        }
         /*val call: Call<ListAnalyse> = api.getWeek(TOKEN, dateToDateString(weekDate, FORMAT_WEEK))
 
         call.enqueue(object : Callback<ListAnalyse> {
@@ -156,6 +171,11 @@ class StatisticsModel(
      * @author Hugo Berthomé
      */
     override fun getMonth(monthDate: Date) {
+        if (TOKEN.isEmpty()) {
+            listener.onError("You're not connected, please connect and try again")
+            /*apiListener.onFailure(Throwable("You're not connected, please connect and try again"))*/
+            return
+        }
         /*val call: Call<ListAnalyse> = api.getMonth(TOKEN, dateToDateString(monthDate, FORMAT_MONTH))
 
         call.enqueue(object : Callback<ListAnalyse> {
@@ -216,6 +236,11 @@ class StatisticsModel(
      * @param yearDate yearDate format YYYY, if empty fetch last year
      */
     override fun getYear(yearDate: Date) {
+        if (TOKEN.isEmpty()) {
+            listener.onError("You're not connected, please connect and try again")
+            /*apiListener.onFailure(Throwable("You're not connected, please connect and try again"))*/
+            return
+        }
         /*val call: Call<ListAnalyse> = api.getWeek(TOKEN, dateToDateString(yearDate, FORMAT_YEAR))
 
         call.enqueue(object : Callback<ListAnalyse> {
