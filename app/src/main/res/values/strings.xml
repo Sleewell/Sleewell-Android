@@ -16,7 +16,7 @@
     <string name="nav_button_music">MUSIC</string>
 
     <!-- Home -->
-    <string name="protocol_button">Launch protocol</string>
+    <string name="protocol_button">Night mode</string>
 
     <!-- Settings -->
     <string name="setting_network_name">Network</string>
@@ -96,4 +96,11 @@
     <string name="cart_average_title_time_to_sleep">Sleeping</string>
     <string name="cart_average_title_time_to_wake_up">WakingUp</string>
     <string name="card_analyse_title">Analyse</string>
+
+    <!-- Underline -->
+    <string name="log_in_underline"><u>Log in</u>.</string>
+    <string name="sign_up_underline"><u>Sign up</u>.</string>
+
+    <string name="music_screen_title">Sounds to sleep to</string>
+    <string name="hello_blank_fragment">New Fragment</string>
 </resources>

@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/button_orange"
+        android:background="@drawable/button_rounded_color_background"
         android:text="Select"
         android:textColor="@color/Orange" />
 

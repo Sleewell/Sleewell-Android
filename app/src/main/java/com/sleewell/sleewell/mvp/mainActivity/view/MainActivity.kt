@@ -25,8 +25,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private lateinit var statsUpload : AudioAnalyseUpload
 
     companion object {
-        var getAccessToken: Boolean = false
-        lateinit var accessToken: String
+        var getAccessTokenSpotify: Boolean = false
+        lateinit var accessTokenSpotify: String
+
+        var accessTokenSleewell:String = ""
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,11 +91,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             val response = AuthenticationClient.getResponse(resultCode, intent)
             when (response.type) {
                 AuthenticationResponse.Type.TOKEN -> {
-                    accessToken = response.accessToken
-                    getAccessToken = true
+                    accessTokenSpotify = response.accessToken
+                    getAccessTokenSpotify = true
                 }
                 AuthenticationResponse.Type.ERROR -> {
-                    getAccessToken = false
+                    getAccessTokenSpotify = false
                 }
                 else -> {
                 }
