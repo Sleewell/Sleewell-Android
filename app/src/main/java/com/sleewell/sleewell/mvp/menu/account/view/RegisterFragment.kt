@@ -1,12 +1,10 @@
 package com.sleewell.sleewell.mvp.menu.account.view
 
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.style.UnderlineSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -17,6 +15,7 @@ import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.account.contract.RegisterContract
 import com.sleewell.sleewell.mvp.menu.account.presenter.RegisterPresenter
+import kotlinx.android.synthetic.main.new_fragment_resgister_api.*
 
 
 class RegisterFragment : Fragment(), RegisterContract.View {
@@ -62,13 +61,30 @@ class RegisterFragment : Fragment(), RegisterContract.View {
                 editEmail.text.toString(),
                 editFirstName.text.toString(),
                 editLastName.text.toString())
-            displayToast("Register...")
+
+            displayLoading()
         }
 
         loginButton.setOnClickListener {
             fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, ConnectionFragment())?.commit()
         }
         return root
+    }
+
+    override fun displayLoading() {
+        val inAnimation = AlphaAnimation(0f, 1f)
+        inAnimation.duration = 200
+
+        progressBarHolder?.animation = inAnimation
+        progressBarHolder?.visibility = View.VISIBLE
+    }
+
+    override fun hideLoading() {
+        val outAnimation = AlphaAnimation(1f, 0f)
+        outAnimation.duration = 200
+
+        progressBarHolder?.animation = outAnimation
+        progressBarHolder?.visibility = View.GONE
     }
 
     override fun setAccessToken(token : String) {

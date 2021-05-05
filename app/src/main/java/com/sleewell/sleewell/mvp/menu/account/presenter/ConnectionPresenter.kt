@@ -27,6 +27,7 @@ class ConnectionPresenter(view: ConnectionFragment, context: Context) : Connecti
 
 
     override fun onFailure(t: Throwable) {
+        view?.hideLoading()
         if (t.message != null)
             view?.displayToast("Wrong credentials")
         else
