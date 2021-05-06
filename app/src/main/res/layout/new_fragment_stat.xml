@@ -40,6 +40,7 @@
             android:contentDescription="@string/nav_next_description"
             android:rotationY="-180"
             android:src="@drawable/arrow_back_24px"
+            android:tint="#737c84"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -54,6 +55,7 @@
             android:background="@drawable/nav_button_style"
             android:contentDescription="@string/nav_prev_description"
             android:src="@drawable/arrow_back_24px"
+            android:tint="#737c84"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/textDate"
             app:layout_constraintHorizontal_bias="0.5"
@@ -96,6 +98,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/AAChartView"
         app:tint="@color/textButOnImage" />
+
+    <TextView
+        android:id="@+id/textMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/nav_button_style"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/CardsView"
+        app:layout_constraintStart_toStartOf="@+id/CardsView"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"

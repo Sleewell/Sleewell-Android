@@ -1,6 +1,5 @@
 package com.sleewell.sleewell.mvp.menu.statistics.view
 
-import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.Bundle
 import android.text.format.DateUtils
@@ -21,11 +20,11 @@ import com.github.aachartmodel.aainfographics.aaoptionsmodel.AATooltip
 import com.github.aachartmodel.aainfographics.aatools.AAGradientColor
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.model.NightAnalyse
-import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseFileUtils
 import com.sleewell.sleewell.mvp.menu.statistics.State
 import com.sleewell.sleewell.mvp.menu.statistics.StatisticsContract
 import com.sleewell.sleewell.mvp.menu.statistics.presenter.StatisticsPresenter
 import com.sleewell.sleewell.mvp.menu.statistics.model.AnalyseValueStatistic
+import com.sleewell.sleewell.mvp.menu.statistics.model.StatisticsModel
 import com.sleewell.sleewell.mvp.menu.statistics.model.dataClass.AnalyseDetail
 import com.sleewell.sleewell.mvp.menu.statistics.view.recyclerView.AnalyseRecyclerAdapter
 import kotlinx.android.synthetic.main.new_fragment_alarm.*
@@ -34,10 +33,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import org.w3c.dom.Text
-import java.lang.StringBuilder
 import java.text.SimpleDateFormat
-import java.time.Duration
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -48,7 +44,7 @@ class StatFragment : Fragment(), StatisticsContract.View {
     private lateinit var presenter: StatisticsContract.Presenter
     private lateinit var root: View
 
-    // Date widget
+    // widget date
     private val FORMAT_DAY = "dd LLLL"
     private val FORMAT_WEEK = "dd LLLL"
     private val FORMAT_MONTH = "LLLL yyyy"
@@ -65,7 +61,7 @@ class StatFragment : Fragment(), StatisticsContract.View {
     //widgets graph
     private lateinit var aaChartView: AAChartView
     private lateinit var toolTipBarChar: AATooltip
-    private lateinit var toolTipGrapChar: AATooltip
+    private lateinit var toolTipGraphChar: AATooltip
     private lateinit var loadingProgressBar: ProgressBar
     private lateinit var errorIcon: ImageView
 
@@ -84,6 +80,9 @@ class StatFragment : Fragment(), StatisticsContract.View {
     //widgets card analyse
     private lateinit var analyseCard: CardView
     private lateinit var detailRecyclerView: RecyclerView
+
+    //widget msg
+    private lateinit var textMsg: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -125,6 +124,8 @@ class StatFragment : Fragment(), StatisticsContract.View {
 
         analyseCard = root.findViewById(R.id.AnalyseCard)
         detailRecyclerView = root.findViewById(R.id.StatsRecyclerView)
+
+        textMsg = root.findViewById(R.id.textMessage)
 
         //date
         refreshDateView()
@@ -235,6 +236,7 @@ class StatFragment : Fragment(), StatisticsContract.View {
     override fun displayAnalyseDay(data: NightAnalyse) {
         if (data.data == null)
             return
+        errorIcon.visibility = View.INVISIBLE
         aaChartModel = AAChartModel()
             .chartType(AAChartType.Areaspline)
             .axesTextColor("#8a9198")
@@ -276,7 +278,7 @@ class StatFragment : Fragment(), StatisticsContract.View {
         }
         options.yAxis?.gridLineWidth(0f)
 
-        options.tooltip = toolTipGrapChar
+        options.tooltip = toolTipGraphChar
         scopeMainThread.launch {
             aaChartView.aa_drawChartWithChartOptions(options)
             loadingProgressBar.visibility = View.INVISIBLE
@@ -294,6 +296,7 @@ class StatFragment : Fragment(), StatisticsContract.View {
         createBarChartModel(arrayListOf("Mon", "Tue", "Wed", "Thu", "Fry", "Sat", "Sun"), datas)
         val options = aaChartModel.aa_toAAOptions()
 
+        errorIcon.visibility = View.INVISIBLE
         if (options.xAxis != null) {
             options.xAxis!!
                 .lineColor("none")
@@ -324,6 +327,7 @@ class StatFragment : Fragment(), StatisticsContract.View {
         calendarWeek.set(Calendar.WEEK_OF_MONTH, 1)
         val max = calendarWeek.getActualMaximum(Calendar.WEEK_OF_MONTH)
 
+        errorIcon.visibility = View.INVISIBLE
         val categories = ArrayList<String>()
         for (i in 1..max) {
             categories.add("Week $i")
@@ -374,6 +378,7 @@ class StatFragment : Fragment(), StatisticsContract.View {
         )
         val options = aaChartModel.aa_toAAOptions()
 
+        errorIcon.visibility = View.INVISIBLE
         if (options.xAxis != null) {
             options.xAxis!!
                 .lineColor("none")
@@ -411,7 +416,8 @@ class StatFragment : Fragment(), StatisticsContract.View {
      */
     override fun noAnalyseFound() {
         scopeMainThread.launch {
-            textDate.text = "No analyse found"
+            textMsg.text = "No analyse found"
+            textMsg.visibility = View.VISIBLE
             errorIcon.visibility = View.VISIBLE
             loadingProgressBar.visibility = View.GONE
             hideAllCards()
@@ -426,10 +432,12 @@ class StatFragment : Fragment(), StatisticsContract.View {
      */
     override fun onError(msg: String) {
         scopeMainThread.launch {
-            Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
+            /*Toast.makeText(context, msg, Toast.LENGTH_LONG).show()*/
             loadingProgressBar.visibility = View.GONE
             errorIcon.visibility = View.VISIBLE
             aaChartView.visibility = View.INVISIBLE
+            textMsg.text = msg
+            textMsg.visibility = View.VISIBLE
             hideAllCards()
         }
     }
@@ -509,6 +517,7 @@ class StatFragment : Fragment(), StatisticsContract.View {
      */
     private fun setInLoadingState() {
         hideAllCards()
+        textMsg.visibility = View.GONE
         aaChartView.visibility = View.INVISIBLE
         errorIcon.visibility = View.INVISIBLE
         loadingProgressBar.visibility = View.VISIBLE
@@ -539,6 +548,10 @@ class StatFragment : Fragment(), StatisticsContract.View {
      * @author Hugo Berthomé
      */
     private fun createBarChartModel(categories: ArrayList<String>, nights: Array<NightAnalyse>) {
+        var filteredNights = nights.filterIndexed { index, nightAnalyse ->
+            !(index < nights.size - 1 && nightAnalyse.id == nights[index + 1].id)
+        }.toTypedArray()
+        filteredNights = fillArrayWithNoValues(filteredNights)
         aaChartModel = AAChartModel()
             .chartType(AAChartType.Column)
             .axesTextColor("#8a9198")
@@ -548,7 +561,7 @@ class StatFragment : Fragment(), StatisticsContract.View {
             .colorsTheme(arrayOf(AAGradientColor.linearGradient("#04141c", "#8a9198")))
             .markerRadius(0f)
             .gradientColorEnable(true)
-            .yAxisMin(10f)
+            .yAxisMin(36000f)
             .yAxisGridLineWidth(0f)
             .yAxisVisible(false)
             .animationType(AAChartAnimationType.EaseInOutSine)
@@ -560,14 +573,64 @@ class StatFragment : Fragment(), StatisticsContract.View {
                 arrayOf(
                     AASeriesElement().data(
                         Array(categories.size) { i ->
-                            if (i >= nights.size)
-                                0.0
-                            else
-                                nights[i].end - nights[i].start
+                            if (i >= filteredNights.size)
+                                return@Array 0.0
+                            return@Array filteredNights[i].end.toDouble() - filteredNights[i].start.toDouble()
                         }
                     )
                 )
             )
+    }
+
+    private fun fillArrayWithNoValues(listData: Array<NightAnalyse>): Array<NightAnalyse> {
+        val tmpCalendar = Calendar.getInstance()
+        tmpCalendar.time = calendar.time
+        var indexListData = 0
+
+        when (presenter.getCurrentState()) {
+            State.DAY -> {
+                return listData
+            }
+            State.WEEK -> {
+                return Array(7) { i ->
+                    if (i != 0)
+                        tmpCalendar.add(Calendar.DAY_OF_YEAR, 1)
+
+                    val id = dateToString(tmpCalendar.time, StatisticsModel.FORMAT_DAY)
+                    if (indexListData < listData.size && listData[indexListData].id == id) {
+                        indexListData++
+                        return@Array listData[indexListData - 1]
+                    }
+                    return@Array NightAnalyse(null, 0, null, 0, id)
+                }
+            }
+            State.MONTH -> {
+                return Array(tmpCalendar.getActualMaximum(Calendar.WEEK_OF_MONTH)) { i ->
+                    if (i != 0)
+                        tmpCalendar.add(Calendar.WEEK_OF_MONTH, 1)
+
+                    val id = dateToString(tmpCalendar.time, StatisticsModel.FORMAT_DAY)
+                    if (indexListData < listData.size && listData[indexListData].id == id) {
+                        indexListData++
+                        return@Array listData[indexListData - 1]
+                    }
+                    return@Array NightAnalyse(null, 0, null, 0, id)
+                }
+            }
+            State.YEAR -> {
+                return Array(tmpCalendar.getActualMaximum(12)) { i ->
+                    if (i != 0)
+                        tmpCalendar.add(Calendar.MONTH, 1)
+
+                    val id = dateToString(tmpCalendar.time, StatisticsModel.FORMAT_DAY)
+                    if (indexListData < listData.size && listData[indexListData].id == id) {
+                        indexListData++
+                        return@Array listData[indexListData - 1]
+                    }
+                    return@Array NightAnalyse(null, 0, null, 0, id)
+                }
+            }
+        }
     }
 
     /**
@@ -588,8 +651,8 @@ class StatFragment : Fragment(), StatisticsContract.View {
                     var hoursTxt = "0";
                     var minTxt = "0";
         
-                    if (hours   < 10) {hours   = "0"+hours;}
-                    if (minutes < 10) {minutes = "0"+minutes;}
+                    if (hours   < 10) {hours   = '0' + hours;}
+                    if (minutes < 10) {minutes = '0' + minutes;}
         
                     return '<b> '
                             +  hours
@@ -616,7 +679,7 @@ class StatFragment : Fragment(), StatisticsContract.View {
      * @author Hugo Berthomé
      */
     private fun initToolTipGraphChart() {
-        toolTipGrapChar = AATooltip()
+        toolTipGraphChar = AATooltip()
             .useHTML(true)
             .formatter(
                 """
@@ -645,13 +708,23 @@ class StatFragment : Fragment(), StatisticsContract.View {
      * @param date to convert
      * @return String representing the date
      */
-    private fun dateToString(date: Date): String {
-        val dateFormat = when (presenter.getCurrentState()) {
+    private fun dateToString(date: Date, state: State = presenter.getCurrentState()): String {
+        val dateFormat = when (state) {
             State.DAY -> FORMAT_DAY
             State.WEEK -> FORMAT_WEEK
             State.MONTH -> FORMAT_MONTH
             State.YEAR -> FORMAT_YEAR
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return DateTimeFormatter
+                .ofPattern(dateFormat)
+                .withZone(ZoneOffset.systemDefault())
+                .format(date.toInstant())
+        }
+        return SimpleDateFormat(dateFormat).format(date)
+    }
+
+    private fun dateToString(date: Date, dateFormat: String): String {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return DateTimeFormatter
                 .ofPattern(dateFormat)

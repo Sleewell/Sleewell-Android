@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.mvp.menu.statistics.model
 
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.api.sleewell.ApiClient
 import com.sleewell.sleewell.api.sleewell.IStatsApi
@@ -12,6 +13,9 @@ import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyse
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.statistics.StatisticsContract
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -23,13 +27,15 @@ class StatisticsModel(
 ) :
     StatisticsContract.Model, IAudioAnalyseRecordListener {
 
+    companion object {
+        val FORMAT_DAY = "yyyyMMdd"
+        val FORMAT_WEEK = "yyyyMMdd"
+        val FORMAT_MONTH = "yyyyMM"
+        val FORMAT_YEAR = "yyyy"
+    }
     private val TAG = "StatsModel"
     private val TOKEN = MainActivity.accessTokenSleewell
     private val api: IStatsApi = ApiClient.retrofit.create(IStatsApi::class.java)
-    private val FORMAT_DAY = "yyyyMMdd"
-    private val FORMAT_WEEK = "yyyyMMdd"
-    private val FORMAT_MONTH = "yyyyMM"
-    private val FORMAT_YEAR = "yyyy"
 
 
     private val analyse: IAnalyseDataManager = AudioAnalyseDbUtils(context, this)
@@ -57,10 +63,10 @@ class StatisticsModel(
     override fun getNight(nightDate: Date) {
         if (TOKEN.isEmpty()) {
             listener.onError("You're not connected, please connect and try again")
-            /*apiListener.onFailure(Throwable("You're not connected, please connect and try again"))*/
             return
         }
-        /*val call: Call<NightAnalyse> = api.getNight(TOKEN, dateToDateString(nightDate, FORMAT_DAY))
+        val call: Call<NightAnalyse> =
+            api.getNight("Bearer $TOKEN", dateToDateString(nightDate, FORMAT_DAY))
 
         call.enqueue(object : Callback<NightAnalyse> {
 
@@ -72,7 +78,11 @@ class StatisticsModel(
                     Log.e(TAG, "Code : " + response.code())
                     apiListener.onFailure(Throwable("Body null error : " + response.code()))
                 } else {
-                    apiListener.onNight(responseRes)
+                    if (!responseRes.Error.isNullOrEmpty()) {
+                        listener.onError(responseRes.Error)
+                    } else {
+                        apiListener.onNight(responseRes)
+                    }
                 }
             }
 
@@ -81,8 +91,8 @@ class StatisticsModel(
                 apiListener.onFailure(t)
             }
 
-        })*/
-        apiListener.onNight(
+        })
+        /*apiListener.onNight(
             NightAnalyse(
                 1617461454,
                 arrayOf(
@@ -95,7 +105,7 @@ class StatisticsModel(
                 1617483954,
                 null
             )
-        )
+        )*/
     }
 
     /**
@@ -107,10 +117,10 @@ class StatisticsModel(
     override fun getWeek(weekDate: Date) {
         if (TOKEN.isEmpty()) {
             listener.onError("You're not connected, please connect and try again")
-            /*apiListener.onFailure(Throwable("You're not connected, please connect and try again"))*/
             return
         }
-        /*val call: Call<ListAnalyse> = api.getWeek(TOKEN, dateToDateString(weekDate, FORMAT_WEEK))
+        val call: Call<ListAnalyse> =
+            api.getWeek("Bearer $TOKEN", dateToDateString(weekDate, FORMAT_WEEK))
 
         call.enqueue(object : Callback<ListAnalyse> {
 
@@ -122,7 +132,11 @@ class StatisticsModel(
                     Log.e(TAG, "Code : " + response.code())
                     apiListener.onFailure(Throwable("Body null error : " + response.code()))
                 } else {
-                    apiListener.onWeekAnalyse(responseRes)
+                    if (!responseRes.Error.isNullOrEmpty()) {
+                        listener.onError(responseRes.Error)
+                    } else {
+                        apiListener.onWeekAnalyse(responseRes)
+                    }
                 }
             }
 
@@ -131,11 +145,13 @@ class StatisticsModel(
                 apiListener.onFailure(t)
             }
 
-        })*/
-        apiListener.onWeekAnalyse(
+        })
+        /*apiListener.onWeekAnalyse(
             ListAnalyse(
+                null,
                 arrayOf(
                     NightAnalyse(
+                        null,
                         1617461454,
                         arrayOf(
                             AnalyseValue(0.0, 1616654202),
@@ -148,6 +164,7 @@ class StatisticsModel(
                         null
                     ),
                     NightAnalyse(
+                        null,
                         1617461454,
                         arrayOf(
                             AnalyseValue(0.0, 1616654202),
@@ -161,7 +178,7 @@ class StatisticsModel(
                     )
                 ), 1617461454, 1617483954
             )
-        )
+        )*/
     }
 
     /**
@@ -173,10 +190,9 @@ class StatisticsModel(
     override fun getMonth(monthDate: Date) {
         if (TOKEN.isEmpty()) {
             listener.onError("You're not connected, please connect and try again")
-            /*apiListener.onFailure(Throwable("You're not connected, please connect and try again"))*/
             return
         }
-        /*val call: Call<ListAnalyse> = api.getMonth(TOKEN, dateToDateString(monthDate, FORMAT_MONTH))
+        val call: Call<ListAnalyse> = api.getMonth("Bearer $TOKEN", dateToDateString(monthDate, FORMAT_MONTH))
 
         call.enqueue(object : Callback<ListAnalyse> {
 
@@ -188,7 +204,11 @@ class StatisticsModel(
                     Log.e(TAG, "Code : " + response.code())
                     apiListener.onFailure(Throwable("Body null error : " + response.code()))
                 } else {
-                    apiListener.onMonthAnalyse(responseRes)
+                    if (!responseRes.Error.isNullOrEmpty()) {
+                        listener.onError(responseRes.Error)
+                    } else {
+                        apiListener.onMonthAnalyse(responseRes)
+                    }
                 }
             }
 
@@ -197,8 +217,8 @@ class StatisticsModel(
                 apiListener.onFailure(t)
             }
 
-        })*/
-        apiListener.onMonthAnalyse(
+        })
+        /*apiListener.onMonthAnalyse(
             ListAnalyse(
                 arrayOf(
                     NightAnalyse(
@@ -227,7 +247,7 @@ class StatisticsModel(
                     )
                 ), 1617461454, 1617483954
             )
-        )
+        )*/
     }
 
     /**
@@ -238,10 +258,9 @@ class StatisticsModel(
     override fun getYear(yearDate: Date) {
         if (TOKEN.isEmpty()) {
             listener.onError("You're not connected, please connect and try again")
-            /*apiListener.onFailure(Throwable("You're not connected, please connect and try again"))*/
             return
         }
-        /*val call: Call<ListAnalyse> = api.getWeek(TOKEN, dateToDateString(yearDate, FORMAT_YEAR))
+        val call: Call<ListAnalyse> = api.getWeek("Bearer $TOKEN", dateToDateString(yearDate, FORMAT_YEAR))
 
         call.enqueue(object : Callback<ListAnalyse> {
 
@@ -253,7 +272,11 @@ class StatisticsModel(
                     Log.e(TAG, "Code : " + response.code())
                     apiListener.onFailure(Throwable("Body null error : " + response.code()))
                 } else {
-                    apiListener.onYearAnalyse(responseRes)
+                    if (!responseRes.Error.isNullOrEmpty()) {
+                        listener.onError(responseRes.Error)
+                    } else {
+                        apiListener.onYearAnalyse(responseRes)
+                    }
                 }
             }
 
@@ -262,8 +285,8 @@ class StatisticsModel(
                 apiListener.onFailure(t)
             }
 
-        })*/
-        apiListener.onYearAnalyse(
+        })
+        /*apiListener.onYearAnalyse(
             ListAnalyse(
                 arrayOf(
                     NightAnalyse(
@@ -292,7 +315,7 @@ class StatisticsModel(
                     )
                 ), 1617461454, 1617483954
             )
-        )
+        )*/
     }
 
     override fun onListAvailableAnalyses(analyses: List<Long>) {

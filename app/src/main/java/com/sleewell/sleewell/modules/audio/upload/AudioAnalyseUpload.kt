@@ -35,7 +35,7 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
     private val analyse: IAnalyseDataManager = AudioAnalyseDbUtils(context, this)
 
     // API
-    private val TOKEN = MainActivity.accessTokenSleewell
+    private var TOKEN = MainActivity.accessTokenSleewell
     private val api: IStatsApi = ApiClient.retrofit.create(IStatsApi::class.java)
 
     // Filter datas
@@ -49,6 +49,7 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
      * @author Hugo Berthomé
      */
     fun updateUpload() {
+        TOKEN = MainActivity.accessTokenSleewell
         if (TOKEN.isEmpty())
             return
         scopeIOThread.launch {
@@ -117,7 +118,7 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
         )
 
         initQueueFromTimestamp(datas[0].ts, queueData, lastData, nextData)
-        datas.forEachIndexed { index, analyseValue ->
+        datas.forEachIndexed { _, analyseValue ->
             nextData = analyseValue
             while (!checkDataTimestampLimit(analyseValue)) {
                 popQueueInList(queueData, listData, lastData, nextData)
@@ -163,7 +164,7 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
             if (lastData != null && nextData != null) {
                 queueData.add(
                     AnalyseValue(
-                        createValue(timestampToAdd, lastData!!, nextData!!),
+                        createValue(timestampToAdd, lastData, nextData),
                         timestampToAdd
                     )
                 )
@@ -281,7 +282,7 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
     private fun uploadData(toSend: NightAnalyse) {
         if (TOKEN.isEmpty())
             return
-        val call: Call<PostResponse> = api.postNight(TOKEN, toSend)
+        val call: Call<PostResponse> = api.postNight("Bearer $TOKEN", toSend)
 
         call.enqueue(object : Callback<PostResponse> {
 
