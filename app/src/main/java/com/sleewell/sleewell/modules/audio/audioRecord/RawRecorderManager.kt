@@ -90,33 +90,39 @@ class RawRecorderManager(
             val buffer: ShortArray = ShortArray(bufferSize / 2)
 
             // initialize recorder
-            val record = AudioRecord(
-                MediaRecorder.AudioSource.MIC,
-                samplingRate,
-                AudioFormat.CHANNEL_IN_MONO,
-                AudioFormat.ENCODING_PCM_16BIT,
-                bufferSize
-            )
-            if (record.state != AudioRecord.STATE_INITIALIZED) {
-                Log.e(LOG_TAG, "Audio Record can't initialize!");
+            try {
+                val record = AudioRecord(
+                    MediaRecorder.AudioSource.MIC,
+                    samplingRate,
+                    AudioFormat.CHANNEL_IN_MONO,
+                    AudioFormat.ENCODING_PCM_16BIT,
+                    bufferSize
+                )
+                if (record.state != AudioRecord.STATE_INITIALIZED) {
+                    Log.e(LOG_TAG, "Audio Record can't initialize!");
+                    onFinishedInsideThread()
+                    return@launch
+                }
+
+                // Start recording
+                record.startRecording();
+                Log.v(LOG_TAG, "Start recording");
+                while (!stopThread) {
+                    record.read(buffer, 0, buffer.size)
+
+                    scopeMainThread.launch {
+                        onListener.onAudio(buffer.clone())
+                    }
+                    fileUtilities.saveBuffer(buffer)
+                }
+                record.stop()
+                record.release()
                 onFinishedInsideThread()
+            } catch (e: SecurityException) {
+                onFinishedInsideThread()
+                onListener.onAudioError("Permission to use Mic denied")
                 return@launch
             }
-
-            // Start recording
-            record.startRecording();
-            Log.v(LOG_TAG, "Start recording");
-            while (!stopThread) {
-                record.read(buffer, 0, buffer.size)
-
-                scopeMainThread.launch {
-                    onListener.onAudio(buffer.clone())
-                }
-                fileUtilities.saveBuffer(buffer)
-            }
-            record.stop()
-            record.release()
-            onFinishedInsideThread()
         }
         isRecording = true
     }

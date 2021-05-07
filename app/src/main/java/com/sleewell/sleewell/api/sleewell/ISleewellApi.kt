@@ -1,14 +1,9 @@
 package com.sleewell.sleewell.api.sleewell
 
-import com.sleewell.sleewell.api.sleewell.model.MonthAnalyse
-import com.sleewell.sleewell.api.sleewell.model.WeekAnalyse
-import com.sleewell.sleewell.api.sleewell.model.NighAnalyse
-import com.sleewell.sleewell.api.sleewell.model.YearAnalyse
+import com.sleewell.sleewell.api.sleewell.model.*
+import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ISleewellApi {
     @POST("stat")
