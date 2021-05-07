@@ -3,5 +3,5 @@
     <item android:state_checked="false"
         android:drawable="@android:color/transparent" />
     <item android:state_checked="true"
-        android:drawable="@drawable/shape_oval" />
+        android:drawable="@drawable/shape_oval_2" />
 </selector>
