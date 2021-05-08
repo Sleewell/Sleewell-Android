@@ -177,13 +177,6 @@ interface ProtocolMenuContract {
 
     interface View : BaseView<Presenter> {
         /**
-         * Initialise all the widgets from the layout
-         *
-         * @author Titouan FIANCETTE
-         */
-        fun initActivityWidgets()
-
-        /**
          * This method display the halo with the size give in param
          *
          * @param size size of the the halo
@@ -211,7 +204,7 @@ interface ProtocolMenuContract {
          * @param color color rgb for the halo
          * @author gabin warnier de wailly
          */
-        fun setColorHalo(color: ColorFilter)
+        fun setHaloColor(color: ColorFilter)
 
         /**
          * Returns if the music is being played

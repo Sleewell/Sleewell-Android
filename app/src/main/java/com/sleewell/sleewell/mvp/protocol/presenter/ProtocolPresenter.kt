@@ -21,7 +21,7 @@ import com.sleewell.sleewell.mvp.protocol.model.ProtocolModel
  * @author Hugo Berthomé
  */
 
-class ProtocolMenuPresenter(private var view: ProtocolMenuContract.View, private val ctx: AppCompatActivity) : ProtocolMenuContract.Presenter {
+class ProtocolPresenter(private var view: ProtocolMenuContract.View, private val ctx: AppCompatActivity) : ProtocolMenuContract.Presenter {
 
     private var model: ProtocolMenuContract.Model = ProtocolModel(ctx)
 
@@ -71,7 +71,10 @@ class ProtocolMenuPresenter(private var view: ProtocolMenuContract.View, private
     override fun onDestroy() {
         connection.switchToSleepMode(false)
         lockScreen.disableKeepScreenOn()
+        lockScreen.disableShowWhenLock()
         view.showSystemUI()
+
+        stopAnalyse()
 
         model.stopMusique()
         model.onDestroy()
@@ -82,7 +85,7 @@ class ProtocolMenuPresenter(private var view: ProtocolMenuContract.View, private
             view.animateEqualizer(true)
             if (MusicFragment.music_selected) {
                 val name = MusicFragment.musicName
-                if (name != null) {
+                if (name.isNotBlank()) {
                     model.startMusique(name)
                 }
             }
@@ -121,10 +124,6 @@ class ProtocolMenuPresenter(private var view: ProtocolMenuContract.View, private
         model.onRecordAudio(true)
     }
 
-    /**
-     * Stop the analyse
-     *
-     */
     override fun stopAnalyse() {
         model.onRecordAudio(false)
     }
