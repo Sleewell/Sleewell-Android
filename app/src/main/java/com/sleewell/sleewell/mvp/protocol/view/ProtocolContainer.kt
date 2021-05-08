@@ -44,11 +44,6 @@ class ProtocolContainer : AppCompatActivity(), ProtocolMenuContract.View {
         AnimationUtils.loadAnimation(this, R.anim.slide_in_up).also { animation ->
             protocolLayout.startAnimation(animation)
         }
-        /*fragment = findViewById(R.id.fragment)
-
-        AnimationUtils.loadAnimation(this, R.anim.slide_in_up).also { animation ->
-            fragment.startAnimation(animation)
-        }*/
     }
 
     private fun initActivityWidgets() {
@@ -71,20 +66,6 @@ class ProtocolContainer : AppCompatActivity(), ProtocolMenuContract.View {
         })
 
         haloDisplayLooper()
-    }
-
-    /**
-     * Hide the halo if its on or reset inactivity timer if its off
-     * @author Titouan FIANCETTE
-     */
-    private fun haloDisplayLooper() {
-        if (isHaloDisplayed) {
-            hideHalo()
-            handler.postDelayed(displayHaloRunnable, inactivityDuration * 1000)
-        } else if (presenter.isHaloOn()) {
-            handler.removeCallbacks(displayHaloRunnable)
-            handler.postDelayed(displayHaloRunnable, inactivityDuration * 1000)
-        }
     }
 
     /**
@@ -122,6 +103,20 @@ class ProtocolContainer : AppCompatActivity(), ProtocolMenuContract.View {
             window.insetsController?.show(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
         } else {
             window.decorView.systemUiVisibility = 0
+        }
+    }
+
+    /**
+     * Hide the halo if its on or reset inactivity timer if its off
+     * @author Titouan FIANCETTE
+     */
+    private fun haloDisplayLooper() {
+        if (isHaloDisplayed) {
+            hideHalo()
+            handler.postDelayed(displayHaloRunnable, inactivityDuration * 1000)
+        } else if (presenter.isHaloOn()) {
+            handler.removeCallbacks(displayHaloRunnable)
+            handler.postDelayed(displayHaloRunnable, inactivityDuration * 1000)
         }
     }
 
@@ -196,11 +191,6 @@ class ProtocolContainer : AppCompatActivity(), ProtocolMenuContract.View {
     override fun onUserInteraction() {
         super.onUserInteraction()
         haloDisplayLooper()
-    }
-
-    override fun onStop() {
-        super.onStop()
-
     }
 
     override fun onResume() {
