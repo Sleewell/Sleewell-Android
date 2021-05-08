@@ -561,7 +561,7 @@ class StatFragment : Fragment(), StatisticsContract.View {
             .colorsTheme(arrayOf(AAGradientColor.linearGradient("#04141c", "#8a9198")))
             .markerRadius(0f)
             .gradientColorEnable(true)
-            .yAxisMin(36000f)
+            .yAxisMax(57600f)
             .yAxisGridLineWidth(0f)
             .yAxisVisible(false)
             .animationType(AAChartAnimationType.EaseInOutSine)
