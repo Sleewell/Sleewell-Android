@@ -104,7 +104,6 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         if (c.before(Calendar.getInstance())) {
             c.add(Calendar.DATE, 1)
         }
-        Log.d("TEST", "poop")
         alarmManager.setAlarmClock(
             AlarmClockInfo(c.timeInMillis, pendingIntent),
             pendingIntent
@@ -137,7 +136,6 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         if (c.before(Calendar.getInstance())) {
             c.add(Calendar.DATE, 1)
         }
-        Log.d("TEST", "poop2")
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.timeInMillis, pendingIntent)
 
     }
