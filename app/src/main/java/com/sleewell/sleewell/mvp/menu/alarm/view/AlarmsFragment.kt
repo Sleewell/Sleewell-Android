@@ -170,7 +170,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             ringtone,
             checkBox_create_vibrate.isChecked,
             editText_create_alarm.text.toString(),
-            index
+            index,
+            false
         )
     }
 
@@ -190,7 +191,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             ringtone,
             checkBox_create_vibrate.isChecked,
             editText_create_alarm.text.toString(),
-            0
+            0,
+            false
         )
     }
 
@@ -327,7 +329,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
                 days,
                 ringtone.toString(),
                 checkBox_modify_vibrate.isChecked,
-                editText_modify_alarm.text.toString()
+                editText_modify_alarm.text.toString(),
+                true
             )
 
             presenter.updateAlarm(updateAlarm, mAlarmViewModel)
@@ -376,8 +379,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             currentAlarm.days,
             currentAlarm.ringtone,
             currentAlarm.vibrate,
-            currentAlarm.label
-        ) //ADD PARAMETERS
+            currentAlarm.label,
+            false
+        )
         presenter.updateAlarm(updateAlarm, mAlarmViewModel)
 
         val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -418,8 +422,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             currentAlarm.days,
             currentAlarm.ringtone,
             currentAlarm.vibrate,
-            currentAlarm.label
-        ) //ADD PARAMETERS
+            currentAlarm.label,
+            true
+        )
         presenter.updateAlarm(updateAlarm, mAlarmViewModel)
 
         val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager

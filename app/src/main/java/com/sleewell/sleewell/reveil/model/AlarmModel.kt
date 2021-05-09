@@ -1,6 +1,7 @@
 package com.sleewell.sleewell.reveil.model
 
 import android.app.AlarmManager
+import android.app.AlarmManager.AlarmClockInfo
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -9,13 +10,13 @@ import android.text.format.DateUtils
 import android.text.format.Time
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
+import com.sleewell.sleewell.modules.audio.audioRecord.LOG_TAG
 import com.sleewell.sleewell.reveil.AlarmContract
 import com.sleewell.sleewell.reveil.AlarmReceiver
 import com.sleewell.sleewell.reveil.data.model.Alarm
 import com.sleewell.sleewell.reveil.data.viewmodel.AlarmViewModel
 import java.text.SimpleDateFormat
 import java.util.*
-import androidx.lifecycle.Observer
 
 /**
  * Alarm Model for the Alarm activity
@@ -56,12 +57,22 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
      * @param time Time of the alarm
      * @author Romane Bézier
      */
-    override fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, days: List<Boolean>, ringtone: Uri, vibrate: Boolean, label: String, index: Int) {
-        val alarm = Alarm(0, time, false, days, ringtone.toString(), vibrate, label)
+    override fun saveAlarm(
+        time: Long,
+        mAlarmViewModel: AlarmViewModel,
+        lifecycleOwner: LifecycleOwner,
+        days: List<Boolean>,
+        ringtone: Uri,
+        vibrate: Boolean,
+        label: String,
+        index: Int,
+        displayed: Boolean
+    ) {
+        val alarm = Alarm(0, time, false, days, ringtone.toString(), vibrate, label, displayed)
         if (index == 0) {
             mAlarmViewModel.addAlarm(alarm).observe(lifecycleOwner, { id ->
                 mAlarmViewModel.getById(id.toInt()).observe(lifecycleOwner, { alarm ->
-                presenter?.startNewAlarm(alarm)
+                    presenter?.startNewAlarm(alarm)
                 })
             })
         } else {
@@ -78,12 +89,27 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
      * @param alarm Current alarm
      * @author Romane Bézier
      */
-    override fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, alarm: Alarm) {
-        val pendingIntent = PendingIntent.getBroadcast(context, alarm.id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    override fun startAlarm(
+        alarmManager: AlarmManager,
+        intent: Intent,
+        context: Context,
+        alarm: Alarm
+    ) {
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            alarm.id,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
         if (c.before(Calendar.getInstance())) {
             c.add(Calendar.DATE, 1)
         }
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.timeInMillis, pendingIntent)
+        Log.d("TEST", "poop")
+        alarmManager.setAlarmClock(
+            AlarmClockInfo(c.timeInMillis, pendingIntent),
+            pendingIntent
+        )
+
     }
 
     /**
@@ -95,13 +121,25 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
      * @param alarm Alarm to start
      * @author Romane Bézier
      */
-    override fun startAlert(alarmManager: AlarmManager, intent: Intent, context: Context, alarm: Alarm) {
-        val pendingIntent = PendingIntent.getBroadcast(context,  alarm.id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        c.add(Calendar.MINUTE, -1)
+    override fun startAlert(
+        alarmManager: AlarmManager,
+        intent: Intent,
+        context: Context,
+        alarm: Alarm
+    ) {
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            alarm.id,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        c.add(Calendar.HOUR, -8)
         if (c.before(Calendar.getInstance())) {
             c.add(Calendar.DATE, 1)
         }
+        Log.d("TEST", "poop2")
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.timeInMillis, pendingIntent)
+
     }
 
     /**
@@ -113,7 +151,12 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
      * @param currentAlarm Current alarm
      * @author Romane Bézier
      */
-    override fun snoozeAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm) {
+    override fun snoozeAlarm(
+        alarmManager: AlarmManager,
+        intent: Intent,
+        context: Context,
+        currentAlarm: Alarm
+    ) {
         val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
 
         val currentTimeMillis = System.currentTimeMillis()
@@ -121,7 +164,10 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         val nextUpdateTime = Time()
         nextUpdateTime.set(nextUpdateTimeMillis)
 
-        alarmManager.setExact(AlarmManager.RTC, nextUpdateTimeMillis, pendingIntent)
+        alarmManager.setAlarmClock(
+            AlarmClockInfo(c.timeInMillis, pendingIntent),
+            pendingIntent
+        )
     }
 
     /**
@@ -133,7 +179,12 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
      * @param currentAlarm Current alarm
      * @author Romane Bézier
      */
-    override fun stopAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm) {
+    override fun stopAlarm(
+        alarmManager: AlarmManager,
+        intent: Intent,
+        context: Context,
+        currentAlarm: Alarm
+    ) {
         val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
         alarmManager.cancel(pendingIntent)
         if (AlarmReceiver.isMpInitialised() && AlarmReceiver.mp.isPlaying)
@@ -149,7 +200,12 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
      * @param currentAlarm Current alarm
      * @author Romane Bézier
      */
-    override fun stopAlert(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm) {
+    override fun stopAlert(
+        alarmManager: AlarmManager,
+        intent: Intent,
+        context: Context,
+        currentAlarm: Alarm
+    ) {
         val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
         alarmManager.cancel(pendingIntent)
     }

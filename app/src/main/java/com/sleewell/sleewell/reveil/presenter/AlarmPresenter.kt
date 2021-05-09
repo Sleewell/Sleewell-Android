@@ -61,8 +61,8 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
      * @param time Time of the alarm
      * @author Romane Bézier
      */
-    override fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, days: List<Boolean>, ringtone: Uri, vibrate: Boolean, label: String, index: Int) {
-        model.saveAlarm(time,mAlarmViewModel, lifecycleOwner, days, ringtone, vibrate, label, index)
+    override fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, days: List<Boolean>, ringtone: Uri, vibrate: Boolean, label: String, index: Int, displayed: Boolean) {
+        model.saveAlarm(time,mAlarmViewModel, lifecycleOwner, days, ringtone, vibrate, label, index, displayed)
     }
 
     /**

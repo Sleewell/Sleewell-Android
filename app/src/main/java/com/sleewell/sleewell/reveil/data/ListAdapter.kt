@@ -84,8 +84,12 @@ class ListAdapter(private val view: AlarmContract.View): RecyclerView.Adapter<Li
             view.deleteAlarm(currentItem, false)
         }
         holder.itemView.checkBoxTime.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked)
-                view.startAlarm(currentItem)
+            if (isChecked) {
+                if (currentItem.displayed) {
+                    view.startAlarm(currentItem)
+                }
+                currentItem.displayed = false
+            }
             else
                 view.stopAlarm(currentItem)
         }
