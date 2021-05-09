@@ -1,6 +1,5 @@
 package com.sleewell.sleewell.reveil
 
-import android.R
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -8,6 +7,8 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.CountDownTimer
+import android.os.Vibrator
+import androidx.core.content.ContextCompat.getSystemService
 import com.sleewell.sleewell.reveil.data.model.Alarm
 
 
@@ -59,6 +60,12 @@ class AlarmReceiver : BroadcastReceiver() {
             mp.isLooping = true
             mp.prepare()
             mp.start()
+
+            if (alarm.vibrate) {
+                val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                val pattern = longArrayOf(0, 500, 1000)
+                vibrator.vibrate(pattern, 0)
+            }
 
             //Increase of 1 every second
             val timer = object: CountDownTimer(10000, 2000) {

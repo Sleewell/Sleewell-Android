@@ -36,6 +36,8 @@ class AlarmNotificationHelper(base: Context?, currentAlarm: Alarm) : ContextWrap
             channelName,
             NotificationManager.IMPORTANCE_HIGH
         )
+        channel.vibrationPattern = longArrayOf(0)
+        channel.enableVibration(true);
         manager!!.createNotificationChannel(channel)
     }
 
@@ -81,11 +83,6 @@ class AlarmNotificationHelper(base: Context?, currentAlarm: Alarm) : ContextWrap
             intent.putExtra("ALARM", bundle)
             val pendingIntent = PendingIntent.getActivity(this, alarm.id, intent, 0)
 
-            val arrayVibrate : LongArray = if (alarm.vibrate) {
-                longArrayOf(1000, 1000, 1000, 1000, 1000)
-            } else {
-                longArrayOf(0L)
-            }
             val contentText : String = if (alarm.label.compareTo("") == 0) {
                 "It's time to wake up!"
             } else {
@@ -99,7 +96,6 @@ class AlarmNotificationHelper(base: Context?, currentAlarm: Alarm) : ContextWrap
                 .setAutoCancel(false)
                 .addAction(R.drawable.logo_sleewell, "Stop", stopPendingIntent)
                 .addAction(R.drawable.logo_sleewell, "Snooze", snoozePendingIntent)
-                .setVibrate(arrayVibrate)
         }
 
     companion object {
