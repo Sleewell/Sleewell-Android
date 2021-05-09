@@ -61,7 +61,7 @@ class AlarmReceiver : BroadcastReceiver() {
             mp.start()
 
             //Increase of 1 every second
-            val timer = object: CountDownTimer(300000, 1000) {
+            val timer = object: CountDownTimer(10000, 2000) {
                 override fun onTick(millisUntilFinished: Long) {
                     audioManager.setStreamVolume(
                         AudioManager.STREAM_ALARM,
@@ -69,7 +69,7 @@ class AlarmReceiver : BroadcastReceiver() {
                         0
                     )
                 }
-                override fun onFinish() { }
+                override fun onFinish() {}
             }
             timer.start()
         }
