@@ -7,12 +7,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
-import android.media.AudioAttributes
-import android.media.AudioManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.reveil.data.model.Alarm
@@ -95,7 +91,7 @@ class AlarmNotificationHelper(base: Context?, currentAlarm: Alarm) : ContextWrap
             } else {
                 alarm.label
             }
-            val notification = NotificationCompat.Builder(applicationContext, channelID)
+            return NotificationCompat.Builder(applicationContext, channelID)
                 .setContentTitle("Sleewell")
                 .setContentText(contentText)
                 .setSmallIcon(R.drawable.logo_sleewell)
@@ -104,8 +100,6 @@ class AlarmNotificationHelper(base: Context?, currentAlarm: Alarm) : ContextWrap
                 .addAction(R.drawable.logo_sleewell, "Stop", stopPendingIntent)
                 .addAction(R.drawable.logo_sleewell, "Snooze", snoozePendingIntent)
                 .setVibrate(arrayVibrate)
-            notification.setSound(Uri.parse(alarm.ringtone))
-            return notification
         }
 
     companion object {
