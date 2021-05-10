@@ -102,7 +102,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-scalars:2.8.1"
     implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
     androidTestImplementation 'androidx.test:rules:1.2.0-beta01'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
 
     implementation 'androidx.preference:preference:1.1.0'
     implementation "com.google.code.gson:gson:2.6.1"

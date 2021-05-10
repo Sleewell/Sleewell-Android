@@ -86,6 +86,18 @@
     <string name="analyse_foreground_notification_content_text">Analyse in progress</string>
     <string name="analyse_foreground_stopping_notification_content_text">Stopping analyse…</string>
 
+    <!-- Stats -->
+    <string name="nav_day_stat">DAY</string>
+    <string name="nav_week_stat">WEEK</string>
+    <string name="nav_month_stat">MONTH</string>
+    <string name="nav_year_stat">YEAR</string>
+    <string name="nav_next_description">Next analyse</string>
+    <string name="nav_prev_description">Previous analyse</string>
+    <string name="card_average_title">Statistics</string>
+    <string name="cart_average_title_time_to_sleep">Sleeping</string>
+    <string name="cart_average_title_time_to_wake_up">WakingUp</string>
+    <string name="card_analyse_title">Analyse</string>
+
     <!-- Underline -->
     <string name="log_in_underline"><u>Log in</u></string>
     <string name="sign_up_underline"><u>Sign up</u></string>
