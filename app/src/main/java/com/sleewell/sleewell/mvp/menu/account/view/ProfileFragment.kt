@@ -68,17 +68,17 @@ class ProfileFragment : Fragment(), ProfileContract.View {
     }
 
     override fun updateProfileInfoWidgets(username: String, firstName: String, lastName: String) {
-        usernameInputLayout.editText?.setText(username)
-        firstNameInputLayout.editText?.setText(firstName)
-        lastNameInputLayout.editText?.setText(lastName)
+        usernameInputLayout?.editText?.setText(username)
+        firstNameInputLayout?.editText?.setText(firstName)
+        lastNameInputLayout?.editText?.setText(lastName)
 
-        usernameInputLayout.editText?.visibility  = View.VISIBLE
-        firstNameInputLayout.editText?.visibility = View.VISIBLE
-        lastNameInputLayout.editText?.visibility  = View.VISIBLE
+        usernameInputLayout?.editText?.visibility  = View.VISIBLE
+        firstNameInputLayout?.editText?.visibility = View.VISIBLE
+        lastNameInputLayout?.editText?.visibility  = View.VISIBLE
 
-        usernameInputLayout.visibility  = View.VISIBLE
-        firstNameInputLayout.visibility = View.VISIBLE
-        lastNameInputLayout.visibility  = View.VISIBLE
+        usernameInputLayout?.visibility  = View.VISIBLE
+        firstNameInputLayout?.visibility = View.VISIBLE
+        lastNameInputLayout?.visibility  = View.VISIBLE
 
         progressWidget.visibility = View.GONE
     }

@@ -9,7 +9,6 @@ import com.sleewell.sleewell.mvp.menu.account.view.ConnectionFragment
 class ConnectionPresenter(view: ConnectionFragment, context: Context) : ConnectionContract.Presenter, ConnectionContract.Model.OnFinishedListener {
     private var view: ConnectionFragment? = view
     private var model: ConnectionModel = ConnectionModel(context)
-    private var context = context
 
     override fun onViewCreated() {
     }
@@ -23,14 +22,14 @@ class ConnectionPresenter(view: ConnectionFragment, context: Context) : Connecti
     }
 
     override fun onFinished(loginResult: ApiResultLoginSleewell) {
-        view?.displayToast("Login success")
         loginResult.AccessToken?.let { view?.setAccessToken(it) }
     }
 
 
     override fun onFailure(t: Throwable) {
+        view?.hideLoading()
         if (t.message != null)
-            view?.displayToast(t.message!!)
+            view?.displayToast("Wrong credentials")
         else
             view?.displayToast("An error occurred")
     }

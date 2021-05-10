@@ -23,10 +23,12 @@ class RegisterPresenter(view: RegisterFragment, context: Context) : RegisterCont
     }
 
     override fun onFinished(registerResult: ApiResultRegisterSleewell) {
-        view?.displayToast("Register success")
         registerResult.AccessToken?.let { view?.setAccessToken(it) }
     }
 
     override fun onFailure(t: Throwable) {
+        view?.hideLoading()
+        if (t.message != null)
+            view?.displayToast("An error occurred")
     }
 }

@@ -35,6 +35,9 @@ interface ConnectionContract {
     interface View : BaseView<Presenter> {
         fun displayToast(message: String)
         fun setAccessToken(token: String)
+
+        fun displayLoading()
+        fun hideLoading()
     }
 }
 
