@@ -12,6 +12,7 @@ import com.sleewell.sleewell.mvp.mainActivity.presenter.MainPresenter
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
+import com.sleewell.sleewell.database.analyse.night.NightDatabase
 import com.sleewell.sleewell.modules.permissions.PermissionManager
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationResponse
@@ -22,9 +23,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private lateinit var presenter: MainContract.Presenter
 
     companion object {
-        var getAccessToken: Boolean = false
-        lateinit var accessToken: String
+        var getAccessTokenSpotify: Boolean = false
+        lateinit var accessTokenSpotify: String
 
+        var accessTokenSleewell:String = ""
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,11 +83,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             val response = AuthenticationClient.getResponse(resultCode, intent)
             when (response.type) {
                 AuthenticationResponse.Type.TOKEN -> {
-                    accessToken = response.accessToken
-                    getAccessToken = true
+                    accessTokenSpotify = response.accessToken
+                    getAccessTokenSpotify = true
                 }
                 AuthenticationResponse.Type.ERROR -> {
-                    getAccessToken = false
+                    getAccessTokenSpotify = false
                 }
                 else -> {
                 }

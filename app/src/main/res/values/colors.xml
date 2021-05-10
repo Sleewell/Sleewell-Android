@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#146837</color>
+    <color name="colorPrimary">#73FFFFFF</color>
     <color name="colorPrimaryDark">#00111F</color>
-    <color name="colorAccent">#333333</color>
+    <color name="colorAccent">#73FFFFFF</color>
     <color name="grey">#e0e0e0</color>
     <color name="white">#FFFFFF</color>
 
@@ -11,7 +11,6 @@
     <color name="black_overlay">#2D2D35</color>
     <color name="Orange">#D98735</color>
 
-    <!--new design TODO: rename colors-->
     <color name="background">#00111F</color>
     <color name="textOnBackground">#73FFFFFF</color>
     <color name="textButDarker">#4DFFFFFF</color>
@@ -26,4 +25,5 @@
     <color name="haloColorWhite">#FDFDFD</color>
     <color name="haloColorBlue">#303F9F</color>
 
+    <color name="mtrl_textinput_default_box_stroke_color">#73FFFFFF</color>
 </resources>

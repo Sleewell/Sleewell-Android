@@ -2,13 +2,17 @@ package com.sleewell.sleewell.modules.audio.audioAnalyser
 
 import android.content.Context
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
+import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseDbUtils
+import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.IAnalyseDataManager
+import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseFileUtils
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import java.time.Instant
 import java.util.*
 import kotlin.math.log
 
@@ -32,10 +36,11 @@ class AudioAnalyser(
 
     // file save
     private var isInitialised = false
-    private val fileUtil = AudioAnalyseFileUtils(context, this)
+    private var isInitializing = false
+    private val fileUtil : IAnalyseDataManager = AudioAnalyseDbUtils(context, this)
 
     // coroutine
-    private val queueData: Queue<DoubleArray> = LinkedList<DoubleArray>()
+    private val queueData: Queue<DoubleArray> = LinkedList()
     private val scopeDefault = CoroutineScope(Job() + Dispatchers.Default)
     private var stopThread = false
     private var isThreadRunning = false
@@ -70,15 +75,12 @@ class AudioAnalyser(
      * @author Hugo Berthomé
      */
     private fun launchAnalyse() {
-        if (!isInitialised) {
-            fileUtil.deleteAnalyses(fileUtil.readDirectory())
-            if (!fileUtil.initSaveNewAnalyse()) {
-                listener.onError("Couldn't initialised ")
-                return
-            }
-            isInitialised = true
+        if (!isInitialised && !isInitializing) {
+            isInitializing = true
+            fileUtil.getAvailableAnalyse()
+            return
         }
-        if (!isThreadRunning) {
+        if (isInitializing || !isInitialised || !isThreadRunning) {
             scopeDefault.run {
                 analyseQueue()
             }
@@ -111,10 +113,9 @@ class AudioAnalyser(
     private fun analyse(spectrogram: DoubleArray) {
         val datas = extractFrequencies(minHz, maxHz, spectrogram)
 
-        //val averageDb = ampToDb(datas.average())
         val averageDb = ampToDb(datas.maxOrNull())
         if (averageDb >= dbMinDetection) {
-            fileUtil.addToAnalyse(AnalyseValue(averageDb, fileUtil.getCurrentTimestamp()))
+            fileUtil.addToAnalyse(AnalyseValue(averageDb, getCurrentTimestamp()))
         }
     }
 
@@ -156,7 +157,7 @@ class AudioAnalyser(
     fun cleanUp() {
         stopThread = true
         isInitialised = false
-        fileUtil.stopSavingNewAnalyse()
+        fileUtil.endNewAnalyse()
     }
 
     /**
@@ -180,6 +181,33 @@ class AudioAnalyser(
     }
 
     /**
+     * Function called when received the list of available analyses
+     *
+     * @param analyses
+     */
+    override fun onListAvailableAnalyses(analyses: List<Long>) {
+        scopeDefault.launch {
+            analyses.forEach { it ->
+                fileUtil.deleteAnalyse(it)
+            }
+            if (!fileUtil.initNewAnalyse()) {
+                listener.onError("Couldn't initialised ")
+                return@launch
+            }
+            isInitialised = true
+            isInitializing = false
+
+            if (!isThreadRunning) {
+                scopeDefault.run {
+                    analyseQueue()
+                }
+            }
+
+            listener.onDataManagerInitialized()
+        }
+    }
+
+    /**
      * Function called when an analyse is read from a file
      *
      * @param data of the analyse file
@@ -187,5 +215,14 @@ class AudioAnalyser(
      */
     override fun onReadAnalyseRecord(data: Array<AnalyseValue>) {
         // do nothing because we only save
+    }
+
+    /**
+     * Return the current timestamp in seconds
+     *
+     * @return Long timestamp
+     */
+    private fun getCurrentTimestamp(): Long {
+        return Instant.now().epochSecond
     }
 }

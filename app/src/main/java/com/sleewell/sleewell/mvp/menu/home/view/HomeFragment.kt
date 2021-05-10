@@ -8,8 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextClock
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.Navigation
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.menu.home.HomeContract
@@ -43,6 +45,9 @@ class HomeFragment : Fragment(), HomeContract.View {
      * Initialise all the widgets from the layout
      */
     private fun initActivityWidgets() {
+        val textClock = root.findViewById<TextClock>(R.id.clock)
+        textClock.typeface = ResourcesCompat.getFont(this.activity as AppCompatActivity, R.font.nunito_light)
+
         val navController = Navigation.findNavController(requireActivity(), R.id.nav_main)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

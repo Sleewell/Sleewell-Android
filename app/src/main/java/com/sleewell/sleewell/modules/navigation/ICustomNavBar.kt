@@ -30,12 +30,11 @@ interface ICustomNavBar {
      * Add a new button to the bar
      *
      * @param button ToggleButton to add
-     * @param label label of the corresponding Fragment
      * @param destinationID ID in the Navigation Graph of the corresponding Fragment
      *
      * @author Titouan FIANCETTE
      */
-    fun addButton(button: ToggleButton, label: String, destinationID: Int)
+    fun addButton(button: ToggleButton, destinationID: Int)
 
 
     /**

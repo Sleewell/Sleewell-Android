@@ -31,4 +31,11 @@ interface IAudioAnalyseRecordListener {
      * @author Hugo Berthomé
      */
     fun onAnalyseRecordError(msg : String)
+
+    /**
+     * Function called when received the list of available analyses
+     *
+     * @param analyses
+     */
+    fun onListAvailableAnalyses(analyses : List<Long>)
 }

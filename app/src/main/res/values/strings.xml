@@ -16,7 +16,7 @@
     <string name="nav_button_music">MUSIC</string>
 
     <!-- Home -->
-    <string name="protocol_button">Launch protocol</string>
+    <string name="protocol_button">Night mode</string>
 
     <!-- Settings -->
     <string name="setting_network_name">Network</string>
@@ -43,13 +43,13 @@
     <string name="setting_notification_summary">Customise the notifications</string>
     <string name="setting_notification_return_key">notification_return_pref</string>
     <string name="setting_wifi_key">wifi</string>
-    <string name="setting_wifi_name">Wifi</string>
-    <string name="setting_wifi_summary_on">Wifi is on during protocol</string>
-    <string name="setting_wifi_summary_off">Wifi is off during protocol</string>
+    <string name="setting_wifi_name">Wifi and Cellular Data</string>
+    <string name="setting_wifi_summary_on">Set wifi and cellular data on during protocol</string>
+    <string name="setting_wifi_summary_off">Set wifi and cellular data off during protocol</string>
     <string name="setting_bluetooth_key">bluetooth</string>
     <string name="setting_bluetooth_name">Bluetooth</string>
-    <string name="setting_bluetooth_summary_on">Bluetooth is on during protocol</string>
-    <string name="setting_bluetooth_summary_off">Bluetooth is off during protocol</string>
+    <string name="setting_bluetooth_summary_on">Set bluetooth on during protocol</string>
+    <string name="setting_bluetooth_summary_off">Set bluetooth off during protocol</string>
     <string name="setting_cellular_key">cellular</string>
     <string name="setting_cellular_name">Cellular Data</string>
     <string name="setting_cellular_summary_on">Cellular Data is on during protocol</string>
@@ -85,8 +85,15 @@
     <string name="analyse_foreground_notification_name">Night analyse</string>
     <string name="analyse_foreground_notification_content_text">Analyse in progress</string>
     <string name="analyse_foreground_stopping_notification_content_text">Stopping analyse…</string>
-    
-    <!-- Strings Array -->
+
+    <!-- Underline -->
+    <string name="log_in_underline"><u>Log in</u></string>
+    <string name="sign_up_underline"><u>Sign up</u></string>
+
+    <string name="music_screen_title">Sounds to sleep to</string>
+    <string name="hello_blank_fragment">New Fragment</string>
+  
+  <!-- Strings Array -->
     
     <string-array name="music_player">
         <item>None</item>
