@@ -50,7 +50,9 @@ class SpotifyModel(context: Context) : MainContract.Model {
         for (i in response.playlists!!.items!!.indices) {
             val name = response.playlists!!.items!![i].name
             val uri = response.playlists!!.items!![i].uri
-            val image = response.playlists!!.items!![i].images!![0].url
+            var image = ""
+            if (response.playlists!!.items!![i].images!!.isNotEmpty())
+                image = response.playlists!!.items!![i].images!![0].url!!
             aList.add(SpotifyPlaylist(name!!, uri!!, image!!))
         }
         if (aList.size == 0) {

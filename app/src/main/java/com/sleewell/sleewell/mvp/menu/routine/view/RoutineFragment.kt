@@ -1,22 +1,18 @@
 package com.sleewell.sleewell.mvp.menu.routine.view
 
-import android.annotation.SuppressLint
-import android.app.Dialog
-import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.Spotify.View.SpotifyFragment
 import com.sleewell.sleewell.mvp.menu.routine.RoutineContract
 import com.sleewell.sleewell.mvp.menu.routine.RoutineListAdapter
 import com.sleewell.sleewell.mvp.menu.routine.presenter.RoutinePresenter
+import com.sleewell.sleewell.mvp.music.view.MusicFragment
 
-class RoutineFragment : Fragment(), RoutineContract.View {
+class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInputSelected, MusicFragment.OnInputSelected {
 
     private lateinit var presenter: RoutineContract.Presenter
     private lateinit var root: View
@@ -41,10 +37,18 @@ class RoutineFragment : Fragment(), RoutineContract.View {
         return root
     }
 
+    override fun sendInput(musicName: String, musicUri : String, tag : String?) {
+        presenter.updateSpotifyMusicSelected(musicName, musicUri, tag)
+    }
+
+    override fun sendInput(musicName: String, tag: String?) {
+        presenter.updateSleewellMusicSelected(musicName, tag)
+    }
+
     private fun initListView() {
         listView = root.findViewById(R.id.routineListView)
         listView.onItemClickListener = AdapterView.OnItemClickListener{ _, _, i, _ ->
-            presenter.openRoutineDialog(i)
+            presenter.openRoutineDialog(i, fragmentManager, this)
         }
 
         btn = root.findViewById(R.id.button)

@@ -3,13 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
+    android:background="@color/background"
     android:padding="7dp">
+
+    <ImageView
+        android:id="@+id/item_routine_is_selected"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_check_white_24dp"
+        android:backgroundTint="@color/textButOnImage" />
 
     <ImageView
         android:id="@+id/item_routine_images"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="5dp"
         android:background="@mipmap/icon_launcher" />
 
     <LinearLayout
@@ -18,16 +28,21 @@
         android:orientation="vertical"
         android:layout_marginStart="10dp">
 
-        <TextView
-            android:id="@+id/item_routine_title"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="0dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="Routine uId"
-            android:textColor="@color/textOnBackground"
-            android:textSize="20sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/item_routine_title"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="0dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Routine uId"
+                android:textColor="@color/textOnBackground"
+                android:textSize="20sp" />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

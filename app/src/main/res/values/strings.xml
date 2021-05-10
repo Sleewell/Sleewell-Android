@@ -75,7 +75,7 @@
     <string name="fire_menu">FIRE</string>
     <string name="water_menu">WATER</string>
     <string name="rain_menu">RAIN</string>
-    <string name="menu_button">Home</string>
+    <string name="menu_button">Back</string>
     <string name="main_image_title">forest</string>
 
     <!-- Notifications -->
@@ -85,4 +85,12 @@
     <string name="analyse_foreground_notification_name">Night analyse</string>
     <string name="analyse_foreground_notification_content_text">Analyse in progress</string>
     <string name="analyse_foreground_stopping_notification_content_text">Stopping analyse…</string>
+    
+    <!-- Strings Array -->
+    
+    <string-array name="music_player">
+        <item>None</item>
+        <item>Spotify</item>
+        <item>Sleewell</item>
+    </string-array>
 </resources>

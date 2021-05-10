@@ -18,6 +18,9 @@
             app:destination="@id/protocolMenuFragment"
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_menuFragment_to_routineFragment"
+            app:destination="@id/routineFragment2" />
     </fragment>
     <fragment
         android:id="@+id/musicFragment"
@@ -47,4 +50,9 @@
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@anim/slide_out_up" />
     </fragment>
+    <fragment
+        android:id="@+id/routineFragment2"
+        android:name="com.sleewell.sleewell.mvp.menu.routine.view.RoutineFragment"
+        android:label="new_fragment_routine"
+        tools:layout="@layout/new_fragment_routine" />
 </navigation>

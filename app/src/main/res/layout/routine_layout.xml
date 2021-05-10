@@ -47,9 +47,17 @@
         android:textColor="@color/background"
         android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_edit" />
 
     <ImageView
         android:id="@+id/dialog_routine_separator_1"
@@ -73,6 +81,29 @@
         app:layout_constraintTop_toBottomOf="@+id/dialog_routine_separator_1"
         app:srcCompat="@drawable/ic_music_on_blue" />
 
+    <Spinner
+        android:id="@+id/playerMusicNameSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_music_title" />
+
+    <ImageButton
+        android:id="@+id/dialog_routine_selectMusic_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_rounded"
+        android:src="@drawable/ic_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toEndOf="@+id/playerMusicNameSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_music_title" />
+
     <TextView
         android:id="@+id/dialog_routine_music_title"
         android:layout_width="wrap_content"
@@ -85,6 +116,19 @@
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/dialog_routine_music_icon"
         app:layout_constraintTop_toBottomOf="@+id/dialog_routine_separator_1" />
+
+    <TextView
+        android:id="@+id/musicNameSelectedDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="None"
+        android:textColor="@color/background"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerMusicNameSpinner" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/dialog_routine_music_switch"
@@ -101,12 +145,12 @@
         android:id="@+id/dialog_routine_separator_2"
         android:layout_width="350dp"
         android:layout_height="1dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:background="@color/background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_music_title"
+        app:layout_constraintTop_toBottomOf="@+id/musicNameSelectedDialog"
         app:srcCompat="@drawable/button_light_rounded" />
 
     <ImageView
@@ -186,8 +230,8 @@
 
     <ImageButton
         android:id="@+id/dialog_routine_button_delete"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="@drawable/button_rounded"
         android:src="@drawable/ic_delete"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -197,13 +241,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.98" />
 
-    <ImageView
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="37dp"
-        android:layout_marginEnd="16dp"
+    <Button
+        android:id="@+id/dialog_routine_selected_button"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:background="@drawable/button_shape"
+        android:fontFamily="@font/roboto_medium"
+        android:paddingHorizontal="10dp"
+        android:text="Select this routine"
+        android:textColor="@color/textButOnImage"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_edit" />
+        app:layout_constraintVertical_bias="0.85" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

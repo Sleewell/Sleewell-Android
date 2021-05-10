@@ -1,10 +1,9 @@
 package com.sleewell.sleewell.mvp.menu.routine.presenter
 
 import android.content.Context
-import android.provider.Contacts
-import com.sleewell.sleewell.Spotify.Model.SpotifyModel
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.sleewell.sleewell.mvp.menu.routine.RoutineContract
-import com.sleewell.sleewell.mvp.menu.routine.RoutineListAdapter
 import com.sleewell.sleewell.mvp.menu.routine.model.RoutineModel
 import kotlinx.coroutines.*
 
@@ -42,7 +41,15 @@ class RoutinePresenter(view: RoutineContract.View, context: Context) : RoutineCo
         view?.displayRoutineList(model.getAdapter())
     }
 
-    override fun openRoutineDialog(nbr: Int) {
-        model.openRoutineParameter(nbr)
+    override fun openRoutineDialog(nbr: Int, fragmentManager: FragmentManager?, fragment: Fragment) {
+        model.openRoutineParameter(nbr, fragmentManager, fragment)
+    }
+
+    override fun updateSpotifyMusicSelected(musicName: String, musicUri: String, tag: String?) {
+        model.updateSpotifyMusicSelected(musicName, musicUri, tag)
+    }
+
+    override fun updateSleewellMusicSelected(musicName: String, tag: String?) {
+        model.updateSleewellMusicSelected(musicName, tag)
     }
 }

@@ -7,6 +7,9 @@ import androidx.room.PrimaryKey
 data class Routine(
     @PrimaryKey(autoGenerate = true) val uId: Long,
 
+    // Selected
+    var isSelected: Boolean,
+
     // Color
     var colorRed: Int,
     var colorGreen: Int,
@@ -14,16 +17,17 @@ data class Routine(
 
     // Duration
     var useHalo: Boolean,
-    val duration: Int,
+    var duration: Int,
 
     // Music
     var useMusic: Boolean,
     var player: String,
-
+    var musicName: String,
+    var musicUri: String,
 
     var name: String,
 
     ) {
-    constructor(name: String, colorRed: Int = 0, colorGreen: Int = 0, colorBlue: Int = 0, useHalo: Boolean = false, duration: Int = 0, useMusic: Boolean = false, player: String = "music") :
-            this(0, colorRed, colorGreen, colorBlue, useHalo, duration, useMusic, player, name)
+    constructor(name: String, isSelected: Boolean = false, colorRed: Int = 0, colorGreen: Int = 0, colorBlue: Int = 0, useHalo: Boolean = false, duration: Int = 0, useMusic: Boolean = false, player: String = "music", musicName: String = "", musicUri: String = "") :
+            this(0, isSelected ,colorRed, colorGreen, colorBlue, useHalo, duration, useMusic, player, musicName, musicUri, name)
 }

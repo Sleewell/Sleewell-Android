@@ -33,6 +33,10 @@ class RoutineListAdapter(context: Context, aList: ArrayList<Routine>) : BaseAdap
         if (aList[position].useMusic) {
             holder.music!!.setBackgroundResource(ic_music_on)
             holder.music_title!!.visibility = View.VISIBLE
+            if (aList[position].player == "Sleewell")
+                holder.music_title!!.text = aList[position].musicName.split("_").last()
+            else
+                holder.music_title!!.text = aList[position].musicName
         } else {
             holder.music!!.setBackgroundResource(ic_music_off)
             holder.music_title!!.visibility = View.INVISIBLE
@@ -53,6 +57,11 @@ class RoutineListAdapter(context: Context, aList: ArrayList<Routine>) : BaseAdap
             holder.halo!!.visibility = View.INVISIBLE
         }
 
+        if (aList[position].isSelected) {
+            holder.selected!!.visibility = View.VISIBLE
+        } else {
+            holder.selected!!.visibility = View.GONE
+        }
         return view
     }
 
