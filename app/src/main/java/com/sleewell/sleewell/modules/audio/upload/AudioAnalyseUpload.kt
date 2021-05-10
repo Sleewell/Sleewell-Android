@@ -10,6 +10,7 @@ import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalys
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.IAnalyseDataManager
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
+import com.sleewell.sleewell.modules.audio.service.AnalyseServiceTracker
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,7 +51,7 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
      */
     fun updateUpload() {
         TOKEN = MainActivity.accessTokenSleewell
-        if (TOKEN.isEmpty())
+        if (TOKEN.isEmpty() || AnalyseServiceTracker.getServiceState(context) == AnalyseServiceTracker.ServiceState.STARTED)
             return
         scopeIOThread.launch {
             analyse.getAvailableAnalyse()

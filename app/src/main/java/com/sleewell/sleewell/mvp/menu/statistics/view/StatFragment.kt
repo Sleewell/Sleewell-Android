@@ -721,7 +721,7 @@ class StatFragment : Fragment(), StatisticsContract.View {
                 .withZone(ZoneOffset.systemDefault())
                 .format(date.toInstant())
         }
-        return SimpleDateFormat(dateFormat).format(date)
+        return SimpleDateFormat(dateFormat, Locale.FRANCE).format(date)
     }
 
     private fun dateToString(date: Date, dateFormat: String): String {
@@ -731,7 +731,7 @@ class StatFragment : Fragment(), StatisticsContract.View {
                 .withZone(ZoneOffset.systemDefault())
                 .format(date.toInstant())
         }
-        return SimpleDateFormat(dateFormat).format(date)
+        return SimpleDateFormat(dateFormat, Locale.FRANCE).format(date)
     }
 
     /**
@@ -760,10 +760,5 @@ class StatFragment : Fragment(), StatisticsContract.View {
             duration = "0:$duration"
         }
         return duration.substring(IntRange(0, duration.length - 4))
-    }
-
-
-    // TODO will disappear
-    override fun displayAnalyse(datas: Array<AnalyseValueStatistic>) {
     }
 }

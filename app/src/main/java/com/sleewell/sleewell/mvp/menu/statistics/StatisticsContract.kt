@@ -155,14 +155,6 @@ interface StatisticsContract {
     interface View : BaseView<Presenter> {
 
         /**
-         * Update the graph from the analyse data
-         *
-         * @param datas from the analyse
-         * @author Hugo Berthomé
-         */
-        fun displayAnalyse(datas: Array<AnalyseValueStatistic>) // TODO to delete
-
-        /**
          * Update the graph for the daily analyse
          *
          * @param data from the night analyse
