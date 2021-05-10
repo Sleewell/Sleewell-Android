@@ -30,11 +30,11 @@
         android:textAlignment="center"
         android:textColor="@color/textOnBackground"
         android:textSize="64sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/button_protocol"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.13" />
+        app:layout_constraintVertical_bias="0.15" />
 
     <View
         android:id="@+id/date_background"
@@ -60,36 +60,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/time_background" />
-
-    <Button
-        android:id="@+id/button_music"
-        android:layout_width="290dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/button_light_rounded"
-        android:backgroundTint="@color/textOnBackground"
-        android:fontFamily="@font/nunito_bold"
-        android:text="Sleep assistance"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="@drawable/button_text_dark_color"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.50"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.78" />
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/button_light_rounded"
-        android:backgroundTint="@color/background"
-        app:layout_constraintBottom_toBottomOf="@+id/button_music"
-        app:layout_constraintEnd_toEndOf="@+id/button_music"
-        app:layout_constraintStart_toStartOf="@+id/button_music"
-        app:layout_constraintTop_toTopOf="@+id/button_music" />
 
     <Button
         android:id="@+id/button_protocol"

@@ -13,6 +13,14 @@
         <action
             android:id="@+id/action_menuFragment_to_musicFragment"
             app:destination="@id/musicFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_protocolMenuFragment"
+            app:destination="@id/protocolMenuFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_menuFragment_to_routineFragment"
+            app:destination="@id/routineFragment2" />
     </fragment>
     <fragment
         android:id="@+id/musicFragment"
@@ -28,4 +36,23 @@
         android:name="com.sleewell.sleewell.Spotify.View.SpotifyFragment"
         android:label="new_fragment_spotify"
         tools:layout="@layout/new_fragment_spotify" />
+        <action
+            android:id="@+id/action_protocolFragment_to_protocolMenuFragment"
+            app:destination="@id/protocolMenuFragment" />
+    <fragment
+        android:id="@+id/protocolMenuFragment"
+        android:name="com.sleewell.sleewell.mvp.protocol.view.ProtocolMenuFragment"
+        android:label="new_fragment_protocol_menu"
+        tools:layout="@layout/new_fragment_protocol_menu" >
+        <action
+            android:id="@+id/action_protocolMenuFragment_to_menuFragment"
+            app:destination="@id/menuFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_up" />
+    </fragment>
+    <fragment
+        android:id="@+id/routineFragment2"
+        android:name="com.sleewell.sleewell.mvp.menu.routine.view.RoutineFragment"
+        android:label="new_fragment_routine"
+        tools:layout="@layout/new_fragment_routine" />
 </navigation>

@@ -1,27 +1,30 @@
  package com.sleewell.sleewell.mvp.music.view
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.Navigation
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.Spotify.SpotifyPlaylist
 import com.sleewell.sleewell.mvp.music.MainContract
 import com.sleewell.sleewell.mvp.music.presenter.MusicPresenter
 import es.claucookie.miniequalizerlibrary.EqualizerView
+import java.lang.ClassCastException
 
  /**
  * A simple [Fragment] subclass.
  * Use the [MusicFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class MusicFragment : Fragment(), MainContract.View  {
+class MusicFragment : MainContract.View, DialogFragment() {
 
     private lateinit var presenter: MainContract.Presenter
     private lateinit var root: View
@@ -53,7 +56,7 @@ class MusicFragment : Fragment(), MainContract.View  {
 
     companion object {
         var music_selected: Boolean = false
-        lateinit var musicName: String
+        var musicName: String = ""
     }
 
     override fun onCreateView(
@@ -70,6 +73,11 @@ class MusicFragment : Fragment(), MainContract.View  {
 
         return root
     }
+
+     interface OnInputSelected {
+         fun sendInput(musicName: String, tag: String?)
+     }
+     lateinit var selected : OnInputSelected
 
     private fun initListView() {
         listView = root.findViewById(R.id.playlistMusicListView)
@@ -107,6 +115,10 @@ class MusicFragment : Fragment(), MainContract.View  {
             musicName = main + "_" + title
         }
     }
+
+     override fun getTheme(): Int {
+         return R.style.DialogTheme
+     }
 
     /**
      * This method  setup every widgets created
@@ -163,18 +175,16 @@ class MusicFragment : Fragment(), MainContract.View  {
         }
 
         val menu = root.findViewById<Button>(R.id.MenuButton)
-        val spotify_button = root.findViewById<Button>(R.id.MusicButton)
-
         menu.setOnClickListener {
-            fragmentManager?.popBackStack()
+            selected.sendInput(musicName, tag)
+            dismiss()
         }
 
-        val navController = Navigation.findNavController(requireActivity(), R.id.nav_main)
-        spotify_button.setOnClickListener {
-            navController.navigate(R.id.action_musicFragment_to_spotifyFragment)
-        }
-
-        playlistSelected = SpotifyPlaylist("Hollow knight", "spotify:album:4XgGOMRY7H4hl6OQi5wb2Z", "")
+        playlistSelected = SpotifyPlaylist(
+            "Hollow knight",
+            "spotify:album:4XgGOMRY7H4hl6OQi5wb2Z",
+            ""
+        )
         //spotify_button = root.findViewById(R.id.button_spotify)
         //spotify_button_disconneted = root.findViewById(R.id.button_spotify_disconnected)
         //spotify_button_play = root.findViewById(R.id.button_spotify_play)
@@ -188,6 +198,15 @@ class MusicFragment : Fragment(), MainContract.View  {
         //    this.startActivityForResult(Intent(this, SpotifyActivity::class.java), 1000)
         //}
     }
+
+     override fun onAttach(context: Context) {
+         super.onAttach(context)
+         try {
+             selected = targetFragment as OnInputSelected
+         } catch (e : ClassCastException) {
+             Log.e("MusicFragment", e.message.toString())
+         }
+     }
 
      private fun setCircleInvisible() {
          circle_forest.visibility = View.INVISIBLE

@@ -137,6 +137,25 @@
                 app:layout_constraintStart_toEndOf="@+id/profile_nav"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ToggleButton
+                android:id="@+id/routine_nav"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/menu_nav_bar_margin"
+                android:layout_marginEnd="7dp"
+                android:background="@drawable/nav_button_style"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/roboto_medium"
+                android:textAlignment="center"
+                android:textColor="@drawable/button_text_color"
+                android:textOff="ROUTINE"
+                android:textOn="ROUTINE"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/stats_nav"
+                app:layout_constraintTop_toTopOf="parent" />
+          
         </androidx.constraintlayout.widget.ConstraintLayout>
     </HorizontalScrollView>
 

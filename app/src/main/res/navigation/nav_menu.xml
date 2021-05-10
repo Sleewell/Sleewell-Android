@@ -26,6 +26,11 @@
         android:label="new_fragment_stat"
         tools:layout="@layout/new_fragment_stat" />
     <fragment
+        android:id="@+id/routineFragment"
+        android:name="com.sleewell.sleewell.mvp.menu.routine.view.RoutineFragment"
+        android:label="new_fragment_routine"
+        tools:layout="@layout/new_fragment_routine" />
+    <fragment
         android:id="@+id/profileFragment"
         android:name="com.sleewell.sleewell.mvp.menu.account.view.ProfileFragment"
         android:label="fragment_profile"
