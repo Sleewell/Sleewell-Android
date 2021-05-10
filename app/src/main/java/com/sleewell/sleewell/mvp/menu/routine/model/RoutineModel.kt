@@ -268,6 +268,7 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         playerMusicNameSpinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(parentView: AdapterView<*>?, selectedItemView: View, position: Int, id: Long) {
                 routine.player = playerMusicNameSpinner.selectedItem.toString()
+                nameMusicSelected.text = "None"
                 CoroutineScope(Dispatchers.IO).launch {
                     updateItemRoutine(routine, nbr)
                 }

@@ -45,18 +45,13 @@ class MenuFragment : Fragment(), MenuContract.View {
         val routineNav = root.findViewById<ToggleButton>(R.id.routine_nav)
 
         val customNavBar = CustomNavBar()
-      
-        customNavBar.addButton(homeNav, getString(R.string.home_label), R.id.homeFragment)
-        customNavBar.addButton(alarmNav, getString(R.string.alarm_label), R.id.alarmFragment)
-        customNavBar.addButton(settingsNav, getString(R.string.settings_label), R.id.settingsFragment)
-        customNavBar.addButton(statNav, getString(R.string.statistics_label), R.id.statFragment)
-        customNavBar.addButton(routineNav, getString(R.string.routine_label), R.id.routineFragment)
+
         customNavBar.addButton(homeNav, R.id.homeFragment)
         customNavBar.addButton(alarmNav, R.id.alarmFragment)
         customNavBar.addButton(settingsNav, R.id.settingsFragment)
         customNavBar.addButton(profileNav, R.id.profileFragment)
         customNavBar.addButton(statNav, R.id.statFragment)
-        customNavBar.addButton(routineNav, getString(R.string.routine_label), R.id.routineFragment)
+        customNavBar.addButton(routineNav, R.id.routineFragment)
 
         customNavBar.setNavigation(navController!!)
     }
