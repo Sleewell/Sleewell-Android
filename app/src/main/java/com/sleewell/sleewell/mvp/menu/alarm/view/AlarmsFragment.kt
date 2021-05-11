@@ -9,12 +9,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -44,6 +45,10 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     private lateinit var validatesaveAlarm: ImageView
     private lateinit var ringtone: Uri
 
+    private lateinit var scrollViewCreate: NestedScrollView
+    private lateinit var scrollViewModify: NestedScrollView
+    private lateinit var layoutHome: ConstraintLayout
+
     companion object {
         lateinit var instance: AlarmsFragment
     }
@@ -67,6 +72,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         ringtone = RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_ALARM)
         validatesaveAlarm = root.findViewById(R.id.validate_create_alarm)
         validateupdateAlarm = root.findViewById(R.id.validate_modify_alarm)
+        scrollViewCreate = root.findViewById(R.id.scrollView_create_alarme)
+        scrollViewModify = root.findViewById(R.id.scrollView_modify_alarme)
+        layoutHome = root.findViewById(R.id.layout_alarm)
 
         val floatingActionButton: FloatingActionButton = root.findViewById(R.id.add_alarm_button)
         floatingActionButton.setOnClickListener {
@@ -595,6 +603,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
      * @author Romane Bézier
      */
     private fun changeVisibilityLayoutsCreate() {
+        layoutHome.visibility = View.GONE
+        scrollViewModify.visibility = View.GONE
+        scrollViewCreate.visibility = View.VISIBLE
         toolbar_create_alarm.visibility = View.VISIBLE
         time_picker_create_alarm.visibility = View.VISIBLE
         repeat_create_text.visibility = View.VISIBLE
@@ -631,6 +642,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
      * @author Romane Bézier
      */
     private fun changeVisibilityLayoutsModify() {
+        layoutHome.visibility = View.GONE
+        scrollViewCreate.visibility = View.GONE
+        scrollViewModify.visibility = View.VISIBLE
         toolbar_create_alarm.visibility = View.INVISIBLE
         time_picker_create_alarm.visibility = View.INVISIBLE
         repeat_create_text.visibility = View.INVISIBLE
@@ -662,6 +676,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
      * @author Romane Bézier
      */
     private fun changeVisibilityLayoutsAlarm() {
+        scrollViewModify.visibility = View.GONE
+        scrollViewCreate.visibility = View.GONE
+        layoutHome.visibility = View.VISIBLE
         toolbar_create_alarm.visibility = View.INVISIBLE
         time_picker_create_alarm.visibility = View.INVISIBLE
         repeat_create_text.visibility = View.INVISIBLE
