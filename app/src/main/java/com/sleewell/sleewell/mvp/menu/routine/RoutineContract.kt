@@ -87,7 +87,6 @@ interface RoutineContract {
         /**
          * This method will set the routine selected at the state selected and reset all other to unselected
          *
-         * @param routine selected by the user
          * @param nbr index in list
          *
          * @author gabin warnier de wailly
