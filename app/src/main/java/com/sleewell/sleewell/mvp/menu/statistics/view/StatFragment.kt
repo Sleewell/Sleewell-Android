@@ -618,31 +618,9 @@ class StatFragment : Fragment(), StatisticsContract.View {
             }
             State.MONTH -> {
                 return listData
-                /*return Array(tmpCalendar.getActualMaximum(Calendar.WEEK_OF_MONTH)) { i ->
-                    if (i != 0)
-                        tmpCalendar.add(Calendar.WEEK_OF_MONTH, 1)
-
-                    val id = dateToString(tmpCalendar.time, StatisticsModel.FORMAT_DAY)
-                    if (indexListData < listData.size && listData[indexListData].id == id) {
-                        indexListData++
-                        return@Array listData[indexListData - 1]
-                    }
-                    return@Array NightAnalyse(null, 0, null, 0, id)
-                }*/
             }
             State.YEAR -> {
                 return listData
-                /*return Array(tmpCalendar.getActualMaximum(12)) { i ->
-                    if (i != 0)
-                        tmpCalendar.add(Calendar.MONTH, 1)
-
-                    val id = dateToString(tmpCalendar.time, StatisticsModel.FORMAT_DAY)
-                    if (indexListData < listData.size && listData[indexListData].id == id) {
-                        indexListData++
-                        return@Array listData[indexListData - 1]
-                    }
-                    return@Array NightAnalyse(null, 0, null, 0, id)
-                }*/
             }
         }
     }
