@@ -92,7 +92,7 @@ interface RoutineContract {
          *
          * @author gabin warnier de wailly
          */
-        fun updateSelectedItemRoutine(routine: Routine, nbr: Int)
+        fun updateSelectedItemRoutine(nbr: Int)
     }
 
     interface Presenter : BasePresenter {

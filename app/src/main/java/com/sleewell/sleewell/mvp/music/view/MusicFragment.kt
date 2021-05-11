@@ -47,13 +47,6 @@ class MusicFragment : MainContract.View, DialogFragment() {
     private lateinit var main_text: TextView
     private var musicSelected: Int = -1
 
-
-    private lateinit var spotify_button: Button
-    private lateinit var spotify_button_disconneted: Button
-    private lateinit var spotify_button_play: Button
-    private lateinit var button_reseach_spotify: Button
-    private lateinit var playlistSelected: SpotifyPlaylist
-
     companion object {
         var music_selected: Boolean = false
         var musicName: String = ""
@@ -179,24 +172,6 @@ class MusicFragment : MainContract.View, DialogFragment() {
             selected.sendInput(musicName, tag)
             dismiss()
         }
-
-        playlistSelected = SpotifyPlaylist(
-            "Hollow knight",
-            "spotify:album:4XgGOMRY7H4hl6OQi5wb2Z",
-            ""
-        )
-        //spotify_button = root.findViewById(R.id.button_spotify)
-        //spotify_button_disconneted = root.findViewById(R.id.button_spotify_disconnected)
-        //spotify_button_play = root.findViewById(R.id.button_spotify_play)
-        //button_reseach_spotify = root.findViewById(R.id.button_reseach_spotify)
-        //spotify_button.setOnClickListener{ presenter.connectionSpotify() }
-        //spotify_button_disconneted.setOnClickListener{ presenter.disconnectionSpotify() }
-        //spotify_button_play.setOnClickListener{
-            //    presenter.playPlaylistSpotify(playlistSelected.getUri())
-        //}
-        //button_reseach_spotify.setOnClickListener{
-        //    this.startActivityForResult(Intent(this, SpotifyActivity::class.java), 1000)
-        //}
     }
 
      override fun onAttach(context: Context) {
@@ -246,14 +221,5 @@ class MusicFragment : MainContract.View, DialogFragment() {
 
     override fun displayToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            val name: String? = data?.getStringExtra("nameMusicSelected")
-            val uri: String? = data?.getStringExtra("uriMusicSelected")
-            playlistSelected = SpotifyPlaylist(name!!, uri!!, "")
-        }
     }
 }

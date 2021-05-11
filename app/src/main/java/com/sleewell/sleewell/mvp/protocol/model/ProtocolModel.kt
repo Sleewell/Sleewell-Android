@@ -1,21 +1,21 @@
 package com.sleewell.sleewell.mvp.protocol.model
 
-import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.ColorFilter
-import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
-import android.view.MotionEvent
-import android.view.Window
-import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.sleewell.sleewell.R
+import com.sleewell.sleewell.database.routine.RoutineDao
+import com.sleewell.sleewell.database.routine.RoutineDatabase
 import com.sleewell.sleewell.modules.audio.service.AnalyseService
 import com.sleewell.sleewell.modules.audio.service.AnalyseServiceTracker
 import com.sleewell.sleewell.mvp.protocol.ProtocolMenuContract
+import com.spotify.android.appremote.api.ConnectionParams
+import com.spotify.android.appremote.api.Connector
+import com.spotify.android.appremote.api.SpotifyAppRemote
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * this class is the model of the halo
@@ -27,18 +27,28 @@ class ProtocolModel(
     private val context: AppCompatActivity
 ) : ProtocolMenuContract.Model {
     private var size: Int = 10
-    private lateinit var bitmap: Bitmap
-    private lateinit var color: ColorFilter
+    var db: RoutineDao = RoutineDatabase.getDatabase(context).routineDao()
+
+    private var routineColorRed: Int = 0
+    private var routineColorGreen: Int = 0
+    private var routineColorBlue: Int = 0
+    private var routineUseHalo: Boolean = false
+    private var routineDuration: Int = 0
+    private var routineUseMusic: Boolean = false
+    private var routinePlayer: String = "None"
+    private var routineMusicName: String = ""
+    private var routineMusicUri: String = ""
 
     //Music
     private var mediaPlayer: MediaPlayer? = null
 
+    //Spotify
+    private val clientId = "" // /!\ need to hide
+    private val redirectUri = "http://com.sleewell.sleewell/callback"
+    private var spotifyAppRemote: SpotifyAppRemote? = null
+
     override fun getSizeOfCircle(): Int {
         return size
-    }
-
-    override fun getColorOfCircle(): ColorFilter {
-        return color
     }
 
     override fun upgradeSizeOfCircle() {
@@ -53,43 +63,6 @@ class ProtocolModel(
 
     override fun resetSizeOfCircle() {
         size = 10
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    override fun openColorPicker(): Dialog {
-        val dialog = Dialog(context)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.colorpicker)
-
-        val colorImage = dialog.findViewById(R.id.colorImage) as ImageView
-        val resultColor = dialog.findViewById(R.id.resultColor) as ImageView
-
-        resultColor.setColorFilter(Color.rgb(0, 0, 255))
-        resultColor.setBackgroundColor(Color.rgb(0, 0, 255))
-        this.color = resultColor.colorFilter
-
-        colorImage.isDrawingCacheEnabled = true
-        colorImage.buildDrawingCache(true)
-
-        colorImage.setOnTouchListener { v, event ->
-            if (event.action == MotionEvent.ACTION_DOWN || event.action == MotionEvent.ACTION_MOVE) {
-                this.bitmap = colorImage.drawingCache
-                if (event.y.toInt() < bitmap.height && event.x.toInt() < bitmap.width && event.y.toInt() > 0 && event.x.toInt() > 0) {
-                    val pixel = bitmap.getPixel(event.x.toInt(), event.y.toInt())
-                    val r = Color.red(pixel)
-                    val g = Color.green(pixel)
-                    val b = Color.blue(pixel)
-                    resultColor.setColorFilter(Color.rgb(r, g, b))
-                    resultColor.setBackgroundColor(Color.rgb(r, g, b))
-                    this.color = resultColor.colorFilter
-                }
-            }
-            true
-        }
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setCanceledOnTouchOutside(true)
-        return dialog
     }
 
     /**
@@ -116,39 +89,59 @@ class ProtocolModel(
         return AnalyseServiceTracker.getServiceState(context) == AnalyseServiceTracker.ServiceState.STARTED
     }
 
-    override fun startMusique(name: String) {
-        if (mediaPlayer != null) {
-            mediaPlayer!!.release()
-        }
-        val song = context.resources.getIdentifier(name, "raw", context.packageName)
-        mediaPlayer = MediaPlayer.create(context, song)
-        mediaPlayer!!.start()
-    }
-
-    override fun pauseMusique() {
-        if (mediaPlayer != null) {
-            mediaPlayer!!.pause()
-        }
-    }
-
-    override fun resumeMusique() {
-        if (mediaPlayer != null) {
+    override fun playMusic() {
+        if (routinePlayer == "Sleewell") {
+            if (mediaPlayer != null) {
+                mediaPlayer!!.release()
+            }
+            val song = context.resources.getIdentifier(routineMusicName, "raw", context.packageName)
+            mediaPlayer = MediaPlayer.create(context, song)
             mediaPlayer!!.start()
+        } else if (routinePlayer == "Spotify") {
+            if (routineMusicName.isNotEmpty() && routineMusicUri.isNotEmpty())
+                spotifyAppRemote?.playerApi?.play(routineMusicUri)
+        }
+    }
+
+    override fun pauseMusic() {
+        if (routinePlayer == "Sleewell") {
+            if (mediaPlayer != null)
+                mediaPlayer!!.pause()
+        } else if (routinePlayer == "Spotify"){
+            if (spotifyAppRemote != null)
+                spotifyAppRemote?.playerApi?.pause()
+        }
+    }
+
+    override fun resumeMusic() {
+        if (routinePlayer == "Sleewell") {
+            if (mediaPlayer != null)
+                mediaPlayer!!.start()
+        } else if (routinePlayer == "Spotify"){
+            if (spotifyAppRemote != null)
+                spotifyAppRemote?.playerApi?.resume()
+        }
+    }
+
+    override fun stopMusic() {
+        if (routinePlayer == "Sleewell") {
+            if (mediaPlayer != null)
+                mediaPlayer!!.stop()
+        } else if (routinePlayer == "Spotify"){
+            if (spotifyAppRemote != null)
+                spotifyAppRemote?.playerApi?.pause()
         }
     }
 
     /**
-     * Method to cal at the end of the view
+     * Method to call at the end of the view
      *
      */
     override fun onDestroy() {
+        stopMusic()
+        SpotifyAppRemote.disconnect(spotifyAppRemote)
     }
 
-    override fun stopMusique() {
-        if (mediaPlayer != null) {
-            mediaPlayer!!.stop()
-        }
-    }
 
     /**
      * Start the foreground service and the analyse
@@ -178,5 +171,60 @@ class ProtocolModel(
             action = AnalyseService.STOP
             context.startService(this)
         }
+    }
+
+    override fun setRoutineSelected(startRoutine: () -> Unit) {
+        CoroutineScope(Dispatchers.IO).launch {
+            var routines = db.getRoutineSelected()
+            if (routines.isNotEmpty()) {
+                CoroutineScope(Dispatchers.Main).launch {
+                    routineColorRed = routines[0].colorRed
+                    routineColorGreen = routines[0].colorGreen
+                    routineColorBlue = routines[0].colorBlue
+                    routineUseHalo = routines[0].useHalo
+                    routineDuration = routines[0].duration
+                    routineUseMusic = routines[0].useMusic
+                    routinePlayer = routines[0].player
+                    routineMusicName = routines[0].musicName
+                    routineMusicUri = routines[0].musicUri
+                    startRoutine()
+                }
+            }
+        }
+    }
+
+    override fun routineUseHalo() : Boolean {
+        return routineUseHalo
+    }
+
+    override fun routineUseMusic() : Boolean {
+        return routineUseMusic
+    }
+
+    override fun getroutineColorHalo() : Int {
+        return Color.rgb(routineColorRed, routineColorGreen, routineColorBlue)
+    }
+
+    override fun getRoutinePlayer() : String {
+        return routinePlayer
+    }
+
+    override fun loginSpotify() {
+        val connectionParams = ConnectionParams.Builder(clientId)
+            .setRedirectUri(redirectUri)
+            .showAuthView(true)
+            .build()
+        SpotifyAppRemote.connect(context, connectionParams, object : Connector.ConnectionListener {
+
+            override fun onConnected(appRemote: SpotifyAppRemote) {
+                spotifyAppRemote = appRemote
+                Toast.makeText(context, "Connected", Toast.LENGTH_LONG).show()
+                playMusic()
+            }
+
+            override fun onFailure(throwable: Throwable) {
+                Toast.makeText(context, "Fail " + throwable.message, Toast.LENGTH_LONG).show()
+            }
+        })
     }
 }

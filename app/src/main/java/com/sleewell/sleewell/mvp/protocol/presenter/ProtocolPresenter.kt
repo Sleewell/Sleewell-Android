@@ -6,9 +6,6 @@ import com.sleewell.sleewell.modules.lockScreen.ILockScreenManager
 import com.sleewell.sleewell.modules.lockScreen.LockScreenManager
 import com.sleewell.sleewell.modules.network.INetworkManager
 import com.sleewell.sleewell.modules.network.NetworkManager
-import com.sleewell.sleewell.modules.settings.ISettingsManager
-import com.sleewell.sleewell.modules.settings.SettingsManager
-import com.sleewell.sleewell.mvp.music.view.MusicFragment
 import com.sleewell.sleewell.mvp.protocol.ProtocolMenuContract
 import com.sleewell.sleewell.mvp.protocol.model.ProtocolModel
 
@@ -27,7 +24,6 @@ class ProtocolPresenter(private var view: ProtocolMenuContract.View, private val
 
     private val connection: INetworkManager = NetworkManager(ctx)
     private val lockScreen: ILockScreenManager = LockScreenManager(ctx)
-    private val settings: ISettingsManager = SettingsManager(ctx)
 
     private var nbrBreath: Int = 0
     private val timer = object : CountDownTimer(10000, 10) {
@@ -37,6 +33,7 @@ class ProtocolPresenter(private var view: ProtocolMenuContract.View, private val
                 model.degradesSizeOfCircle()
             else if (millisUntilFinished > 4000)
                 model.upgradeSizeOfCircle()
+            view.setHaloColor(model.getroutineColorHalo())
             view.printHalo(model.getSizeOfCircle())
         }
         override fun onFinish() {
@@ -54,18 +51,22 @@ class ProtocolPresenter(private var view: ProtocolMenuContract.View, private val
         lockScreen.enableKeepScreenOn()
         view.hideSystemUI()
 
-        view.printHalo(model.getSizeOfCircle())
-        if (settings.getHalo()) {
-            startHalo()
-        }
-
-        playMusic()
+        model.setRoutineSelected(::startRoutine)
 
         startAnalyse()
     }
 
+    private fun startRoutine() {
+        if (model.routineUseHalo()) {
+            startHalo()
+        }
+        if (model.routineUseMusic()) {
+            playMusic()
+        }
+    }
+
     override fun isHaloOn(): Boolean {
-        return settings.getHalo()
+        return model.routineUseHalo()
     }
 
     override fun onDestroy() {
@@ -76,31 +77,31 @@ class ProtocolPresenter(private var view: ProtocolMenuContract.View, private val
 
         stopAnalyse()
 
-        model.stopMusique()
+        model.stopMusic()
         model.onDestroy()
     }
 
     override fun playMusic() {
-        if (settings.getMusic()) {
+        if (model.routineUseMusic()) {
             view.animateEqualizer(true)
-            if (MusicFragment.music_selected) {
-                val name = MusicFragment.musicName
-                if (name.isNotBlank()) {
-                    model.startMusique(name)
-                }
-            }
+            if (model.getRoutinePlayer() == "Spotify")
+                model.loginSpotify()
+            else
+                model.playMusic()
         } else {
             view.animateEqualizer(false)
-            model.stopMusique()
+            model.stopMusic()
         }
     }
 
     override fun pauseMusic() {
+        if (!model.routineUseMusic())
+            return
         if (view.isMusicPlaying()) {
-            model.pauseMusique()
+            model.pauseMusic()
             view.animateEqualizer(false) // When you want equalizer stops animating
         } else {
-            model.resumeMusique()
+            model.resumeMusic()
             view.animateEqualizer(true) // Whenever you want to tart the animation
         }
     }
@@ -109,6 +110,7 @@ class ProtocolPresenter(private var view: ProtocolMenuContract.View, private val
         timer.cancel()
         nbrBreath = 48 // TODO: settings.getHaloTime()
         model.resetSizeOfCircle()
+        view.setHaloColor(model.getroutineColorHalo())
         timer.start()
     }
 

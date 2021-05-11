@@ -69,15 +69,15 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         }
     }
 
-    override fun updateSelectedItemRoutine(routine: Routine, nbr: Int) {
+    override fun updateSelectedItemRoutine(nbr: Int) {
         for (i in aList.indices) {
             if (aList[i].isSelected) {
                 aList[i].isSelected = false
                 db.updateRoutine(aList[i])
             }
         }
-        routine.isSelected = true
-        updateItemRoutine(routine, nbr)
+        aList[nbr].isSelected = true
+        updateItemRoutine(aList[nbr], nbr)
     }
 
     override fun updateSpotifyMusicSelected(musicName: String, musicUri: String, tag: String?) {
@@ -88,13 +88,13 @@ class RoutineModel(context: Context) : RoutineContract.Model {
             val nbr = aList.indexOf(routine)
             routine?.musicName = musicName
             routine?.musicUri = musicUri
-            routine?.let { updateItemRoutine(it, nbr) }
             CoroutineScope(Dispatchers.Main).launch {
                 if (dialog.isShowing) {
                     val nameMusicSelected = dialog.findViewById(R.id.musicNameSelectedDialog) as TextView
                     nameMusicSelected.text = routine?.musicName
                 }
             }
+            routine?.let { updateItemRoutine(it, nbr) }
         }
     }
 
@@ -106,13 +106,13 @@ class RoutineModel(context: Context) : RoutineContract.Model {
             val nbr = aList.indexOf(routine)
             routine?.musicName = musicName
             routine?.musicUri = ""
-            routine?.let { updateItemRoutine(it, nbr) }
             CoroutineScope(Dispatchers.Main).launch {
                 if (dialog.isShowing) {
                     val nameMusicSelected = dialog.findViewById(R.id.musicNameSelectedDialog) as TextView
                     nameMusicSelected.text = routine?.musicName?.split("_")?.last()
                 }
             }
+            routine?.let { updateItemRoutine(it, nbr) }
         }
     }
 
@@ -134,16 +134,12 @@ class RoutineModel(context: Context) : RoutineContract.Model {
     }
 
     override fun openRoutineParameter(nbr: Int, fragmentManager: FragmentManager?, fragment: Fragment) {
-
-        val routine = aList[nbr]
-
-        dialog = openRoutineDialog(routine, nbr, fragmentManager, fragment)
-
+        dialog = openRoutineDialog(nbr, fragmentManager, fragment)
         dialog.show()
     }
 
     @SuppressLint("ResourceType")
-    private fun openRoutineDialog(routine: Routine, nbr: Int, fragmentManager: FragmentManager?, fragment: Fragment): Dialog {
+    private fun openRoutineDialog(nbr: Int, fragmentManager: FragmentManager?, fragment: Fragment): Dialog {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -157,40 +153,40 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         buttonClose.setOnClickListener { dialog.dismiss() }
         buttonDelete.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                removeNewItemRoutine(routine)
+                removeNewItemRoutine(aList[nbr])
             }
             dialog.dismiss()
         }
         buttonSelect.setOnClickListener {
-            routine.isSelected = true
+            aList[nbr].isSelected = true
             CoroutineScope(Dispatchers.IO).launch {
-                updateSelectedItemRoutine(routine, nbr)
+                updateSelectedItemRoutine(nbr)
             }
             dialog.dismiss()
         }
 
-        if (routine.name.isEmpty()) {
-            title.setText("Routine ${routine.uId}")
+        if (aList[nbr].name.isEmpty()) {
+            title.setText("Routine ${aList[nbr].uId}")
         } else {
-            title.setText(routine.name)
+            title.setText(aList[nbr].name)
         }
         title.doAfterTextChanged {
-            routine.name = title.text.toString()
+            aList[nbr].name = title.text.toString()
             CoroutineScope(Dispatchers.IO).launch {
-                updateItemRoutine(routine, nbr)
+                updateItemRoutine(aList[nbr], nbr)
             }
         }
 
-        setDialogColorSet(dialog, routine, nbr)
-        setDialogMusic(dialog, routine, nbr, fragmentManager, fragment)
-        setDialogHalo(dialog, routine, nbr)
+        setDialogColorSet(dialog, nbr)
+        setDialogMusic(dialog, nbr, fragmentManager, fragment)
+        setDialogHalo(dialog, nbr)
 
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCanceledOnTouchOutside(true)
         return dialog
     }
 
-    private fun setDialogColorSet(dialog: Dialog, routine: Routine, nbr: Int) {
+    private fun setDialogColorSet(dialog: Dialog, nbr: Int) {
 
         val colorButtonBlue = dialog.findViewById(R.id.dialog_routine_halo_color_1) as Button
         val colorButtonWhite = dialog.findViewById(R.id.dialog_routine_halo_color_2) as Button
@@ -198,6 +194,7 @@ class RoutineModel(context: Context) : RoutineContract.Model {
 
         colorButtonBlue.setOnClickListener {
             val blueColor = ResourcesCompat.getColor(context.resources, R.color.haloColorBlue, null)
+            val routine = aList[nbr]
             routine.colorBlue = blueColor.blue
             routine.colorGreen = blueColor.green
             routine.colorRed = blueColor.red
@@ -208,6 +205,7 @@ class RoutineModel(context: Context) : RoutineContract.Model {
 
         colorButtonWhite.setOnClickListener {
             val whiteColor = ResourcesCompat.getColor(context.resources, R.color.haloColorWhite, null)
+            val routine = aList[nbr]
             routine.colorBlue = whiteColor.blue
             routine.colorGreen = whiteColor.green
             routine.colorRed = whiteColor.red
@@ -218,6 +216,7 @@ class RoutineModel(context: Context) : RoutineContract.Model {
 
         colorButtonRed.setOnClickListener {
             val redColor = ResourcesCompat.getColor(context.resources, R.color.haloColorRed, null)
+            val routine = aList[nbr]
             routine.colorBlue = redColor.blue
             routine.colorGreen = redColor.green
             routine.colorRed = redColor.red
@@ -227,7 +226,7 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         }
     }
 
-    private fun setDialogMusic(dialog: Dialog, routine: Routine, nbr: Int, fragmentManager: FragmentManager?, fragment: Fragment) {
+    private fun setDialogMusic(dialog: Dialog, nbr: Int, fragmentManager: FragmentManager?, fragment: Fragment) {
 
         val musicSwitch = dialog.findViewById(R.id.dialog_routine_music_switch) as SwitchCompat
         val musicIcon = dialog.findViewById(R.id.dialog_routine_music_icon) as ImageView
@@ -236,24 +235,25 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         val selectMusic = dialog.findViewById(R.id.dialog_routine_selectMusic_button) as ImageView
         val nameMusicSelected = dialog.findViewById(R.id.musicNameSelectedDialog) as TextView
 
-        musicSwitch.isChecked = routine.useMusic
+        musicSwitch.isChecked = aList[nbr].useMusic
         musicSwitch.setOnCheckedChangeListener { _, isChecked ->
+            val routine = aList[nbr]
             routine.useMusic = isChecked
             CoroutineScope(Dispatchers.IO).launch {
                 updateItemRoutine(routine, nbr)
             }
-            setDialogMusic(dialog, routine, nbr, fragmentManager, fragment)
+            setDialogMusic(dialog, nbr, fragmentManager, fragment)
         }
         selectMusic.setOnClickListener {
-            if (routine.player == "Spotify") {
+            if (aList[nbr].player == "Spotify") {
                 val spotifyDialog = SpotifyFragment()
                 spotifyDialog.setTargetFragment(fragment, 1)
-                fragmentManager?.let { it -> spotifyDialog.show(it, routine.uId.toString()) }
+                fragmentManager?.let { it -> spotifyDialog.show(it, aList[nbr].uId.toString()) }
             }
-            if (routine.player == "Sleewell") {
+            if (aList[nbr].player == "Sleewell") {
                 val musicDialog = MusicFragment()
                 musicDialog.setTargetFragment(fragment, 1)
-                fragmentManager?.let { it -> musicDialog.show(it, routine.uId.toString()) }
+                fragmentManager?.let { it -> musicDialog.show(it, aList[nbr].uId.toString()) }
             }
         }
 
@@ -261,31 +261,35 @@ class RoutineModel(context: Context) : RoutineContract.Model {
             adapter.setDropDownViewResource(R.layout.spinner_text_item)
             playerMusicNameSpinner.adapter = adapter
             playerMusicNameSpinner.setSelection(
-                context.resources.getStringArray(R.array.music_player).indexOf(routine.player)
+                context.resources.getStringArray(R.array.music_player).indexOf(aList[nbr].player)
             )
         }
 
         playerMusicNameSpinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(parentView: AdapterView<*>?, selectedItemView: View, position: Int, id: Long) {
-                routine.player = playerMusicNameSpinner.selectedItem.toString()
+                if (aList[nbr].player == playerMusicNameSpinner.selectedItem.toString())
+                    return
+                aList[nbr].player = playerMusicNameSpinner.selectedItem.toString()
                 nameMusicSelected.text = "None"
+                aList[nbr].musicName = "None"
+                aList[nbr].musicUri = ""
                 CoroutineScope(Dispatchers.IO).launch {
-                    updateItemRoutine(routine, nbr)
+                    updateItemRoutine(aList[nbr], nbr)
                 }
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>?) {}
         }
 
-        if (routine.musicName.isNotEmpty()) {
-            if (routine.player == "Sleewell")
-                nameMusicSelected.text = routine.musicName.split("_").last()
+        if (aList[nbr].musicName.isNotEmpty()) {
+            if (aList[nbr].player == "Sleewell")
+                nameMusicSelected.text = aList[nbr].musicName.split("_").last()
             else
-                nameMusicSelected.text = routine.musicName
+                nameMusicSelected.text = aList[nbr].musicName
         } else {
             nameMusicSelected.text = "None"
         }
-        if (routine.useMusic) {
+        if (aList[nbr].useMusic) {
             musicIcon.setBackgroundResource(R.drawable.ic_music_on_blue)
             musicTitle.visibility = View.VISIBLE
             musicTitle.text = "Turn on the music"
@@ -301,21 +305,21 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         }
     }
 
-    private fun setDialogHalo(dialog: Dialog, routine: Routine, nbr: Int) {
+    private fun setDialogHalo(dialog: Dialog, nbr: Int) {
 
         val haloTitle = dialog.findViewById(R.id.dialog_routine_halo_title) as TextView
         val haloSwitch = dialog.findViewById(R.id.dialog_routine_halo_switch) as SwitchCompat
 
-        haloSwitch.isChecked = routine.useHalo
+        haloSwitch.isChecked = aList[nbr].useHalo
         haloSwitch.setOnCheckedChangeListener { _, isChecked ->
-            routine.useHalo = isChecked
+            aList[nbr].useHalo = isChecked
             CoroutineScope(Dispatchers.IO).launch {
-                updateItemRoutine(routine, nbr)
+                updateItemRoutine(aList[nbr], nbr)
             }
-            setDialogHalo(dialog, routine, nbr)
+            setDialogHalo(dialog, nbr)
         }
 
-        if (routine.useHalo) {
+        if (aList[nbr].useHalo) {
             haloTitle.text = "Turn on the halo"
             haloTitle.visibility = View.VISIBLE
         } else {
