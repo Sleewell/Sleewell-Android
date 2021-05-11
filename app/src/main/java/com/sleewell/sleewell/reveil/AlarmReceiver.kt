@@ -8,9 +8,7 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.os.CountDownTimer
 import android.os.Vibrator
-import androidx.core.content.ContextCompat.getSystemService
 import com.sleewell.sleewell.reveil.data.model.Alarm
-
 
 /**
  * Receiver of the alarm to start the notification
@@ -34,7 +32,6 @@ class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
 
         val alarm: Alarm
-
 
         val bundle = intent.getBundleExtra("ALARM")
         if (bundle != null) {

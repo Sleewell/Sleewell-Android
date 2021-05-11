@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -139,7 +138,6 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             deleteSelectedAlarms(adapter)
         }
 
-        mAlarmViewModel = ViewModelProvider(this).get(AlarmViewModel::class.java)
         mAlarmViewModel = ViewModelProvider(this).get(AlarmViewModel::class.java)
         mAlarmViewModel.readAllData.observe(viewLifecycleOwner, { alarm ->
             adapter.setData(alarm)
