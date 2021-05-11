@@ -148,7 +148,6 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         }
 
         mAlarmViewModel = ViewModelProvider(this).get(AlarmViewModel::class.java)
-        mAlarmViewModel = ViewModelProvider(this).get(AlarmViewModel::class.java)
         mAlarmViewModel.readAllData.observe(viewLifecycleOwner, { alarm ->
             adapter.setData(alarm)
         })
