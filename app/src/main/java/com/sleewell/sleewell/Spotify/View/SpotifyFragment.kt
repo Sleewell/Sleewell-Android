@@ -87,8 +87,6 @@ open class SpotifyFragment: DialogFragment(), MainContract.View {
         }
 
         listView.onItemClickListener = AdapterView.OnItemClickListener{ _, _, i, _ ->
-            val resultIntent = Intent()
-
             musicSelected = presenter.getSpotifyMusic(i)
 
             if (musicSelected.getUri() == "Try something else")
@@ -96,9 +94,6 @@ open class SpotifyFragment: DialogFragment(), MainContract.View {
 
             musicName = musicSelected.getName()
             musicUri = musicSelected.getUri()
-
-            resultIntent.putExtra("nameMusicSelected", musicSelected.getName())
-            resultIntent.putExtra("uriMusicSelected", musicSelected.getUri())
         }
         authenticateSpotify()
     }

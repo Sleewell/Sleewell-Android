@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.mvp.menu.account.view
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -33,7 +34,7 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         root = inflater.inflate(R.layout.fragment_profile, container, false)
 
         if (MainActivity.accessTokenSleewell.isEmpty()) {
-            fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, ConnectionFragment())?.commit()
+            fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
         } else {
             initActivityWidgets()
             setPresenter(ProfilePresenter(this, this.activity as AppCompatActivity))
@@ -51,9 +52,19 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         progressWidget = root.findViewById<ProgressBar>(R.id.progress)
 
         val saveButtonWidget = root.findViewById<ImageButton>(R.id.buttonSave)
+        val logoutButtonWidget = root.findViewById<ImageButton>(R.id.buttonLogout)
 
         saveButtonWidget.setOnClickListener {
             presenter.updateProfileInformation()
+        }
+        logoutButtonWidget.setOnClickListener {
+            val sharedPref = activity?.getSharedPreferences(getString(R.string.sharedPrefFile), Context.MODE_PRIVATE)
+            with (sharedPref?.edit()) {
+                this?.putString(getString(R.string.user_token_key), "")
+                this?.apply()
+            }
+            MainActivity.accessTokenSleewell = ""
+            fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
         }
 
         usernameInputWidget.editText?.doOnTextChanged { input, _, _, _ ->

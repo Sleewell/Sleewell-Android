@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.mvp.menu.account.view
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -66,7 +67,7 @@ class RegisterFragment : Fragment(), RegisterContract.View {
         }
 
         loginButton.setOnClickListener {
-            fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, ConnectionFragment())?.commit()
+            fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
         }
         return root
     }
@@ -88,6 +89,11 @@ class RegisterFragment : Fragment(), RegisterContract.View {
     }
 
     override fun setAccessToken(token : String) {
+        val sharedPref = activity?.getSharedPreferences(getString(R.string.sharedPrefFile), Context.MODE_PRIVATE)
+        with (sharedPref?.edit()) {
+            this?.putString(getString(R.string.user_token_key), token)
+            this?.apply()
+        }
         MainActivity.accessTokenSleewell = token
         fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, ProfileFragment())?.commit()
     }
