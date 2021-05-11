@@ -17,14 +17,6 @@ interface ProtocolMenuContract {
          */
         fun getSizeOfCircle() : Int
 
-        /**
-         * This method return the current color of the circle
-         *
-         * @return ColorFilter
-         * @author gabin warnier de wailly
-         */
-        fun getColorOfCircle() : ColorFilter
-
 
         /**
          * This method reduce the size of the circle
@@ -48,14 +40,6 @@ interface ProtocolMenuContract {
         fun resetSizeOfCircle()
 
         /**
-         * This method set up and return the color picker
-         *
-         * @return Dialog
-         * @author gabin warnier de wailly
-         */
-        fun openColorPicker(): Dialog
-
-        /**
          * Record the audio from the mic source
          *
          * @param state
@@ -72,40 +56,84 @@ interface ProtocolMenuContract {
         fun isRecording() : Boolean
 
         /**
-         * This method start the music
-         *
-         * @param name name of the music
-         *
-         * @author gabin warnier de wailly
-         */
-        fun startMusique(name : String)
-
-        /**
          * This method stop the current music launch
          *
          * @author gabin warnier de wailly
          */
-        fun stopMusique()
+        fun stopMusic()
 
         /**
          * This method pause the music
          *
          * @author gabin warnier de wailly
          */
-        fun pauseMusique()
+        fun pauseMusic()
 
         /**
          * This method resume the music
          *
          * @author gabin warnier de wailly
          */
-        fun resumeMusique()
+        fun resumeMusic()
 
         /**
          * Method to cal at the end of the view
          *
+         * @author gabin warnier de wailly
          */
         fun onDestroy()
+
+        /**
+         * go search in database the routine selected and set parameters
+         *
+         * @param startRoutine
+         *
+         * @author gabin warnier de wailly
+         */
+        fun setRoutineSelected(startRoutine: () -> Unit)
+
+        /**
+         *
+         * @return if use halo in routine
+         *
+         * @author gabin warnier de wailly
+         */
+        fun routineUseHalo(): Boolean
+
+        /**
+         * @return if use music in routine
+         */
+        fun routineUseMusic(): Boolean
+
+        /**
+         *
+         * @return color for halo in routine
+         *
+         * @author gabin warnier de wailly
+         */
+        fun getroutineColorHalo(): Int
+
+        /**
+         *
+         * @return player for music in routine
+         *
+         * @author gabin warnier de wailly
+         */
+        fun getRoutinePlayer(): String
+
+        /**
+         * Login to Spotify and play music directly
+         *
+         * @author gabin warnier de wailly
+         */
+        fun loginSpotify()
+
+        /**
+         * Play music form routine
+         *
+         * @author gabin warnier de wailly
+         */
+        fun playMusic()
     }
 
     interface Presenter : BasePresenter {
@@ -204,7 +232,7 @@ interface ProtocolMenuContract {
          * @param color color rgb for the halo
          * @author gabin warnier de wailly
          */
-        fun setHaloColor(color: ColorFilter)
+        fun setHaloColor(color: Int)
 
         /**
          * Returns if the music is being played

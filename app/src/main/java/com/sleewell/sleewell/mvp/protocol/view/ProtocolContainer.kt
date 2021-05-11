@@ -2,9 +2,7 @@ package com.sleewell.sleewell.mvp.protocol.view
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.graphics.ColorFilter
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -13,17 +11,17 @@ import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import androidx.core.content.res.ResourcesCompat
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.graphics.drawable.DrawableCompat
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.modules.gesturelistener.OnSwipeListener
 import com.sleewell.sleewell.mvp.protocol.ProtocolMenuContract
 import com.sleewell.sleewell.mvp.protocol.presenter.ProtocolPresenter
 import kotlinx.android.synthetic.main.activity_protocol_container.*
-import okhttp3.internal.wait
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
-import kotlin.concurrent.timerTask
+
 
 class ProtocolContainer : AppCompatActivity(), ProtocolMenuContract.View {
 
@@ -78,7 +76,9 @@ class ProtocolContainer : AppCompatActivity(), ProtocolMenuContract.View {
                 override fun onAnimationStart(animation: Animation?) {}
                 override fun onAnimationRepeat(animation: Animation?) {}
 
-                override fun onAnimationEnd(animation: Animation?) { finish() }
+                override fun onAnimationEnd(animation: Animation?) {
+                    finish()
+                }
             })
             protocolLayout.startAnimation(animation)
         }
@@ -160,12 +160,11 @@ class ProtocolContainer : AppCompatActivity(), ProtocolMenuContract.View {
             })
     }
 
-    override fun setHaloColor(color: ColorFilter) {
-        val circle = ResourcesCompat.getDrawable(resources, R.drawable.halo, null)
-        circle?.colorFilter = color
-        halo.background = circle
-
-        halo.colorFilter = color
+    override fun setHaloColor(color: Int) {
+        val unwrappedDrawable = AppCompatResources.getDrawable(applicationContext, R.drawable.halo)
+        val wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable!!)
+        DrawableCompat.setTint(wrappedDrawable, color)
+        halo.background = wrappedDrawable
     }
 
     override fun printHalo(size: Int) {
