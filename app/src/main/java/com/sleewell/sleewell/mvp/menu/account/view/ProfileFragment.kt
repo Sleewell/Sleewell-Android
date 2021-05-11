@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.mvp.menu.account.view
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.textfield.TextInputLayout
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.account.contract.ProfileContract
 import com.sleewell.sleewell.mvp.menu.account.presenter.ProfilePresenter
@@ -33,7 +35,7 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         root = inflater.inflate(R.layout.fragment_profile, container, false)
 
         if (MainActivity.accessTokenSleewell.isEmpty()) {
-            fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, ConnectionFragment())?.commit()
+            fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
         } else {
             initActivityWidgets()
             setPresenter(ProfilePresenter(this, this.activity as AppCompatActivity))
@@ -51,9 +53,15 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         progressWidget = root.findViewById<ProgressBar>(R.id.progress)
 
         val saveButtonWidget = root.findViewById<ImageButton>(R.id.buttonSave)
+        val logoutButtonWidget = root.findViewById<ImageButton>(R.id.buttonLogout)
 
         saveButtonWidget.setOnClickListener {
             presenter.updateProfileInformation()
+        }
+        logoutButtonWidget.setOnClickListener {
+            context?.let { it1 -> SleewellApiTracker.disconnect(it1) }
+            MainActivity.accessTokenSleewell = ""
+            fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
         }
 
         usernameInputWidget.editText?.doOnTextChanged { input, _, _, _ ->

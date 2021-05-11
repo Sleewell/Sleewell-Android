@@ -98,6 +98,10 @@
     <string name="cart_average_title_time_to_wake_up">WakingUp</string>
     <string name="card_analyse_title">Analyse</string>
 
+    <!-- shared preferences -->
+    <string name="sharedPrefFile">sharedpreference</string>
+    <string name="user_token_key">USER_TOKEN_SLEEWELL</string>
+
     <!-- Underline -->
     <string name="log_in_underline"><u>Log in</u></string>
     <string name="sign_up_underline"><u>Sign up</u></string>

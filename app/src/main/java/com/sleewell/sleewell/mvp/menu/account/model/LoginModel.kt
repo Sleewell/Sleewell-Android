@@ -5,19 +5,19 @@ import android.util.Log
 import com.sleewell.sleewell.mvp.menu.account.ApiClientSleewell
 import com.sleewell.sleewell.mvp.menu.account.ApiInterfaceSleewell
 import com.sleewell.sleewell.mvp.menu.account.ApiResultLoginSleewell
-import com.sleewell.sleewell.mvp.menu.account.contract.ConnectionContract
+import com.sleewell.sleewell.mvp.menu.account.contract.LoginContract
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 
 
-class ConnectionModel(context: Context) : ConnectionContract.Model {
+class LoginModel(context: Context) : LoginContract.Model {
 
     private var api : ApiInterfaceSleewell? = ApiClientSleewell.retrofit.create(ApiInterfaceSleewell::class.java)
     private val TAG = "ConnectionModel"
 
-    override fun loginToSleewell(onFinishedListener: ConnectionContract.Model.OnFinishedListener, name : String, password: String) {
+    override fun loginToSleewell(onFinishedListener: LoginContract.Model.OnFinishedListener, name : String, password: String) {
         val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
 
         builder.addFormDataPart("login", name)

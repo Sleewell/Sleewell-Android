@@ -12,6 +12,8 @@ import com.sleewell.sleewell.mvp.mainActivity.presenter.MainPresenter
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
+import com.sleewell.sleewell.api.openWeather.Main
+import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
 import com.sleewell.sleewell.database.analyse.night.NightDatabase
 import com.sleewell.sleewell.modules.audio.upload.AudioAnalyseUpload
 import com.sleewell.sleewell.modules.permissions.PermissionManager
@@ -28,7 +30,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         var getAccessTokenSpotify: Boolean = false
         lateinit var accessTokenSpotify: String
 
-        var accessTokenSleewell:String = ""
+        var accessTokenSleewell: String = ""
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +40,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         statsUpload = AudioAnalyseUpload(applicationContext)
         setPresenter(MainPresenter(this))
         presenter.onViewCreated()
+        accessTokenSleewell = getAccessToken()
+    }
+
+    fun getAccessToken() : String {
+        return SleewellApiTracker.getToken(applicationContext)
     }
 
     override fun onStart() {

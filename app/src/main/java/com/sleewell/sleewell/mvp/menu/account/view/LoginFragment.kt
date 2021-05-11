@@ -1,6 +1,6 @@
 package com.sleewell.sleewell.mvp.menu.account.view
 
-import android.R.attr.inAnimation
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,15 +10,16 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
-import com.sleewell.sleewell.mvp.menu.account.contract.ConnectionContract
-import com.sleewell.sleewell.mvp.menu.account.presenter.ConnectionPresenter
+import com.sleewell.sleewell.mvp.menu.account.contract.LoginContract
+import com.sleewell.sleewell.mvp.menu.account.presenter.LoginPresenter
 import kotlinx.android.synthetic.main.new_fragment_resgister_api.*
 
 
-class ConnectionFragment : Fragment(), ConnectionContract.View {
+class LoginFragment : Fragment(), LoginContract.View {
 
-    private lateinit var presenter: ConnectionContract.Presenter
+    private lateinit var presenter: LoginContract.Presenter
     private lateinit var root: View
 
     private lateinit var loginButton: ImageView
@@ -34,7 +35,7 @@ class ConnectionFragment : Fragment(), ConnectionContract.View {
     ): View {
         root = inflater.inflate(R.layout.new_fragment_connection_api, container, false)
 
-        setPresenter(ConnectionPresenter(this, this.activity as AppCompatActivity))
+        setPresenter(LoginPresenter(this, this.activity as AppCompatActivity))
         presenter.onViewCreated()
 
         loginButton = root.findViewById(R.id.loginImageLogin)
@@ -68,11 +69,12 @@ class ConnectionFragment : Fragment(), ConnectionContract.View {
     }
 
     override fun setAccessToken(token: String) {
+        context?.let { SleewellApiTracker.setToken(it, token) }
         MainActivity.accessTokenSleewell = token
         fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, ProfileFragment())?.commit()
     }
 
-    override fun setPresenter(presenter: ConnectionContract.Presenter) {
+    override fun setPresenter(presenter: LoginContract.Presenter) {
         this.presenter = presenter
     }
 
