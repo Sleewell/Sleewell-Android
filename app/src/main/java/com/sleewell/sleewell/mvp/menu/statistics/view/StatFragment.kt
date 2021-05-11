@@ -128,6 +128,7 @@ class StatFragment : Fragment(), StatisticsContract.View {
         textMsg = root.findViewById(R.id.textMessage)
 
         //date
+        calendar.add(Calendar.DAY_OF_YEAR, -1)
         refreshDateView()
         previousDate.setOnClickListener {
             when (presenter.getCurrentState()) {
@@ -175,6 +176,7 @@ class StatFragment : Fragment(), StatisticsContract.View {
             setInLoadingState()
             presenter.setCurrentState(State.DAY)
             calendar.time = Date.from(Instant.now())
+            calendar.add(Calendar.DAY_OF_YEAR, -1)
             refreshDateView()
             presenter.refreshAnalyse(calendar.time)
         }

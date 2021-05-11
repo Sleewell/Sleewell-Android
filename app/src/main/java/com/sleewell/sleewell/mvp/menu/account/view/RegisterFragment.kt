@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -22,6 +23,9 @@ import kotlinx.android.synthetic.main.new_fragment_resgister_api.*
 class RegisterFragment : Fragment(), RegisterContract.View {
     private lateinit var presenter: RegisterContract.Presenter
     private lateinit var root: View
+
+    private val emailRegex =
+        "(?:[a-z0-9!#\$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#\$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"
 
     private lateinit var editLoginId: EditText
     private lateinit var editPassword_1: EditText
@@ -53,15 +57,33 @@ class RegisterFragment : Fragment(), RegisterContract.View {
         loginButton = root.findViewById(R.id.textLogin)
 
         signUpButton.setOnClickListener {
+            if (editLoginId.text.length < 5) {
+                displayToast("Error : invalid login, must contains at least 5 characters")
+                return@setOnClickListener
+            }
+            if (!checkPassword(editPassword_1.text.toString())) {
+                displayToast("Error : password must contains 8 characters and at least 1 number")
+                return@setOnClickListener
+            }
             if (editPassword_1.text.toString() != editPassword_2.text.toString()) {
                 displayToast("Error : password are not identical")
                 return@setOnClickListener
             }
-            presenter.register(editLoginId.text.toString(),
+            if (!Regex(emailRegex).matches(editEmail.text)) {
+                displayToast("Error : email invalid")
+                return@setOnClickListener
+            }
+            if (editFirstName.text.isEmpty() || editLastName.text.isEmpty()) {
+                displayToast("Error : First Name or Last Name cannot be empty")
+                return@setOnClickListener
+            }
+            presenter.register(
+                editLoginId.text.toString(),
                 editPassword_1.text.toString(),
                 editEmail.text.toString(),
                 editFirstName.text.toString(),
-                editLastName.text.toString())
+                editLastName.text.toString()
+            )
 
             displayLoading()
         }
@@ -70,6 +92,21 @@ class RegisterFragment : Fragment(), RegisterContract.View {
             fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
         }
         return root
+    }
+
+    private fun checkPassword(pw: String): Boolean {
+        var containsDigit = false
+        var containsLetter = false
+
+        if (pw.length < 8)
+            return false
+        pw.forEach {
+            if (it.isDigit())
+                containsDigit = true
+            if (it.isLetter())
+                containsLetter = true
+        }
+        return containsLetter && containsDigit
     }
 
     override fun displayLoading() {
@@ -88,9 +125,10 @@ class RegisterFragment : Fragment(), RegisterContract.View {
         progressBarHolder?.visibility = View.GONE
     }
 
-    override fun setAccessToken(token : String) {
-        val sharedPref = activity?.getSharedPreferences(getString(R.string.sharedPrefFile), Context.MODE_PRIVATE)
-        with (sharedPref?.edit()) {
+    override fun setAccessToken(token: String) {
+        val sharedPref =
+            activity?.getSharedPreferences(getString(R.string.sharedPrefFile), Context.MODE_PRIVATE)
+        with(sharedPref?.edit()) {
             this?.putString(getString(R.string.user_token_key), token)
             this?.apply()
         }
