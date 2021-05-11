@@ -13,11 +13,5 @@
         app:summary="@string/setting_notification_summary"
         app:fragment="com.sleewell.sleewell.mvp.menu.settings.view.SettingsFragment$NotificationPreferencesFragment"
         app:icon="@drawable/notifications_24px"/>
-    <Preference
-        app:title="@string/setting_protocol_name"
-        app:summary="@string/setting_protocol_summary"
-        app:fragment="com.sleewell.sleewell.mvp.menu.settings.view.SettingsFragment$ProtocolPreferencesFragment"
-        app:icon="@drawable/ic_halo"
-        />
 
 </androidx.preference.PreferenceScreen>
