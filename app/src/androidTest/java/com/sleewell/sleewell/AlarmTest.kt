@@ -11,9 +11,7 @@ import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiObject
 import androidx.test.uiautomator.UiScrollable
 import androidx.test.uiautomator.UiSelector
-import com.sleewell.sleewell.reveil.AlarmReceiver
 import com.sleewell.sleewell.utils.UiAutomatorUtils
-import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -46,7 +44,17 @@ class AlarmTest {
     }
 
     @Test
-    fun alarmCreate() {
+    fun firstPage() {
+        utils.openAlarmTab()
+
+        val createButton: UiObject = mDevice.findObject(
+            UiSelector().resourceId("com.sleewell.sleewell:id/add_alarm_button")
+        )
+        assert(createButton.exists())
+    }
+
+    @Test
+    fun secondPage() {
         utils.openAlarmTab()
 
         val creationButton: UiObject = mDevice.findObject(
@@ -54,23 +62,8 @@ class AlarmTest {
         )
         creationButton.click()
 
-        val validateAlarmButton: UiObject = mDevice.findObject(
-            UiSelector().resourceId("com.sleewell.sleewell:id/validate_create_alarm")
-        )
-        validateAlarmButton.click()
+        assert(mDevice.findObject(UiSelector().resourceId("com.sleewell.sleewell:id/checkBox_create_vibrate")).isChecked)
+        assert(mDevice.findObject(UiSelector().resourceId("com.sleewell.sleewell:id/time_picker_create_alarm")).exists())
 
-        assertEquals(isAlarmActivate(), true)
-    }
-
-    private fun isAlarmActivate() : Boolean {
-        val tempIntent = Intent(context, AlarmReceiver::class.java)
-        tempIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-
-        return PendingIntent.getBroadcast(
-            context,
-            0,
-            tempIntent,
-            PendingIntent.FLAG_NO_CREATE
-        ) != null
     }
 }
