@@ -13,6 +13,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import com.sleewell.sleewell.api.openWeather.Main
+import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
 import com.sleewell.sleewell.database.analyse.night.NightDatabase
 import com.sleewell.sleewell.modules.audio.upload.AudioAnalyseUpload
 import com.sleewell.sleewell.modules.permissions.PermissionManager
@@ -43,8 +44,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 
     fun getAccessToken() : String {
-        val sharedPref = getSharedPreferences(getString(R.string.sharedPrefFile), Context.MODE_PRIVATE)
-        return sharedPref?.getString(getString(R.string.user_token_key), "")!!.toString()
+        return SleewellApiTracker.getToken(applicationContext)
     }
 
     override fun onStart() {

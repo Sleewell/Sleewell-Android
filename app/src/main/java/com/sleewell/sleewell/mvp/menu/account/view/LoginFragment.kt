@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.account.contract.LoginContract
 import com.sleewell.sleewell.mvp.menu.account.presenter.LoginPresenter
@@ -68,11 +69,7 @@ class LoginFragment : Fragment(), LoginContract.View {
     }
 
     override fun setAccessToken(token: String) {
-        val sharedPref = activity?.getSharedPreferences(getString(R.string.sharedPrefFile), Context.MODE_PRIVATE)
-        with (sharedPref?.edit()) {
-            this?.putString(getString(R.string.user_token_key), token)
-            this?.apply()
-        }
+        context?.let { SleewellApiTracker.setToken(it, token) }
         MainActivity.accessTokenSleewell = token
         fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, ProfileFragment())?.commit()
     }

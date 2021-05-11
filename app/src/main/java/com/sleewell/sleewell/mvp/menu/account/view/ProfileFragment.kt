@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.textfield.TextInputLayout
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.account.contract.ProfileContract
 import com.sleewell.sleewell.mvp.menu.account.presenter.ProfilePresenter
@@ -58,11 +59,7 @@ class ProfileFragment : Fragment(), ProfileContract.View {
             presenter.updateProfileInformation()
         }
         logoutButtonWidget.setOnClickListener {
-            val sharedPref = activity?.getSharedPreferences(getString(R.string.sharedPrefFile), Context.MODE_PRIVATE)
-            with (sharedPref?.edit()) {
-                this?.putString(getString(R.string.user_token_key), "")
-                this?.apply()
-            }
+            context?.let { it1 -> SleewellApiTracker.disconnect(it1) }
             MainActivity.accessTokenSleewell = ""
             fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
         }

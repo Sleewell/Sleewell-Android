@@ -129,8 +129,9 @@
         android:background="@drawable/shape_oval"
         android:backgroundTint="@color/colorPrimary"
         android:backgroundTintMode="src_in"
-        android:rotationY="180"
-        android:src="@drawable/ic_arrow_connection"
+        android:paddingRight="20px"
+        android:scaleType="center"
+        android:src="@drawable/ic_sign_out"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
