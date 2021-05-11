@@ -370,8 +370,10 @@ class StatFragment : Fragment(), StatisticsContract.View {
                 "Feb",
                 "Mar",
                 "Avp",
+                "May",
                 "Jun",
                 "Jul",
+                "Aug",
                 "Sep",
                 "Oct",
                 "Nov",
@@ -454,10 +456,18 @@ class StatFragment : Fragment(), StatisticsContract.View {
      */
     override fun displayNightData(timeSleeping: Long, timeGoingToSleep: Long, timeWakingUp: Long) {
         scopeMainThread.launch {
+            if (timeGoingToSleep == 0L && timeSleeping == 0L && timeWakingUp == 0L) {
+                hideAllCards()
+                return@launch
+            }
             statCard.visibility = View.VISIBLE
             statTimeSlept.text = timestampToDuration(timeSleeping)
             statTimeSleeping.text = timestampToDateString(timeGoingToSleep)
-            statTimeWakingUp.text = timestampToDateString(timeWakingUp)
+            if (timeWakingUp >= 24 * 60 * 60) {
+                statTimeWakingUp.text = timestampToDateString(timeWakingUp - (24 * 60 * 60))
+            } else {
+                statTimeWakingUp.text = timestampToDateString(timeWakingUp)
+            }
         }
     }
 
@@ -607,30 +617,10 @@ class StatFragment : Fragment(), StatisticsContract.View {
                 }
             }
             State.MONTH -> {
-                return Array(tmpCalendar.getActualMaximum(Calendar.WEEK_OF_MONTH)) { i ->
-                    if (i != 0)
-                        tmpCalendar.add(Calendar.WEEK_OF_MONTH, 1)
-
-                    val id = dateToString(tmpCalendar.time, StatisticsModel.FORMAT_DAY)
-                    if (indexListData < listData.size && listData[indexListData].id == id) {
-                        indexListData++
-                        return@Array listData[indexListData - 1]
-                    }
-                    return@Array NightAnalyse(null, 0, null, 0, id)
-                }
+                return listData
             }
             State.YEAR -> {
-                return Array(tmpCalendar.getActualMaximum(12)) { i ->
-                    if (i != 0)
-                        tmpCalendar.add(Calendar.MONTH, 1)
-
-                    val id = dateToString(tmpCalendar.time, StatisticsModel.FORMAT_DAY)
-                    if (indexListData < listData.size && listData[indexListData].id == id) {
-                        indexListData++
-                        return@Array listData[indexListData - 1]
-                    }
-                    return@Array NightAnalyse(null, 0, null, 0, id)
-                }
+                return listData
             }
         }
     }
