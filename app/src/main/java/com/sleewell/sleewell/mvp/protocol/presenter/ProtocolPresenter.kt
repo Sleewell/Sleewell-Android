@@ -41,8 +41,14 @@ class ProtocolPresenter(private var view: ProtocolMenuContract.View, private val
             if (nbrBreath > 0) {
                 nbrBreath -= 1
                 this.start()
-            }
+            } else if (nbrBreath <= 0)
+                finishProtocol()
         }
+    }
+
+    fun finishProtocol() {
+        model.stopMusic()
+        lockScreen.disableKeepScreenOn()
     }
 
     override fun onViewCreated() {

@@ -96,10 +96,12 @@ class ProtocolModel(
             }
             val song = context.resources.getIdentifier(routineMusicName, "raw", context.packageName)
             mediaPlayer = MediaPlayer.create(context, song)
+            mediaPlayer!!.isLooping = true
             mediaPlayer!!.start()
         } else if (routinePlayer == "Spotify") {
-            if (routineMusicName.isNotEmpty() && routineMusicUri.isNotEmpty())
+            if (routineMusicName.isNotEmpty() && routineMusicUri.isNotEmpty()) {
                 spotifyAppRemote?.playerApi?.play(routineMusicUri)
+            }
         }
     }
 
