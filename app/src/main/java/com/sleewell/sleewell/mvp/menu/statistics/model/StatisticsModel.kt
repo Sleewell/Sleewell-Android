@@ -260,7 +260,7 @@ class StatisticsModel(
             listener.onError("You're not connected, please connect and try again")
             return
         }
-        val call: Call<ListAnalyse> = api.getWeek("Bearer $TOKEN", dateToDateString(yearDate, FORMAT_YEAR))
+        val call: Call<ListAnalyse> = api.getYear("Bearer $TOKEN", dateToDateString(yearDate, FORMAT_YEAR))
 
         call.enqueue(object : Callback<ListAnalyse> {
 
