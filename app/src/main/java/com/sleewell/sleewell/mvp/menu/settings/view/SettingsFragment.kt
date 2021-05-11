@@ -129,20 +129,4 @@ class SettingsFragment : Fragment(), SettingsContract.View, PreferenceFragmentCo
             }
         }
     }
-
-    /**
-     * Class instantiate to display Halo settings
-     *
-     * @author Gabin Warnier de wailly
-     */
-    class ProtocolPreferencesFragment : PreferenceFragmentCompat() {
-        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-            setPreferencesFromResource(R.xml.protocol, rootKey)
-            val returnPref = findPreference<Preference>(getString(R.string.setting_protocol_return_key))
-            returnPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                activity!!.supportFragmentManager.popBackStackImmediate()
-                true
-            }
-        }
-    }
 }
