@@ -2,13 +2,9 @@ package com.sleewell.sleewell.mvp.menu.account.model
 
 import android.content.Context
 import android.util.Log
-import com.sleewell.sleewell.mvp.global.BasePresenter
-import com.sleewell.sleewell.mvp.global.BaseView
 import com.sleewell.sleewell.mvp.menu.account.ApiClientSleewell
 import com.sleewell.sleewell.mvp.menu.account.ApiInterfaceSleewell
-import com.sleewell.sleewell.mvp.menu.account.ApiResultLoginSleewell
 import com.sleewell.sleewell.mvp.menu.account.ApiResultRegisterSleewell
-import com.sleewell.sleewell.mvp.menu.account.contract.ConnectionContract
 import com.sleewell.sleewell.mvp.menu.account.contract.RegisterContract
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

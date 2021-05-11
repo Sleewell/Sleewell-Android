@@ -57,8 +57,10 @@ class AudioAnalyseDbUtils(context: Context, val listener: IAudioAnalyseRecordLis
         scope.launch {
             val night = nightDao.getNightWithTimestamp(timestamp)
 
-            analyseDao.deleteAnalyseFromNightId(night.uId)
-            nightDao.deleteNight(night)
+            if (night != null) {
+                analyseDao.deleteAnalyseFromNightId(night.uId)
+                nightDao.deleteNight(night)
+            }
         }
     }
 

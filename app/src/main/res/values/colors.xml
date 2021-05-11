@@ -16,9 +16,14 @@
     <color name="textButDarker">#4DFFFFFF</color>
     <color name="textButOnImage">#7D7D7D</color>
     <color name="level4LightOnDark">#29FFFFFF</color>
+    <color name="BackgroundLightFull">#8C8C8C</color>
 
     <color name="transparent">#00FFFFFF</color>
     <color name="blueButton">#324B76</color>
+
+    <color name="haloColorRed">#D32F2F</color>
+    <color name="haloColorWhite">#FDFDFD</color>
+    <color name="haloColorBlue">#303F9F</color>
 
     <color name="mtrl_textinput_default_box_stroke_color">#73FFFFFF</color>
 </resources>

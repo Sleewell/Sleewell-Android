@@ -13,31 +13,31 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
+        android:fontFamily="@font/nunito"
         android:hint="Enter music"
         android:inputType="textPersonName"
-        android:textColor="@color/textOnBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/BackgroundLightFull"
+        android:textColorHint="@color/BackgroundLightFull"
         app:layout_constraintEnd_toStartOf="@+id/searchSpotifyButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1">
+        app:layout_constraintTop_toTopOf="parent">
 
     </EditText>
 
     <Button
         android:id="@+id/searchSpotifyButton"
         android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:background="@color/transparent"
         android:fontFamily="@font/roboto_bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.859"
         app:layout_constraintStart_toEndOf="@+id/editMusicId"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.08" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/searchSpotifyImage"
@@ -45,22 +45,24 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/searchSpotifyButton"
         app:layout_constraintEnd_toEndOf="@+id/searchSpotifyButton"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/searchSpotifyButton"
         app:layout_constraintTop_toTopOf="@+id/searchSpotifyButton"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_search" />
 
     <ListView
         android:id="@+id/playlistSpotifyListView"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:listSelector="@color/colorPrimary"
         android:divider="@null"
         android:dividerHeight="10dp"
+        android:listSelector="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/MusicButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchSpotifyButton" />
+        app:layout_constraintTop_toBottomOf="@id/editMusicId" />
 
     <ImageView
         android:id="@+id/music_icon"
@@ -68,24 +70,22 @@
         android:layout_height="40dp"
         app:layout_constraintBottom_toBottomOf="@+id/MusicButton"
         app:layout_constraintEnd_toEndOf="@+id/MusicButton"
-        app:layout_constraintHorizontal_bias="0.35"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="@+id/MusicButton"
         app:layout_constraintTop_toTopOf="@+id/MusicButton"
         app:layout_constraintVertical_bias="0.50"
-        app:srcCompat="@drawable/ic_music" />
+        app:srcCompat="@drawable/ic_apps_24px_outlined" />
 
     <Button
         android:id="@+id/MusicButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="400dp"
+        android:layout_height="60dp"
         android:background="@color/transparent"
-        android:fontFamily="@font/roboto_bold"
-        android:text="Music"
+        android:fontFamily="@font/nunito"
+        android:text="Back"
         android:textColor="@color/textOnBackground"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.67"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playlistSpotifyListView" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

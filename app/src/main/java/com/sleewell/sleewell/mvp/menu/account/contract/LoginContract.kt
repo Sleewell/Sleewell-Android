@@ -4,7 +4,7 @@ import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
 import com.sleewell.sleewell.mvp.menu.account.ApiResultLoginSleewell
 
-interface ConnectionContract {
+interface LoginContract {
     interface Model {
         interface OnFinishedListener {
             /**

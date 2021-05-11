@@ -1,6 +1,7 @@
 package com.sleewell.sleewell.Spotify.View
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,7 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.DialogFragment
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.Spotify.MainContract
 import com.sleewell.sleewell.Spotify.Presenter.SpotifyPresenter
@@ -21,11 +22,12 @@ import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.spotify.sdk.android.authentication.LoginActivity
-import com.spotify.sdk.android.authentication.LoginActivity.REQUEST_CODE
+import java.lang.ClassCastException
 
 
-class SpotifyFragment: Fragment(), MainContract.View {
+open class SpotifyFragment: DialogFragment(), MainContract.View {
 
+    lateinit var backButton : Button
     private lateinit var presenter: MainContract.Presenter
     private lateinit var root: View
     private lateinit var listView: ListView
@@ -36,6 +38,14 @@ class SpotifyFragment: Fragment(), MainContract.View {
 
     private val clientId = "" // /!\ need to hide
     private val redirectUri = "http://com.sleewell.sleewell/callback"
+
+    var musicName: String = ""
+    var musicUri: String = ""
+
+    interface OnInputSelected {
+        fun sendInput(musicName : String, musicUri : String, tag : String?)
+    }
+    lateinit var selected : OnInputSelected
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,10 +61,21 @@ class SpotifyFragment: Fragment(), MainContract.View {
         return root
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            selected = targetFragment as OnInputSelected
+        } catch (e : ClassCastException) {
+            Log.e("SpotifyFragment", e.message.toString())
+        }
+    }
+
     private fun InitFragmentWidget() {
-        val menu = root.findViewById<Button>(R.id.MusicButton)
-        menu.setOnClickListener {
-            fragmentManager?.popBackStack()
+        backButton = root.findViewById(R.id.MusicButton)
+
+        backButton.setOnClickListener {
+            selected.sendInput(musicName, musicUri, tag)
+            dismiss()
         }
 
         editTextSpotify = root.findViewById(R.id.editMusicId)
@@ -66,15 +87,13 @@ class SpotifyFragment: Fragment(), MainContract.View {
         }
 
         listView.onItemClickListener = AdapterView.OnItemClickListener{ _, _, i, _ ->
-            val resultIntent = Intent()
-
             musicSelected = presenter.getSpotifyMusic(i)
 
             if (musicSelected.getUri() == "Try something else")
                 return@OnItemClickListener
-            resultIntent.putExtra("nameMusicSelected", musicSelected.getName())
-            resultIntent.putExtra("uriMusicSelected", musicSelected.getUri())
-            fragmentManager?.popBackStack()
+
+            musicName = musicSelected.getName()
+            musicUri = musicSelected.getUri()
         }
         authenticateSpotify()
     }
@@ -84,6 +103,10 @@ class SpotifyFragment: Fragment(), MainContract.View {
             return ""
         accessToken = MainActivity.accessTokenSpotify
         return accessToken
+    }
+
+    override fun getTheme(): Int {
+        return R.style.DialogTheme
     }
 
     private fun authenticateSpotify() {

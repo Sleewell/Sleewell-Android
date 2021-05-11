@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@color/background"
+    android:padding="7dp">
+
+    <ImageView
+        android:id="@+id/item_routine_is_selected"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_check_white_24dp"
+        android:backgroundTint="@color/textButOnImage" />
+
+    <ImageView
+        android:id="@+id/item_routine_images"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="5dp"
+        android:background="@mipmap/icon_launcher" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginStart="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/item_routine_title"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="0dp"
+                android:fontFamily="@font/nunito"
+                android:text="Routine uId"
+                android:textColor="@color/textOnBackground"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/item_routine_halo_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_halo"
+                android:layout_marginStart="10dp"
+                android:rotation="90"/>
+
+            <ImageView
+                android:id="@+id/item_routine_halo"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:background="@color/haloColorRed"/>
+
+            <ImageView
+                android:layout_width="4dp"
+                android:layout_height="15dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rectangle" />
+
+            <ImageView
+                android:id="@+id/item_routine_music"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_music_on" />
+
+            <TextView
+                android:id="@+id/item_routine_music_title"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/nunito"
+                android:text="Music Title"
+                android:textColor="@color/textOnBackground"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -61,10 +61,6 @@ class HomeFragment : Fragment(), HomeContract.View {
             startActivity(protocol)
         }
 
-        val buttonMusic = root.findViewById<Button>(R.id.button_music)
-        buttonMusic.setOnClickListener {
-            navController.navigate(R.id.action_menuFragment_to_musicFragment)
-        }
     }
 
     /**

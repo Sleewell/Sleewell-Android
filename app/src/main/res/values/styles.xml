@@ -40,4 +40,10 @@
         <item name="android:textColor">@drawable/toggle_text_color</item>
     </style>
 
+
+    <style name="DialogTheme" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsFloating">false </item>
+    </style>
 </resources>

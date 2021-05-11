@@ -67,6 +67,7 @@
     <string name="alarm_label">new_fragment_alarm</string>
     <string name="settings_label">new_fragment_settings</string>
     <string name="statistics_label">new_fragment_stat</string>
+    <string name="routine_label">new_fragment_routine</string>
 
     <!-- Music page -->
     <string name="forest_menu">FOREST</string>
@@ -74,7 +75,7 @@
     <string name="fire_menu">FIRE</string>
     <string name="water_menu">WATER</string>
     <string name="rain_menu">RAIN</string>
-    <string name="menu_button">Home</string>
+    <string name="menu_button">Back</string>
     <string name="main_image_title">forest</string>
 
     <!-- Notifications -->
@@ -85,12 +86,36 @@
     <string name="analyse_foreground_notification_content_text">Analyse in progress</string>
     <string name="analyse_foreground_stopping_notification_content_text">Stopping analyse…</string>
 
+    <!-- Stats -->
+    <string name="nav_day_stat">DAY</string>
+    <string name="nav_week_stat">WEEK</string>
+    <string name="nav_month_stat">MONTH</string>
+    <string name="nav_year_stat">YEAR</string>
+    <string name="nav_next_description">Next analyse</string>
+    <string name="nav_prev_description">Previous analyse</string>
+    <string name="card_average_title">Statistics</string>
+    <string name="cart_average_title_time_to_sleep">Sleeping</string>
+    <string name="cart_average_title_time_to_wake_up">WakingUp</string>
+    <string name="card_analyse_title">Analyse</string>
+
+    <!-- shared preferences -->
+    <string name="sharedPrefFile">sharedpreference</string>
+    <string name="user_token_key">USER_TOKEN_SLEEWELL</string>
+
     <!-- Underline -->
     <string name="log_in_underline"><u>Log in</u></string>
     <string name="sign_up_underline"><u>Sign up</u></string>
 
     <string name="music_screen_title">Sounds to sleep to</string>
     <string name="hello_blank_fragment">New Fragment</string>
+  
+  <!-- Strings Array -->
+    
+    <string-array name="music_player">
+        <item>None</item>
+        <item>Spotify</item>
+        <item>Sleewell</item>
+    </string-array>
     
     <!-- Alarm -->
     <string name="snooze_5_min">Snooze 5 min</string>
