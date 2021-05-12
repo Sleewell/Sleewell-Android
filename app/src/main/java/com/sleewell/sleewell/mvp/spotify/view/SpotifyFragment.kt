@@ -1,8 +1,7 @@
-package com.sleewell.sleewell.Spotify.View
+package com.sleewell.sleewell.mvp.spotify.view
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,10 +12,10 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import com.sleewell.sleewell.R
-import com.sleewell.sleewell.Spotify.MainContract
-import com.sleewell.sleewell.Spotify.Presenter.SpotifyPresenter
-import com.sleewell.sleewell.Spotify.SpotifyPlaylist
-import com.sleewell.sleewell.Spotify.SpotifyPlaylistAdapter
+import com.sleewell.sleewell.mvp.spotify.MainContract
+import com.sleewell.sleewell.mvp.spotify.presenter.SpotifyPresenter
+import com.sleewell.sleewell.mvp.spotify.SpotifyPlaylist
+import com.sleewell.sleewell.mvp.spotify.SpotifyPlaylistAdapter
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest

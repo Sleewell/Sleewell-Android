@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.Spotify
+package com.sleewell.sleewell.mvp.spotify
 
 import android.text.Editable
 import com.sleewell.sleewell.mvp.global.BasePresenter

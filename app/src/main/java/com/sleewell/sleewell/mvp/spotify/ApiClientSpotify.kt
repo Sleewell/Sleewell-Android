@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.Spotify
+package com.sleewell.sleewell.mvp.spotify
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

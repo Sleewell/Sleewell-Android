@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.*
@@ -18,16 +19,24 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.sleewell.sleewell.R
-import com.sleewell.sleewell.Spotify.View.SpotifyFragment
+import com.sleewell.sleewell.api.sleewell.ApiClient
+import com.sleewell.sleewell.api.sleewell.IRoutineApi
+import com.sleewell.sleewell.api.sleewell.model.*
 import com.sleewell.sleewell.database.routine.RoutineDao
 import com.sleewell.sleewell.database.routine.RoutineDatabase
 import com.sleewell.sleewell.database.routine.entities.Routine
+import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.routine.RoutineContract
 import com.sleewell.sleewell.mvp.menu.routine.RoutineListAdapter
 import com.sleewell.sleewell.mvp.music.view.MusicFragment
+import com.sleewell.sleewell.mvp.spotify.view.SpotifyFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Call
+import retrofit2.Callback
 
 
 class RoutineModel(context: Context) : RoutineContract.Model {
@@ -37,14 +46,15 @@ class RoutineModel(context: Context) : RoutineContract.Model {
     private var adapter: RoutineListAdapter
     private var aList: ArrayList<Routine> = ArrayList()
     private lateinit var dialog: Dialog
+    private var api : IRoutineApi? = ApiClient.retrofit.create(IRoutineApi::class.java)
 
     init {
         aList.clear()
         adapter = RoutineListAdapter(context, aList)
     }
 
-    override fun createNewItemRoutine() {
-        val rt = Routine("", false,34, 23, 163)
+    override fun createNewItemRoutine(id: Int) {
+        val rt = Routine("", false, id, 48, 63, 159, false, 48, false, "None", "", "")
         val n = db.addNewRoutine(rt)
 
         aList.add(db.getRoutine(n))
@@ -116,8 +126,37 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         }
     }
 
-    override fun updateListViewRoutine() {
+    override fun updateListViewRoutine(routines: RoutinesResponse?) {
+        val routinesDb = db.getAllRoutine()
 
+        aList.clear()
+        for (i in routinesDb.indices) {
+            removeNewItemRoutine(routinesDb[i])
+        }
+        for (i in routines?.data!!.indices) {
+            val id = routines.data[i].id
+            val initColor = Color.parseColor(routines.data[i].color)
+            val r = Color.red(initColor)
+            val g = Color.green(initColor)
+            val b = Color.blue(initColor)
+            val halo = if (routines.data[i].halo == 1) true else false
+            val duration = routines.data[i].duration
+            val useMusic = if (routines.data[i].usemusic == 1) true else false
+            val musicName = routines.data[i].musicName
+            val musicUri = routines.data[i].musicUri
+            val player = routines.data[i].player
+            val name = routines.data[i].name
+
+            val rt = Routine(name, false, id, r, g, b, halo, duration, useMusic, player, musicName, musicUri)
+            val n = db.addNewRoutine(rt)
+            aList.add(db.getRoutine(n))
+        }
+        CoroutineScope(Dispatchers.Main).launch {
+            adapter.notifyDataSetChanged()
+        }
+    }
+
+    override fun updateListViewOffLine() {
         val routines = db.getAllRoutine()
 
         aList.clear()
@@ -129,12 +168,155 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         }
     }
 
+    override fun getRoutineApiSleewell() {
+        val call : Call<RoutinesResponse>? = api?.getRoutines(MainActivity.accessTokenSleewell)
+        val TAG = "GET-ROUTINE-API"
+
+        call?.enqueue(object: Callback<RoutinesResponse> {
+            override fun onResponse(call: Call<RoutinesResponse>, response: retrofit2.Response<RoutinesResponse>) {
+                val responseRes: RoutinesResponse? = response.body()
+
+                if (responseRes == null) {
+                    Log.e(TAG, "Body null error")
+                    Log.e(TAG, "Code : " + response)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        updateListViewOffLine()
+                    }
+                } else {
+                    Log.e(TAG, "Success")
+                    CoroutineScope(Dispatchers.IO).launch {
+                        updateListViewRoutine(responseRes)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<RoutinesResponse>, t: Throwable) {
+                Log.e(TAG, t.toString())
+                CoroutineScope(Dispatchers.IO).launch {
+                    updateListViewOffLine()
+                }
+            }
+        })
+    }
+
+    fun deleteRoutineApiSleewell(id: Int) {
+        val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+        val TAG = "DEL-ROUTINE-API"
+
+        builder.addFormDataPart("id", id.toString())
+
+        val requestBody: RequestBody = builder.build()
+        val call : Call<DeleteRoutineResponse>? = api?.deleteRoutine(MainActivity.accessTokenSleewell, requestBody)
+
+        call?.enqueue(object: Callback<DeleteRoutineResponse> {
+
+            override fun onResponse(call: Call<DeleteRoutineResponse>, response: retrofit2.Response<DeleteRoutineResponse>) {
+                val responseRes: DeleteRoutineResponse? = response.body()
+                if (responseRes == null) {
+                    Log.e(TAG, "Body null error")
+                    Log.e(TAG, "Code : " + response.code())
+                } else {
+                    Log.e(TAG, "Success")
+                }
+            }
+            override fun onFailure(call: Call<DeleteRoutineResponse>, t: Throwable) {
+                Log.e(TAG, t.toString())
+            }
+        })
+    }
+
+    fun updateRoutineApiSleewell(routine: Routine) {
+        val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+        val TAG = "UPDATE-ROUTINE-API"
+        val hex = String.format("#%02x%02x%02x", routine.colorRed, routine.colorGreen, routine.colorBlue)
+        val useHalo = if (routine.useHalo) 1 else 0
+        val useMusic = if (routine.useMusic) 1 else 0
+
+        builder.addFormDataPart("name", routine.name)
+        builder.addFormDataPart("color", hex)
+        builder.addFormDataPart("music", useMusic.toString())
+        builder.addFormDataPart("halo", useHalo.toString())
+        builder.addFormDataPart("duration", routine.duration.toString())
+        builder.addFormDataPart("player", routine.player)
+        builder.addFormDataPart("musicname", routine.musicName)
+        builder.addFormDataPart("musicuri", routine.musicUri)
+        builder.addFormDataPart("id", routine.apiId.toString())
+
+        val requestBody: RequestBody = builder.build()
+        val call : Call<UpdateRoutineResponse>? = api?.updateRoutine(MainActivity.accessTokenSleewell, requestBody)
+
+        call?.enqueue(object: Callback<UpdateRoutineResponse> {
+
+            override fun onResponse(call: Call<UpdateRoutineResponse>, response: retrofit2.Response<UpdateRoutineResponse>) {
+                val responseRes: UpdateRoutineResponse? = response.body()
+                if (responseRes == null) {
+                    Log.e(TAG, "Body null error")
+                    Log.e(TAG, "Code : " + response.code())
+                } else {
+                    Log.e(TAG, "Success")
+                }
+            }
+            override fun onFailure(call: Call<UpdateRoutineResponse>, t: Throwable) {
+                Log.e(TAG, t.toString())
+            }
+        })
+    }
+
+    override fun addRoutineApiSleewell(routine: Routine) {
+        val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+        val TAG = "ADD-ROUTINE-API"
+        val hex = String.format("#%02x%02x%02x", routine.colorRed, routine.colorGreen, routine.colorBlue)
+        val useHalo = if (routine.useHalo) 1 else 0
+        val useMusic = if (routine.useMusic) 1 else 0
+
+        builder.addFormDataPart("name", routine.name)
+        builder.addFormDataPart("color", hex)
+        builder.addFormDataPart("music", useMusic.toString())
+        builder.addFormDataPart("halo", useHalo.toString())
+        builder.addFormDataPart("duration", routine.duration.toString())
+        builder.addFormDataPart("player", routine.player)
+        builder.addFormDataPart("musicname", routine.musicName)
+        builder.addFormDataPart("musicuri", routine.musicUri)
+
+        val requestBody: RequestBody = builder.build()
+        val call : Call<AddRoutineResponse>? = api?.addRoutine(
+            MainActivity.accessTokenSleewell,
+            requestBody
+        )
+
+        call?.enqueue(object: Callback<AddRoutineResponse> {
+            override fun onResponse(
+                call: Call<AddRoutineResponse>,
+                response: retrofit2.Response<AddRoutineResponse>
+            ) {
+                val responseRes: AddRoutineResponse? = response.body()
+                if (responseRes == null) {
+                    Log.e(TAG, "Body null error")
+                    Log.e(TAG, "Code : " + response.code())
+                } else {
+                    Log.e(TAG, "Success")
+                    if (response.code() == 200) {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            createNewItemRoutine(responseRes.id)
+                        }
+                    }
+                }
+            }
+            override fun onFailure(call: Call<AddRoutineResponse>, t: Throwable) {
+                Log.e(TAG, t.toString())
+            }
+        })
+    }
+
     override fun getAdapter() : RoutineListAdapter {
         return adapter
     }
 
     override fun openRoutineParameter(nbr: Int, fragmentManager: FragmentManager?, fragment: Fragment) {
         dialog = openRoutineDialog(nbr, fragmentManager, fragment)
+        dialog.setOnDismissListener {
+            if (aList.isNotEmpty())
+                updateRoutineApiSleewell(aList[nbr])
+        }
         dialog.show()
     }
 
@@ -152,6 +334,7 @@ class RoutineModel(context: Context) : RoutineContract.Model {
 
         buttonClose.setOnClickListener { dialog.dismiss() }
         buttonDelete.setOnClickListener {
+            deleteRoutineApiSleewell(aList[nbr].apiId)
             CoroutineScope(Dispatchers.IO).launch {
                 removeNewItemRoutine(aList[nbr])
             }
@@ -166,7 +349,7 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         }
 
         if (aList[nbr].name.isEmpty()) {
-            title.setText("Routine ${aList[nbr].uId}")
+            title.setText("Routine ${aList[nbr].apiId}")
         } else {
             title.setText(aList[nbr].name)
         }
@@ -204,7 +387,11 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         }
 
         colorButtonWhite.setOnClickListener {
-            val whiteColor = ResourcesCompat.getColor(context.resources, R.color.haloColorWhite, null)
+            val whiteColor = ResourcesCompat.getColor(
+                context.resources,
+                R.color.haloColorWhite,
+                null
+            )
             val routine = aList[nbr]
             routine.colorBlue = whiteColor.blue
             routine.colorGreen = whiteColor.green
@@ -226,7 +413,12 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         }
     }
 
-    private fun setDialogMusic(dialog: Dialog, nbr: Int, fragmentManager: FragmentManager?, fragment: Fragment) {
+    private fun setDialogMusic(
+        dialog: Dialog,
+        nbr: Int,
+        fragmentManager: FragmentManager?,
+        fragment: Fragment
+    ) {
 
         val musicSwitch = dialog.findViewById(R.id.dialog_routine_music_switch) as SwitchCompat
         val musicIcon = dialog.findViewById(R.id.dialog_routine_music_icon) as ImageView
@@ -236,7 +428,7 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         val nameMusicSelected = dialog.findViewById(R.id.musicNameSelectedDialog) as TextView
 
         musicSwitch.isChecked = aList[nbr].useMusic
-        musicSwitch.setOnCheckedChangeListener { _, isChecked ->
+        musicSwitch.setOnCheckedChangeListener {_, isChecked ->
             val routine = aList[nbr]
             routine.useMusic = isChecked
             CoroutineScope(Dispatchers.IO).launch {
@@ -248,16 +440,16 @@ class RoutineModel(context: Context) : RoutineContract.Model {
             if (aList[nbr].player == "Spotify") {
                 val spotifyDialog = SpotifyFragment()
                 spotifyDialog.setTargetFragment(fragment, 1)
-                fragmentManager?.let { it -> spotifyDialog.show(it, aList[nbr].uId.toString()) }
+                fragmentManager?.let {it -> spotifyDialog.show(it, aList[nbr].uId.toString()) }
             }
             if (aList[nbr].player == "Sleewell") {
                 val musicDialog = MusicFragment()
                 musicDialog.setTargetFragment(fragment, 1)
-                fragmentManager?.let { it -> musicDialog.show(it, aList[nbr].uId.toString()) }
+                fragmentManager?.let {it -> musicDialog.show(it, aList[nbr].uId.toString()) }
             }
         }
 
-        ArrayAdapter.createFromResource(context, R.array.music_player, R.layout.spinner_text_item).also { adapter ->
+        ArrayAdapter.createFromResource(context, R.array.music_player, R.layout.spinner_text_item).also {adapter ->
             adapter.setDropDownViewResource(R.layout.spinner_text_item)
             playerMusicNameSpinner.adapter = adapter
             playerMusicNameSpinner.setSelection(
@@ -266,7 +458,12 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         }
 
         playerMusicNameSpinner.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(parentView: AdapterView<*>?, selectedItemView: View, position: Int, id: Long) {
+            override fun onItemSelected(
+                parentView: AdapterView<*>?,
+                selectedItemView: View,
+                position: Int,
+                id: Long
+            ) {
                 if (aList[nbr].player == playerMusicNameSpinner.selectedItem.toString())
                     return
                 aList[nbr].player = playerMusicNameSpinner.selectedItem.toString()
@@ -311,7 +508,7 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         val haloSwitch = dialog.findViewById(R.id.dialog_routine_halo_switch) as SwitchCompat
 
         haloSwitch.isChecked = aList[nbr].useHalo
-        haloSwitch.setOnCheckedChangeListener { _, isChecked ->
+        haloSwitch.setOnCheckedChangeListener {_, isChecked ->
             aList[nbr].useHalo = isChecked
             CoroutineScope(Dispatchers.IO).launch {
                 updateItemRoutine(aList[nbr], nbr)

@@ -1,7 +1,7 @@
 package com.sleewell.sleewell.mvp.menu.account.presenter
 
 import android.content.Context
-import com.sleewell.sleewell.mvp.menu.account.ApiResultRegisterSleewell
+import com.sleewell.sleewell.api.sleewell.model.ResultRegisterSleewell
 import com.sleewell.sleewell.mvp.menu.account.contract.RegisterContract
 import com.sleewell.sleewell.mvp.menu.account.model.RegisterModel
 import com.sleewell.sleewell.mvp.menu.account.view.RegisterFragment
@@ -22,7 +22,7 @@ class RegisterPresenter(view: RegisterFragment, context: Context) : RegisterCont
         view = null
     }
 
-    override fun onFinished(registerResult: ApiResultRegisterSleewell) {
+    override fun onFinished(registerResult: ResultRegisterSleewell) {
         registerResult.AccessToken?.let { view?.setAccessToken(it) }
     }
 

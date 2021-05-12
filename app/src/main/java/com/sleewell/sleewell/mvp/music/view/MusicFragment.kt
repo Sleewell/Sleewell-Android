@@ -1,8 +1,6 @@
  package com.sleewell.sleewell.mvp.music.view
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.sleewell.sleewell.R
-import com.sleewell.sleewell.Spotify.SpotifyPlaylist
 import com.sleewell.sleewell.mvp.music.MainContract
 import com.sleewell.sleewell.mvp.music.presenter.MusicPresenter
 import es.claucookie.miniequalizerlibrary.EqualizerView

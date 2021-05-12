@@ -2,8 +2,7 @@ package com.sleewell.sleewell.mvp.menu.account.contract
 
 import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
-import com.sleewell.sleewell.mvp.menu.account.ApiResultLoginSleewell
-import com.sleewell.sleewell.mvp.menu.account.ApiResultRegisterSleewell
+import com.sleewell.sleewell.api.sleewell.model.ResultRegisterSleewell
 
 interface RegisterContract {
     interface Model {
@@ -15,7 +14,7 @@ interface RegisterContract {
              *
              * @author gabin warnier de wailly
              */
-            fun onFinished(registerResult : ApiResultRegisterSleewell)
+            fun onFinished(registerResult : ResultRegisterSleewell)
             /**
              * This method is call when the request fail
              *

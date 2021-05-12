@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.Spotify
+package com.sleewell.sleewell.mvp.spotify
 
 import com.google.gson.annotations.SerializedName
 import java.util.*

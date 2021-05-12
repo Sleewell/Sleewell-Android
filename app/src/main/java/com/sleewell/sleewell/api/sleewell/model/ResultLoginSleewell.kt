@@ -1,8 +1,8 @@
-package com.sleewell.sleewell.mvp.menu.account
+package com.sleewell.sleewell.api.sleewell.model
 
 import com.google.gson.annotations.SerializedName
 
-data class ApiResultLoginSleewell(var id: String?) {
+data class ResultLoginSleewell(var id: String?) {
 
     @SerializedName("AccessToken")
     var AccessToken: String? = null

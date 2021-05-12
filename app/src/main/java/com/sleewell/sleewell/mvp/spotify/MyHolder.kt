@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.Spotify
+package com.sleewell.sleewell.mvp.spotify
 
 import android.view.View
 import android.widget.ImageView
