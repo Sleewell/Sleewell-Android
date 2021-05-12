@@ -22,6 +22,7 @@ class ProfilePresenter(view: ProfileContract.View, context: Context) : ProfileCo
     private var username: String = ""
     private var firstName: String = ""
     private var lastName: String = ""
+    private var email: String = ""
 
     override fun onViewCreated() {
         getProfileInformation()
@@ -33,7 +34,8 @@ class ProfilePresenter(view: ProfileContract.View, context: Context) : ProfileCo
                 setUsername(profileInfo.username)
                 setFirstName(profileInfo.firstname)
                 setLastName(profileInfo.lastname)
-                view?.updateProfileInfoWidgets(username, firstName, lastName)
+                setEmail(profileInfo.email)
+                view?.updateProfileInfoWidgets(username, firstName, lastName, email)
             }
 
             override fun onFailure(t: Throwable) {
@@ -43,7 +45,7 @@ class ProfilePresenter(view: ProfileContract.View, context: Context) : ProfileCo
     }
 
     override fun updateProfileInformation() {
-        model.updateProfileInformation(username, firstName, lastName,
+        model.updateProfileInformation(username, firstName, lastName, email,
             object: ProfileContract.Model.OnUpdateProfileInfoListener {
                 override fun onFinished(response: ResponseSuccess) {
                     view?.showToast("Saved")
@@ -63,7 +65,12 @@ class ProfilePresenter(view: ProfileContract.View, context: Context) : ProfileCo
     override fun setFirstName(firstName: String?) {
         if (firstName != null) { this.firstName = firstName }
     }
+
     override fun setLastName(lastName: String?) {
         if (lastName != null) { this.lastName = lastName }
+    }
+
+    override fun setEmail(email: String?) {
+        if (email != null) { this.email = email }
     }
 }

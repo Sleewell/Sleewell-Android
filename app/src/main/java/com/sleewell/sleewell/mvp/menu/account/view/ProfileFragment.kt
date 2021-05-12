@@ -1,6 +1,5 @@
 package com.sleewell.sleewell.mvp.menu.account.view
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -50,7 +49,8 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         val usernameInputWidget = root.findViewById<TextInputLayout>(R.id.usernameInputLayout)
         val firstNameInputWidget = root.findViewById<TextInputLayout>(R.id.firstNameInputLayout)
         val lastNameInputWidget = root.findViewById<TextInputLayout>(R.id.lastNameInputLayout)
-        progressWidget = root.findViewById<ProgressBar>(R.id.progress)
+        val emailInputWidget = root.findViewById<TextInputLayout>(R.id.emailInputLayout)
+        progressWidget = root.findViewById(R.id.progress)
 
         val saveButtonWidget = root.findViewById<ImageButton>(R.id.buttonSave)
         val logoutButtonWidget = root.findViewById<ImageButton>(R.id.buttonLogout)
@@ -73,20 +73,26 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         lastNameInputWidget.editText?.doOnTextChanged { input, _, _, _ ->
             presenter.setLastName(input.toString())
         }
+        emailInputWidget.editText?.doOnTextChanged { input, _, _, _ ->
+            presenter.setEmail(input.toString())
+        }
     }
 
-    override fun updateProfileInfoWidgets(username: String, firstName: String, lastName: String) {
+    override fun updateProfileInfoWidgets(username: String, firstName: String, lastName: String, email: String) {
         usernameInputLayout?.editText?.setText(username)
         firstNameInputLayout?.editText?.setText(firstName)
         lastNameInputLayout?.editText?.setText(lastName)
+        emailInputLayout?.editText?.setText(email)
 
-        usernameInputLayout?.editText?.visibility  = View.VISIBLE
+        usernameInputLayout?.editText?.visibility = View.VISIBLE
         firstNameInputLayout?.editText?.visibility = View.VISIBLE
-        lastNameInputLayout?.editText?.visibility  = View.VISIBLE
+        lastNameInputLayout?.editText?.visibility = View.VISIBLE
+        emailInputLayout?.editText?.visibility = View.VISIBLE
 
-        usernameInputLayout?.visibility  = View.VISIBLE
+        usernameInputLayout?.visibility = View.VISIBLE
         firstNameInputLayout?.visibility = View.VISIBLE
-        lastNameInputLayout?.visibility  = View.VISIBLE
+        lastNameInputLayout?.visibility = View.VISIBLE
+        emailInputLayout?.visibility = View.VISIBLE
 
         progressWidget.visibility = View.GONE
     }

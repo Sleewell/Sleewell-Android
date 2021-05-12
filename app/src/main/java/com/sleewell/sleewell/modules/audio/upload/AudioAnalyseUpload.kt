@@ -6,8 +6,8 @@ import com.sleewell.sleewell.api.sleewell.ApiClient
 import com.sleewell.sleewell.api.sleewell.IStatsApi
 import com.sleewell.sleewell.api.sleewell.model.NightAnalyse
 import com.sleewell.sleewell.api.sleewell.model.PostResponse
+import com.sleewell.sleewell.database.analyse.night.entities.Night
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseDbUtils
-import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.IAnalyseDataManager
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.modules.audio.service.AnalyseServiceTracker
@@ -20,7 +20,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Class that check if stats are upload and if not upload them
@@ -33,7 +32,7 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
     private var scopeIOThread = CoroutineScope(Job() + Dispatchers.IO)
 
     // Database
-    private val analyse: IAnalyseDataManager = AudioAnalyseDbUtils(context, this)
+    private val analyse = AudioAnalyseDbUtils(context, this)
 
     // API
     private var TOKEN = MainActivity.accessTokenSleewell
@@ -64,8 +63,11 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
      * @param analyses
      */
     override fun onListAvailableAnalyses(analyses: List<Long>) {
+    }
+
+    override fun onListAvailableNights(analyses: List<Night>) {
         analyses.forEach {
-            analyse.readAnalyse(it)
+            analyse.readNight(it)
         }
     }
 
@@ -76,10 +78,20 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
      * @author Hugo Berthomé
      */
     override fun onReadAnalyseRecord(data: Array<AnalyseValue>) {
+    }
+
+    /**
+     * Function called when an analyse is read from a file
+     *
+     * @param data
+     * @param nightId
+     * @author Hugo berthomé
+     */
+    override fun onReadAnalyseRecord(data: Array<AnalyseValue>, nightId: Long) {
         if (data.isEmpty())
             return
         if (data.size <= 2) {
-            analyse.deleteAnalyse(data.first().ts)
+            analyse.deleteAnalyseFromId(nightId)
             return
         }
         val dataToSend = filterData(data)
@@ -90,7 +102,7 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
                 end = data.last().ts,
                 id = null
             )
-        uploadData(toSend)
+        uploadData(toSend, nightId)
     }
 
     /**
@@ -280,7 +292,7 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
         Log.e(this.javaClass.name, msg)
     }
 
-    private fun uploadData(toSend: NightAnalyse) {
+    private fun uploadData(toSend: NightAnalyse, nightId: Long) {
         if (TOKEN.isEmpty())
             return
         val call: Call<PostResponse> = api.postNight("Bearer $TOKEN", toSend)
@@ -297,7 +309,7 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
                     Log.e(this.javaClass.name, "Body null error")
                     Log.e(this.javaClass.name, "Code : " + response.code())
                 } else {
-                    analyse.deleteAnalyse(toSend.start)
+                    analyse.deleteAnalyseFromId(nightId)
                     Log.d(this.javaClass.name, "Stats sent and deleted")
                 }
             }

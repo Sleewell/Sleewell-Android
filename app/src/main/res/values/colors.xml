@@ -24,6 +24,10 @@
     <color name="haloColorRed">#D32F2F</color>
     <color name="haloColorWhite">#FDFDFD</color>
     <color name="haloColorBlue">#303F9F</color>
+    <color name="haloColorShadowBlue">#275D7E</color>
+    <color name="haloColorShadowOrange">#FF8F00</color>
+    <color name="haloColorDarkGreen">#1B7340</color>
+    <color name="haloColorPink">#D2386C</color>
 
     <color name="mtrl_textinput_default_box_stroke_color">#73FFFFFF</color>
 </resources>

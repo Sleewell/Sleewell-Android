@@ -100,7 +100,8 @@ class RoutineModel(context: Context) : RoutineContract.Model {
             routine?.musicUri = musicUri
             CoroutineScope(Dispatchers.Main).launch {
                 if (dialog.isShowing) {
-                    val nameMusicSelected = dialog.findViewById(R.id.musicNameSelectedDialog) as TextView
+                    val nameMusicSelected =
+                        dialog.findViewById(R.id.musicNameSelectedDialog) as TextView
                     nameMusicSelected.text = routine?.musicName
                 }
             }
@@ -118,7 +119,8 @@ class RoutineModel(context: Context) : RoutineContract.Model {
             routine?.musicUri = ""
             CoroutineScope(Dispatchers.Main).launch {
                 if (dialog.isShowing) {
-                    val nameMusicSelected = dialog.findViewById(R.id.musicNameSelectedDialog) as TextView
+                    val nameMusicSelected =
+                        dialog.findViewById(R.id.musicNameSelectedDialog) as TextView
                     nameMusicSelected.text = routine?.musicName?.split("_")?.last()
                 }
             }
@@ -311,7 +313,11 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         return adapter
     }
 
-    override fun openRoutineParameter(nbr: Int, fragmentManager: FragmentManager?, fragment: Fragment) {
+    override fun openRoutineParameter(
+        nbr: Int,
+        fragmentManager: FragmentManager?,
+        fragment: Fragment
+    ) {
         dialog = openRoutineDialog(nbr, fragmentManager, fragment)
         dialog.setOnDismissListener {
             if (aList.isNotEmpty())
@@ -321,7 +327,11 @@ class RoutineModel(context: Context) : RoutineContract.Model {
     }
 
     @SuppressLint("ResourceType")
-    private fun openRoutineDialog(nbr: Int, fragmentManager: FragmentManager?, fragment: Fragment): Dialog {
+    private fun openRoutineDialog(
+        nbr: Int,
+        fragmentManager: FragmentManager?,
+        fragment: Fragment
+    ): Dialog {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -370,45 +380,27 @@ class RoutineModel(context: Context) : RoutineContract.Model {
     }
 
     private fun setDialogColorSet(dialog: Dialog, nbr: Int) {
+        val listBtn = arrayOf(
+            R.id.dialog_routine_halo_color_1,
+            R.id.dialog_routine_halo_color_2,
+            R.id.dialog_routine_halo_color_3,
+            R.id.dialog_routine_halo_color_4,
+            R.id.dialog_routine_halo_color_5,
+            R.id.dialog_routine_halo_color_6
+        )
 
-        val colorButtonBlue = dialog.findViewById(R.id.dialog_routine_halo_color_1) as Button
-        val colorButtonWhite = dialog.findViewById(R.id.dialog_routine_halo_color_2) as Button
-        val colorButtonRed = dialog.findViewById(R.id.dialog_routine_halo_color_3) as Button
+        listBtn.forEach {
+            val btn = dialog.findViewById(it) as Button
 
-        colorButtonBlue.setOnClickListener {
-            val blueColor = ResourcesCompat.getColor(context.resources, R.color.haloColorBlue, null)
-            val routine = aList[nbr]
-            routine.colorBlue = blueColor.blue
-            routine.colorGreen = blueColor.green
-            routine.colorRed = blueColor.red
-            CoroutineScope(Dispatchers.IO).launch {
-                updateItemRoutine(routine, nbr)
-            }
-        }
-
-        colorButtonWhite.setOnClickListener {
-            val whiteColor = ResourcesCompat.getColor(
-                context.resources,
-                R.color.haloColorWhite,
-                null
-            )
-            val routine = aList[nbr]
-            routine.colorBlue = whiteColor.blue
-            routine.colorGreen = whiteColor.green
-            routine.colorRed = whiteColor.red
-            CoroutineScope(Dispatchers.IO).launch {
-                updateItemRoutine(routine, nbr)
-            }
-        }
-
-        colorButtonRed.setOnClickListener {
-            val redColor = ResourcesCompat.getColor(context.resources, R.color.haloColorRed, null)
-            val routine = aList[nbr]
-            routine.colorBlue = redColor.blue
-            routine.colorGreen = redColor.green
-            routine.colorRed = redColor.red
-            CoroutineScope(Dispatchers.IO).launch {
-                updateItemRoutine(routine, nbr)
+            btn.setOnClickListener {
+                val btnColor = (btn.background as ColorDrawable).color
+                val routine = aList[nbr]
+                routine.colorBlue = btnColor.blue
+                routine.colorGreen = btnColor.green
+                routine.colorRed = btnColor.red
+                CoroutineScope(Dispatchers.IO).launch {
+                    updateItemRoutine(routine, nbr)
+                }
             }
         }
     }

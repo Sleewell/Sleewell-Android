@@ -10,5 +10,7 @@ data class ProfileInfo(
     @SerializedName("firstname")
     val firstname: String?,
     @SerializedName("lastname")
-    val lastname: String?
+    val lastname: String?,
+    @SerializedName("email")
+    val email: String?
 )

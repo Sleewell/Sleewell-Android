@@ -197,35 +197,77 @@
         app:layout_constraintTop_toBottomOf="@+id/dialog_routine_halo_icon"
         app:srcCompat="@drawable/ic_color" />
 
-    <Button
-        android:id="@+id/dialog_routine_halo_color_1"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/haloColorBlue"
+    <TableLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/dialog_routine_selected_button"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/dialog_routine_halo_color"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_halo_icon" />
+        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_halo_icon">
 
-    <Button
-        android:id="@+id/dialog_routine_halo_color_2"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/haloColorWhite"
-        app:layout_constraintStart_toEndOf="@+id/dialog_routine_halo_color_1"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_halo_icon" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/dialog_routine_halo_color_3"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/haloColorRed"
-        app:layout_constraintStart_toEndOf="@+id/dialog_routine_halo_color_2"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_halo_icon" />
+            <Button
+                android:id="@+id/dialog_routine_halo_color_1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@color/haloColorBlue" />
+
+            <Button
+                android:id="@+id/dialog_routine_halo_color_2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@color/haloColorShadowBlue" />
+
+            <Button
+                android:id="@+id/dialog_routine_halo_color_3"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@color/haloColorRed" />
+
+            <Button
+                android:id="@+id/dialog_routine_halo_color_4"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@color/haloColorDarkGreen" />
+
+            <Button
+                android:id="@+id/dialog_routine_halo_color_5"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@color/haloColorPink" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/dialog_routine_halo_color_6"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@color/haloColorShadowOrange" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </TableLayout>
 
     <ImageButton
         android:id="@+id/dialog_routine_button_delete"

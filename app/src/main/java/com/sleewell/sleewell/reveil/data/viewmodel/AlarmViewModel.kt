@@ -3,6 +3,7 @@ package com.sleewell.sleewell.reveil.data.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.sleewell.sleewell.reveil.data.AlarmDatabase
 import com.sleewell.sleewell.reveil.data.model.Alarm
@@ -21,10 +22,12 @@ class AlarmViewModel(application: Application): AndroidViewModel(application) {
         readAllData = repository.readAllData
     }
 
-    fun addAlarm(alarm: Alarm) {
+    fun addAlarm(alarm: Alarm): LiveData<Long> {
+        val liveData = MutableLiveData<Long>()
         viewModelScope.launch(Dispatchers.IO) {
-            repository.addAlarm(alarm)
+            liveData.postValue(repository.addAlarm(alarm))
         }
+        return liveData
     }
 
     fun updateAlarm(alarm: Alarm) {
@@ -43,5 +46,13 @@ class AlarmViewModel(application: Application): AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAllAlarms()
         }
+    }
+
+    fun getById(id: Int) : LiveData<Alarm> {
+        val liveData = MutableLiveData<Alarm>()
+        viewModelScope.launch(Dispatchers.IO) {
+            liveData.postValue(repository.getById(id))
+        }
+        return liveData
     }
 }

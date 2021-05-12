@@ -116,4 +116,22 @@
         <item>Spotify</item>
         <item>Sleewell</item>
     </string-array>
+    
+    <!-- Alarm -->
+    <string name="snooze_5_min">Snooze 5 min</string>
+    <string name="stars">Stars</string>
+    <string name="repeat">Repeat</string>
+    <string name="add_alarm">Add alarm</string>
+    <string name="m">M</string>
+    <string name="t">T</string>
+    <string name="w">W</string>
+    <string name="f">F</string>
+    <string name="s">S</string>
+    <string name="alarm_ringtone">Alarm ringtone</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="label">Label</string>
+    <string name="name_of_label">Name of label</string>
+    <string name="check">Check</string>
+    <string name="ringtone">Ringtone</string>
+    <string name="deleteall">deleteAll</string>
 </resources>

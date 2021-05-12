@@ -2,6 +2,7 @@ package com.sleewell.sleewell.modules.audio.audioAnalyser
 
 import android.content.Context
 import android.util.Log
+import com.sleewell.sleewell.database.analyse.night.entities.Night
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseDbUtils
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.IAnalyseDataManager
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseFileUtils
@@ -37,7 +38,7 @@ class AudioAnalyser(
     // file save
     private var isInitialised = false
     private var isInitializing = false
-    private val fileUtil : IAnalyseDataManager = AudioAnalyseDbUtils(context, this)
+    private val fileUtil = AudioAnalyseDbUtils(context, this)
 
     // coroutine
     private val queueData: Queue<DoubleArray> = LinkedList()
@@ -186,9 +187,18 @@ class AudioAnalyser(
      * @param analyses
      */
     override fun onListAvailableAnalyses(analyses: List<Long>) {
+
+    }
+
+    /**
+     * Function called when received the list of available analyse
+     *
+     * @param analyses
+     */
+    override fun onListAvailableNights(analyses: List<Night>) {
         scopeDefault.launch {
             analyses.forEach { it ->
-                fileUtil.deleteAnalyse(it)
+                fileUtil.deleteAnalyseFromId(it.uId)
             }
             if (!fileUtil.initNewAnalyse()) {
                 listener.onError("Couldn't initialised ")
@@ -215,6 +225,16 @@ class AudioAnalyser(
      */
     override fun onReadAnalyseRecord(data: Array<AnalyseValue>) {
         // do nothing because we only save
+    }
+
+    /**
+     * Function called when an analyse is read from a file
+     *
+     * @param data
+     * @param nightId
+     * @author Hugo berthomé
+     */
+    override fun onReadAnalyseRecord(data: Array<AnalyseValue>, nightId: Long) {
     }
 
     /**
