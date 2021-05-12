@@ -6,6 +6,7 @@ import com.sleewell.sleewell.api.sleewell.ApiClient
 import com.sleewell.sleewell.api.sleewell.IStatsApi
 import com.sleewell.sleewell.api.sleewell.model.ListAnalyse
 import com.sleewell.sleewell.api.sleewell.model.NightAnalyse
+import com.sleewell.sleewell.database.analyse.night.entities.Night
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseDbUtils
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.IAnalyseDataManager
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseFileUtils
@@ -329,6 +330,15 @@ class StatisticsModel(
     }
 
     /**
+     * Function called when received the list of available analyse
+     *
+     * @param analyses
+     */
+    override fun onListAvailableNights(analyses: List<Night>) {
+        TODO("Not yet implemented")
+    }
+
+    /**
      * Function called when the analyse record has stopped
      *
      * @author Hugo Berthomé
@@ -345,6 +355,17 @@ class StatisticsModel(
     override fun onReadAnalyseRecord(data: Array<AnalyseValue>) {
         listener.onDataAnalyseDate(analyseFileDate)
         listener.onDataAnalyse(data)
+    }
+
+    /**
+     * Function called when an analyse is read from a file
+     *
+     * @param data
+     * @param nightId
+     * @author Hugo berthomé
+     */
+    override fun onReadAnalyseRecord(data: Array<AnalyseValue>, nightId: Long) {
+        TODO("Not yet implemented")
     }
 
     /**

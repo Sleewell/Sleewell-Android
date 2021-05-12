@@ -29,8 +29,8 @@ class AudioAnalyseDbUtils(context: Context, val listener: IAudioAnalyseRecordLis
      */
     override fun getAvailableAnalyse() {
         scope.launch {
-            val timestamps = nightDao.getAllStart()
-            listener.onListAvailableAnalyses(timestamps)
+            val nights = nightDao.getAll()
+            listener.onListAvailableNights(nights)
         }
     }
 
@@ -47,6 +47,13 @@ class AudioAnalyseDbUtils(context: Context, val listener: IAudioAnalyseRecordLis
         }
     }
 
+    fun readNight(night: Night) {
+        scope.launch {
+            val res = analyseDao.getAnalysesFromNightId(night.uId)
+            listener.onReadAnalyseRecord(res.toTypedArray(), night.uId)
+        }
+    }
+
     /**
      * Delete an analyse
      *
@@ -56,6 +63,17 @@ class AudioAnalyseDbUtils(context: Context, val listener: IAudioAnalyseRecordLis
     override fun deleteAnalyse(timestamp: Long) {
         scope.launch {
             val night = nightDao.getNightWithTimestamp(timestamp)
+
+            if (night != null) {
+                analyseDao.deleteAnalyseFromNightId(night.uId)
+                nightDao.deleteNight(night)
+            }
+        }
+    }
+
+    fun deleteAnalyseFromId(nightId: Long) {
+        scope.launch {
+            val night = nightDao.getNight(nightId)
 
             if (night != null) {
                 analyseDao.deleteAnalyseFromNightId(night.uId)

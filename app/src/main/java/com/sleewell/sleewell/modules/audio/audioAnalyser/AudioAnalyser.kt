@@ -2,6 +2,7 @@ package com.sleewell.sleewell.modules.audio.audioAnalyser
 
 import android.content.Context
 import android.util.Log
+import com.sleewell.sleewell.database.analyse.night.entities.Night
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseDbUtils
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.IAnalyseDataManager
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseFileUtils
@@ -208,6 +209,14 @@ class AudioAnalyser(
     }
 
     /**
+     * Function called when received the list of available analyse
+     *
+     * @param analyses
+     */
+    override fun onListAvailableNights(analyses: List<Night>) {
+    }
+
+    /**
      * Function called when an analyse is read from a file
      *
      * @param data of the analyse file
@@ -215,6 +224,16 @@ class AudioAnalyser(
      */
     override fun onReadAnalyseRecord(data: Array<AnalyseValue>) {
         // do nothing because we only save
+    }
+
+    /**
+     * Function called when an analyse is read from a file
+     *
+     * @param data
+     * @param nightId
+     * @author Hugo berthomé
+     */
+    override fun onReadAnalyseRecord(data: Array<AnalyseValue>, nightId: Long) {
     }
 
     /**
