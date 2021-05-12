@@ -13,7 +13,7 @@ interface ProfileContract {
     interface Model {
         interface OnProfileInfoListener {
             fun onFinished(profileInfo: ProfileInfo)
-            fun onFailure(t : Throwable)
+            fun onFailure(t: Throwable)
         }
 
         /**
@@ -25,7 +25,7 @@ interface ProfileContract {
 
         interface OnUpdateProfileInfoListener {
             fun onFinished(response: ResponseSuccess)
-            fun onFailure(t : Throwable)
+            fun onFailure(t: Throwable)
         }
 
         /**
@@ -33,8 +33,9 @@ interface ProfileContract {
          * @param onFinishedListener Listener extension with wanted behaviour
          * @author Titouan Fiancette
          */
-        fun updateProfileInformation(username: String, firstName: String, lastName: String,
-                                     onFinishedListener: OnUpdateProfileInfoListener
+        fun updateProfileInformation(
+            username: String, firstName: String, lastName: String, email: String,
+            onFinishedListener: OnUpdateProfileInfoListener
         )
     }
 
@@ -60,6 +61,7 @@ interface ProfileContract {
         fun setUsername(username: String)
         fun setFirstName(firstName: String?)
         fun setLastName(lastName: String?)
+        fun setEmail(email: String?)
     }
 
     interface View : BaseView<Presenter> {
@@ -68,7 +70,12 @@ interface ProfileContract {
          * @param username
          * @author Titouan Fiancette
          */
-        fun updateProfileInfoWidgets(username: String, firstName: String, lastName: String)
+        fun updateProfileInfoWidgets(
+            username: String,
+            firstName: String,
+            lastName: String,
+            email: String
+        )
 
         /**
          * Show a toast message tu the user
