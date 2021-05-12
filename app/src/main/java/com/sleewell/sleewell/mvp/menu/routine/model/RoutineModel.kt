@@ -44,7 +44,7 @@ class RoutineModel(context: Context) : RoutineContract.Model {
     }
 
     override fun createNewItemRoutine() {
-        val rt = Routine("", false,34, 23, 163)
+        val rt = Routine("", false, 34, 23, 163)
         val n = db.addNewRoutine(rt)
 
         aList.add(db.getRoutine(n))
@@ -90,7 +90,8 @@ class RoutineModel(context: Context) : RoutineContract.Model {
             routine?.musicUri = musicUri
             CoroutineScope(Dispatchers.Main).launch {
                 if (dialog.isShowing) {
-                    val nameMusicSelected = dialog.findViewById(R.id.musicNameSelectedDialog) as TextView
+                    val nameMusicSelected =
+                        dialog.findViewById(R.id.musicNameSelectedDialog) as TextView
                     nameMusicSelected.text = routine?.musicName
                 }
             }
@@ -108,7 +109,8 @@ class RoutineModel(context: Context) : RoutineContract.Model {
             routine?.musicUri = ""
             CoroutineScope(Dispatchers.Main).launch {
                 if (dialog.isShowing) {
-                    val nameMusicSelected = dialog.findViewById(R.id.musicNameSelectedDialog) as TextView
+                    val nameMusicSelected =
+                        dialog.findViewById(R.id.musicNameSelectedDialog) as TextView
                     nameMusicSelected.text = routine?.musicName?.split("_")?.last()
                 }
             }
@@ -129,17 +131,25 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         }
     }
 
-    override fun getAdapter() : RoutineListAdapter {
+    override fun getAdapter(): RoutineListAdapter {
         return adapter
     }
 
-    override fun openRoutineParameter(nbr: Int, fragmentManager: FragmentManager?, fragment: Fragment) {
+    override fun openRoutineParameter(
+        nbr: Int,
+        fragmentManager: FragmentManager?,
+        fragment: Fragment
+    ) {
         dialog = openRoutineDialog(nbr, fragmentManager, fragment)
         dialog.show()
     }
 
     @SuppressLint("ResourceType")
-    private fun openRoutineDialog(nbr: Int, fragmentManager: FragmentManager?, fragment: Fragment): Dialog {
+    private fun openRoutineDialog(
+        nbr: Int,
+        fragmentManager: FragmentManager?,
+        fragment: Fragment
+    ): Dialog {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -187,46 +197,37 @@ class RoutineModel(context: Context) : RoutineContract.Model {
     }
 
     private fun setDialogColorSet(dialog: Dialog, nbr: Int) {
+        val listBtn = arrayOf(
+            R.id.dialog_routine_halo_color_1,
+            R.id.dialog_routine_halo_color_2,
+            R.id.dialog_routine_halo_color_3,
+            R.id.dialog_routine_halo_color_4,
+            R.id.dialog_routine_halo_color_5,
+            R.id.dialog_routine_halo_color_6
+        )
 
-        val colorButtonBlue = dialog.findViewById(R.id.dialog_routine_halo_color_1) as Button
-        val colorButtonWhite = dialog.findViewById(R.id.dialog_routine_halo_color_2) as Button
-        val colorButtonRed = dialog.findViewById(R.id.dialog_routine_halo_color_3) as Button
+        listBtn.forEach {
+            val btn = dialog.findViewById(it) as Button
 
-        colorButtonBlue.setOnClickListener {
-            val blueColor = ResourcesCompat.getColor(context.resources, R.color.haloColorBlue, null)
-            val routine = aList[nbr]
-            routine.colorBlue = blueColor.blue
-            routine.colorGreen = blueColor.green
-            routine.colorRed = blueColor.red
-            CoroutineScope(Dispatchers.IO).launch {
-                updateItemRoutine(routine, nbr)
-            }
-        }
-
-        colorButtonWhite.setOnClickListener {
-            val whiteColor = ResourcesCompat.getColor(context.resources, R.color.haloColorWhite, null)
-            val routine = aList[nbr]
-            routine.colorBlue = whiteColor.blue
-            routine.colorGreen = whiteColor.green
-            routine.colorRed = whiteColor.red
-            CoroutineScope(Dispatchers.IO).launch {
-                updateItemRoutine(routine, nbr)
-            }
-        }
-
-        colorButtonRed.setOnClickListener {
-            val redColor = ResourcesCompat.getColor(context.resources, R.color.haloColorRed, null)
-            val routine = aList[nbr]
-            routine.colorBlue = redColor.blue
-            routine.colorGreen = redColor.green
-            routine.colorRed = redColor.red
-            CoroutineScope(Dispatchers.IO).launch {
-                updateItemRoutine(routine, nbr)
+            btn.setOnClickListener {
+                val btnColor = (btn.background as ColorDrawable).color
+                val routine = aList[nbr]
+                routine.colorBlue = btnColor.blue
+                routine.colorGreen = btnColor.green
+                routine.colorRed = btnColor.red
+                CoroutineScope(Dispatchers.IO).launch {
+                    updateItemRoutine(routine, nbr)
+                }
             }
         }
     }
 
-    private fun setDialogMusic(dialog: Dialog, nbr: Int, fragmentManager: FragmentManager?, fragment: Fragment) {
+    private fun setDialogMusic(
+        dialog: Dialog,
+        nbr: Int,
+        fragmentManager: FragmentManager?,
+        fragment: Fragment
+    ) {
 
         val musicSwitch = dialog.findViewById(R.id.dialog_routine_music_switch) as SwitchCompat
         val musicIcon = dialog.findViewById(R.id.dialog_routine_music_icon) as ImageView
@@ -257,16 +258,23 @@ class RoutineModel(context: Context) : RoutineContract.Model {
             }
         }
 
-        ArrayAdapter.createFromResource(context, R.array.music_player, R.layout.spinner_text_item).also { adapter ->
-            adapter.setDropDownViewResource(R.layout.spinner_text_item)
-            playerMusicNameSpinner.adapter = adapter
-            playerMusicNameSpinner.setSelection(
-                context.resources.getStringArray(R.array.music_player).indexOf(aList[nbr].player)
-            )
-        }
+        ArrayAdapter.createFromResource(context, R.array.music_player, R.layout.spinner_text_item)
+            .also { adapter ->
+                adapter.setDropDownViewResource(R.layout.spinner_text_item)
+                playerMusicNameSpinner.adapter = adapter
+                playerMusicNameSpinner.setSelection(
+                    context.resources.getStringArray(R.array.music_player)
+                        .indexOf(aList[nbr].player)
+                )
+            }
 
         playerMusicNameSpinner.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(parentView: AdapterView<*>?, selectedItemView: View, position: Int, id: Long) {
+            override fun onItemSelected(
+                parentView: AdapterView<*>?,
+                selectedItemView: View,
+                position: Int,
+                id: Long
+            ) {
                 if (aList[nbr].player == playerMusicNameSpinner.selectedItem.toString())
                     return
                 aList[nbr].player = playerMusicNameSpinner.selectedItem.toString()
