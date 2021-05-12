@@ -49,7 +49,7 @@ class ProfileModel(context: Context) : ProfileContract.Model {
         username: String, firstName: String, lastName: String, email: String,
         onFinishedListener: ProfileContract.Model.OnUpdateProfileInfoListener
     ) {
-        val token = "Bearer ${MainActivity.accessTokenSleewell}".toRequestBody("text/plain".toMediaTypeOrNull())
+        val token = MainActivity.accessTokenSleewell.toRequestBody("text/plain".toMediaTypeOrNull())
         val call : Call<ResponseSuccess>? = api?.updateProfileInformation(token,
             username.toRequestBody("text/plain".toMediaTypeOrNull()),
             firstName.toRequestBody("text/plain".toMediaTypeOrNull()),
