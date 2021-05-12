@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.modules.audio.audioAnalyser.listeners
 
+import com.sleewell.sleewell.database.analyse.night.entities.Night
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 
 /**
@@ -25,6 +26,15 @@ interface IAudioAnalyseRecordListener {
     fun onReadAnalyseRecord(data : Array<AnalyseValue>)
 
     /**
+     * Function called when an analyse is read from a file
+     *
+     * @param data
+     * @param nightId
+     * @author Hugo berthomé
+     */
+    fun onReadAnalyseRecord(data : Array<AnalyseValue>, nightId: Long)
+
+    /**
      * Function called when an error occur
      *
      * @param msg to display
@@ -38,4 +48,11 @@ interface IAudioAnalyseRecordListener {
      * @param analyses
      */
     fun onListAvailableAnalyses(analyses : List<Long>)
+
+    /**
+     * Function called when received the list of available analyse
+     *
+     * @param analyses
+     */
+    fun onListAvailableNights(analyses : List<Night>)
 }

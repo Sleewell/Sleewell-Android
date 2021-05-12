@@ -19,8 +19,8 @@ interface AnalyseDao {
     @Query("SELECT db, ts FROM analyse INNER JOIN night ON night.start = :timestamp WHERE analyse.nightId = night.uId")
     suspend fun getAnalyseFromNightStart(timestamp: Long): List<AnalyseValue>
 
-    @Query("SELECT * FROM analyse WHERE nightId = :nightId")
-    suspend fun getAnalysesFromNightId(nightId: Long): List<Analyse>
+    @Query("SELECT db, ts FROM analyse WHERE nightId = :nightId")
+    suspend fun getAnalysesFromNightId(nightId: Long): List<AnalyseValue>
 
     @Query("SELECT * FROM analyse WHERE uId = :id")
     suspend fun getAnalyse(id: Long): Analyse
