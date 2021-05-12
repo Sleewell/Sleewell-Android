@@ -5,8 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
-import android.media.RingtoneManager
+import android.net.Uri
 import android.os.CountDownTimer
+import android.os.Vibrator
 import com.sleewell.sleewell.reveil.data.model.Alarm
 
 /**
@@ -40,40 +41,39 @@ class AlarmReceiver : BroadcastReceiver() {
 
             val nb = notificationHelper.channelNotification
             notificationHelper.manager?.notify(alarm.id, nb.build())
-            var alarmUri = RingtoneManager.getActualDefaultRingtoneUri(
-                context,
-                RingtoneManager.TYPE_ALARM
-            )
-            if (alarmUri == null) {
-                alarmUri = RingtoneManager.getActualDefaultRingtoneUri(
-                    context,
-                    RingtoneManager.TYPE_NOTIFICATION
-                )
-                if (alarmUri == null) alarmUri = RingtoneManager.getActualDefaultRingtoneUri(
-                    context,
-                    RingtoneManager.TYPE_RINGTONE
-                )
-            }
+
+            val alarmUri = Uri.parse(alarm.ringtone)
+
             val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
             audioManager.setStreamVolume(
-                AudioManager.STREAM_MUSIC,
-                10,
+                AudioManager.STREAM_ALARM,
+                1,
                 0
             )
-            mp = MediaPlayer.create(context, alarmUri)
+
+            mp = MediaPlayer()
+            mp.setAudioStreamType(AudioManager.STREAM_ALARM)
+            mp.setDataSource(context, alarmUri)
             mp.isLooping = true
+            mp.prepare()
             mp.start()
 
+            if (alarm.vibrate) {
+                val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                val pattern = longArrayOf(0, 500, 1000)
+                vibrator.vibrate(pattern, 0)
+            }
+
             //Increase of 1 every second
-            val timer = object: CountDownTimer(300000, 1000) {
+            val timer = object: CountDownTimer(10000, 2000) {
                 override fun onTick(millisUntilFinished: Long) {
                     audioManager.setStreamVolume(
-                        AudioManager.STREAM_MUSIC,
-                        audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) + 1,
+                        AudioManager.STREAM_ALARM,
+                        audioManager.getStreamVolume(AudioManager.STREAM_ALARM) + 1,
                         0
                     )
                 }
-                override fun onFinish() { }
+                override fun onFinish() {}
             }
             timer.start()
         }

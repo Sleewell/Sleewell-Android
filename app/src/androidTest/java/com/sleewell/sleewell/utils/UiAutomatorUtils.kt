@@ -124,4 +124,11 @@ class UiAutomatorUtils(
         buttonSetting.click()
     }
 
+    fun openAlarmTab() {
+        val alarmButton: UiObject = mDevice.findObject(
+            UiSelector().resourceId("com.sleewell.sleewell:id/alarm_nav")
+        )
+        alarmButton.click()
+    }
+
 }

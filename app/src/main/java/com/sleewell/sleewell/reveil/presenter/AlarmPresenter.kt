@@ -3,6 +3,8 @@ package com.sleewell.sleewell.reveil.presenter
 import android.app.AlarmManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import androidx.lifecycle.LifecycleOwner
 import com.sleewell.sleewell.reveil.AlarmContract
 import com.sleewell.sleewell.reveil.data.model.Alarm
 import com.sleewell.sleewell.reveil.data.viewmodel.AlarmViewModel
@@ -10,7 +12,7 @@ import com.sleewell.sleewell.reveil.model.AlarmModel
 
 class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
 
-    private var model: AlarmContract.Model = AlarmModel()
+    private var model: AlarmContract.Model = AlarmModel(this)
     private var view: AlarmContract.View? = view
 
     /**
@@ -59,8 +61,18 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
      * @param time Time of the alarm
      * @author Romane Bézier
      */
-    override fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel) {
-        model.saveAlarm(time,mAlarmViewModel)
+    override fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, days: List<Boolean>, ringtone: Uri, vibrate: Boolean, label: String, index: Int, displayed: Boolean) {
+        model.saveAlarm(time,mAlarmViewModel, lifecycleOwner, days, ringtone, vibrate, label, index, displayed)
+    }
+
+    /**
+     * Start the new alarm
+     *
+     * @param alarm Current alarm
+     * @author Romane Bézier
+     */
+    override fun startNewAlarm(alarm: Alarm) {
+        view?.startAlarm(alarm)
     }
 
     /**

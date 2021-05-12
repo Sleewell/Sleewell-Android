@@ -3,6 +3,7 @@ package com.sleewell.sleewell.reveil
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Vibrator
 import androidx.core.app.NotificationManagerCompat
 import com.sleewell.sleewell.mvp.menu.alarm.view.AlarmsFragment
 import com.sleewell.sleewell.reveil.data.model.Alarm
@@ -33,10 +34,14 @@ class GlobalReceiver : BroadcastReceiver() {
                 alarm = bundle.getParcelable("alarm")!!
                 when (intent.action) {
                     "Stop" -> {
+                        val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                        vibrator.cancel()
                         AlarmsFragment.instance.stopAlarm(alarm)
                         stopNotification(context, alarm.id)
                     }
                     "Snooze" -> {
+                        val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                        vibrator.cancel()
                         AlarmsFragment.instance.snoozeAlarm(alarm)
                         stopNotification(context, alarm.id)
                     }

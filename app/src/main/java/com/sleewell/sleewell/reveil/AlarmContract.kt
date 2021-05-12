@@ -3,6 +3,8 @@ package com.sleewell.sleewell.reveil
 import android.app.AlarmManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import androidx.lifecycle.LifecycleOwner
 import com.sleewell.sleewell.reveil.data.model.Alarm
 import com.sleewell.sleewell.reveil.data.viewmodel.AlarmViewModel
 import com.sleewell.sleewell.reveil.global.BasePresenter
@@ -15,6 +17,7 @@ import com.sleewell.sleewell.reveil.global.BaseView
 interface AlarmContract {
 
     interface Model {
+
         /**
          * Update the alarm
          *
@@ -39,7 +42,7 @@ interface AlarmContract {
          * @param time Time of the alarm
          * @author Romane Bézier
          */
-        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel)
+        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, days: List<Boolean>, ringtone: Uri, vibrate: Boolean, label: String, index: Int, displayed: Boolean)
 
         /**
          * Start the alarm
@@ -140,7 +143,15 @@ interface AlarmContract {
          * @param time Time of the alarm
          * @author Romane Bézier
          */
-        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel)
+        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, days: List<Boolean>, ringtone: Uri, vibrate: Boolean, label: String, index: Int, displayed: Boolean)
+
+        /**
+         * Start the new alarm
+         *
+         * @param alarm Current alarm
+         * @author Romane Bézier
+         */
+        fun startNewAlarm(alarm: Alarm)
 
         /**
          * Start the alarm
@@ -211,12 +222,12 @@ interface AlarmContract {
     interface View : BaseView<Presenter> {
 
         /**
-         * Launch the time picker to update the alarm
+         * Update the alarm
          *
          * @param currentAlarm Alarm to update
          * @author Romane Bézier
          */
-        fun launchTimePickerUpdate(currentAlarm: Alarm)
+        fun updateAlarm(currentAlarm: Alarm)
 
         /**
          * Convert the time to String
@@ -255,8 +266,23 @@ interface AlarmContract {
          * Delete the alarm
          *
          * @param currentAlarm Alarm to delete
+         * @param selectedAlarm Selected the alarm are delete
          * @author Romane Bézier
          */
-        fun deleteAlarm(currentAlarm: Alarm)
+        fun deleteAlarm(currentAlarm: Alarm, selectedAlarm: Boolean)
+
+        /**
+         * Change visibility holder
+         *
+         * @author Romane Bézier
+         */
+        fun changeVisibilityHolder()
+
+        /**
+         * Check if the check boxed are not check
+         *
+         * @author Romane Bézier
+         */
+        fun checkCheckList()
     }
 }
