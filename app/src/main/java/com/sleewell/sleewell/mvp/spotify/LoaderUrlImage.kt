@@ -1,6 +1,5 @@
-package com.sleewell.sleewell.Spotify
+package com.sleewell.sleewell.mvp.spotify
 
-import android.R
 import android.content.Context
 import android.widget.ImageView
 import com.squareup.picasso.Picasso

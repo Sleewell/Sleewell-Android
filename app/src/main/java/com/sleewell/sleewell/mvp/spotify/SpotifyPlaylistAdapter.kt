@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.Spotify
+package com.sleewell.sleewell.mvp.spotify
 
 import android.content.Context
 import android.view.LayoutInflater

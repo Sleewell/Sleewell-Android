@@ -1,8 +1,8 @@
-package com.sleewell.sleewell.Spotify.Model
+package com.sleewell.sleewell.mvp.spotify.model
 
 import android.content.Context
 import android.util.Log
-import com.sleewell.sleewell.Spotify.*
+import com.sleewell.sleewell.mvp.spotify.*
 import retrofit2.Call
 import retrofit2.Callback
 

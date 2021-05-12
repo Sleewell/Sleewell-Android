@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.Spotify
+package com.sleewell.sleewell.mvp.spotify
 
 class SpotifyPlaylist(name: String, uri: String, image: String) {
     private var name: String = name

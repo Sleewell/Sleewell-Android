@@ -2,6 +2,7 @@ package com.sleewell.sleewell.mvp.menu.routine
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.sleewell.sleewell.api.sleewell.model.RoutinesResponse
 import com.sleewell.sleewell.database.routine.entities.Routine
 import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
@@ -14,14 +15,7 @@ interface RoutineContract {
          *
          * @author gabin warnier de wailly
          */
-        fun createNewItemRoutine()
-
-        /**
-         * This method update the Listview with the database
-         *
-         * @author gabin warnier de wailly
-         */
-        fun updateListViewRoutine()
+        fun createNewItemRoutine(id: Int)
 
         /**
          * This method return the adapter for the listview (routine)
@@ -92,6 +86,10 @@ interface RoutineContract {
          * @author gabin warnier de wailly
          */
         fun updateSelectedItemRoutine(nbr: Int)
+		fun getRoutineApiSleewell()
+        fun updateListViewRoutine(routines: RoutinesResponse?)
+        fun addRoutineApiSleewell(routine: Routine)
+        fun updateListViewOffLine()
     }
 
     interface Presenter : BasePresenter {

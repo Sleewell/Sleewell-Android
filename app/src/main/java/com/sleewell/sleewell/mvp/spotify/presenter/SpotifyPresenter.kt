@@ -1,12 +1,12 @@
-package com.sleewell.sleewell.Spotify.Presenter
+package com.sleewell.sleewell.mvp.spotify.presenter
 
 import android.content.Context
 import android.text.Editable
-import com.sleewell.sleewell.Spotify.ApiResultSpotify
-import com.sleewell.sleewell.Spotify.MainContract
-import com.sleewell.sleewell.Spotify.Model.SpotifyModel
-import com.sleewell.sleewell.Spotify.SpotifyPlaylist
-import com.sleewell.sleewell.Spotify.View.SpotifyFragment
+import com.sleewell.sleewell.mvp.spotify.ApiResultSpotify
+import com.sleewell.sleewell.mvp.spotify.MainContract
+import com.sleewell.sleewell.mvp.spotify.model.SpotifyModel
+import com.sleewell.sleewell.mvp.spotify.SpotifyPlaylist
+import com.sleewell.sleewell.mvp.spotify.view.SpotifyFragment
 
 class SpotifyPresenter(view: SpotifyFragment, context: Context) : MainContract.Presenter,
     MainContract.Model.OnFinishedListener {

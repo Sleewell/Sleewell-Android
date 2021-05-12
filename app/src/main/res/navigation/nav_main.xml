@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/spotifyFragment"
-        android:name="com.sleewell.sleewell.Spotify.View.SpotifyFragment"
+        android:name="com.sleewell.sleewell.mvp.spotify.view.SpotifyFragment"
         android:label="new_fragment_spotify"
         tools:layout="@layout/new_fragment_spotify" />
         <action

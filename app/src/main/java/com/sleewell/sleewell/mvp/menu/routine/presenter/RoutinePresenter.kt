@@ -3,6 +3,7 @@ package com.sleewell.sleewell.mvp.menu.routine.presenter
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.sleewell.sleewell.database.routine.entities.Routine
 import com.sleewell.sleewell.mvp.menu.routine.RoutineContract
 import com.sleewell.sleewell.mvp.menu.routine.model.RoutineModel
 import kotlinx.coroutines.*
@@ -26,18 +27,15 @@ class RoutinePresenter(view: RoutineContract.View, context: Context) : RoutineCo
     }
 
     override fun createNewItemRoutine() {
-        CoroutineScope(Dispatchers.IO).launch {
-            model.createNewItemRoutine()
-        }
+        val rt = Routine("", false, 0, 48, 63, 159, false, 48, false, "None", "", "")
+        model.addRoutineApiSleewell(rt)
     }
 
     override fun removeItemRoutine(nbr: Int ) {
     }
 
     override fun updateAdapter() {
-        CoroutineScope(Dispatchers.IO).launch {
-            model.updateListViewRoutine()
-        }
+        model.getRoutineApiSleewell()
         view?.displayRoutineList(model.getAdapter())
     }
 
