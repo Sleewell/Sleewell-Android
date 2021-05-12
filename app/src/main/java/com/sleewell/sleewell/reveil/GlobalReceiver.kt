@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Vibrator
 import androidx.core.app.NotificationManagerCompat
+import com.sleewell.sleewell.modules.audio.service.AnalyseService
+import com.sleewell.sleewell.modules.audio.service.AnalyseServiceTracker
 import com.sleewell.sleewell.mvp.menu.alarm.view.AlarmsFragment
 import com.sleewell.sleewell.reveil.data.model.Alarm
 
@@ -38,6 +40,7 @@ class GlobalReceiver : BroadcastReceiver() {
                         vibrator.cancel()
                         AlarmsFragment.instance.stopAlarm(alarm)
                         stopNotification(context, alarm.id)
+                        stopAnalyse(context)
                     }
                     "Snooze" -> {
                         val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -46,6 +49,15 @@ class GlobalReceiver : BroadcastReceiver() {
                         stopNotification(context, alarm.id)
                     }
                 }
+            }
+        }
+    }
+
+    private fun stopAnalyse(context: Context) {
+        if (AnalyseServiceTracker.getServiceState(context) == AnalyseServiceTracker.ServiceState.STARTED) {
+            with(Intent(context, AnalyseService::class.java)) {
+                action = AnalyseService.STOP
+                context.startService(this)
             }
         }
     }
