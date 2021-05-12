@@ -1,6 +1,7 @@
 package com.sleewell.sleewell.mvp.menu.account.model
 
 import android.content.Context
+import android.provider.ContactsContract
 import android.util.Log
 import com.sleewell.sleewell.api.sleewell.ApiClient
 import com.sleewell.sleewell.api.sleewell.IUserApi
@@ -17,16 +18,15 @@ import retrofit2.Response
 
 class ProfileModel(context: Context) : ProfileContract.Model {
     private val TAG = "ProfileModelMVP"
-    private var api : IUserApi? = ApiClient.retrofit.create(IUserApi::class.java)
-    private lateinit var token: RequestBody
+    private var api: IUserApi? = ApiClient.retrofit.create(IUserApi::class.java)
 
     override fun getProfileInformation(onProfileInfoListener: ProfileContract.Model.OnProfileInfoListener) {
-        token = MainActivity.accessTokenSleewell.toRequestBody("text/plain".toMediaTypeOrNull())
-        val call : Call<ProfileInfo>? = api?.getProfileInformation(token)
+        val token = "Bearer ${MainActivity.accessTokenSleewell}"
+        val call: Call<ProfileInfo>? = api?.getProfileInformation(token)
 
         call?.enqueue(object : Callback<ProfileInfo> {
             override fun onResponse(call: Call<ProfileInfo>, response: Response<ProfileInfo>) {
-                val responseRes : ProfileInfo? = response.body()
+                val responseRes: ProfileInfo? = response.body()
 
                 if (responseRes == null) {
                     Log.e(TAG, "Body null error")
@@ -46,20 +46,24 @@ class ProfileModel(context: Context) : ProfileContract.Model {
     }
 
     override fun updateProfileInformation(
-        username: String, firstName: String, lastName: String,
+        username: String, firstName: String, lastName: String, email: String,
         onFinishedListener: ProfileContract.Model.OnUpdateProfileInfoListener
     ) {
-        token = MainActivity.accessTokenSleewell.toRequestBody("text/plain".toMediaTypeOrNull())
+        val token = "Bearer ${MainActivity.accessTokenSleewell}".toRequestBody("text/plain".toMediaTypeOrNull())
         val call : Call<ResponseSuccess>? = api?.updateProfileInformation(token,
             username.toRequestBody("text/plain".toMediaTypeOrNull()),
             firstName.toRequestBody("text/plain".toMediaTypeOrNull()),
             lastName.toRequestBody("text/plain".toMediaTypeOrNull()),
+            email.toRequestBody("text/plain".toMediaTypeOrNull())
         )
 
         call?.enqueue(object : Callback<ResponseSuccess> {
 
-            override fun onResponse(call: Call<ResponseSuccess>, response: Response<ResponseSuccess>) {
-                val responseRes : ResponseSuccess? = response.body()
+            override fun onResponse(
+                call: Call<ResponseSuccess>,
+                response: Response<ResponseSuccess>
+            ) {
+                val responseRes: ResponseSuccess? = response.body()
 
                 if (responseRes == null) {
                     Log.e(TAG, "Body null error")

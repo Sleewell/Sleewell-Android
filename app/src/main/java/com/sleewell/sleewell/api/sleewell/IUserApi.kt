@@ -4,14 +4,11 @@ import com.sleewell.sleewell.api.sleewell.model.ProfileInfo
 import com.sleewell.sleewell.api.sleewell.model.ResponseSuccess
 import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.http.Multipart
-import retrofit2.http.POST
-import retrofit2.http.Part
+import retrofit2.http.*
 
 interface IUserApi {
-    @Multipart
-    @POST("user/information")
-    fun getProfileInformation(@Part("token") token: RequestBody): Call<ProfileInfo>
+    @GET("user/information")
+    fun getProfileInformation(@Header("Authorization") token: String): Call<ProfileInfo>
 
     @Multipart
     @POST("user/update")
@@ -19,6 +16,7 @@ interface IUserApi {
         @Part("token") token: RequestBody,
         @Part("login") username: RequestBody,
         @Part("firstname") firstName: RequestBody,
-        @Part("lastname") lastName: RequestBody
+        @Part("lastname") lastName: RequestBody,
+        @Part("email") email: RequestBody,
     ): Call<ResponseSuccess>
 }
