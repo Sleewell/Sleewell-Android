@@ -38,7 +38,7 @@ class AudioAnalyser(
     // file save
     private var isInitialised = false
     private var isInitializing = false
-    private val fileUtil = AudioAnalyseDbUtils(context, this)
+    private val fileUtil : IAnalyseDataManager = AudioAnalyseDbUtils(context, this)
 
     // coroutine
     private val queueData: Queue<DoubleArray> = LinkedList()
@@ -182,23 +182,14 @@ class AudioAnalyser(
     }
 
     /**
-     * Function called when received the list of available analyses
-     *
-     * @param analyses
-     */
-    override fun onListAvailableAnalyses(analyses: List<Long>) {
-
-    }
-
-    /**
      * Function called when received the list of available analyse
      *
      * @param analyses
      */
-    override fun onListAvailableNights(analyses: List<Night>) {
+    override fun onListAvailableAnalyses(analyses: List<Night>) {
         scopeDefault.launch {
             analyses.forEach { it ->
-                fileUtil.deleteAnalyseFromId(it.uId)
+                fileUtil.deleteAnalyse(it.uId)
             }
             if (!fileUtil.initNewAnalyse()) {
                 listener.onError("Couldn't initialised ")
@@ -215,16 +206,6 @@ class AudioAnalyser(
 
             listener.onDataManagerInitialized()
         }
-    }
-
-    /**
-     * Function called when an analyse is read from a file
-     *
-     * @param data of the analyse file
-     * @author Hugo Berthomé
-     */
-    override fun onReadAnalyseRecord(data: Array<AnalyseValue>) {
-        // do nothing because we only save
     }
 
     /**
