@@ -20,7 +20,7 @@
         app:icon="@drawable/bookmark_24px_outlined">
         <intent android:action="android.intent.action.VIEW"
             android:targetPackage="com.sleewell.sleewell"
-            android:targetClass="com.sleewell.sleewell.mvp.help.HelpSignalmenActivity"
+            android:targetClass="@string/setting_file_help"
             />
     </Preference>
 

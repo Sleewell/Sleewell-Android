@@ -63,6 +63,10 @@
     <string name="setting_dnd_summary_on">Dnd is on during protocol</string>
     <string name="setting_dnd_summary_off">Dnd is off during protocol"</string>
 
+    <string name="setting_help_title">Help</string>
+    <string name="setting_help_signal_problem">Signal a problem or a bug</string>
+    <string name="version_app">Version %s - %s</string>
+
     <!-- Settings file name-->
     <string name="setting_file_network">com.sleewell.sleewell.network</string>
     <string name="setting_file_notification">com.sleewell.sleewell.notification</string>
