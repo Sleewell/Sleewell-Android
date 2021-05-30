@@ -108,15 +108,15 @@
 
     <string name="music_screen_title">Sounds to sleep to</string>
     <string name="hello_blank_fragment">New Fragment</string>
-  
-  <!-- Strings Array -->
-    
+
+    <!-- Strings Array -->
+
     <string-array name="music_player">
         <item>None</item>
         <item>Spotify</item>
         <item>Sleewell</item>
     </string-array>
-    
+
     <!-- Alarm -->
     <string name="snooze_5_min">Snooze 5 min</string>
     <string name="stars">Stars</string>
