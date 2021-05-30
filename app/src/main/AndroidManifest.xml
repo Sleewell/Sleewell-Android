@@ -24,11 +24,24 @@
         android:roundIcon="@mipmap/icon_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".splashScreen.SplashScreenActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
         <activity android:name=".mvp.protocol.view.ProtocolContainer">
+
             <!-- Open the app on this specific activity when a NFC tag contain a mime type as described below -->
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="application/com.sleewell.sleewell" />
             </intent-filter>
             <!-- Open the app on this specific activity when a NFC tag contain a url with http://www.sleewell.fr -->
@@ -49,16 +62,7 @@
             android:name=".mvp.mainActivity.view.MainActivity"
             android:configChanges="orientation"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".reveil.DesactivationActivity"
             android:label="Desactivation"
@@ -81,6 +85,7 @@
             android:icon="@mipmap/icon_launcher"
             android:label="@string/foreground_service_analyse_label"
             android:stopWithTask="false" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
