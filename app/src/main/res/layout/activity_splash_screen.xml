@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="@+id/starsSplashScreen"
         app:layout_constraintStart_toStartOf="@+id/starsSplashScreen"
         app:layout_constraintTop_toTopOf="@+id/starsSplashScreen"
-        app:srcCompat="@drawable/ic_sleewell"
+        app:srcCompat="@drawable/avd_squirel"
         app:tint="@color/colorPrimary" />
 
     <TextView

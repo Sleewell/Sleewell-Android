@@ -1,9 +1,13 @@
 package com.sleewell.sleewell.splashScreen
 
 import android.content.Intent
+import android.graphics.drawable.Animatable
+import android.graphics.drawable.Animatable2
+import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.widget.ImageView
 import android.widget.TextView
 import com.sleewell.sleewell.BuildConfig
 import com.sleewell.sleewell.R
@@ -28,5 +32,19 @@ class SplashScreenActivity : AppCompatActivity() {
         val versionName = BuildConfig.VERSION_NAME
         val versionText = findViewById<TextView>(R.id.textVersion)
         versionText.text = "$versionName  -  $versionCode"
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        val animateSquirrel = findViewById<ImageView>(R.id.iconSplashScreen)
+        val animated : Animatable2 = animateSquirrel.drawable as Animatable2
+        animated.registerAnimationCallback(object : Animatable2.AnimationCallback() {
+            override fun onAnimationEnd(drawable: Drawable?) {
+                super.onAnimationEnd(drawable)
+                animated.start()
+            }
+        })
+        animated.start()
     }
 }
