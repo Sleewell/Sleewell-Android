@@ -43,6 +43,7 @@ class SplashScreenActivity : AppCompatActivity() {
             override fun onFinish() {
                 val intent = Intent(this@SplashScreenActivity, MainActivity::class.java)
                 startActivity(intent)
+                finish()
             }
         }
         timer.start()
