@@ -18,16 +18,6 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
-        val timer = object : CountDownTimer(3000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {}
-
-            override fun onFinish() {
-                val intent = Intent(this@SplashScreenActivity, MainActivity::class.java)
-                startActivity(intent)
-            }
-        }
-        timer.start()
-
         val versionCode = BuildConfig.VERSION_CODE
         val versionName = BuildConfig.VERSION_NAME
         val versionText = findViewById<TextView>(R.id.textVersion)
@@ -46,5 +36,15 @@ class SplashScreenActivity : AppCompatActivity() {
             }
         })
         animated.start()
+
+        val timer = object : CountDownTimer(3000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {}
+
+            override fun onFinish() {
+                val intent = Intent(this@SplashScreenActivity, MainActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        timer.start()
     }
 }
