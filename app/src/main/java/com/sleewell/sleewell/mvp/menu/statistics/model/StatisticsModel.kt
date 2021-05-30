@@ -319,23 +319,14 @@ class StatisticsModel(
         )*/
     }
 
-    override fun onListAvailableAnalyses(analyses: List<Long>) {
+    override fun onListAvailableAnalyses(analyses: List<Night>) {
         if (analyses.isEmpty()) {
             listener.onDataAnalyse(arrayOf())
         } else {
             analyseFileDate =
-                AudioAnalyseFileUtils.timestampToDateString(analyses[analyses.size - 1])
-            analyse.readAnalyse(analyses[analyses.size - 1])
+                AudioAnalyseFileUtils.timestampToDateString(analyses[analyses.size - 1].uId)
+            analyse.readAnalyse(analyses[analyses.size - 1].uId)
         }
-    }
-
-    /**
-     * Function called when received the list of available analyse
-     *
-     * @param analyses
-     */
-    override fun onListAvailableNights(analyses: List<Night>) {
-        TODO("Not yet implemented")
     }
 
     /**
@@ -352,20 +343,9 @@ class StatisticsModel(
      * @param data of the analyse file
      * @author Hugo Berthomé
      */
-    override fun onReadAnalyseRecord(data: Array<AnalyseValue>) {
+    override fun onReadAnalyseRecord(data: Array<AnalyseValue>, nightId: Long) {
         listener.onDataAnalyseDate(analyseFileDate)
         listener.onDataAnalyse(data)
-    }
-
-    /**
-     * Function called when an analyse is read from a file
-     *
-     * @param data
-     * @param nightId
-     * @author Hugo berthomé
-     */
-    override fun onReadAnalyseRecord(data: Array<AnalyseValue>, nightId: Long) {
-        TODO("Not yet implemented")
     }
 
     /**

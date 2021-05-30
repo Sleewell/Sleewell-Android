@@ -30,27 +30,20 @@ class AudioAnalyseDbUtils(context: Context, val listener: IAudioAnalyseRecordLis
     override fun getAvailableAnalyse() {
         scope.launch {
             val nights = nightDao.getAll()
-            listener.onListAvailableNights(nights)
+            listener.onListAvailableAnalyses(nights)
         }
     }
 
     /**
      * Read an analyse
      *
-     * @param timestamp identifying the analyse
+     * @param id identifying the analyse
      * @author Hugo Berthomé
      */
-    override fun readAnalyse(timestamp: Long) {
+    override fun readAnalyse(id: Long) {
         scope.launch {
-            val res = analyseDao.getAnalyseFromNightStart(timestamp)
-            listener.onReadAnalyseRecord(res.toTypedArray())
-        }
-    }
-
-    fun readNight(night: Night) {
-        scope.launch {
-            val res = analyseDao.getAnalysesFromNightId(night.uId)
-            listener.onReadAnalyseRecord(res.toTypedArray(), night.uId)
+            val res = analyseDao.getAnalysesFromNightId(id)
+            listener.onReadAnalyseRecord(res.toTypedArray(), id)
         }
     }
 
@@ -60,20 +53,9 @@ class AudioAnalyseDbUtils(context: Context, val listener: IAudioAnalyseRecordLis
      * @param timestamp identifying the analyse
      * @author Hugo Berthomé
      */
-    override fun deleteAnalyse(timestamp: Long) {
+    override fun deleteAnalyse(id: Long) {
         scope.launch {
-            val night = nightDao.getNightWithTimestamp(timestamp)
-
-            if (night != null) {
-                analyseDao.deleteAnalyseFromNightId(night.uId)
-                nightDao.deleteNight(night)
-            }
-        }
-    }
-
-    fun deleteAnalyseFromId(nightId: Long) {
-        scope.launch {
-            val night = nightDao.getNight(nightId)
+            val night = nightDao.getNight(id)
 
             if (night != null) {
                 analyseDao.deleteAnalyseFromNightId(night.uId)
@@ -137,7 +119,7 @@ class AudioAnalyseDbUtils(context: Context, val listener: IAudioAnalyseRecordLis
      *
      * @return Long timestamp
      */
-    fun getCurrentTimestamp(): Long {
+    private fun getCurrentTimestamp(): Long {
         return Instant.now().epochSecond
     }
 }
