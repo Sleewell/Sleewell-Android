@@ -277,6 +277,21 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/label_modify_alarm" />
 
+                <Button
+                    android:id="@+id/button_validate_modify"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/validate"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:visibility="invisible"
+                    android:background="@color/transparent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/editText_modify_alarm" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
@@ -469,6 +484,21 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/label_create_alarm" />
+
+                <Button
+                    android:id="@+id/button_validate_create"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/validate"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:visibility="invisible"
+                    android:background="@color/transparent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/editText_create_alarm" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

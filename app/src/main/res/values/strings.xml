@@ -134,4 +134,5 @@
     <string name="check">Check</string>
     <string name="ringtone">Ringtone</string>
     <string name="deleteall">deleteAll</string>
+    <string name="validate">VALIDATE</string>
 </resources>
