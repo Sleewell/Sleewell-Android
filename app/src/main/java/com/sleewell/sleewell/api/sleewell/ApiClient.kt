@@ -11,19 +11,15 @@ class ApiClient {
         private const val BASE_URL = Constants.apiUrl
 
         private var logging = run {
-            val httpLoggingInterceptor = HttpLoggingInterceptor()
+            val httpLoggingInterceptor = HttpLoggingInterceptor {message ->
+                //Log.d("API CLIENT", message)
+            }
             httpLoggingInterceptor.apply {
                 httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
             }
         }
-        private var dss = HttpLoggingInterceptor { message ->
-            Log.d(
-                "ds",
-                message
-            )
-        }
 
-        private val client = OkHttpClient.Builder().addInterceptor(logging).addInterceptor(dss).build()
+        private val client = OkHttpClient.Builder().addInterceptor(logging).build()
         val retrofit : Retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
