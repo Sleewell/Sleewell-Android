@@ -1,8 +1,10 @@
 package com.sleewell.sleewell.mvp.menu.routine.model
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.util.Log
@@ -127,14 +129,26 @@ class RoutineModel(context: Context) : RoutineContract.Model {
                     addRoutineApiSleewell(routinesDb[i])
                 }
                 RoutineState.UPDATE.ordinal -> {
-                    aList.add(routinesDb[i])
-                    updateRoutineApiSleewell(aList.size - 1)
-                    val isRoutine = routinesApi.find { it.id == routinesDb[i].apiId }
-                    routinesApi.removeAt(routinesApi.indexOf(isRoutine))
+                    CoroutineScope(Dispatchers.Main).launch {
+                        val alertDialog: AlertDialog = AlertDialog.Builder(context, AlertDialog.THEME_HOLO_DARK).create()
+                        val title = if (routinesDb[i].name.isEmpty()) "Routine ${routinesDb[i].apiId.toString()}" else routinesDb[i].name
+                        alertDialog.setTitle("Routine $title has conflit")
+                        alertDialog.setMessage("Keep last save on phone ?")
+                        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes") { dialog, _ ->
+                            aList.add(routinesDb[i])
+                            updateRoutineApiSleewell(aList.size - 1)
+                            val isRoutine = routinesApi.find { it.id == routinesDb[i].apiId }
+                            routinesApi.removeAt(routinesApi.indexOf(isRoutine))
+                            dialog.dismiss()
+                        }
+                        alertDialog.show()
+                    }
                 }
                 RoutineState.DELETE.ordinal -> {
-                    if (routinesApi.isEmpty())
-                        break
+                    if (routinesApi.isEmpty()) break
                     aList.add(routinesDb[i])
                     deleteRoutineApiSleewell(aList.size - 1)
                     val isRoutine = routinesApi.find { it.id == routinesDb[i].apiId }
@@ -220,7 +234,6 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         val call : Call<DeleteRoutineResponse>? = api?.deleteRoutine(MainActivity.accessTokenSleewell, requestBody)
 
         call?.enqueue(object: Callback<DeleteRoutineResponse> {
-
             override fun onResponse(call: Call<DeleteRoutineResponse>, response: retrofit2.Response<DeleteRoutineResponse>) {
                 val responseRes: DeleteRoutineResponse? = response.body()
                 if (responseRes == null) {
@@ -270,7 +283,6 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         val call : Call<UpdateRoutineResponse>? = api?.updateRoutine(MainActivity.accessTokenSleewell, requestBody)
 
         call?.enqueue(object: Callback<UpdateRoutineResponse> {
-
             override fun onResponse(call: Call<UpdateRoutineResponse>, response: retrofit2.Response<UpdateRoutineResponse>) {
                 val responseRes: UpdateRoutineResponse? = response.body()
                 if (responseRes == null) {
@@ -304,16 +316,10 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         builder.addFormDataPart("musicuri", routine.musicUri)
 
         val requestBody: RequestBody = builder.build()
-        val call : Call<AddRoutineResponse>? = api?.addRoutine(
-            MainActivity.accessTokenSleewell,
-            requestBody
-        )
+        val call : Call<AddRoutineResponse>? = api?.addRoutine(MainActivity.accessTokenSleewell, requestBody)
 
         call?.enqueue(object: Callback<AddRoutineResponse> {
-            override fun onResponse(
-                call: Call<AddRoutineResponse>,
-                response: retrofit2.Response<AddRoutineResponse>
-            ) {
+            override fun onResponse(call: Call<AddRoutineResponse>, response: retrofit2.Response<AddRoutineResponse>) {
                 val responseRes: AddRoutineResponse? = response.body()
                 if (responseRes == null) {
                     Log.e(TAG, "Body null error")
