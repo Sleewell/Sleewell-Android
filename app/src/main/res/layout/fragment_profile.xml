@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".mvp.menu.profile.view.ProfileFragment">
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="@+id/usernameInputLayout"
+        app:layout_constraintEnd_toEndOf="@+id/usernameInputLayout"
+        app:layout_constraintStart_toStartOf="@+id/usernameInputLayout"
+        app:layout_constraintTop_toTopOf="@+id/usernameInputLayout" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/usernameInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -35,6 +44,15 @@
             tools:visibility="invisible" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="@+id/firstNameInputLayout"
+        app:layout_constraintEnd_toEndOf="@+id/firstNameInputLayout"
+        app:layout_constraintStart_toStartOf="@+id/firstNameInputLayout"
+        app:layout_constraintTop_toTopOf="@+id/firstNameInputLayout" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/firstNameInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -63,6 +81,15 @@
             tools:visibility="invisible" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="@+id/lastNameInputLayout"
+        app:layout_constraintEnd_toEndOf="@+id/lastNameInputLayout"
+        app:layout_constraintStart_toStartOf="@+id/lastNameInputLayout"
+        app:layout_constraintTop_toTopOf="@+id/lastNameInputLayout" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/lastNameInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -89,6 +116,15 @@
             android:visibility="invisible"
             tools:visibility="invisible" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="@+id/emailInputLayout"
+        app:layout_constraintEnd_toEndOf="@+id/emailInputLayout"
+        app:layout_constraintStart_toStartOf="@+id/emailInputLayout"
+        app:layout_constraintTop_toTopOf="@+id/emailInputLayout" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailInputLayout"
@@ -144,24 +180,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <View
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginBottom="35dp"
-        android:background="@drawable/shape_oval"
-        android:backgroundTint="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <ImageButton
         android:id="@+id/buttonLogout"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginStart="35dp"
+        android:layout_marginStart="30dp"
         android:layout_marginBottom="35dp"
         android:background="@drawable/shape_oval"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimaryDark"
         android:backgroundTintMode="src_in"
         android:paddingRight="20px"
         android:scaleType="center"
