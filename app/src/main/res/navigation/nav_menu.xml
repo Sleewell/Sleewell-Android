@@ -35,4 +35,8 @@
         android:name="com.sleewell.sleewell.mvp.menu.settings.view.SettingsFragment"
         android:label="new_fragment_settings"
         tools:layout="@layout/new_fragment_settings" />
+    <fragment
+        android:id="@+id/routineSettingsFragment"
+        android:name="com.sleewell.sleewell.mvp.menu.routine.view.RoutineSettingsFragment"
+        android:label="RoutineSettingsFragment" />
 </navigation>
