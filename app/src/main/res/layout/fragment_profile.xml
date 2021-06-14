@@ -22,6 +22,7 @@
         tools:visibility="invisible">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/usernameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito"
@@ -50,6 +51,7 @@
         tools:visibility="invisible">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/firstNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito"
@@ -75,6 +77,7 @@
         tools:visibility="invisible">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/lastNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito"
@@ -103,6 +106,7 @@
         tools:visibility="invisible">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/transparent"

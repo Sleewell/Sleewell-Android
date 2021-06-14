@@ -49,7 +49,7 @@ class ProfilePresenter(view: ProfileContract.View, context: Context) : ProfileCo
     }
 
     override fun updateProfileInformation() {
-        val token = "Bearer ${MainActivity.accessTokenSleewell}"
+        val token = MainActivity.accessTokenSleewell
 
         model.updateProfileInformation(token,
             username, firstName, lastName, email,
