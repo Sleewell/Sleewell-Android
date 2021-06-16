@@ -20,17 +20,33 @@ class ListAdapter(private val view: AlarmContract.View): RecyclerView.Adapter<Li
 
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
-
+    /**
+     * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item.
+     *
+     * @param parent The ViewGroup into which the new View will be added after it is bound to an adapter position.
+     * @param viewType The view type of the new View.
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         context = parent.context
         return MyViewHolder(LayoutInflater.from(parent.context)
             .inflate(R.layout.custom_row, parent, false))
     }
 
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     *
+     * @return The total number of items in this adapter.
+     */
     override fun getItemCount(): Int {
         return alarmList.size
     }
 
+    /**
+     * Called by RecyclerView to display the data at the specified position.
+     *
+     * @param holder The ViewHolder which should be updated to represent the contents of the item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = alarmList[position]
         holder.itemView.textViewTime.text = view.convertTime(currentItem.time)
@@ -99,10 +115,22 @@ class ListAdapter(private val view: AlarmContract.View): RecyclerView.Adapter<Li
         }
     }
 
+    /**
+     * Get the list of the alarms.
+     *
+     * @return List of the alarms.
+     * @author Romane Bézier
+     */
     fun getAlarmList() : List<Alarm> {
         return alarmList
     }
 
+    /**
+     * Apply the list of the alarms.
+     *
+     * @param alarm List of the alarms.
+     * @author Romane Bézier
+     */
     fun setData(alarm: List<Alarm>) {
         this.alarmList = alarm
         notifyDataSetChanged()

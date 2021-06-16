@@ -11,16 +11,17 @@ import com.sleewell.sleewell.mvp.menu.alarm.view.AlarmsFragment
 import com.sleewell.sleewell.reveil.data.model.Alarm
 
 /**
- * Notification receiver
+ * Notification receiver.
  *
  * @author Romane Bézier
  */
 class GlobalReceiver : BroadcastReceiver() {
 
     /**
-     * Stop the alarm when button 'stop" have been click on the notificatop,
+     * Stop the alarm when button 'stop" have been click on the notification.
      *
-     * @param context Context of the application
+     * @param context Context of the application.
+     * @param id Id of the notification.
      * @author Romane Bézier
      */
     private fun stopNotification(context: Context?, id: Int) {
@@ -28,6 +29,12 @@ class GlobalReceiver : BroadcastReceiver() {
         notificationManager.cancel(id)
     }
 
+    /**
+     * This method is called when the BroadcastReceiver is receiving an Intent broadcast.
+     *
+     * @param context The Context in which the receiver is running.
+     * @param intent The Intent being received.
+     */
     override fun onReceive(context: Context?, intent: Intent?) {
         if (context != null && intent != null && intent.action != null) {
             val alarm: Alarm

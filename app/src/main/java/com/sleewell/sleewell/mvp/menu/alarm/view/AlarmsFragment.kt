@@ -56,9 +56,11 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * When view is created
+     * Called to have the fragment instantiate its user interface view.
      *
-     * @param savedInstanceState Save of the instance state
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view. This value may be null.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
      */
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,17 +88,17 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             createAlarm(root)
         }
 
-        val toolbarCreateAlarm : Toolbar = root.findViewById(R.id.toolbar_create_alarm)
+        val toolbarCreateAlarm: Toolbar = root.findViewById(R.id.toolbar_create_alarm)
         toolbarCreateAlarm.setNavigationOnClickListener {
             changeVisibilityLayoutsAlarm()
         }
 
-        val toolbarModifyAlarm : Toolbar = root.findViewById(R.id.toolbar_modify_alarm)
+        val toolbarModifyAlarm: Toolbar = root.findViewById(R.id.toolbar_modify_alarm)
         toolbarModifyAlarm.setNavigationOnClickListener {
             changeVisibilityLayoutsAlarm()
         }
 
-        val checkBoxAllAlarms : CheckBox = root.findViewById(R.id.checkBoxAllAlarms)
+        val checkBoxAllAlarms: CheckBox = root.findViewById(R.id.checkBoxAllAlarms)
         checkBoxAllAlarms.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked)
                 checkAllAlarms()
@@ -105,7 +107,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             }
         }
 
-        val spinnerCreateAlarm : Button = root.findViewById(R.id.spinner_create_alarm)
+        val spinnerCreateAlarm: Button = root.findViewById(R.id.spinner_create_alarm)
         spinnerCreateAlarm.setOnClickListener {
             val ringtonePickerBuilder = RingtonePickerDialog.Builder(context!!, fragmentManager!!)
             ringtonePickerBuilder.setTitle("Select ringtone")
@@ -120,7 +122,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             ringtonePickerBuilder.show()
         }
 
-        val spinnerModifyAlarm : Button = root.findViewById(R.id.spinner_modify_alarm)
+        val spinnerModifyAlarm: Button = root.findViewById(R.id.spinner_modify_alarm)
         spinnerModifyAlarm.setOnClickListener {
             val ringtonePickerBuilder = RingtonePickerDialog.Builder(context!!, fragmentManager!!)
             ringtonePickerBuilder.setTitle("Select ringtone")
@@ -146,7 +148,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             )
         )
 
-        val deleteSelectedButton : ImageView = root.findViewById(R.id.deleteSelectedButton)
+        val deleteSelectedButton: ImageView = root.findViewById(R.id.deleteSelectedButton)
         deleteSelectedButton.setOnClickListener {
             deleteSelectedAlarms(adapter)
         }
@@ -160,6 +162,16 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         return root
     }
 
+    /**
+     * Set the alarm with specifics days.
+     *
+     * @param dayOfWeek Day of the week the alarm need to be create.
+     * @param calendar Calendar use to create the alarm.
+     * @param timePicker Time picker use to create the alarm.
+     * @param days Days the alarm need to be activated.
+     * @param index Index of the alarm.
+     * @author Romane Bézier
+     */
     private fun setAlarmWithDay(
         dayOfWeek: Int,
         calendar: Calendar,
@@ -186,7 +198,19 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         )
     }
 
-    private fun setAlarmWithoutDay(calendar: Calendar, timePicker: TimePicker, days: List<Boolean>) {
+    /**
+     * Set the alarm without specific days.
+     *
+     * @param calendar Calendar use to create the alarm.
+     * @param timePicker Time picker use to create the alarm.
+     * @param days Days the alarm need to be activated.
+     * @author Romane Bézier
+     */
+    private fun setAlarmWithoutDay(
+        calendar: Calendar,
+        timePicker: TimePicker,
+        days: List<Boolean>
+    ) {
         calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
         calendar.set(Calendar.MINUTE, timePicker.minute)
         calendar.set(Calendar.SECOND, 0)
@@ -207,6 +231,13 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         )
     }
 
+    /**
+     * Validate the save of the alarm.
+     *
+     * @param calendar Calendar use to save the alarm.
+     * @param timePicker Time picker use to save the alarm.
+     * @author Romane Bézier
+     */
     private fun funcValidateSaveAlarm(calendar: Calendar, timePicker: TimePicker) {
 
         changeVisibilityLayoutsAlarm()
@@ -239,9 +270,15 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         }
     }
 
+    /**
+     * Create the alarm.
+     *
+     * @param root The view of the alarm.
+     * @author Romane Bézier
+     */
     private fun createAlarm(root: View) {
         val calendar = Calendar.getInstance()
-        val timePicker : TimePicker = root.findViewById(R.id.time_picker_create_alarm)
+        val timePicker: TimePicker = root.findViewById(R.id.time_picker_create_alarm)
         timePicker.setIs24HourView(true)
         timePicker.hour = calendar.get(Calendar.HOUR_OF_DAY)
         timePicker.minute = calendar.get(Calendar.MINUTE)
@@ -254,6 +291,11 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         }
     }
 
+    /**
+     * Switch all the check box of the alarms to true.
+     *
+     * @author Romane Bézier
+     */
     private fun checkAllAlarms() {
         val childCount = recyclerView_alarm.childCount
         var i = 0
@@ -264,6 +306,11 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         }
     }
 
+    /**
+     * Switch all the check box of the alarms to false.
+     *
+     * @author Romane Bézier
+     */
     private fun uncheckAllAlarms() {
         val childCount = recyclerView_alarm.childCount
         var i = 0
@@ -274,6 +321,11 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         }
     }
 
+    /**
+     * Delete all the alarms selected.
+     *
+     * @param adapter Adapter of the recycler view of the alarm.
+     */
     private fun deleteSelectedAlarms(adapter: ListAdapter) {
         var alarmList = adapter.getAlarmList()
         val childCount = recyclerView_alarm.childCount
@@ -288,6 +340,12 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         }
     }
 
+    /**
+     * Validate update of the alarm.
+     *
+     * @param currentAlarm Current alarm that is updated.
+     * @author Romane Bézier
+     */
     private fun funcValidateUpdateAlarm(currentAlarm: Alarm) {
         changeVisibilityLayoutsAlarm()
 
@@ -323,7 +381,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         presenter.updateAlarm(updateAlarm, mAlarmViewModel)
 
         if (currentAlarm.activate) {
-            val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val alarmManager =
+                requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
             initStopAlarm(alarmManager, currentAlarm)
             initStopAlert(alarmManager, currentAlarm)
@@ -334,15 +393,16 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Update the alarm
+     * Update the alarm.
      *
-     * @param currentAlarm Alarm to update
+     * @param currentAlarm Current alarm that is updated.
      * @author Romane Bézier
      */
     override fun updateAlarm(currentAlarm: Alarm) {
 
         changeVisibilityLayoutsModify()
-        spinner_modify_alarm.text = RingtoneManager.getRingtone(context, Uri.parse(currentAlarm.ringtone)).getTitle(context)
+        spinner_modify_alarm.text =
+            RingtoneManager.getRingtone(context, Uri.parse(currentAlarm.ringtone)).getTitle(context)
 
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = currentAlarm.time
@@ -374,10 +434,10 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Convert the time to String
+     * Convert the time to String.
      *
-     * @param milliSeconds Time to convert
-     * @return Time in a String
+     * @param milliSeconds Time to convert.
+     * @return Time in a String.
      * @author Romane Bézier
      */
     override fun convertTime(milliSeconds: Long): String? {
@@ -391,9 +451,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Start the alarm
+     * Start the alarm.
      *
-     * @param currentAlarm Alarm to start
+     * @param currentAlarm Alarm to start.
      * @author Romane Bézier
      */
     override fun startAlarm(currentAlarm: Alarm) {
@@ -416,9 +476,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Snooze the alarm
+     * Snooze the alarm.
      *
-     * @param currentAlarm Alarm to snooze
+     * @param currentAlarm Alarm to snooze.
      * @author Romane Bézier
      */
     override fun snoozeAlarm(currentAlarm: Alarm) {
@@ -435,9 +495,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Stop the alarm
+     * Stop the alarm.
      *
-     * @param currentAlarm Alarm to stop
+     * @param currentAlarm Alarm to stop.
      * @author Romane Bézier
      */
     override fun stopAlarm(currentAlarm: Alarm) {
@@ -459,10 +519,10 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Delete the alarm
+     * Delete the alarm.
      *
-     * @param currentAlarm Alarm to delete
-     * @param selectedAlarm Selected the alarm are delete
+     * @param currentAlarm Alarm to delete.
+     * @param selectedAlarm Selected the alarm are delete.
      * @author Romane Bézier
      */
     override fun deleteAlarm(currentAlarm: Alarm, selectedAlarm: Boolean) {
@@ -471,7 +531,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             builder.setPositiveButton("Yes") { _, _ ->
                 presenter.deleteAlarm(mAlarmViewModel, currentAlarm)
                 if (currentAlarm.activate) {
-                    val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    val alarmManager =
+                        requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
                     initStopAlarm(alarmManager, currentAlarm)
                     initStopAlert(alarmManager, currentAlarm)
                 }
@@ -483,7 +544,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         } else {
             presenter.deleteAlarm(mAlarmViewModel, currentAlarm)
             if (currentAlarm.activate) {
-                val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val alarmManager =
+                    requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
                 initStopAlarm(alarmManager, currentAlarm)
                 initStopAlert(alarmManager, currentAlarm)
             }
@@ -500,10 +562,10 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Prepare the starting of the alarm
+     * Prepare the starting of the alarm.
      *
-     * @param alarmManager Alarm manager for the alarms
-     * @param currentAlarm Alarm to start
+     * @param alarmManager Alarm manager for the alarms.
+     * @param currentAlarm Alarm to start.
      * @author Romane Bézier
      */
     private fun initStartAlarm(alarmManager: AlarmManager, currentAlarm: Alarm) {
@@ -515,10 +577,10 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Prepare the starting of the lert
+     * Prepare the starting of the alert.
      *
-     * @param alarmManager Alarm manager for the alarms
-     * @param currentAlarm Alarm to start
+     * @param alarmManager Alarm manager for the alarms.
+     * @param currentAlarm Alarm to start.
      * @author Romane Bézier
      */
     private fun initStartAlert(alarmManager: AlarmManager, currentAlarm: Alarm) {
@@ -530,10 +592,10 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Prepare the stop of the alarm
+     * Prepare the stop of the alarm.
      *
-     * @param alarmManager Alarm manager for the alarms
-     * @param currentAlarm Alarm to stop
+     * @param alarmManager Alarm manager for the alarms.
+     * @param currentAlarm Alarm to stop.
      * @author Romane Bézier
      */
     private fun initStopAlarm(alarmManager: AlarmManager, currentAlarm: Alarm) {
@@ -545,10 +607,10 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Prepare the stop of the alert
+     * Prepare the stop of the alert.
      *
-     * @param alarmManager Alarm manager for the alarms
-     * @param currentAlarm Alarm to stop
+     * @param alarmManager Alarm manager for the alarms.
+     * @param currentAlarm Alarm to stop.
      * @author Romane Bézier
      */
     private fun initStopAlert(alarmManager: AlarmManager, currentAlarm: Alarm) {
@@ -559,14 +621,27 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         presenter.stopAlert(alarmManager, intentAlert, requireContext(), currentAlarm)
     }
 
+    /**
+     * Callback method to be invoked when an item in this view has been selected.
+     *
+     * @param parent The AdapterView where the selection happened
+     * @param view The view within the AdapterView that was clicked
+     * @param position The position of the view in the adapter
+     * @param id The row id of the item that is selected
+     */
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
     }
 
+    /**
+     * Callback method to be invoked when the selection disappears from this view.
+     *
+     * @param parent The AdapterView that now contains no selected item.
+     */
     override fun onNothingSelected(p0: AdapterView<*>?) {
     }
 
     /**
-     * Change visibility holder
+     * Change visibility of the holder.
      *
      * @author Romane Bézier
      */
@@ -586,7 +661,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Check if the check boxed are not check
+     * Check if the check boxed are not check.
      *
      * @author Romane Bézier
      */
@@ -616,7 +691,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Change visibility of the layout alarm to create alarm
+     * Change visibility of the layout alarm to create alarm.
      *
      * @author Romane Bézier
      */
@@ -652,12 +727,15 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         editText_create_alarm.text.clear()
         checkBox_create_vibrate.isChecked = true
 
-        val title = RingtoneManager.getRingtone(context, RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_ALARM)).getTitle(context)
+        val title = RingtoneManager.getRingtone(
+            context,
+            RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_ALARM)
+        ).getTitle(context)
         spinner_create_alarm.text = title
     }
 
     /**
-     * Change visibility of the layout alarm to modify alarm
+     * Change visibility of the layout alarm to modify alarm.
      *
      * @author Romane Bézier
      */
@@ -693,7 +771,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Change visibility of the layout alarm to show alarm
+     * Change visibility of the layout alarm to show alarm.
      *
      * @author Romane Bézier
      */

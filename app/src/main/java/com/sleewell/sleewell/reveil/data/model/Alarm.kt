@@ -25,6 +25,7 @@ data class Alarm(
 ): Parcelable
 
 class DataConverter {
+
     @TypeConverter
     fun fromBooleanList(booleans: List<Boolean?>?): String? {
         if (booleans == null) {

@@ -16,7 +16,7 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
     private var view: AlarmContract.View? = view
 
     /**
-     * On the destroy of the presenter
+     * On the destroy of the presenter.
      *
      * @author Romane Bézier
      */
@@ -25,7 +25,7 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
     }
 
     /**
-     * When view is created
+     * When view is created.
      *
      * @author Romane Bézier
      */
@@ -34,10 +34,10 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
     }
 
     /**
-     * Update the alarm
+     * Update the alarm.
      *
-     * @param updateAlarm Alarm to update
-     * @param mAlarmViewModel View model of the alarm
+     * @param updateAlarm Alarm to update.
+     * @param mAlarmViewModel View model of the alarm.
      * @author Romane Bézier
      */
     override fun updateAlarm(updateAlarm: Alarm, mAlarmViewModel: AlarmViewModel) {
@@ -45,10 +45,10 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
     }
 
     /**
-     * Delete the alarm
+     * Delete the alarm.
      *
-     * @param mAlarmViewModel View model of the alarm
-     * @param alarm Current alarm
+     * @param mAlarmViewModel View model of the alarm.
+     * @param alarm Current alarm.
      * @author Romane Bézier
      */
     override fun deleteAlarm(mAlarmViewModel: AlarmViewModel, alarm: Alarm) {
@@ -56,9 +56,17 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
     }
 
     /**
-     * Save the alarm
+     * Save the alarm.
      *
      * @param time Time of the alarm
+     * @param mAlarmViewModel View model of the alarm.
+     * @param lifecycleOwner Lifecycle owner.
+     * @param days Days of the alarm.
+     * @param ringtone Ringtone of the alarm.
+     * @param vibrate Vibration of the alarm.
+     * @param label Label of the alarm.
+     * @param index Index of the alarm.
+     * @param displayed Visibility of the alarm.
      * @author Romane Bézier
      */
     override fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, days: List<Boolean>, ringtone: Uri, vibrate: Boolean, label: String, index: Int, displayed: Boolean) {
@@ -66,9 +74,9 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
     }
 
     /**
-     * Start the new alarm
+     * Start the new alarm.
      *
-     * @param alarm Current alarm
+     * @param alarm Current alarm.
      * @author Romane Bézier
      */
     override fun startNewAlarm(alarm: Alarm) {
@@ -76,12 +84,12 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
     }
 
     /**
-     * Start the alarm
+     * Start the alarm.
      *
-     * @param alarmManager Alarm manager of phone
-     * @param intent Intent of the activity
-     * @param context Context of the activity
-     * @param alarm Current alarm
+     * @param alarmManager Alarm manager of phone.
+     * @param intent Intent of the activity.
+     * @param context Context of the activity.
+     * @param alarm Current alarm.
      * @author Romane Bézier
      */
     override fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, alarm: Alarm) {
@@ -89,12 +97,12 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
     }
 
     /**
-     * Start the alert
+     * Start the alert.
      *
-     * @param alarmManager Alarm manager of phone
-     * @param intent Intent of the activity
-     * @param context Context of the activity
-     * @param alarm Current alarm
+     * @param alarmManager Alarm manager of phone.
+     * @param intent Intent of the activity.
+     * @param context Context of the activity.
+     * @param alarm Current alarm.
      * @author Romane Bézier
      */
     override fun startAlert(alarmManager: AlarmManager, intent: Intent, context: Context, alarm: Alarm) {
@@ -102,12 +110,12 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
     }
 
     /**
-     * Snooze the alarm
+     * Snooze the alarm.
      *
-     * @param alarmManager Alarm manager of phone
-     * @param intent Intent of the activity
-     * @param context Context of the activity
-     * @param currentAlarm Current alarm
+     * @param alarmManager Alarm manager of phone.
+     * @param intent Intent of the activity.
+     * @param context Context of the activity.
+     * @param currentAlarm Current alarm.
      * @author Romane Bézier
      */
     override fun snoozeAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm) {
@@ -115,12 +123,12 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
     }
 
     /**
-     * Stop the alarm
+     * Stop the alarm.
      *
-     * @param alarmManager Alarm manager of phone
-     * @param intent Intent of the activity
-     * @param context Context of the activity
-     * @param currentAlarm Current alarm
+     * @param alarmManager Alarm manager of phone.
+     * @param intent Intent of the activity.
+     * @param context Context of the activity.
+     * @param currentAlarm Current alarm.
      * @author Romane Bézier
      */
     override fun stopAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm) {
@@ -128,12 +136,12 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
     }
 
     /**
-     * Stop the alert
+     * Stop the alert.
      *
-     * @param alarmManager Alarm manager of phone
-     * @param intent Intent of the activity
-     * @param context Context of the activity
-     * @param currentAlarm Current alarm
+     * @param alarmManager Alarm manager of phone.
+     * @param intent Intent of the activity.
+     * @param context Context of the activity.
+     * @param currentAlarm Current alarm.
      * @author Romane Bézier
      */
     override fun stopAlert(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm) {
@@ -141,11 +149,11 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
     }
 
     /**
-     * Get time of the alarm
+     * Get time of the alarm.
      *
-     * @param hourOfDay Hour of the alarm
-     * @param minute Minutes of the alarm
-     * @return Time in a string
+     * @param hourOfDay Hour of the alarm.
+     * @param minute Minutes of the alarm.
+     * @return Time in a string.
      * @author Romane Bézier
      */
     override fun getTime(hourOfDay: Int, minute: Int): String {

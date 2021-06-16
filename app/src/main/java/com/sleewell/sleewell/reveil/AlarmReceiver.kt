@@ -11,7 +11,7 @@ import android.os.Vibrator
 import com.sleewell.sleewell.reveil.data.model.Alarm
 
 /**
- * Receiver of the alarm to start the notification
+ * Receiver of the alarm to start the notification.
  *
  * @author Romane Bézier
  */
@@ -23,11 +23,10 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     /**
-     * When alert receiver receive a signal
+     * This method is called when the BroadcastReceiver is receiving an Intent broadcast.
      *
-     * @param context Context of the application
-     * @param intent Intent of the application
-     * @author Romane Bézier
+     * @param context The Context in which the receiver is running.
+     * @param intent The Intent being received.
      */
     override fun onReceive(context: Context, intent: Intent) {
 

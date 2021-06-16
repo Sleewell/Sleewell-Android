@@ -20,8 +20,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 /**
- * Alarm Model for the Alarm activity
- *
+ * Alarm Model for the Alarm activity.
  *
  * @author Romane Bézier
  */
@@ -31,10 +30,10 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
     var c : Calendar = Calendar.getInstance()
 
     /**
-     * Update the alarm
+     * Update the alarm.
      *
-     * @param updateAlarm Alarm to update
-     * @param mAlarmViewModel View model of the alarm
+     * @param updateAlarm Alarm to update.
+     * @param mAlarmViewModel View model of the alarm.
      * @author Romane Bézier
      */
     override fun updateAlarm(updateAlarm: Alarm, mAlarmViewModel: AlarmViewModel) {
@@ -42,10 +41,10 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
     }
 
     /**
-     * Delete the alarm
+     * Delete the alarm.
      *
-     * @param mAlarmViewModel View model of the alarm
-     * @param alarm Current alarm
+     * @param mAlarmViewModel View model of the alarm.
+     * @param alarm Current alarm.
      * @author Romane Bézier
      */
     override fun deleteAlarm(mAlarmViewModel: AlarmViewModel, alarm: Alarm) {
@@ -53,9 +52,17 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
     }
 
     /**
-     * Save the alarm
+     * Save the alarm.
      *
      * @param time Time of the alarm
+     * @param mAlarmViewModel View model of the alarm.
+     * @param lifecycleOwner Lifecycle owner.
+     * @param days Days of the alarm.
+     * @param ringtone Ringtone of the alarm.
+     * @param vibrate Vibration of the alarm.
+     * @param label Label of the alarm.
+     * @param index Index of the alarm.
+     * @param displayed Visibility of the alarm.
      * @author Romane Bézier
      */
     override fun saveAlarm(
@@ -82,12 +89,12 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
     }
 
     /**
-     * Start the alarm
+     * Start the alarm.
      *
-     * @param alarmManager Alarm manager of phone
-     * @param intent Intent of the activity
-     * @param context Context of the activity
-     * @param alarm Current alarm
+     * @param alarmManager Alarm manager of phone.
+     * @param intent Intent of the activity.
+     * @param context Context of the activity.
+     * @param alarm Current alarm.
      * @author Romane Bézier
      */
     override fun startAlarm(
@@ -113,12 +120,12 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
     }
 
     /**
-     * Start the alert
+     * Start the alert.
      *
-     * @param alarmManager Alarm manager of phone
-     * @param intent Intent of the activity
-     * @param context Context of the activity
-     * @param alarm Alarm to start
+     * @param alarmManager Alarm manager of phone.
+     * @param intent Intent of the activity.
+     * @param context Context of the activity.
+     * @param alarm Alarm to start.
      * @author Romane Bézier
      */
     override fun startAlert(
@@ -142,12 +149,12 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
     }
 
     /**
-     * Snooze the alarm
+     * Snooze the alarm.
      *
-     * @param alarmManager Alarm manager of phone
-     * @param intent Intent of the activity
-     * @param context Context of the activity
-     * @param currentAlarm Current alarm
+     * @param alarmManager Alarm manager of phone.
+     * @param intent Intent of the activity.
+     * @param context Context of the activity.
+     * @param currentAlarm Current alarm.
      * @author Romane Bézier
      */
     override fun snoozeAlarm(
@@ -170,12 +177,12 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
     }
 
     /**
-     * Stop the alarm
+     * Stop the alarm.
      *
-     * @param alarmManager Alarm manager of phone
-     * @param intent Intent of the activity
-     * @param context Context of the activity
-     * @param currentAlarm Current alarm
+     * @param alarmManager Alarm manager of phone.
+     * @param intent Intent of the activity.
+     * @param context Context of the activity.
+     * @param currentAlarm Current alarm.
      * @author Romane Bézier
      */
     override fun stopAlarm(
@@ -191,12 +198,12 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
     }
 
     /**
-     * Stop the alert
+     * Stop the alert.
      *
-     * @param alarmManager Alarm manager of phone
-     * @param intent Intent of the activity
-     * @param context Context of the activity
-     * @param currentAlarm Current alarm
+     * @param alarmManager Alarm manager of phone.
+     * @param intent Intent of the activity.
+     * @param context Context of the activity.
+     * @param currentAlarm Current alarm.
      * @author Romane Bézier
      */
     override fun stopAlert(
@@ -210,11 +217,11 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
     }
 
     /**
-     * Get time of the alarm
+     * Get time of the alarm.
      *
-     * @param hourOfDay Hour of the alarm
-     * @param minute Minutes of the alarm
-     * @return Time in a string
+     * @param hourOfDay Hour of the alarm.
+     * @param minute Minutes of the alarm.
+     * @return Time in a string.
      * @author Romane Bézier
      */
     override fun getTime(hourOfDay: Int, minute: Int) : String {

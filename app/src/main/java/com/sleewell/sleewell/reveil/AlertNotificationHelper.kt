@@ -14,12 +14,13 @@ import com.sleewell.sleewell.mvp.menu.alarm.view.AlarmsFragment
 import com.sleewell.sleewell.reveil.data.model.Alarm
 
 /**
- * Alert notification helper of the application
+ * Alert notification helper of the application.
  *
  * @param base Context of the application
  * @author Romane Bézier
  */
 class AlertNotificationHelper(base: Context?, currentAlarm: Alarm) : ContextWrapper(base) {
+
     private var mManager: NotificationManager? = null
     private var alarm: Alarm = currentAlarm
 

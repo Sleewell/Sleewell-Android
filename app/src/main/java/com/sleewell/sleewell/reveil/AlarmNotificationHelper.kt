@@ -15,17 +15,18 @@ import com.sleewell.sleewell.reveil.data.model.Alarm
 
 
 /**
- * Notification helper of the application
+ * Notification helper of the application.
  *
  * @param base Context of the application
  * @author Romane Bézier
  */
 class AlarmNotificationHelper(base: Context?, currentAlarm: Alarm) : ContextWrapper(base) {
+
     private var mManager: NotificationManager? = null
     private var alarm: Alarm = currentAlarm
 
     /**
-     * Create channel for the notification
+     * Create channel for the notification.
      *
      * @author Romane Bézier
      */
