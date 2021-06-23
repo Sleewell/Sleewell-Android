@@ -13,7 +13,7 @@ interface IUserApi {
     @Multipart
     @POST("user/update")
     fun updateProfileInformation(
-        @Part("token") token: RequestBody,
+        @Header("Authorization") token: String,
         @Part("login") username: RequestBody,
         @Part("firstname") firstName: RequestBody,
         @Part("lastname") lastName: RequestBody,
