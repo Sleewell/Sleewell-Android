@@ -39,4 +39,11 @@ interface INetworkManager {
      * @author Hugo Berthomé
      */
     fun switchToSleepMode(value: Boolean)
+
+    /**
+     * Check if bluetooth is enabled on the device
+     *
+     * @return Boolean - True is enabled | False otherwise
+     */
+    fun isBluetoothEnabled() : Boolean
 }

@@ -15,7 +15,10 @@ class SettingsManager(private val ctx: Context) : ISettingsManager {
      */
     override fun getWifi(): Boolean {
         val defaultValue = ctx.resources.getBoolean(R.bool.setting_wifi_default_value)
-        return sharedPref.getBoolean(ctx.resources.getString(R.string.setting_wifi_key), defaultValue)
+        return sharedPref.getBoolean(
+            ctx.resources.getString(R.string.setting_wifi_key),
+            defaultValue
+        )
     }
 
     /**
@@ -39,7 +42,10 @@ class SettingsManager(private val ctx: Context) : ISettingsManager {
      */
     override fun getBluetooth(): Boolean {
         val defaultValue = ctx.resources.getBoolean(R.bool.setting_bluetooth_default_value)
-        return sharedPref.getBoolean(ctx.resources.getString(R.string.setting_bluetooth_key), defaultValue)
+        return sharedPref.getBoolean(
+            ctx.resources.getString(R.string.setting_bluetooth_key),
+            defaultValue
+        )
     }
 
     /**
@@ -56,6 +62,33 @@ class SettingsManager(private val ctx: Context) : ISettingsManager {
     }
 
     /**
+     * Get the initial state of the bluetooth before starting the protocol
+     *
+     * @return True - bluetooth was on
+     * @author Hugo Berthomé
+     */
+    override fun getInitialStateBluetooth(): Boolean {
+        val defaultValue = ctx.resources.getBoolean(R.bool.setting_bluetooth_default_value)
+        return sharedPref.getBoolean(
+            ctx.resources.getString(R.string.setting_bluetooth_initial_state_key),
+            defaultValue
+        )
+    }
+
+    /**
+     * Set the initial state of the bluetooth before starting the protocol
+     *
+     * @param state True - bluetooth was on | False - bluetooth was false
+     * @author Hugo Berthomé
+     */
+    override fun setInitialStateBluetooth(state: Boolean) {
+        with(sharedPref.edit()) {
+            putBoolean(ctx.resources.getString(R.string.setting_bluetooth_initial_state_key), state)
+            commit()
+        }
+    }
+
+    /**
      * Get the cellular state setting
      *
      * @return True - cellular should be on | False - cellular should be false
@@ -63,7 +96,10 @@ class SettingsManager(private val ctx: Context) : ISettingsManager {
      */
     override fun getCellular(): Boolean {
         val defaultValue = ctx.resources.getBoolean(R.bool.setting_cellular_default_value)
-        return sharedPref.getBoolean(ctx.resources.getString(R.string.setting_cellular_key), defaultValue)
+        return sharedPref.getBoolean(
+            ctx.resources.getString(R.string.setting_cellular_key),
+            defaultValue
+        )
     }
 
     /**
@@ -87,7 +123,10 @@ class SettingsManager(private val ctx: Context) : ISettingsManager {
      */
     override fun getDnd(): Boolean {
         val defaultValue = ctx.resources.getBoolean(R.bool.setting_dnd_default_value)
-        return sharedPref.getBoolean(ctx.resources.getString(R.string.setting_dnd_key), defaultValue)
+        return sharedPref.getBoolean(
+            ctx.resources.getString(R.string.setting_dnd_key),
+            defaultValue
+        )
     }
 
     /**
