@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.NFC" /> <!-- Nfc detection -->
     <uses-permission android:name="android.permission.BLUETOOTH" /> <!-- Bluetooth accessibility -->
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- Wifi accessibility -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
