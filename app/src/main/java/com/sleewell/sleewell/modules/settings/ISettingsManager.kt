@@ -39,6 +39,22 @@ interface ISettingsManager {
     fun setBluetooth(state : Boolean)
 
     /**
+     * Get the initial state of the bluetooth before starting the protocol
+     *
+     * @return True - bluetooth was on
+     * @author Hugo Berthomé
+     */
+    fun getInitialStateBluetooth() : Boolean
+
+    /**
+     * Set the initial state of the bluetooth before starting the protocol
+     *
+     * @param state True - bluetooth was on | False - bluetooth was false
+     * @author Hugo Berthomé
+     */
+    fun setInitialStateBluetooth(state : Boolean)
+
+    /**
      * Get the cellular state setting
      *
      * @return True - cellular should be on | False - cellular should be false

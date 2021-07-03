@@ -62,6 +62,9 @@
     <string name="setting_file_network">com.sleewell.sleewell.network</string>
     <string name="setting_file_notification">com.sleewell.sleewell.notification</string>
 
+    <!-- Network initial state before starting protocol -->
+    <string name="setting_bluetooth_initial_state_key">bluetooth initial state</string>
+
     <!-- Fragment labels -->
     <string name="home_label">new_fragment_home</string>
     <string name="alarm_label">new_fragment_alarm</string>
