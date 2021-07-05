@@ -2,8 +2,8 @@ package com.sleewell.sleewell.profile
 
 import com.sleewell.sleewell.api.sleewell.model.ProfileInfo
 import com.sleewell.sleewell.api.sleewell.model.ResponseSuccess
-import com.sleewell.sleewell.mvp.menu.account.contract.ProfileContract
-import com.sleewell.sleewell.mvp.menu.account.model.ProfileModel
+import com.sleewell.sleewell.mvp.menu.profile.contract.ProfileContract
+import com.sleewell.sleewell.mvp.menu.profile.model.ProfileModel
 import org.assertj.core.api.JUnitSoftAssertions
 import org.junit.Rule
 import org.junit.Test

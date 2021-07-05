@@ -1,10 +1,10 @@
-package com.sleewell.sleewell.mvp.menu.account.contract
+package com.sleewell.sleewell.mvp.menu.profile.contract
 
 import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
-import com.sleewell.sleewell.api.sleewell.model.ResultLoginSleewell
+import com.sleewell.sleewell.api.sleewell.model.ResultRegisterSleewell
 
-interface LoginContract {
+interface RegisterContract {
     interface Model {
         interface OnFinishedListener {
             /**
@@ -14,7 +14,7 @@ interface LoginContract {
              *
              * @author gabin warnier de wailly
              */
-            fun onFinished(loginResult : ResultLoginSleewell)
+            fun onFinished(registerResult : ResultRegisterSleewell)
             /**
              * This method is call when the request fail
              *
@@ -24,12 +24,12 @@ interface LoginContract {
              */
             fun onFailure(t : Throwable)
         }
-        fun loginToSleewell(onFinishedListener: OnFinishedListener, name : String, password: String)
+        fun registerToSleewellApi(onFinishedListener: OnFinishedListener, loginId: String, password: String, email: String, firstName: String, lastName: String)
     }
 
     interface Presenter : BasePresenter {
         fun onViewCreated()
-        fun login(name: String, password: String)
+        fun register(loginId: String, password: String, email: String, firstName: String, lastName: String)
     }
 
     interface View : BaseView<Presenter> {
@@ -40,4 +40,3 @@ interface LoginContract {
         fun hideLoading()
     }
 }
-

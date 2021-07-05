@@ -5,6 +5,7 @@ import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.spotify.view.SpotifyFragment
 import com.sleewell.sleewell.mvp.menu.routine.RoutineContract
@@ -31,6 +32,7 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
         presenter.onViewCreated()
 
         initListView()
+        initSettingButton()
 
         presenter.updateAdapter()
 
@@ -54,6 +56,15 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
         btn = root.findViewById(R.id.button)
         btn.setOnClickListener {
             presenter.createNewItemRoutine()
+        }
+    }
+
+    private fun initSettingButton() {
+        val buttonSettings = root.findViewById<ImageButton>(R.id.buttonSettings)
+        buttonSettings.setOnClickListener {
+
+            val navController = Navigation.findNavController(requireActivity(), R.id.nav_menu)
+            navController.navigate(R.id.routineSettingsFragment)
         }
     }
 
