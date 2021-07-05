@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.mvp.menu.account.contract
+package com.sleewell.sleewell.mvp.menu.profile.contract
 
 import com.sleewell.sleewell.api.sleewell.model.ProfileInfo
 import com.sleewell.sleewell.api.sleewell.model.ResponseSuccess

@@ -1,12 +1,11 @@
-package com.sleewell.sleewell.mvp.menu.account.model
+package com.sleewell.sleewell.mvp.menu.profile.model
 
 import android.util.Log
 import com.sleewell.sleewell.api.sleewell.ApiClient
 import com.sleewell.sleewell.api.sleewell.IUserApi
 import com.sleewell.sleewell.api.sleewell.model.ProfileInfo
 import com.sleewell.sleewell.api.sleewell.model.ResponseSuccess
-import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
-import com.sleewell.sleewell.mvp.menu.account.contract.ProfileContract
+import com.sleewell.sleewell.mvp.menu.profile.contract.ProfileContract
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call

@@ -1,11 +1,11 @@
-package com.sleewell.sleewell.mvp.menu.account.model
+package com.sleewell.sleewell.mvp.menu.profile.model
 
 import android.content.Context
 import android.util.Log
-import com.sleewell.sleewell.mvp.menu.account.ApiClientSleewell
+import com.sleewell.sleewell.mvp.menu.profile.ApiClientSleewell
 import com.sleewell.sleewell.api.sleewell.ILoginApi
 import com.sleewell.sleewell.api.sleewell.model.ResultLoginSleewell
-import com.sleewell.sleewell.mvp.menu.account.contract.LoginContract
+import com.sleewell.sleewell.mvp.menu.profile.contract.LoginContract
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call

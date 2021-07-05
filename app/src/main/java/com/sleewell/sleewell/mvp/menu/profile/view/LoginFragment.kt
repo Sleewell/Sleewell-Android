@@ -1,6 +1,5 @@
-package com.sleewell.sleewell.mvp.menu.account.view
+package com.sleewell.sleewell.mvp.menu.profile.view
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +11,8 @@ import androidx.fragment.app.Fragment
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
-import com.sleewell.sleewell.mvp.menu.account.contract.LoginContract
-import com.sleewell.sleewell.mvp.menu.account.presenter.LoginPresenter
+import com.sleewell.sleewell.mvp.menu.profile.contract.LoginContract
+import com.sleewell.sleewell.mvp.menu.profile.presenter.LoginPresenter
 import kotlinx.android.synthetic.main.new_fragment_resgister_api.*
 
 

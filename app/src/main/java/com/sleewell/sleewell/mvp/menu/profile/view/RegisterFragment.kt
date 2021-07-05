@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.mvp.menu.account.view
+package com.sleewell.sleewell.mvp.menu.profile.view
 
 import android.content.Context
 import android.os.Bundle
@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -15,8 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
-import com.sleewell.sleewell.mvp.menu.account.contract.RegisterContract
-import com.sleewell.sleewell.mvp.menu.account.presenter.RegisterPresenter
+import com.sleewell.sleewell.mvp.menu.profile.contract.RegisterContract
+import com.sleewell.sleewell.mvp.menu.profile.presenter.RegisterPresenter
 import kotlinx.android.synthetic.main.new_fragment_resgister_api.*
 
 

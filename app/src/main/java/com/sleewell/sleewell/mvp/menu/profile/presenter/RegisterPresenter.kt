@@ -1,10 +1,10 @@
-package com.sleewell.sleewell.mvp.menu.account.presenter
+package com.sleewell.sleewell.mvp.menu.profile.presenter
 
 import android.content.Context
 import com.sleewell.sleewell.api.sleewell.model.ResultRegisterSleewell
-import com.sleewell.sleewell.mvp.menu.account.contract.RegisterContract
-import com.sleewell.sleewell.mvp.menu.account.model.RegisterModel
-import com.sleewell.sleewell.mvp.menu.account.view.RegisterFragment
+import com.sleewell.sleewell.mvp.menu.profile.contract.RegisterContract
+import com.sleewell.sleewell.mvp.menu.profile.model.RegisterModel
+import com.sleewell.sleewell.mvp.menu.profile.view.RegisterFragment
 
 class RegisterPresenter(view: RegisterFragment, context: Context) : RegisterContract.Presenter, RegisterContract.Model.OnFinishedListener  {
     private var view: RegisterFragment? = view
