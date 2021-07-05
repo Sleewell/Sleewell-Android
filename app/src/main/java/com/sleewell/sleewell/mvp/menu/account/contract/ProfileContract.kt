@@ -21,7 +21,8 @@ interface ProfileContract {
          * @param onProfileInfoListener Listener extension with wanted behaviour
          * @author Titouan Fiancette
          */
-        fun getProfileInformation(onProfileInfoListener: OnProfileInfoListener)
+        fun getProfileInformation(token: String,
+                                  onProfileInfoListener: OnProfileInfoListener)
 
         interface OnUpdateProfileInfoListener {
             fun onFinished(response: ResponseSuccess)
@@ -33,7 +34,7 @@ interface ProfileContract {
          * @param onFinishedListener Listener extension with wanted behaviour
          * @author Titouan Fiancette
          */
-        fun updateProfileInformation(
+        fun updateProfileInformation(token:String,
             username: String, firstName: String, lastName: String, email: String,
             onFinishedListener: OnUpdateProfileInfoListener
         )
