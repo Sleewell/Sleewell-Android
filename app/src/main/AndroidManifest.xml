@@ -63,7 +63,8 @@
             android:name=".mvp.mainActivity.view.MainActivity"
             android:configChanges="orientation"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".reveil.DesactivationActivity"
             android:label="Desactivation"
