@@ -36,16 +36,9 @@ class AlarmRepository(private val alarmDao: AlarmDao) {
     }
 
     /**
-     * Delete all the alarms of the database.
-     */
-    suspend fun deleteAllAlarms() {
-        alarmDao.deleteAllAlarms()
-    }
-
-    /**
      * Get an alarm with an id in the database.
      *
-     * @param idAlarm Id of the alarm to return.
+     * @param id Id of the alarm to return.
      * @return Alarm corresponding to the id.
      */
     fun getById(id: Int) : Alarm {

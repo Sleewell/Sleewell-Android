@@ -1,17 +1,12 @@
 package com.sleewell.sleewell.reveil.model
-
 import android.app.AlarmManager
 import android.app.AlarmManager.AlarmClockInfo
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Vibrator
-import android.text.format.DateUtils
-import android.text.format.Time
-import android.util.Log
+import android.text.format.*
 import androidx.lifecycle.LifecycleOwner
-import com.sleewell.sleewell.modules.audio.audioRecord.LOG_TAG
 import com.sleewell.sleewell.reveil.AlarmContract
 import com.sleewell.sleewell.reveil.AlarmReceiver
 import com.sleewell.sleewell.reveil.data.model.Alarm
@@ -167,7 +162,9 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
 
         val currentTimeMillis = System.currentTimeMillis()
         val nextUpdateTimeMillis = currentTimeMillis + 5 * DateUtils.MINUTE_IN_MILLIS
+        @Suppress("DEPRECATION")
         val nextUpdateTime = Time()
+        @Suppress("DEPRECATION")
         nextUpdateTime.set(nextUpdateTimeMillis)
 
         alarmManager.setAlarmClock(
@@ -230,6 +227,7 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         c[Calendar.MINUTE] = minute
         c[Calendar.SECOND] = 0
 
+        @Suppress("DEPRECATION")
         val date = Date(c.time.toString())
         val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())
 

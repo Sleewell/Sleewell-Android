@@ -1,11 +1,9 @@
 package com.sleewell.sleewell.reveil.data
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.reveil.AlarmContract

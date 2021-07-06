@@ -38,7 +38,7 @@ class AlarmNotificationHelper(base: Context?, currentAlarm: Alarm) : ContextWrap
             NotificationManager.IMPORTANCE_HIGH
         )
         channel.vibrationPattern = longArrayOf(0)
-        channel.enableVibration(true);
+        channel.enableVibration(true)
         manager!!.createNotificationChannel(channel)
     }
 

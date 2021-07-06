@@ -51,6 +51,7 @@ class AlarmReceiver : BroadcastReceiver() {
             )
 
             mp = MediaPlayer()
+            @Suppress("DEPRECATION")
             mp.setAudioStreamType(AudioManager.STREAM_ALARM)
             mp.setDataSource(context, alarmUri)
             mp.isLooping = true
@@ -60,6 +61,7 @@ class AlarmReceiver : BroadcastReceiver() {
             if (alarm.vibrate) {
                 val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                 val pattern = longArrayOf(0, 500, 1000)
+                @Suppress("DEPRECATION")
                 vibrator.vibrate(pattern, 0)
             }
 

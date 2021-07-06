@@ -59,18 +59,9 @@ class AlarmViewModel(application: Application): AndroidViewModel(application) {
     }
 
     /**
-     * Delete all the alarms of the database.
-     */
-    fun deleteAllAlarms() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteAllAlarms()
-        }
-    }
-
-    /**
      * Get an alarm with an id in the database.
      *
-     * @param idAlarm Id of the alarm to return.
+     * @param id Id of the alarm to return.
      * @return Alarm corresponding to the id.
      */
     fun getById(id: Int) : LiveData<Alarm> {

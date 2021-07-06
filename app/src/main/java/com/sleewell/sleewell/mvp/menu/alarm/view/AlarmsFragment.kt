@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.mvp.menu.alarm.view
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.AlertDialog
 import android.content.Context
@@ -33,7 +34,6 @@ import com.sleewell.sleewell.reveil.presenter.AlarmPresenter
 import kotlinx.android.synthetic.main.custom_row.view.*
 import kotlinx.android.synthetic.main.daypicker_layout.view.*
 import kotlinx.android.synthetic.main.new_fragment_alarm.*
-import kotlinx.android.synthetic.main.new_fragment_connection_api.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -52,6 +52,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     private lateinit var layoutHome: ConstraintLayout
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         lateinit var instance: AlarmsFragment
     }
 
@@ -109,7 +110,10 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
 
         val spinnerCreateAlarm: Button = root.findViewById(R.id.spinner_create_alarm)
         spinnerCreateAlarm.setOnClickListener {
-            val ringtonePickerBuilder = RingtonePickerDialog.Builder(context!!, fragmentManager!!)
+            val ringtonePickerBuilder = RingtonePickerDialog.Builder(
+                context!!,
+                parentFragmentManager
+            )
             ringtonePickerBuilder.setTitle("Select ringtone")
             ringtonePickerBuilder.addRingtoneType(RingtonePickerDialog.Builder.TYPE_ALARM)
             ringtonePickerBuilder.setPositiveButtonText("SET RINGTONE")
@@ -124,7 +128,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
 
         val spinnerModifyAlarm: Button = root.findViewById(R.id.spinner_modify_alarm)
         spinnerModifyAlarm.setOnClickListener {
-            val ringtonePickerBuilder = RingtonePickerDialog.Builder(context!!, fragmentManager!!)
+            val ringtonePickerBuilder = RingtonePickerDialog.Builder(context!!,
+                parentFragmentManager
+            )
             ringtonePickerBuilder.setTitle("Select ringtone")
             ringtonePickerBuilder.addRingtoneType(RingtonePickerDialog.Builder.TYPE_ALARM)
             ringtonePickerBuilder.setPositiveButtonText("SET RINGTONE")
@@ -327,7 +333,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
      * @param adapter Adapter of the recycler view of the alarm.
      */
     private fun deleteSelectedAlarms(adapter: ListAdapter) {
-        var alarmList = adapter.getAlarmList()
+        val alarmList = adapter.getAlarmList()
         val childCount = recyclerView_alarm.childCount
         var i = 0
         while (i < childCount) {
@@ -398,6 +404,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
      * @param currentAlarm Current alarm that is updated.
      * @author Romane Bézier
      */
+    @SuppressLint("SimpleDateFormat")
     override fun updateAlarm(currentAlarm: Alarm) {
 
         changeVisibilityLayoutsModify()
@@ -440,6 +447,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
      * @return Time in a String.
      * @author Romane Bézier
      */
+    @SuppressLint("SimpleDateFormat")
     override fun convertTime(milliSeconds: Long): String? {
         // Create a DateFormatter object for displaying date in specified format.
         val formatter = SimpleDateFormat("HH:mm")
@@ -635,7 +643,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     /**
      * Callback method to be invoked when the selection disappears from this view.
      *
-     * @param parent The AdapterView that now contains no selected item.
+     * @param p0 The AdapterView that now contains no selected item.
      */
     override fun onNothingSelected(p0: AdapterView<*>?) {
     }
