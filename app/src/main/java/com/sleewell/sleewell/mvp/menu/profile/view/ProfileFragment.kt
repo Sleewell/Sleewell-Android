@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.mvp.menu.account.view
+package com.sleewell.sleewell.mvp.menu.profile.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,8 +14,8 @@ import com.google.android.material.textfield.TextInputLayout
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
-import com.sleewell.sleewell.mvp.menu.account.contract.ProfileContract
-import com.sleewell.sleewell.mvp.menu.account.presenter.ProfilePresenter
+import com.sleewell.sleewell.mvp.menu.profile.contract.ProfileContract
+import com.sleewell.sleewell.mvp.menu.profile.presenter.ProfilePresenter
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment(), ProfileContract.View {

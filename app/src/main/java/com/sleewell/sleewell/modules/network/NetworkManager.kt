@@ -33,8 +33,11 @@ class NetworkManager(private val ctx: Context) : INetworkManager {
             return
 
         if (value) {
-            bAdapter?.enable()
+            if (setting.getInitialStateBluetooth()) {
+                bAdapter?.enable()
+            }
         } else {
+            setting.setInitialStateBluetooth(isBluetoothEnabled())
             bAdapter?.disable()
         }
     }
@@ -94,6 +97,17 @@ class NetworkManager(private val ctx: Context) : INetworkManager {
         enableBluetooth(!value)
         enableWifi(!value)
         enableZenMode(value)
+    }
+
+    /**
+     * Check if bluetooth is enabled on the device
+     *
+     * @return Boolean - True is enabled | False otherwise
+     */
+    override fun isBluetoothEnabled(): Boolean {
+        if (bAdapter == null)
+            return false
+        return bAdapter.isEnabled
     }
 
 }

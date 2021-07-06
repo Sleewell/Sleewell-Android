@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.nfc.NfcAdapter
 import androidx.test.uiautomator.*
+import com.sleewell.sleewell.profile.ProfileAndroidTest
 import java.lang.Thread.sleep
 
 class UiAutomatorUtils(
@@ -131,4 +132,50 @@ class UiAutomatorUtils(
         alarmButton.click()
     }
 
+    // Profile functions
+    fun openProfileTab() {
+        val profileButton: UiObject = mDevice.findObject(
+            UiSelector().resourceId("com.sleewell.sleewell:id/profile_nav")
+        )
+        profileButton.click()
+
+        sleep(3000)
+    }
+
+    fun disconnectUser() {
+        val disconnectButton: UiObject = mDevice.findObject(
+            UiSelector().resourceId("com.sleewell.sleewell:id/buttonLogout")
+        )
+        disconnectButton.click()
+
+        sleep(3000)
+    }
+
+    fun loginToTestUser(login: String) {
+        val loginEditText: UiObject =
+            mDevice.findObject(UiSelector().resourceId("com.sleewell.sleewell:id/editTextName"))
+
+        val passwordEditText: UiObject =
+            mDevice.findObject(UiSelector().resourceId("com.sleewell.sleewell:id/editTextPassword"))
+
+        assert(loginEditText.exists())
+        assert(passwordEditText.exists())
+
+        loginEditText.text = login
+        passwordEditText.text = ProfileAndroidTest.USER_PASSWORD
+
+        val loginButton: UiObject =
+            mDevice.findObject(UiSelector().resourceId("com.sleewell.sleewell:id/loginImageLogin"))
+
+        loginButton.click()
+        sleep(3000)
+    }
+
+    fun saveProfileInfo() {
+        val saveButton: UiObject =
+            mDevice.findObject(UiSelector().resourceId("com.sleewell.sleewell:id/buttonSave"))
+
+        saveButton.click()
+        sleep(3000)
+    }
 }

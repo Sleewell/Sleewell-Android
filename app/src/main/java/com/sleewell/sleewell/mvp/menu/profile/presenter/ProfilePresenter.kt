@@ -1,10 +1,11 @@
-package com.sleewell.sleewell.mvp.menu.account.presenter
+package com.sleewell.sleewell.mvp.menu.profile.presenter
 
 import android.content.Context
 import com.sleewell.sleewell.api.sleewell.model.ProfileInfo
 import com.sleewell.sleewell.api.sleewell.model.ResponseSuccess
-import com.sleewell.sleewell.mvp.menu.account.contract.ProfileContract
-import com.sleewell.sleewell.mvp.menu.account.model.ProfileModel
+import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
+import com.sleewell.sleewell.mvp.menu.profile.contract.ProfileContract
+import com.sleewell.sleewell.mvp.menu.profile.model.ProfileModel
 
 /**
  * Presenter for the Profile fragment, it will link the HomeView and the HomeModel
@@ -17,7 +18,7 @@ import com.sleewell.sleewell.mvp.menu.account.model.ProfileModel
 class ProfilePresenter(view: ProfileContract.View, context: Context) : ProfileContract.Presenter {
 
     private var view: ProfileContract.View? = view
-    private var model: ProfileContract.Model = ProfileModel(context)
+    private var model: ProfileContract.Model = ProfileModel()
 
     private var username: String = ""
     private var firstName: String = ""
@@ -29,7 +30,10 @@ class ProfilePresenter(view: ProfileContract.View, context: Context) : ProfileCo
     }
 
     override fun getProfileInformation() {
-        model.getProfileInformation(object : ProfileContract.Model.OnProfileInfoListener {
+        val token = "Bearer ${MainActivity.accessTokenSleewell}"
+
+        model.getProfileInformation(token,
+            object : ProfileContract.Model.OnProfileInfoListener {
             override fun onFinished(profileInfo: ProfileInfo) {
                 setUsername(profileInfo.username)
                 setFirstName(profileInfo.firstname)
@@ -45,7 +49,10 @@ class ProfilePresenter(view: ProfileContract.View, context: Context) : ProfileCo
     }
 
     override fun updateProfileInformation() {
-        model.updateProfileInformation(username, firstName, lastName, email,
+        val token = MainActivity.accessTokenSleewell
+
+        model.updateProfileInformation(token,
+            username, firstName, lastName, email,
             object: ProfileContract.Model.OnUpdateProfileInfoListener {
                 override fun onFinished(response: ResponseSuccess) {
                     view?.showToast("Saved")
