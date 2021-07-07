@@ -18,6 +18,7 @@
         android:textAllCaps="false"
         android:textColor="@color/textOnBackground"
         android:textSize="14sp"
+        android:fontFamily="@font/nunito_bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -41,9 +42,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="25dp"
-                android:text="Get Started"
+                android:text="Get\nStarted"
                 android:textColor="@color/textOnBackground"
-                android:textSize="40dp"
+                android:textSize="40sp"
+                android:fontFamily="@font/nunito"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.1"
@@ -63,6 +65,7 @@
                 android:inputType="textPersonName"
                 android:textColor="@color/textOnBackground"
                 android:textColorHint="@color/textOnBackground"
+                android:fontFamily="@font/nunito_bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textGetStarted" />
@@ -79,6 +82,7 @@
                 android:inputType="textPassword"
                 android:textColor="@color/textOnBackground"
                 android:textColorHint="@color/textOnBackground"
+                android:fontFamily="@font/nunito_bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editLoginId" />
@@ -95,6 +99,7 @@
                 android:inputType="textPassword"
                 android:textColor="@color/textOnBackground"
                 android:textColorHint="@color/textOnBackground"
+                android:fontFamily="@font/nunito_bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editPassword_1" />
@@ -111,6 +116,7 @@
                 android:inputType="textEmailAddress"
                 android:textColor="@color/textOnBackground"
                 android:textColorHint="@color/textOnBackground"
+                android:fontFamily="@font/nunito_bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -133,6 +139,7 @@
                     android:inputType="textPersonName"
                     android:textColor="@color/textOnBackground"
                     android:textColorHint="@color/textOnBackground"
+                    android:fontFamily="@font/nunito_bold"
                     app:layout_constraintEnd_toStartOf="@+id/editLastName"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -146,6 +153,7 @@
                     android:inputType="textPersonName"
                     android:textColor="@color/textOnBackground"
                     android:textColorHint="@color/textOnBackground"
+                    android:fontFamily="@font/nunito_bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/editFirstName"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -166,8 +174,8 @@
                     android:layout_gravity="center_vertical"
                     android:text="Sign Up"
                     android:textColor="@color/textOnBackground"
-                    android:textSize="36dp"
-                    android:textStyle="bold"
+                    android:textSize="30sp"
+                    android:fontFamily="@font/nunito_bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.122"
                     app:layout_constraintStart_toStartOf="parent"
@@ -175,8 +183,8 @@
 
                 <ImageView
                     android:id="@+id/buttonSignUp"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_gravity="end"
                     android:background="@drawable/round_shape_grey"
                     android:scaleType="center"
