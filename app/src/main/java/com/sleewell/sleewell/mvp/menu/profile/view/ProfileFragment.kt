@@ -1,22 +1,27 @@
 package com.sleewell.sleewell.mvp.menu.profile.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
+import com.sleewell.sleewell.modules.keyboardUtils.hideSoftKeyboard
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.profile.contract.ProfileContract
 import com.sleewell.sleewell.mvp.menu.profile.presenter.ProfilePresenter
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlin.math.abs
+
 
 class ProfileFragment : Fragment(), ProfileContract.View {
     //Context
@@ -25,6 +30,12 @@ class ProfileFragment : Fragment(), ProfileContract.View {
 
     //View widgets
     private lateinit var progressWidget: ProgressBar
+
+    //Touch Detection
+    private var mDownX: Float = 0f
+    private var mDownY = 0f
+    private val SCROLL_THRESHOLD: Float = 10f
+    private var isOnClick = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +48,7 @@ class ProfileFragment : Fragment(), ProfileContract.View {
             fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
         } else {
             initActivityWidgets()
+            setupUI(root.findViewById(R.id.profileParent))
             setPresenter(ProfilePresenter(this, this.activity as AppCompatActivity))
         }
         return root
@@ -95,6 +107,42 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         emailInputLayout?.visibility = View.VISIBLE
 
         progressWidget.visibility = View.GONE
+    }
+
+    private fun setupUI(view: View) {
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (view !is EditText) {
+            view.setOnTouchListener { v, event ->
+                println("action: " + event.action.toString())
+                println(isOnClick)
+                if (event.action == MotionEvent.ACTION_DOWN) {
+                    mDownX = event.x
+                    mDownY = event.y
+                    isOnClick = true
+                }
+                if (event.action == MotionEvent.ACTION_UP) {
+                    if (isOnClick) {
+                        hideSoftKeyboard()
+                    }
+                }
+                if (event.action == MotionEvent.ACTION_MOVE) {
+                    if (isOnClick && (abs(mDownX - event.x) > SCROLL_THRESHOLD
+                                || abs(mDownY - event.y) > SCROLL_THRESHOLD)) {
+                        isOnClick = false
+                    }
+                }
+                v.performClick()
+                false
+            }
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val innerView = view.getChildAt(i)
+                setupUI(innerView)
+            }
+        }
     }
 
     override fun setPresenter(presenter: ProfileContract.Presenter) {
