@@ -32,7 +32,6 @@ class CustomNavBar : ICustomNavBar {
             button.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
                 button.isEnabled = !b
                 if (b) {
-                    Log.d("StateMAGIQUE", index.toString())
                     if (destinationIDs.indexOf(navController.currentDestination?.id) > index) {
                         navController.navigate(destinationIDs[index], null, goLeft.build())
                     } else {
@@ -42,6 +41,31 @@ class CustomNavBar : ICustomNavBar {
                     buttons.forEachIndexed{i, but -> if (i != index) but.isChecked = false }
                 }
             }
+        }
+    }
+
+    fun navigateRight(navController: NavController) {
+        val index = destinationIDs.indexOf(navController.currentDestination?.id)
+
+        if (index < destinationIDs.size - 1) {
+            buttons[index].isEnabled = true
+            buttons[index].isChecked = false
+            buttons[index + 1].isEnabled = false
+            buttons[index + 1].isChecked = true
+            navController.navigate(destinationIDs[index + 1], null, goRight.build())
+        }
+    }
+
+    fun navigateLeft(navController: NavController) {
+        println("hi index is:")
+        val index = destinationIDs.indexOf(navController.currentDestination?.id)
+        println(index)
+        if (index != 0) {
+            buttons[index].isEnabled = true
+            buttons[index].isChecked = false
+            buttons[index - 1].isEnabled = false
+            buttons[index - 1].isChecked = true
+            navController.navigate(destinationIDs[index - 1], null, goLeft.build())
         }
     }
 }
