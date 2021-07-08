@@ -1,11 +1,9 @@
 package com.sleewell.sleewell.mvp.menu.profile.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.animation.AlphaAnimation
+import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -58,6 +56,21 @@ class LoginFragment : Fragment(), LoginContract.View {
         }
         signUpButton.setOnClickListener {
             fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, RegisterFragment())?.commit()
+        }
+
+        editPassword.setOnEditorActionListener { _, actionId, keyEvent ->
+            if (keyEvent == null) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    presenter.login(editName.text.toString(), editPassword.text.toString())
+                    return@setOnEditorActionListener true
+                }
+                return@setOnEditorActionListener false
+            }
+            if (isDoneKeyPressed(actionId, keyEvent)) {
+                presenter.login(editName.text.toString(), editPassword.text.toString())
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
         }
         return root
     }
@@ -122,6 +135,12 @@ class LoginFragment : Fragment(), LoginContract.View {
 
     override fun setPresenter(presenter: LoginContract.Presenter) {
         this.presenter = presenter
+    }
+
+    private fun isDoneKeyPressed(actionId: Int, keyEvent: KeyEvent): Boolean {
+        return (actionId == EditorInfo.IME_ACTION_DONE
+                || keyEvent.action == KeyEvent.ACTION_DOWN
+                && keyEvent.keyCode == KeyEvent.KEYCODE_ENTER)
     }
 
     override fun displayToast(message: String) {

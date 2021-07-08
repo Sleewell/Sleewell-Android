@@ -86,16 +86,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@color/colorPrimaryDark"
-                app:layout_constraintBottom_toBottomOf="@+id/usernameInputLayout"
-                app:layout_constraintEnd_toEndOf="@+id/usernameInputLayout"
-                app:layout_constraintStart_toStartOf="@+id/usernameInputLayout"
-                app:layout_constraintTop_toTopOf="@+id/usernameInputLayout" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/usernameInputLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -104,8 +94,8 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="30dp"
-                android:backgroundTint="@color/colorPrimaryDark"
                 android:visibility="invisible"
+                app:boxBackgroundColor="@color/colorPrimaryDark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/avatar"
@@ -117,22 +107,14 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito"
                     android:hint="Login"
-                    android:inputType="text"
+                    android:inputType="textAutoComplete"
                     android:maxLines="1"
+                    android:imeOptions="actionDone"
                     android:textColor="@color/colorPrimary"
                     android:textColorHint="@color/colorPrimary"
                     android:visibility="invisible"
                     tools:visibility="invisible" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@color/colorPrimaryDark"
-                app:layout_constraintBottom_toBottomOf="@+id/firstNameInputLayout"
-                app:layout_constraintEnd_toEndOf="@+id/firstNameInputLayout"
-                app:layout_constraintStart_toStartOf="@+id/firstNameInputLayout"
-                app:layout_constraintTop_toTopOf="@+id/firstNameInputLayout" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/firstNameInputLayout"
@@ -144,6 +126,7 @@
                 android:layout_marginEnd="5dp"
                 android:backgroundTintMode="add"
                 android:visibility="invisible"
+                app:boxBackgroundColor="@color/colorPrimaryDark"
                 app:layout_constraintEnd_toStartOf="@id/lastNameInputLayout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/usernameInputLayout"
@@ -156,20 +139,12 @@
                     android:fontFamily="@font/nunito"
                     android:hint="First name"
                     android:inputType="textPersonName"
+                    android:imeOptions="actionDone"
                     android:textColor="@color/colorPrimary"
                     android:textColorHint="@color/colorPrimary"
                     android:visibility="invisible"
                     tools:visibility="invisible" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@color/colorPrimaryDark"
-                app:layout_constraintBottom_toBottomOf="@+id/lastNameInputLayout"
-                app:layout_constraintEnd_toEndOf="@+id/lastNameInputLayout"
-                app:layout_constraintStart_toStartOf="@+id/lastNameInputLayout"
-                app:layout_constraintTop_toTopOf="@+id/lastNameInputLayout" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/lastNameInputLayout"
@@ -179,6 +154,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="30dp"
                 android:visibility="invisible"
+                app:boxBackgroundColor="@color/colorPrimaryDark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/firstNameInputLayout"
                 app:layout_constraintTop_toTopOf="@id/firstNameInputLayout"
@@ -191,21 +167,12 @@
                     android:fontFamily="@font/nunito"
                     android:hint="Last Name"
                     android:inputType="textPersonName"
+                    android:imeOptions="actionDone"
                     android:textColor="@color/colorPrimary"
                     android:textColorHint="@color/colorPrimary"
                     android:visibility="invisible"
                     tools:visibility="invisible" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <View
-                android:id="@+id/view2"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@color/colorPrimaryDark"
-                app:layout_constraintBottom_toBottomOf="@+id/emailInputLayout"
-                app:layout_constraintEnd_toEndOf="@+id/emailInputLayout"
-                app:layout_constraintStart_toStartOf="@+id/emailInputLayout"
-                app:layout_constraintTop_toTopOf="@+id/emailInputLayout" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/emailInputLayout"
@@ -215,7 +182,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="30dp"
-                android:backgroundTint="@color/colorPrimaryDark"
+                app:boxBackgroundColor="@color/colorPrimaryDark"
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -234,6 +201,7 @@
                     android:fontFamily="@font/nunito"
                     android:hint="E-mail"
                     android:inputType="textEmailAddress"
+                    android:imeOptions="actionDone"
                     android:textColor="@color/colorPrimary"
                     android:textColorHint="@color/colorPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -243,7 +211,7 @@
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/view2"
+                app:layout_constraintBottom_toBottomOf="@+id/emailInputLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/usernameInputLayout" />

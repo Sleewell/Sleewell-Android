@@ -1,10 +1,8 @@
 package com.sleewell.sleewell.mvp.menu.profile.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ProgressBar
@@ -88,6 +86,69 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         emailInputWidget.editText?.doOnTextChanged { input, _, _, _ ->
             presenter.setEmail(input.toString())
         }
+
+        usernameInputWidget.editText?.setOnEditorActionListener { _, actionId, keyEvent ->
+            if (keyEvent == null) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    presenter.updateProfileInformation()
+                    return@setOnEditorActionListener true
+                }
+                return@setOnEditorActionListener false
+            }
+            if (isDoneKeyPressed(actionId, keyEvent)) {
+
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
+        }
+
+        firstNameInputWidget.editText?.setOnEditorActionListener { _, actionId, keyEvent ->
+            if (keyEvent == null) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    presenter.updateProfileInformation()
+                    return@setOnEditorActionListener true
+                }
+                return@setOnEditorActionListener false
+            }
+            if (isDoneKeyPressed(actionId, keyEvent)) {
+
+                presenter.updateProfileInformation()
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
+        }
+
+        lastNameInputWidget.editText?.setOnEditorActionListener { _, actionId, keyEvent ->
+            if (keyEvent == null) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    presenter.updateProfileInformation()
+                    return@setOnEditorActionListener true
+                }
+                return@setOnEditorActionListener false
+            }
+            if (isDoneKeyPressed(actionId, keyEvent)) {
+
+                presenter.updateProfileInformation()
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
+        }
+
+        emailInputWidget.editText?.setOnEditorActionListener { _, actionId, keyEvent ->
+            if (keyEvent == null) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    presenter.updateProfileInformation()
+                    return@setOnEditorActionListener true
+                }
+                return@setOnEditorActionListener false
+            }
+            if (isDoneKeyPressed(actionId, keyEvent)) {
+
+                presenter.updateProfileInformation()
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
+        }
     }
 
     override fun updateProfileInfoWidgets(username: String, firstName: String, lastName: String, email: String) {
@@ -152,5 +213,11 @@ class ProfileFragment : Fragment(), ProfileContract.View {
 
     override fun showToast(message: String) {
         Toast.makeText(this.activity, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun isDoneKeyPressed(actionId: Int, keyEvent: KeyEvent): Boolean {
+        return (actionId == EditorInfo.IME_ACTION_DONE
+                || keyEvent.action == KeyEvent.ACTION_DOWN
+                && keyEvent.keyCode == KeyEvent.KEYCODE_ENTER)
     }
 }
