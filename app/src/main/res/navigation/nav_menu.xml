@@ -17,7 +17,7 @@
         tools:layout="@layout/new_fragment_alarm" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.sleewell.sleewell.mvp.menu.account.view.ProfileFragment"
+        android:name="com.sleewell.sleewell.mvp.menu.profile.view.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
@@ -35,4 +35,8 @@
         android:name="com.sleewell.sleewell.mvp.menu.settings.view.SettingsFragment"
         android:label="new_fragment_settings"
         tools:layout="@layout/new_fragment_settings" />
+    <fragment
+        android:id="@+id/routineSettingsFragment"
+        android:name="com.sleewell.sleewell.mvp.menu.routine.view.RoutineSettingsFragment"
+        android:label="RoutineSettingsFragment" />
 </navigation>

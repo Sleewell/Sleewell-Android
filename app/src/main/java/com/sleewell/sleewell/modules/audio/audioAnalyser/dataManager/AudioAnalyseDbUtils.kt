@@ -9,9 +9,16 @@ import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyse
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import kotlinx.coroutines.*
 import java.time.Instant
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+import java.util.*
 
-class AudioAnalyseDbUtils(context: Context, val listener: IAudioAnalyseRecordListener) : IAnalyseDataManager{
-    val CLASS_TAG = "AUDIO_ANALYSE_DB_UTILS"
+class AudioAnalyseDbUtils(context: Context, val listener: IAudioAnalyseRecordListener) :
+    IAnalyseDataManager {
+
+    companion object {
+        val FORMAT_DAY = "yyyyMMdd"
+    }
 
     private val scope = CoroutineScope(Job() + Dispatchers.IO)
 
@@ -19,7 +26,7 @@ class AudioAnalyseDbUtils(context: Context, val listener: IAudioAnalyseRecordLis
     private val nightDao = db.nightDao()
     private val analyseDao = db.analyseDao()
 
-    private var nightId : Long? = null
+    private var nightId: Long? = null
 
     /**
      * List all the analyses register on the device
@@ -48,6 +55,24 @@ class AudioAnalyseDbUtils(context: Context, val listener: IAudioAnalyseRecordLis
     }
 
     /**
+     * Read an analyse
+     *
+     * @param date to identify the analyse
+     * @author Hugo Berthomé
+     */
+    override fun readAnalyse(date: Date) {
+        scope.launch {
+            val night = nightDao.getNightFromDate(dateToDateString(date))
+            if (night != null) {
+                val res = analyseDao.getAnalysesFromNightId(night.uId)
+                listener.onReadAnalyseRecord(res.toTypedArray(), night.uId)
+            } else {
+                listener.onAnalyseRecordError("Night not found");
+            }
+        }
+    }
+
+    /**
      * Delete an analyse
      *
      * @param timestamp identifying the analyse
@@ -71,7 +96,13 @@ class AudioAnalyseDbUtils(context: Context, val listener: IAudioAnalyseRecordLis
      */
     override fun initNewAnalyse(): Boolean {
         scope.launch {
-            nightId = nightDao.insertNight(Night(getCurrentTimestamp(), 0))
+            nightId = nightDao.insertNight(
+                Night(
+                    getCurrentTimestamp(),
+                    0,
+                    dateToDateString(Date.from(Instant.now()))
+                )
+            )
         }
         return true
     }
@@ -121,5 +152,12 @@ class AudioAnalyseDbUtils(context: Context, val listener: IAudioAnalyseRecordLis
      */
     private fun getCurrentTimestamp(): Long {
         return Instant.now().epochSecond
+    }
+
+    private fun dateToDateString(date: Date, dateFormat: String = FORMAT_DAY): String {
+        return DateTimeFormatter
+            .ofPattern(dateFormat)
+            .withZone(ZoneOffset.systemDefault())
+            .format(date.toInstant())
     }
 }

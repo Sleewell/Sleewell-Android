@@ -1,12 +1,12 @@
-package com.sleewell.sleewell.mvp.menu.account.view
+package com.sleewell.sleewell.mvp.menu.profile.view
 
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -14,11 +14,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.modules.keyboardUtils.hideSoftKeyboard
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
-import com.sleewell.sleewell.mvp.menu.account.contract.RegisterContract
-import com.sleewell.sleewell.mvp.menu.account.presenter.RegisterPresenter
+import com.sleewell.sleewell.mvp.menu.profile.contract.RegisterContract
+import com.sleewell.sleewell.mvp.menu.profile.presenter.RegisterPresenter
 import kotlinx.android.synthetic.main.new_fragment_resgister_api.*
-
+import kotlin.math.abs
 
 class RegisterFragment : Fragment(), RegisterContract.View {
     private lateinit var presenter: RegisterContract.Presenter
@@ -36,6 +37,12 @@ class RegisterFragment : Fragment(), RegisterContract.View {
     private lateinit var signUpButton: ImageView
     private lateinit var loginButton: TextView
 
+    //Touch Detection
+    private var mDownX: Float = 0f
+    private var mDownY = 0f
+    private val SCROLL_THRESHOLD: Float = 10f
+    private var isOnClick = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,6 +53,8 @@ class RegisterFragment : Fragment(), RegisterContract.View {
 
         setPresenter(RegisterPresenter(this, this.activity as AppCompatActivity))
         presenter.onViewCreated()
+
+        setupUI(root.findViewById(R.id.registerParent))
 
         editLoginId = root.findViewById(R.id.editLoginId)
         editPassword_1 = root.findViewById(R.id.editPassword_1)
@@ -134,6 +143,42 @@ class RegisterFragment : Fragment(), RegisterContract.View {
         }
         MainActivity.accessTokenSleewell = token
         fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, ProfileFragment())?.commit()
+    }
+
+    private fun setupUI(view: View) {
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (view !is EditText) {
+            view.setOnTouchListener { v, event ->
+                println("action: " + event.action.toString())
+                println(isOnClick)
+                if (event.action == MotionEvent.ACTION_DOWN) {
+                    mDownX = event.x
+                    mDownY = event.y
+                    isOnClick = true
+                }
+                if (event.action == MotionEvent.ACTION_UP) {
+                    if (isOnClick) {
+                        hideSoftKeyboard()
+                    }
+                }
+                if (event.action == MotionEvent.ACTION_MOVE) {
+                    if (isOnClick && (abs(mDownX - event.x) > SCROLL_THRESHOLD
+                                || abs(mDownY - event.y) > SCROLL_THRESHOLD)) {
+                        isOnClick = false
+                    }
+                }
+                v.performClick()
+                false
+            }
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val innerView = view.getChildAt(i)
+                setupUI(innerView)
+            }
+        }
     }
 
     override fun displayToast(message: String) {
