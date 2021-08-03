@@ -68,4 +68,9 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
     override fun displayRoutineList(routineAdapter: RoutineListAdapter) {
         listView.adapter = routineAdapter
     }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.onDestroy()
+    }
 }

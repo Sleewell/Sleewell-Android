@@ -1,6 +1,7 @@
 package com.sleewell.sleewell.mvp.menu.routine.model
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
@@ -110,11 +111,8 @@ class RoutineModel(context: Context) : RoutineContract.Model {
     }
 
     override fun removeNewItemRoutine(routine: Routine) {
-        db.deleteRoutine(routine)
         aList.remove(routine)
-        CoroutineScope(Dispatchers.Main).launch {
-            adapter.notifyDataSetChanged()
-        }
+        adapter.notifyDataSetChanged()
     }
 
     override fun updateItemRoutine(routine: Routine, nbr: Int) {
@@ -123,9 +121,8 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         }
         db.updateRoutine(routine)
         aList[nbr] = routine
-        CoroutineScope(Dispatchers.Main).launch {
-            adapter.notifyDataSetChanged()
-        }
+        aList[nbr].state = RoutineState.UPDATE.ordinal
+        adapter.notifyDataSetChanged()
     }
 
     override fun updateSelectedItemRoutine(nbr: Int) {
@@ -140,41 +137,31 @@ class RoutineModel(context: Context) : RoutineContract.Model {
     }
 
     override fun updateSpotifyMusicSelected(musicName: String, musicUri: String, tag: String?) {
-        CoroutineScope(Dispatchers.IO).launch {
-            if (musicName.isEmpty())
-                return@launch
-            val routine = tag?.toLong()?.let { db.getRoutine(it) }
-            val nbr = aList.indexOf(routine)
-            routine?.musicName = musicName
-            routine?.musicUri = musicUri
-            CoroutineScope(Dispatchers.Main).launch {
-                if (dialog.isShowing) {
-                    val nameMusicSelected =
-                        dialog.findViewById(R.id.musicNameSelectedDialog) as TextView
-                    nameMusicSelected.text = routine?.musicName
-                }
-            }
-            routine?.let { updateItemRoutine(it, nbr) }
+        if (musicName.isEmpty())
+            return
+        val routine = aList.find { it.uId == tag?.toLong() }
+        val nbr = aList.indexOf(routine)
+        routine?.musicName = musicName
+        routine?.musicUri = musicUri
+        if (dialog.isShowing) {
+            val nameMusicSelected = dialog.findViewById(R.id.musicNameSelectedDialog) as TextView
+            nameMusicSelected.text = routine?.musicName
         }
+        routine?.let { updateItemRoutine(it, nbr) }
     }
 
     override fun updateSleewellMusicSelected(musicName: String, tag: String?) {
-        CoroutineScope(Dispatchers.IO).launch {
-            if (musicName.isEmpty())
-                return@launch
-            val routine = tag?.toLong()?.let { db.getRoutine(it) }
-            val nbr = aList.indexOf(routine)
-            routine?.musicName = musicName
-            routine?.musicUri = ""
-            CoroutineScope(Dispatchers.Main).launch {
-                if (dialog.isShowing) {
-                    val nameMusicSelected =
-                        dialog.findViewById(R.id.musicNameSelectedDialog) as TextView
-                    nameMusicSelected.text = routine?.musicName?.split("_")?.last()
-                }
-            }
-            routine?.let { updateItemRoutine(it, nbr) }
+        if (musicName.isEmpty())
+            return
+        val routine = aList.find { it.uId == tag?.toLong() }
+        val nbr = aList.indexOf(routine)
+        routine?.musicName = musicName
+        routine?.musicUri = ""
+        if (dialog.isShowing) {
+            val nameMusicSelected = dialog.findViewById(R.id.musicNameSelectedDialog) as TextView
+            nameMusicSelected.text = routine?.musicName?.split("_")?.last()
         }
+        routine?.let { updateItemRoutine(it, nbr) }
     }
 
     private fun convertToRoutine(ApiRoutine: com.sleewell.sleewell.api.sleewell.model.Routine) : Routine {
@@ -404,10 +391,7 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         builder.addFormDataPart("musicuri", routine.musicUri)
 
         val requestBody: RequestBody = builder.build()
-        val call : Call<AddRoutineResponse>? = api?.addRoutine(
-            MainActivity.accessTokenSleewell,
-            requestBody
-        )
+        val call : Call<AddRoutineResponse>? = api?.addRoutine(MainActivity.accessTokenSleewell, requestBody)
 
         call?.enqueue(object : Callback<AddRoutineResponse> {
             override fun onResponse(
@@ -442,15 +426,24 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         })
     }
 
+    fun saveRoutineFromList() {
+        CoroutineScope(Dispatchers.IO).launch {
+            for (i in aList.indices) {
+                if (aList[i].uId == 0.toLong()) {
+                    val rt = Routine(aList[i].name, aList[i].isSelected, aList[i].apiId, aList[i].colorRed, aList[i].colorGreen, aList[i].colorBlue, aList[i].useHalo, aList[i].duration, aList[i].useMusic, aList[i].player, aList[i].musicName, aList[i].musicUri, aList[i].state)
+                    db.addNewRoutine(rt)
+                } else {
+                    db.updateRoutine(aList[i])
+                }
+            }
+        }
+    }
+
     override fun getAdapter() : RoutineListAdapter {
         return adapter
     }
 
-    override fun openRoutineParameter(
-        nbr: Int,
-        fragmentManager: FragmentManager?,
-        fragment: Fragment
-    ) {
+    override fun openRoutineParameter(nbr: Int, fragmentManager: FragmentManager?, fragment: Fragment) {
         dialog = openRoutineDialog(nbr, fragmentManager, fragment)
         dialog.setOnDismissListener {
             if (aList.isEmpty())
@@ -492,9 +485,7 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         }
         buttonSelect.setOnClickListener {
             aList[nbr].isSelected = true
-            CoroutineScope(Dispatchers.IO).launch {
-                updateSelectedItemRoutine(nbr)
-            }
+            updateItemRoutine(aList[nbr], nbr)
             dialog.dismiss()
         }
 
@@ -505,11 +496,8 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         }
         title.doAfterTextChanged {
             aList[nbr].name = title.text.toString()
-            CoroutineScope(Dispatchers.IO).launch {
-                updateItemRoutine(aList[nbr], nbr)
-            }
+            updateItemRoutine(aList[nbr], nbr)
         }
-
         setDialogColorSet(dialog, nbr)
         setDialogMusic(dialog, nbr, fragmentManager, fragment)
         setDialogHalo(dialog, nbr)
@@ -564,12 +552,7 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         }
     }
 
-    private fun setDialogMusic(
-        dialog: Dialog,
-        nbr: Int,
-        fragmentManager: FragmentManager?,
-        fragment: Fragment
-    ) {
+    private fun setDialogMusic(dialog: Dialog, nbr: Int, fragmentManager: FragmentManager?, fragment: Fragment) {
 
         val musicSwitch = dialog.findViewById(R.id.dialog_routine_music_switch) as SwitchCompat
         val musicIcon = dialog.findViewById(R.id.dialog_routine_music_icon) as ImageView
@@ -608,21 +591,15 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         }
 
         playerMusicNameSpinner.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(
-                parentView: AdapterView<*>?,
-                selectedItemView: View,
-                position: Int,
-                id: Long
-            ) {
+
+            override fun onItemSelected(parentView: AdapterView<*>?, selectedItemView: View, position: Int, id: Long) {
                 if (aList[nbr].player == playerMusicNameSpinner.selectedItem.toString())
                     return
                 aList[nbr].player = playerMusicNameSpinner.selectedItem.toString()
                 nameMusicSelected.text = "None"
                 aList[nbr].musicName = "None"
                 aList[nbr].musicUri = ""
-                CoroutineScope(Dispatchers.IO).launch {
-                    updateItemRoutine(aList[nbr], nbr)
-                }
+                updateItemRoutine(aList[nbr], nbr)
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>?) {}
@@ -656,9 +633,7 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         haloSwitch.isChecked = aList[nbr].useHalo
         haloSwitch.setOnCheckedChangeListener { _, isChecked ->
             aList[nbr].useHalo = isChecked
-            CoroutineScope(Dispatchers.IO).launch {
-                updateItemRoutine(aList[nbr], nbr)
-            }
+            updateItemRoutine(aList[nbr], nbr)
             setDialogHalo(dialog, nbr)
             setDialogColorSet(dialog, nbr)
         }
