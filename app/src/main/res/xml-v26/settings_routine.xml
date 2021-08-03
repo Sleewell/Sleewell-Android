@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:title="Routine Preferences"
+        android:key="routine_return_pref"
+        android:icon="@drawable/arrow_back_24px"
+        android:singleLineTitle="true"/>
+    <Preference
+        android:title="@string/setting_network_name"
+        android:summary="@string/setting_network_summary"
+        android:fragment="com.sleewell.sleewell.mvp.menu.routine.view.RoutineSettingsFragment$NetworkPreferencesFragment"
+        android:icon="@drawable/network_cell_24px"/>
+
+    <Preference
+        android:title="@string/setting_notification_name"
+        android:summary="@string/setting_notification_summary"
+        android:fragment="com.sleewell.sleewell.mvp.menu.routine.view.RoutineSettingsFragment$NotificationPreferencesFragment"
+        android:icon="@drawable/notifications_24px"/>
+
+</PreferenceScreen>

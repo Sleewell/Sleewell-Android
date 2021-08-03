@@ -17,6 +17,9 @@ interface NightDao {
     @Query("SELECT * FROM night WHERE uId = :id")
     suspend fun getNight(id: Long): Night
 
+    @Query("SELECT * FROM night WHERE date = :nightDate LIMIT 1")
+    suspend fun getNightFromDate(nightDate: String) : Night?
+
     @Query("SELECT * FROM night WHERE start = :timestamp LIMIT 1")
     suspend fun getNightWithTimestamp(timestamp: Long) : Night
 

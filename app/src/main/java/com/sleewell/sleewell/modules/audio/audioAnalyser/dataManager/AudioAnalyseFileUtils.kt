@@ -5,6 +5,7 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonIOException
 import com.google.gson.JsonSyntaxException
+import com.sleewell.sleewell.database.analyse.night.entities.Night
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import kotlinx.coroutines.CoroutineScope
@@ -50,12 +51,12 @@ class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordL
      */
     override fun getAvailableAnalyse() {
         val listFiles = readDirectory()
-        val listAvailableAnalyse = mutableListOf<Long>()
+        val listAvailableAnalyse = mutableListOf<Night>()
 
         listFiles.forEach { file ->
             try {
                 val currentFileDate = file.name.replace(".json", "")
-                listAvailableAnalyse.add(dateStringToTimestamp(currentFileDate))
+                listAvailableAnalyse.add(Night(dateStringToTimestamp(currentFileDate), null, null))
             } catch (error: DateTimeParseException) {
                 Log.e(
                     CLASS_TAG,
@@ -72,13 +73,13 @@ class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordL
     /**
      * Read an analyse
      *
-     * @param timestamp identifying the analyse
+     * @param id identifying the analyse
      * @author Hugo Berthomé
      */
-    override fun readAnalyse(timestamp: Long) {
+    override fun readAnalyse(id: Long) {
         scopeIO.run {
             val emptyArray = arrayOf<AnalyseValue>()
-            val fileName = timestampToDateString(timestamp)
+            val fileName = timestampToDateString(id)
             val analyse = File("$outputDirectory/$fileName.json")
 
             if (!analyse.exists()) {
@@ -88,9 +89,9 @@ class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordL
             try {
                 val res = gson.fromJson(analyse.reader(), emptyArray.javaClass)
                 if (res == null)
-                    listener.onReadAnalyseRecord(emptyArray)
+                    listener.onReadAnalyseRecord(emptyArray, id)
                 else
-                    listener.onReadAnalyseRecord(res)
+                    listener.onReadAnalyseRecord(res, id)
             } catch (eSyntax: JsonSyntaxException) {
                 Log.e(CLASS_TAG, "Invalid json syntax in analyse file " + analyse.name)
                 listener.onAnalyseRecordError("Invalid json syntax in analyse file " + analyse.name)
@@ -102,13 +103,23 @@ class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordL
     }
 
     /**
-     * Delete an analyse
+     * Read an analyse
      *
-     * @param timestamp identifying the analyse
+     * @param date to identify the analyse
      * @author Hugo Berthomé
      */
-    override fun deleteAnalyse(timestamp: Long) {
-        val fileName = timestampToDateString(timestamp)
+    override fun readAnalyse(date: Date) {
+        readAnalyse(date.time)
+    }
+
+    /**
+     * Delete an analyse
+     *
+     * @param id identifying the analyse
+     * @author Hugo Berthomé
+     */
+    override fun deleteAnalyse(id: Long) {
+        val fileName = timestampToDateString(id)
         val analyse = File("$outputDirectory/$fileName.json")
 
         if (analyse.exists())
@@ -258,7 +269,8 @@ class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordL
     }
 
     companion object {
-        val DATE_FORMAT = "yyyy-MM-dd_HH:mm:ss"
+        /*val DATE_FORMAT = "yyyy-MM-dd_HH:mm:ss"*/
+        val DATE_FORMAT = "yyyy-MM-dd"
 
         /**
          * Convert a string date to timestamp

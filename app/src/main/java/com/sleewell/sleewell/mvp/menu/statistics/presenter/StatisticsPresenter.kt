@@ -1,12 +1,12 @@
 package com.sleewell.sleewell.mvp.menu.statistics.presenter
 
 import android.graphics.drawable.Icon
+import android.os.Build
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.model.ListAnalyse
 import com.sleewell.sleewell.api.sleewell.model.NightAnalyse
-import com.sleewell.sleewell.api.sleewell.model.PostResponse
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.mvp.menu.statistics.State
 import com.sleewell.sleewell.mvp.menu.statistics.StatisticsContract
@@ -16,8 +16,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.lang.StringBuilder
-import java.time.*
+import java.text.SimpleDateFormat
+import java.time.Duration
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
@@ -100,11 +103,13 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
      */
     override fun onDataAnalyseDate(date: String) {
         val currentFileDate = date.replace(".json", "")
-        startAnalyse = LocalDateTime.parse(
-            currentFileDate,
-            DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss")
-        ).toEpochSecond(OffsetDateTime.now().offset)
-        view.displayAnalyseDate(currentFileDate.replace("_", "  "))
+
+        val formatter = DateTimeFormatter.ofPattern(StatisticsModel.FORMAT_DAY, Locale.FRANCE)
+        val newDate = LocalDate.parse(currentFileDate, formatter)
+        startAnalyse = newDate.atStartOfDay(ZoneId.systemDefault()).toInstant().epochSecond
+
+        val formatterToString = DateTimeFormatter.ofPattern("dd LLLL")
+        view.displayAnalyseDate(newDate.format(formatterToString))
     }
 
     /**
@@ -126,9 +131,13 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
      */
     override fun onNight(night: NightAnalyse) {
         scopeDefault.launch {
-            view.displayAnalyseDay(night)
-            view.displayNightData(night.end - night.start, night.start, night.end)
-            view.displayAnalyseAdvices(determineAnalyseAdvices(night.start, night.end))
+            if (night.data.isNullOrEmpty()) {
+                onError("No available data for this night")
+            } else {
+                view.displayAnalyseDay(night)
+                view.displayNightData(night.end - night.start, night.start, night.end)
+                view.displayAnalyseAdvices(determineAnalyseAdvices(night.start, night.end))
+            }
         }
     }
 
@@ -226,5 +235,15 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
             }
         }
         return advices
+    }
+
+    private fun dateToString(date: Date, dateFormat: String): String {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return DateTimeFormatter
+                .ofPattern(dateFormat)
+                .withZone(ZoneOffset.systemDefault())
+                .format(date.toInstant())
+        }
+        return SimpleDateFormat(dateFormat, Locale.FRANCE).format(date)
     }
 }

@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.mvp.menu.account
+package com.sleewell.sleewell.mvp.menu.profile
 
 import android.util.Log
 import okhttp3.OkHttpClient

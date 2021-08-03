@@ -20,14 +20,6 @@ interface IAudioAnalyseRecordListener {
     /**
      * Function called when an analyse is read from a file
      *
-     * @param data of the analyse file
-     * @author Hugo Berthomé
-     */
-    fun onReadAnalyseRecord(data : Array<AnalyseValue>)
-
-    /**
-     * Function called when an analyse is read from a file
-     *
      * @param data
      * @param nightId
      * @author Hugo berthomé
@@ -43,16 +35,9 @@ interface IAudioAnalyseRecordListener {
     fun onAnalyseRecordError(msg : String)
 
     /**
-     * Function called when received the list of available analyses
-     *
-     * @param analyses
-     */
-    fun onListAvailableAnalyses(analyses : List<Long>)
-
-    /**
      * Function called when received the list of available analyse
      *
      * @param analyses
      */
-    fun onListAvailableNights(analyses : List<Night>)
+    fun onListAvailableAnalyses(analyses : List<Night>)
 }

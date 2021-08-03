@@ -1,27 +1,22 @@
-package com.sleewell.sleewell.mvp.menu.account.model
+package com.sleewell.sleewell.mvp.menu.profile.model
 
-import android.content.Context
-import android.provider.ContactsContract
 import android.util.Log
 import com.sleewell.sleewell.api.sleewell.ApiClient
 import com.sleewell.sleewell.api.sleewell.IUserApi
 import com.sleewell.sleewell.api.sleewell.model.ProfileInfo
 import com.sleewell.sleewell.api.sleewell.model.ResponseSuccess
-import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
-import com.sleewell.sleewell.mvp.menu.account.contract.ProfileContract
+import com.sleewell.sleewell.mvp.menu.profile.contract.ProfileContract
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ProfileModel(context: Context) : ProfileContract.Model {
+class ProfileModel() : ProfileContract.Model {
     private val TAG = "ProfileModelMVP"
     private var api: IUserApi? = ApiClient.retrofit.create(IUserApi::class.java)
 
-    override fun getProfileInformation(onProfileInfoListener: ProfileContract.Model.OnProfileInfoListener) {
-        val token = "Bearer ${MainActivity.accessTokenSleewell}"
+    override fun getProfileInformation(token: String, onProfileInfoListener: ProfileContract.Model.OnProfileInfoListener) {
         val call: Call<ProfileInfo>? = api?.getProfileInformation(token)
 
         call?.enqueue(object : Callback<ProfileInfo> {
@@ -45,11 +40,11 @@ class ProfileModel(context: Context) : ProfileContract.Model {
         })
     }
 
-    override fun updateProfileInformation(
+    override fun updateProfileInformation(token: String,
         username: String, firstName: String, lastName: String, email: String,
         onFinishedListener: ProfileContract.Model.OnUpdateProfileInfoListener
     ) {
-        val token = MainActivity.accessTokenSleewell.toRequestBody("text/plain".toMediaTypeOrNull())
+
         val call : Call<ResponseSuccess>? = api?.updateProfileInformation(token,
             username.toRequestBody("text/plain".toMediaTypeOrNull()),
             firstName.toRequestBody("text/plain".toMediaTypeOrNull()),

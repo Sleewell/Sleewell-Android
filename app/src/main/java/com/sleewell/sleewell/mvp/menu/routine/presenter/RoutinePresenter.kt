@@ -6,7 +6,9 @@ import androidx.fragment.app.FragmentManager
 import com.sleewell.sleewell.database.routine.entities.Routine
 import com.sleewell.sleewell.mvp.menu.routine.RoutineContract
 import com.sleewell.sleewell.mvp.menu.routine.model.RoutineModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class RoutinePresenter(view: RoutineContract.View, context: Context) : RoutineContract.Presenter {
 
@@ -16,6 +18,7 @@ class RoutinePresenter(view: RoutineContract.View, context: Context) : RoutineCo
 
     override fun onDestroy() {
         view = null
+        model.saveRoutineFromList()
     }
 
     /**
@@ -26,9 +29,10 @@ class RoutinePresenter(view: RoutineContract.View, context: Context) : RoutineCo
     override fun onViewCreated() {
     }
 
-    override fun createNewItemRoutine() {
-        val rt = Routine("", false, 0, 48, 63, 159, false, 48, false, "None", "", "")
-        model.addRoutineApiSleewell(rt)
+    override fun createNewItemRoutine(fragmentManager: FragmentManager?, fragment: Fragment) {
+        CoroutineScope(Dispatchers.IO).launch {
+            model.createNewItemRoutine(fragmentManager, fragment)
+        }
     }
 
     override fun removeItemRoutine(nbr: Int ) {
