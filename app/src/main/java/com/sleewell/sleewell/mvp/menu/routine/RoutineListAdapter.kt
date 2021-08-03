@@ -25,7 +25,7 @@ class RoutineListAdapter(context: Context, aList: ArrayList<Routine>) : BaseAdap
 
 
         if (aList[position].name.isEmpty()) {
-            holder.title!!.text = "Routine " + aList[position].uId.toString()
+            holder.title!!.text = "Routine " + aList[position].apiId.toString()
         } else {
             holder.title!!.text = aList[position].name
         }

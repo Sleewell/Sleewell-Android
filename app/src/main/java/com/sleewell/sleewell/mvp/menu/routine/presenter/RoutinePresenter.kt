@@ -26,9 +26,10 @@ class RoutinePresenter(view: RoutineContract.View, context: Context) : RoutineCo
     override fun onViewCreated() {
     }
 
-    override fun createNewItemRoutine() {
-        val rt = Routine("", false, 0, 48, 63, 159, false, 48, false, "None", "", "")
-        model.addRoutineApiSleewell(rt)
+    override fun createNewItemRoutine(fragmentManager: FragmentManager?, fragment: Fragment) {
+        CoroutineScope(Dispatchers.IO).launch {
+            model.createNewItemRoutine(fragmentManager, fragment)
+        }
     }
 
     override fun removeItemRoutine(nbr: Int ) {

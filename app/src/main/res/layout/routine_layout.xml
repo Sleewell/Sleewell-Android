@@ -110,9 +110,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/nunito"
-        android:text="Turn on the music"
+        android:text="Routine music"
         android:textColor="@color/background"
         android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/dialog_routine_music_icon"
         app:layout_constraintTop_toBottomOf="@+id/dialog_routine_separator_1" />
 
@@ -155,13 +156,13 @@
     <ImageView
         android:id="@+id/dialog_routine_halo_icon"
         android:layout_width="20dp"
-        android:layout_height="30dp"
+        android:layout_height="20dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:background="@drawable/ic_halo_on_blue"
         android:rotation="90"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_separator_2"
-        app:srcCompat="@drawable/ic_halo_on_blue" />
+        app:layout_constraintTop_toBottomOf="@+id/dialog_routine_separator_2" />
 
     <TextView
         android:id="@+id/dialog_routine_halo_title"
@@ -170,9 +171,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/nunito"
-        android:text="Turn on the halo"
+        android:text="Routine halo"
         android:textColor="@color/background"
         android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/dialog_routine_halo_icon"
         app:layout_constraintTop_toBottomOf="@+id/dialog_routine_separator_2" />
 
@@ -210,35 +212,35 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
+            <ImageView
                 android:id="@+id/dialog_routine_halo_color_1"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:background="@color/haloColorBlue" />
 
-            <Button
+            <ImageView
                 android:id="@+id/dialog_routine_halo_color_2"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:background="@color/haloColorShadowBlue" />
 
-            <Button
+            <ImageView
                 android:id="@+id/dialog_routine_halo_color_3"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:background="@color/haloColorRed" />
 
-            <Button
+            <ImageView
                 android:id="@+id/dialog_routine_halo_color_4"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:background="@color/haloColorDarkGreen" />
 
-            <Button
+            <ImageView
                 android:id="@+id/dialog_routine_halo_color_5"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -251,7 +253,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-            <Button
+            <ImageView
                 android:id="@+id/dialog_routine_halo_color_6"
                 android:layout_width="30dp"
                 android:layout_height="30dp"

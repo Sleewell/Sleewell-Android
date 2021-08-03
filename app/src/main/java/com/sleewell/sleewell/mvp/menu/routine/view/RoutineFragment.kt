@@ -32,8 +32,6 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
 
         initListView()
 
-        presenter.updateAdapter()
-
         return root
     }
 
@@ -53,8 +51,10 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
 
         btn = root.findViewById(R.id.button)
         btn.setOnClickListener {
-            presenter.createNewItemRoutine()
+            presenter.createNewItemRoutine(fragmentManager, this)
         }
+
+        presenter.updateAdapter()
     }
 
     override fun displayToast(message: String) {

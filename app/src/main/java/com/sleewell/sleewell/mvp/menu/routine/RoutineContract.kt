@@ -15,7 +15,7 @@ interface RoutineContract {
          *
          * @author gabin warnier de wailly
          */
-        fun createNewItemRoutine(id: Int)
+        fun createNewItemRoutine(fragmentManager: FragmentManager?, fragment: Fragment)
 
         /**
          * This method return the adapter for the listview (routine)
@@ -87,8 +87,6 @@ interface RoutineContract {
          */
         fun updateSelectedItemRoutine(nbr: Int)
 		fun getRoutineApiSleewell()
-        fun updateListViewRoutine(routines: RoutinesResponse?)
-        fun addRoutineApiSleewell(routine: Routine)
         fun updateListViewOffLine()
     }
 
@@ -105,7 +103,7 @@ interface RoutineContract {
          *
          * @author gabin warnier de wailly
          */
-        fun createNewItemRoutine()
+        fun createNewItemRoutine(fragmentManager: FragmentManager?, fragment: Fragment)
 
         /**
          * This method remove a routine
