@@ -16,6 +16,7 @@ jobs:
     - name: set up JDK 1.8
       uses: actions/setup-java@v2
       with:
+        disrtibution: 'zulu'
         java-version: '11'
         check-latest: true
     - name: Make graddle executable
@@ -33,6 +34,7 @@ jobs:
       - name: set up JDK 1.8
         uses: actions/setup-java@v2
         with:
+          distribution: 'zulu'
           java-version: '11'
           check-latest: true
       - name: Make graddle executable
