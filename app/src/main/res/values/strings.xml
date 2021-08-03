@@ -66,6 +66,7 @@
     <string name="setting_help_title">Help</string>
     <string name="setting_help_signal_problem">Signal a problem or a bug</string>
     <string name="version_app">Version %s - %s</string>
+    <string name="url_report">https://sleewell.fr/feedback_tester.php</string>
 
     <!-- Settings file name-->
     <string name="setting_file_network">com.sleewell.sleewell.network</string>

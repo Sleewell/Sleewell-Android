@@ -20,13 +20,14 @@ class HelpSignalmenActivity : AppCompatActivity() {
         val versionName = BuildConfig.VERSION_NAME
         val versionText = findViewById<TextView>(R.id.textVersion)
         versionText.text = getString(R.string.version_app, versionName, versionCode.toString())
+        val urlReport = getString(R.string.url_report)
 
         val buttonSignal = findViewById<Button>(R.id.buttonProblemSignal)
         buttonSignal.setOnClickListener {
             startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("https://sleewell.fr/?version=$versionName-$versionCode")
+                    Uri.parse("$urlReport?version=$versionName-$versionCode")
                 )
             )
         }
