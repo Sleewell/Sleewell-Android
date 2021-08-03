@@ -34,8 +34,6 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
         initListView()
         initSettingButton()
 
-        presenter.updateAdapter()
-
         return root
     }
 
@@ -55,8 +53,10 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
 
         btn = root.findViewById(R.id.button)
         btn.setOnClickListener {
-            presenter.createNewItemRoutine()
+            presenter.createNewItemRoutine(fragmentManager, this)
         }
+
+        presenter.updateAdapter()
     }
 
     private fun initSettingButton() {
@@ -78,5 +78,10 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
 
     override fun displayRoutineList(routineAdapter: RoutineListAdapter) {
         listView.adapter = routineAdapter
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.onDestroy()
     }
 }
