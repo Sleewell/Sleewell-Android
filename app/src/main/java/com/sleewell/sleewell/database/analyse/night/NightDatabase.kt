@@ -33,7 +33,7 @@ abstract class NightDatabase : RoomDatabase() {
                             context,
                             NightDatabase::class.java,
                             "database-night-analyse"
-                        ).build()
+                        ).fallbackToDestructiveMigration().build()
                     }
                 }
             }
