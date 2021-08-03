@@ -6,6 +6,9 @@ import androidx.fragment.app.FragmentManager
 import com.sleewell.sleewell.database.routine.entities.Routine
 import com.sleewell.sleewell.mvp.menu.routine.RoutineContract
 import com.sleewell.sleewell.mvp.menu.routine.model.RoutineModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class RoutinePresenter(view: RoutineContract.View, context: Context) : RoutineContract.Presenter {
 
