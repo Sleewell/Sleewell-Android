@@ -27,6 +27,10 @@
     <string name="setting_protocol_summary">Customise the protocol</string>
     <string name="setting_protocol_return_key">protocol_return_pref</string>
 
+    <string name="setting_help_name">Help</string>
+    <string name="setting_help_summary">Signal a bug or get some assistance</string>
+    <string name="setting_help_return_key">help_return_pref</string>
+
     <string name="setting_halo_name">Halo</string>
     <string name="settings_halo_key">halo</string>
     <string name="setting_halo_summary">Customise the halo during the protocol</string>
@@ -59,12 +63,19 @@
     <string name="setting_dnd_summary_on">Dnd is on during protocol</string>
     <string name="setting_dnd_summary_off">Dnd is off during protocol"</string>
 
+    <string name="setting_help_title">Help</string>
+    <string name="setting_help_signal_problem">Signal a problem or a bug</string>
+    <string name="version_app">Version %s - %s</string>
+    <string name="url_report">https://sleewell.fr/feedback_tester.php</string>
+
+
     <!-- Settings Routine -->
     <string name="setting_routine_return_key">routine_return_pref</string>
 
     <!-- Settings file name-->
     <string name="setting_file_network">com.sleewell.sleewell.network</string>
     <string name="setting_file_notification">com.sleewell.sleewell.notification</string>
+    <string name="setting_file_help">com.sleewell.sleewell.mvp.help.HelpSignalmenActivity</string>
 
     <!-- Network initial state before starting protocol -->
     <string name="setting_bluetooth_initial_state_key">bluetooth initial state</string>

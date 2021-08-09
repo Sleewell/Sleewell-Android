@@ -34,26 +34,15 @@ class StatisticsModel(
         val FORMAT_MONTH = "yyyyMM"
         val FORMAT_YEAR = "yyyy"
     }
+
     private val TAG = "StatsModel"
     private val TOKEN = MainActivity.accessTokenSleewell
     private val api: IStatsApi = ApiClient.retrofit.create(IStatsApi::class.java)
 
-
     private val analyse: IAnalyseDataManager = AudioAnalyseDbUtils(context, this)
     private var analyseFileDate = ""
-
-    /**
-     * Fetch the last analyse recorded in the phone
-     *
-     * @author Hugo Berthomé
-     */
-    override fun getLastAnalyse() {
-        if (TOKEN.isEmpty()) {
-            listener.onError("You're not connected, please connect and try again")
-            return
-        }
-        analyse.getAvailableAnalyse()
-    }
+    private var errorMsg = ""
+    private var errorOrFailure = true
 
     /**
      * Fetch the night in the API
@@ -62,8 +51,11 @@ class StatisticsModel(
      * @author Hugo Berthomé
      */
     override fun getNight(nightDate: Date) {
+        analyseFileDate = dateToDateString(nightDate)
         if (TOKEN.isEmpty()) {
-            listener.onError("You're not connected, please connect and try again")
+            errorMsg = "You're not connected, please connect and try again"
+            errorOrFailure = true
+            getLocalAnalyseFromDate(nightDate)
             return
         }
         val call: Call<NightAnalyse> =
@@ -77,10 +69,14 @@ class StatisticsModel(
                 if (responseRes == null) {
                     Log.e(TAG, "Body null error")
                     Log.e(TAG, "Code : " + response.code())
-                    apiListener.onFailure(Throwable("Body null error : " + response.code()))
+                    errorMsg = "Body null error : " + response.code()
+                    errorOrFailure = false
+                    getLocalAnalyseFromDate(nightDate)
                 } else {
                     if (!responseRes.Error.isNullOrEmpty()) {
-                        listener.onError(responseRes.Error)
+                        errorMsg = responseRes.Error
+                        errorOrFailure = true
+                        getLocalAnalyseFromDate(nightDate)
                     } else {
                         apiListener.onNight(responseRes)
                     }
@@ -89,24 +85,13 @@ class StatisticsModel(
 
             override fun onFailure(call: Call<NightAnalyse>, t: Throwable) {
                 Log.e(TAG, t.toString())
-                apiListener.onFailure(t)
+                errorMsg =
+                    if (t.message == null) "You're not connected, please connect and try again" else t.message.toString()
+                errorOrFailure = false
+                getLocalAnalyseFromDate(nightDate)
             }
 
         })
-        /*apiListener.onNight(
-            NightAnalyse(
-                1617461454,
-                arrayOf(
-                    AnalyseValue(0.0, 1616654202),
-                    AnalyseValue(32.0, 1616654220),
-                    AnalyseValue(28.0, 1616654222),
-                    AnalyseValue(34.0, 1616654224),
-                    AnalyseValue(0.0, 1616654240)
-                ),
-                1617483954,
-                null
-            )
-        )*/
     }
 
     /**
@@ -147,39 +132,6 @@ class StatisticsModel(
             }
 
         })
-        /*apiListener.onWeekAnalyse(
-            ListAnalyse(
-                null,
-                arrayOf(
-                    NightAnalyse(
-                        null,
-                        1617461454,
-                        arrayOf(
-                            AnalyseValue(0.0, 1616654202),
-                            AnalyseValue(32.0, 1616654220),
-                            AnalyseValue(28.0, 1616654222),
-                            AnalyseValue(34.0, 1616654224),
-                            AnalyseValue(0.0, 1616654240)
-                        ),
-                        1617483954,
-                        null
-                    ),
-                    NightAnalyse(
-                        null,
-                        1617461454,
-                        arrayOf(
-                            AnalyseValue(0.0, 1616654202),
-                            AnalyseValue(32.0, 1616654220),
-                            AnalyseValue(28.0, 1616654222),
-                            AnalyseValue(34.0, 1616654224),
-                            AnalyseValue(0.0, 1616654240)
-                        ),
-                        1617483954,
-                        null
-                    )
-                ), 1617461454, 1617483954
-            )
-        )*/
     }
 
     /**
@@ -193,7 +145,8 @@ class StatisticsModel(
             listener.onError("You're not connected, please connect and try again")
             return
         }
-        val call: Call<ListAnalyse> = api.getMonth("Bearer $TOKEN", dateToDateString(monthDate, FORMAT_MONTH))
+        val call: Call<ListAnalyse> =
+            api.getMonth("Bearer $TOKEN", dateToDateString(monthDate, FORMAT_MONTH))
 
         call.enqueue(object : Callback<ListAnalyse> {
 
@@ -219,36 +172,6 @@ class StatisticsModel(
             }
 
         })
-        /*apiListener.onMonthAnalyse(
-            ListAnalyse(
-                arrayOf(
-                    NightAnalyse(
-                        1617461454,
-                        arrayOf(
-                            AnalyseValue(0.0, 1616654202),
-                            AnalyseValue(32.0, 1616654220),
-                            AnalyseValue(28.0, 1616654222),
-                            AnalyseValue(34.0, 1616654224),
-                            AnalyseValue(0.0, 1616654240)
-                        ),
-                        1617483954,
-                        null
-                    ),
-                    NightAnalyse(
-                        1617461454,
-                        arrayOf(
-                            AnalyseValue(0.0, 1616654202),
-                            AnalyseValue(32.0, 1616654220),
-                            AnalyseValue(28.0, 1616654222),
-                            AnalyseValue(34.0, 1616654224),
-                            AnalyseValue(0.0, 1616654240)
-                        ),
-                        1617483954,
-                        null
-                    )
-                ), 1617461454, 1617483954
-            )
-        )*/
     }
 
     /**
@@ -261,7 +184,8 @@ class StatisticsModel(
             listener.onError("You're not connected, please connect and try again")
             return
         }
-        val call: Call<ListAnalyse> = api.getYear("Bearer $TOKEN", dateToDateString(yearDate, FORMAT_YEAR))
+        val call: Call<ListAnalyse> =
+            api.getYear("Bearer $TOKEN", dateToDateString(yearDate, FORMAT_YEAR))
 
         call.enqueue(object : Callback<ListAnalyse> {
 
@@ -287,46 +211,9 @@ class StatisticsModel(
             }
 
         })
-        /*apiListener.onYearAnalyse(
-            ListAnalyse(
-                arrayOf(
-                    NightAnalyse(
-                        1617461454,
-                        arrayOf(
-                            AnalyseValue(0.0, 1616654202),
-                            AnalyseValue(32.0, 1616654220),
-                            AnalyseValue(28.0, 1616654222),
-                            AnalyseValue(34.0, 1616654224),
-                            AnalyseValue(0.0, 1616654240)
-                        ),
-                        1617483954,
-                        null
-                    ),
-                    NightAnalyse(
-                        1617461454,
-                        arrayOf(
-                            AnalyseValue(0.0, 1616654202),
-                            AnalyseValue(32.0, 1616654220),
-                            AnalyseValue(28.0, 1616654222),
-                            AnalyseValue(34.0, 1616654224),
-                            AnalyseValue(0.0, 1616654240)
-                        ),
-                        1617483954,
-                        null
-                    )
-                ), 1617461454, 1617483954
-            )
-        )*/
     }
 
     override fun onListAvailableAnalyses(analyses: List<Night>) {
-        if (analyses.isEmpty()) {
-            listener.onDataAnalyse(arrayOf())
-        } else {
-            analyseFileDate =
-                AudioAnalyseFileUtils.timestampToDateString(analyses[analyses.size - 1].uId)
-            analyse.readAnalyse(analyses[analyses.size - 1].uId)
-        }
     }
 
     /**
@@ -345,7 +232,19 @@ class StatisticsModel(
      */
     override fun onReadAnalyseRecord(data: Array<AnalyseValue>, nightId: Long) {
         listener.onDataAnalyseDate(analyseFileDate)
-        listener.onDataAnalyse(data)
+        if (data.isNullOrEmpty()) {
+            apiListener.onNight(NightAnalyse(start = 0, data = data, end = 0, id = null))
+        } else {
+            apiListener.onNight(
+                NightAnalyse(
+                    start = data.first().ts,
+                    data = data,
+                    end = data.last().ts,
+                    id = null
+                )
+            )
+        }
+        /*listener.onDataAnalyse(data)*/
     }
 
     /**
@@ -355,7 +254,10 @@ class StatisticsModel(
      * @author Hugo Berthomé
      */
     override fun onAnalyseRecordError(msg: String) {
-        listener.onError("An error occurred while reading the last available analyse")
+        if (errorOrFailure)
+            listener.onError(errorMsg)
+        else
+            apiListener.onFailure(Throwable(errorMsg))
     }
 
     private fun dateToDateString(date: Date, dateFormat: String = "yyyyMMdd"): String {
@@ -363,5 +265,9 @@ class StatisticsModel(
             .ofPattern(dateFormat)
             .withZone(ZoneOffset.systemDefault())
             .format(date.toInstant())
+    }
+
+    private fun getLocalAnalyseFromDate(nightDate: Date) {
+        analyse.readAnalyse(nightDate)
     }
 }

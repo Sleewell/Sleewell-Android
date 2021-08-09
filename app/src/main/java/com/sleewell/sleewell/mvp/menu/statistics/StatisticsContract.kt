@@ -5,7 +5,6 @@ import com.sleewell.sleewell.api.sleewell.model.NightAnalyse
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
-import com.sleewell.sleewell.mvp.menu.statistics.model.AnalyseValueStatistic
 import com.sleewell.sleewell.mvp.menu.statistics.model.dataClass.AnalyseDetail
 import java.util.*
 import kotlin.collections.ArrayList
@@ -17,13 +16,6 @@ import kotlin.collections.ArrayList
  */
 interface StatisticsContract {
     interface Model {
-
-        /**
-         * Fetch the last analyse recorded in the phone
-         *
-         * @author Hugo Berthomé
-         */
-        fun getLastAnalyse()
 
         /**
          * Fetch the night in the API

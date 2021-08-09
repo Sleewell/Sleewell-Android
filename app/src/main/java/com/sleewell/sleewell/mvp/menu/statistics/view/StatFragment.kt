@@ -23,7 +23,6 @@ import com.sleewell.sleewell.api.sleewell.model.NightAnalyse
 import com.sleewell.sleewell.mvp.menu.statistics.State
 import com.sleewell.sleewell.mvp.menu.statistics.StatisticsContract
 import com.sleewell.sleewell.mvp.menu.statistics.presenter.StatisticsPresenter
-import com.sleewell.sleewell.mvp.menu.statistics.model.AnalyseValueStatistic
 import com.sleewell.sleewell.mvp.menu.statistics.model.StatisticsModel
 import com.sleewell.sleewell.mvp.menu.statistics.model.dataClass.AnalyseDetail
 import com.sleewell.sleewell.mvp.menu.statistics.view.recyclerView.AnalyseRecyclerAdapter

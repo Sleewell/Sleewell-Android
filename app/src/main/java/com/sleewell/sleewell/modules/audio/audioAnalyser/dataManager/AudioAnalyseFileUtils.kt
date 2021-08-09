@@ -103,6 +103,16 @@ class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordL
     }
 
     /**
+     * Read an analyse
+     *
+     * @param date to identify the analyse
+     * @author Hugo Berthomé
+     */
+    override fun readAnalyse(date: Date) {
+        readAnalyse(date.time)
+    }
+
+    /**
      * Delete an analyse
      *
      * @param id identifying the analyse
@@ -259,7 +269,8 @@ class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordL
     }
 
     companion object {
-        val DATE_FORMAT = "yyyy-MM-dd_HH:mm:ss"
+        /*val DATE_FORMAT = "yyyy-MM-dd_HH:mm:ss"*/
+        val DATE_FORMAT = "yyyy-MM-dd"
 
         /**
          * Convert a string date to timestamp

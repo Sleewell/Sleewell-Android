@@ -1,6 +1,7 @@
 package com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager
 
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
+import java.util.*
 
 interface IAnalyseDataManager {
 
@@ -21,6 +22,14 @@ interface IAnalyseDataManager {
      * @author Hugo Berthomé
      */
     fun readAnalyse(id: Long)
+
+    /**
+     * Read an analyse
+     *
+     * @param date to identify the analyse
+     * @author Hugo Berthomé
+     */
+    fun readAnalyse(date: Date)
 
     /**
      * Delete an analyse
