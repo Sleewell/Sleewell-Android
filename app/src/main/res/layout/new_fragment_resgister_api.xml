@@ -203,7 +203,7 @@
                 android:alpha="0.6"
                 android:animateLayoutChanges="true"
                 android:background="#000000"
-                android:visibility="invisible">
+                android:visibility="gone">
 
                 <ProgressBar
                     android:id="@+id/progressBar"

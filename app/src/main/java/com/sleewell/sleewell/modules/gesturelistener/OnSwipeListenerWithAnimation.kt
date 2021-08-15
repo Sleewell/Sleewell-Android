@@ -89,7 +89,7 @@ abstract class OnSwipeListenerWithAnimation(val ctx: Context?, val width: Float)
                 }
                 val pixelVelocityX = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, flingVelocity, ctx?.resources?.displayMetrics)
 
-                if (abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                if (abs(diffX) > abs(diffY) && abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                     cancelAnimations()
                     flingAnimation = FlingAnimation(FloatValueHolder(diffX)).apply {
                         setStartVelocity(pixelVelocityX)
