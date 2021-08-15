@@ -1,22 +1,27 @@
 package com.sleewell.sleewell.mvp.menu.view
 
+import android.animation.ValueAnimator
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.graphics.Insets
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsets
 import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.sleewell.sleewell.R
-import com.sleewell.sleewell.modules.gesturelistener.OnSwipeListener
+import com.sleewell.sleewell.modules.gesturelistener.OnSwipeListenerWithAnimation
 import com.sleewell.sleewell.modules.navigation.CustomNavBar
 import com.sleewell.sleewell.mvp.menu.MenuContract
 import com.sleewell.sleewell.mvp.menu.presenter.MenuPresenter
-import kotlinx.android.synthetic.main.activity_protocol_container.*
-import kotlinx.android.synthetic.main.activity_protocol_container.protocolLayout
-import kotlinx.android.synthetic.main.new_fragment_menu.*
+
 
 class MenuFragment : Fragment(), MenuContract.View {
 
@@ -38,8 +43,10 @@ class MenuFragment : Fragment(), MenuContract.View {
     /**
      * Initialise all the widgets from the layout
      */
+    @SuppressLint("ClickableViewAccessibility")
     private fun initActivityWidgets() {
-        val nestedNavHostFragment = childFragmentManager.findFragmentById(R.id.nav_menu) as? NavHostFragment
+        val nestedNavHostFragment =
+            childFragmentManager.findFragmentById(R.id.nav_menu) as? NavHostFragment
         val navController = nestedNavHostFragment?.navController
 
         val homeNav = root.findViewById<ToggleButton>(R.id.home_nav)
@@ -62,24 +69,57 @@ class MenuFragment : Fragment(), MenuContract.View {
 
         customNavBar.setNavigation(navController!!)
 
-        layout.setOnTouchListener(object : OnSwipeListener(activity!!.applicationContext) {
+        layout.setOnTouchListener(object : OnSwipeListenerWithAnimation(activity!!.applicationContext,
+            getScreenWidth(activity!!).toFloat()) {
             override fun onSwipeTop() {}
             override fun onSwipeBottom() {}
 
             override fun onSwipeLeft() {
-                println("SWIPE LEFT")
                 customNavBar.navigateRight(navController)
             }
 
             override fun onSwipeRight() {
-                println("SWIPE RIGHT")
                 customNavBar.navigateLeft(navController)
             }
+
+            override fun onAnimationProgress(currentX: Float) {
+                val translation = calculateTranslation(currentX)
+                nestedNavHostFragment.view?.translationX = translation.toFloat()
+            }
+
+            override fun onAnimationFinished(finalX: Float, up: Boolean) {
+                cancelAnimations()
+                animator = if (up) {
+                    ValueAnimator.ofFloat(nestedNavHostFragment.view!!.translationX * 10, 0f)
+                } else {
+                    ValueAnimator.ofFloat(finalX, 0f)
+                }
+                animator?.addUpdateListener { valueAnimator -> onAnimationProgress(valueAnimator.animatedValue as Float) }
+                animator?.duration = ANIMATE_TO_START_DURATION
+                animator?.start()
+            }
         })
+    }
+
+    private fun calculateTranslation(x: Float): Int {
+        return x.toInt() / 10
     }
 
     override fun setPresenter(presenter: MenuContract.Presenter) {
         this.presenter = presenter
         presenter.onViewCreated()
+    }
+
+    fun getScreenWidth(activity: Activity): Int {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val windowMetrics = activity.windowManager.currentWindowMetrics
+            val insets: Insets = windowMetrics.windowInsets
+                .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
+            windowMetrics.bounds.width() - insets.left - insets.right
+        } else {
+            val displayMetrics = DisplayMetrics()
+            activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
+            displayMetrics.widthPixels
+        }
     }
 }
