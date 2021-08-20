@@ -30,6 +30,7 @@ import java.util.*
  */
 class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
 
+    private val minLength: Int = 60 * 60
     private var scopeIOThread = CoroutineScope(Job() + Dispatchers.IO)
 
     // Database
@@ -74,7 +75,8 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
     override fun onReadAnalyseRecord(data: Array<AnalyseValue>, nightId: Long) {
         if (data.isEmpty())
             return
-        if (data.size <= 2) {
+        if (data.size <= 2 || data.first().ts - data.last().ts < minLength) {
+            Log.e(this.javaClass.name, "Night $nightId too small to be sent for Analyse : length ${data.size}")
             analyse.deleteAnalyse(nightId)
             return
         }
