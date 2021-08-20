@@ -12,6 +12,7 @@ import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.IAnalyseDat
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.modules.audio.service.AnalyseServiceTracker
+import com.sleewell.sleewell.modules.time.TimeUtils
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -75,10 +76,22 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
     override fun onReadAnalyseRecord(data: Array<AnalyseValue>, nightId: Long) {
         if (data.isEmpty())
             return
-        if (data.size <= 2 || data.first().ts - data.last().ts < minLength) {
+        if (data.size <= 2) {
             Log.e(this.javaClass.name, "Night $nightId too small to be sent for Analyse : length ${data.size}")
             analyse.deleteAnalyse(nightId)
             return
+        }
+
+        // If data is over 2 days, don't register it
+        if (TimeUtils.getCurrentTimestamp() - data.first().ts <= 60 * 60 * 24 * 2) {
+            Log.e(this.javaClass.name, "Night $nightId too old to register")
+            analyse.deleteAnalyse(nightId)
+            return
+        }
+
+        // If data is too small, check if fusion with last night (must be less than 5 hours difference
+        if (data.first().ts - data.last().ts < minLength) {
+            // TODO Demander si fusion ou création d'une nouvelle nuit POPUP
         }
         val dataToSend = filterData(data)
         val toSend =

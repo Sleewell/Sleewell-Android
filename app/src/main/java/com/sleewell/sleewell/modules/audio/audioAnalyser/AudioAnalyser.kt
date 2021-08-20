@@ -9,6 +9,7 @@ import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalys
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
+import com.sleewell.sleewell.modules.time.TimeUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -116,7 +117,7 @@ class AudioAnalyser(
 
         val averageDb = ampToDb(datas.maxOrNull())
         if (averageDb >= dbMinDetection) {
-            fileUtil.addToAnalyse(AnalyseValue(averageDb, getCurrentTimestamp()))
+            fileUtil.addToAnalyse(AnalyseValue(averageDb, TimeUtils.getCurrentTimestamp()))
         }
     }
 
@@ -216,14 +217,5 @@ class AudioAnalyser(
      * @author Hugo berthomé
      */
     override fun onReadAnalyseRecord(data: Array<AnalyseValue>, nightId: Long) {
-    }
-
-    /**
-     * Return the current timestamp in seconds
-     *
-     * @return Long timestamp
-     */
-    private fun getCurrentTimestamp(): Long {
-        return Instant.now().epochSecond
     }
 }
