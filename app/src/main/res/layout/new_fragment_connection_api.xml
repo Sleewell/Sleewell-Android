@@ -180,7 +180,7 @@
         android:alpha="0.6"
         android:animateLayoutChanges="true"
         android:background="#000000"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
