@@ -101,8 +101,6 @@ class LoginFragment : Fragment(), LoginContract.View {
         // Set up touch listener for non-text box views to hide keyboard.
         if (view !is EditText) {
             view.setOnTouchListener { v, event ->
-                println("action: " + event.action.toString())
-                println(isOnClick)
                 if (event.action == MotionEvent.ACTION_DOWN) {
                     mDownX = event.x
                     mDownY = event.y
