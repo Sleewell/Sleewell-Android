@@ -151,10 +151,10 @@
     <ImageView
         android:id="@+id/dialog_routine_halo_icon"
         android:layout_width="20dp"
-        android:background="@drawable/ic_halo_on_blue"
-        android:layout_height="30dp"
+        android:layout_height="20dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
+        android:background="@drawable/ic_halo_on_blue"
         android:rotation="90"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dialog_routine_separator_2" />
@@ -177,7 +177,7 @@
         android:id="@+id/dialog_routine_halo_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="15dp"
         android:thumb="@drawable/thumb_routine_dialog"
         app:layout_constraintBottom_toBottomOf="@+id/dialog_routine_halo_icon"
         app:layout_constraintEnd_toEndOf="parent"
