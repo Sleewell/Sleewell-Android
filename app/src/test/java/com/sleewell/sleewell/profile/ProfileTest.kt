@@ -1,5 +1,7 @@
 package com.sleewell.sleewell.profile
 
+import android.app.Application
+import android.content.Context
 import com.sleewell.sleewell.api.sleewell.model.ProfileInfo
 import com.sleewell.sleewell.api.sleewell.model.ResponseSuccess
 import com.sleewell.sleewell.mvp.menu.profile.contract.ProfileContract
@@ -7,6 +9,10 @@ import com.sleewell.sleewell.mvp.menu.profile.model.ProfileModel
 import org.assertj.core.api.JUnitSoftAssertions
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.junit.MockitoJUnitRunner
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
@@ -14,6 +20,7 @@ import kotlin.concurrent.withLock
  * Test des appels de l'écran de profil
  * @author Titouan FIANCETTE
  */
+@RunWith(MockitoJUnitRunner::class)
 class ProfileTest {
 
     companion object {
@@ -31,12 +38,19 @@ class ProfileTest {
     @JvmField
     val softly = JUnitSoftAssertions()
 
-    private val model = ProfileModel()
+    @Mock
+    private val mockApplication: Application =  Mockito.mock(Application::class.java)
+
+    @Mock
+    private val mockContext: Context = Mockito.mock(Context::class.java)
 
     @Test
     fun getProfileInfo() {
         val lock = ReentrantLock()
         val condition = lock.newCondition()
+        Mockito.`when`(mockApplication.applicationContext).thenReturn(mockContext)
+        val model = ProfileModel(mockApplication.applicationContext)
+
 
         val token = "Bearer $USER_TOKEN"
 
@@ -72,6 +86,9 @@ class ProfileTest {
     fun updateProfileInfo() {
         val lock = ReentrantLock()
         val condition = lock.newCondition()
+
+        Mockito.`when`(mockApplication.applicationContext).thenReturn(mockContext)
+        val model = ProfileModel(mockApplication.applicationContext)
 
         val token = "Bearer $USER_TOKEN"
 
