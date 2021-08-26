@@ -61,7 +61,7 @@ interface AlarmContract {
          * @param alarm Current alarm.
          * @author Romane Bézier
          */
-        fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, alarm: Alarm)
+        fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, alarm: Alarm, restart: Boolean)
 
         /**
          * Start the alert.
@@ -178,7 +178,7 @@ interface AlarmContract {
          * @param alarm Current alarm.
          * @author Romane Bézier
          */
-        fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, alarm: Alarm)
+        fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, alarm: Alarm, restart: Boolean)
 
         /**
          * Start the alert.
@@ -260,7 +260,7 @@ interface AlarmContract {
          * @param currentAlarm Alarm to start.
          * @author Romane Bézier
          */
-        fun startAlarm(currentAlarm: Alarm)
+        fun startAlarm(currentAlarm: Alarm, restart: Boolean)
 
         /**
          * Snooze the alarm.

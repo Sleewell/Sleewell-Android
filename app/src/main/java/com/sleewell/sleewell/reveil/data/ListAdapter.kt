@@ -1,6 +1,7 @@
 package com.sleewell.sleewell.reveil.data
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.reveil.AlarmContract
 import com.sleewell.sleewell.reveil.data.model.Alarm
+import com.sleewell.sleewell.reveil.data.viewmodel.AlarmViewModel
+import com.sleewell.sleewell.reveil.model.AlarmModel
 import kotlinx.android.synthetic.main.custom_row.view.*
 import kotlinx.android.synthetic.main.new_fragment_stat.view.*
 
@@ -100,7 +103,7 @@ class ListAdapter(private val view: AlarmContract.View): RecyclerView.Adapter<Li
         holder.itemView.checkBoxTime.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 if (currentItem.displayed) {
-                    view.startAlarm(currentItem)
+                    view.startAlarm(currentItem, true)
                 }
                 currentItem.displayed = false
             }
@@ -133,5 +136,4 @@ class ListAdapter(private val view: AlarmContract.View): RecyclerView.Adapter<Li
         this.alarmList = alarm
         notifyDataSetChanged()
     }
-
 }

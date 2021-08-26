@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.text.format.*
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import com.sleewell.sleewell.reveil.AlarmContract
 import com.sleewell.sleewell.reveil.AlarmReceiver
@@ -96,7 +97,8 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         alarmManager: AlarmManager,
         intent: Intent,
         context: Context,
-        alarm: Alarm
+        alarm: Alarm,
+        restart: Boolean
     ) {
         val pendingIntent = PendingIntent.getBroadcast(
             context,
@@ -104,14 +106,30 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
-        if (c.before(Calendar.getInstance())) {
-            c.add(Calendar.DATE, 1)
+        Log.d("CALTIME", c.timeInMillis.toString());
+        Log.d("ACTTIME", Calendar.getInstance().timeInMillis.toString());
+        if (restart) {
+            if (c.before(Calendar.getInstance())) {
+                c.add(Calendar.DATE, 1)
+            }
+            Log.d("OTHER", "ALARM")
+            Log.d("ALARM 1", alarm.time.toString())
+            Log.d("ALARM 2", c.timeInMillis.toString())
+            alarmManager.setAlarmClock(
+                AlarmClockInfo(alarm.time, pendingIntent),
+                pendingIntent
+            )
+        } else {
+            if (c.before(Calendar.getInstance())) {
+                c.add(Calendar.DATE, 1)
+            }
+            Log.d("ALARM 1", alarm.time.toString());
+            Log.d("ALARM 2", c.timeInMillis.toString());
+            alarmManager.setAlarmClock(
+                AlarmClockInfo(c.timeInMillis, pendingIntent),
+                pendingIntent
+            )
         }
-        alarmManager.setAlarmClock(
-            AlarmClockInfo(c.timeInMillis, pendingIntent),
-            pendingIntent
-        )
-
     }
 
     /**

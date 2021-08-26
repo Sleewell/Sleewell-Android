@@ -80,7 +80,7 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
      * @author Romane Bézier
      */
     override fun startNewAlarm(alarm: Alarm) {
-        view?.startAlarm(alarm)
+        view?.startAlarm(alarm, false)
     }
 
     /**
@@ -92,8 +92,8 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
      * @param alarm Current alarm.
      * @author Romane Bézier
      */
-    override fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, alarm: Alarm) {
-        model.startAlarm(alarmManager, intent, context, alarm)
+    override fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, alarm: Alarm, restart: Boolean) {
+        model.startAlarm(alarmManager, intent, context, alarm, restart)
     }
 
     /**

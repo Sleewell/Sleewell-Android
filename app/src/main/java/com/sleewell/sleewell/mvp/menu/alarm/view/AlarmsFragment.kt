@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -393,7 +394,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             initStopAlarm(alarmManager, currentAlarm)
             initStopAlert(alarmManager, currentAlarm)
 
-            initStartAlarm(alarmManager, updateAlarm)
+            initStartAlarm(alarmManager, updateAlarm, false)
             initStartAlert(alarmManager, updateAlarm)
         }
     }
@@ -464,7 +465,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
      * @param currentAlarm Alarm to start.
      * @author Romane Bézier
      */
-    override fun startAlarm(currentAlarm: Alarm) {
+    override fun startAlarm(currentAlarm: Alarm, restart: Boolean) {
 
         val updateAlarm = Alarm(
             currentAlarm.id,
@@ -479,7 +480,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         presenter.updateAlarm(updateAlarm, mAlarmViewModel)
 
         val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        initStartAlarm(alarmManager, updateAlarm)
+        initStartAlarm(alarmManager, updateAlarm, restart)
         initStartAlert(alarmManager, updateAlarm)
     }
 
@@ -576,12 +577,12 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
      * @param currentAlarm Alarm to start.
      * @author Romane Bézier
      */
-    private fun initStartAlarm(alarmManager: AlarmManager, currentAlarm: Alarm) {
+    private fun initStartAlarm(alarmManager: AlarmManager, currentAlarm: Alarm, restart: Boolean) {
         val intentAlarm = Intent(context, AlarmReceiver::class.java)
         val bundle = Bundle()
         bundle.putParcelable("alarm", currentAlarm)
         intentAlarm.putExtra("ALARM", bundle)
-        presenter.startAlarm(alarmManager, intentAlarm, requireContext(), currentAlarm)
+        presenter.startAlarm(alarmManager, intentAlarm, requireContext(), currentAlarm, restart)
     }
 
     /**
