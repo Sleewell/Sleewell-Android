@@ -85,13 +85,16 @@
                 app:layout_constraintBottom_toBottomOf="@id/avatar"
                 app:layout_constraintStart_toStartOf="@id/avatar" />
 
-            <ImageView
+            <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/avatar"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="25dp"
                 android:background="@drawable/shape_oval_stroke"
                 android:src="@drawable/logo_sleewell"
+                app:riv_oval="true"
+                app:riv_corner_radius="20dp"
+                android:scaleType="fitCenter"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView3"/>
