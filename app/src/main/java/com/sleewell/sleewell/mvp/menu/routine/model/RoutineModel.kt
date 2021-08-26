@@ -119,10 +119,14 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         if (routine.state != RoutineState.NEW.ordinal) {
             routine.state = RoutineState.UPDATE.ordinal
         }
-        db.updateRoutine(routine)
+        CoroutineScope(Dispatchers.IO).launch {
+            db.updateRoutine(routine)
+        }
         aList[nbr] = routine
         aList[nbr].state = RoutineState.UPDATE.ordinal
-        adapter.notifyDataSetChanged()
+        CoroutineScope(Dispatchers.Main).launch {
+            adapter.notifyDataSetChanged()
+        }
     }
 
     override fun updateSelectedItemRoutine(nbr: Int) {
@@ -564,9 +568,7 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         musicSwitch.setOnCheckedChangeListener { _, isChecked ->
             val routine = aList[nbr]
             routine.useMusic = isChecked
-            CoroutineScope(Dispatchers.IO).launch {
-                updateItemRoutine(routine, nbr)
-            }
+            updateItemRoutine(routine, nbr)
             setDialogMusic(dialog, nbr, fragmentManager, fragment)
         }
         selectMusic.setOnClickListener {

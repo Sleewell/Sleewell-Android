@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.spotify.view.SpotifyFragment
 import com.sleewell.sleewell.mvp.menu.routine.RoutineContract
 import com.sleewell.sleewell.mvp.menu.routine.RoutineListAdapter
@@ -56,7 +57,10 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
             presenter.createNewItemRoutine(fragmentManager, this)
         }
 
-        presenter.updateAdapter()
+        if (MainActivity.accessTokenSleewell.isNotEmpty())
+            presenter.updateAdapter()
+        else
+            btn.visibility = View.INVISIBLE
     }
 
     private fun initSettingButton() {

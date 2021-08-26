@@ -15,7 +15,15 @@ class RegisterModel(context: Context) : RegisterContract.Model {
     private var api : ILoginApi? = ApiClientSleewell.retrofit.create(ILoginApi::class.java)
     private val TAG = "RegisterModel"
 
+    private var isRegistering = false
+
     override fun registerToSleewellApi(onFinishedListener: RegisterContract.Model.OnFinishedListener, loginId: String, password: String, email: String, firstName: String, lastName: String) {
+        if (isRegistering) {
+            Log.e(TAG, "Please wait for other registration to finish")
+            return
+        }
+
+        isRegistering = true
         val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
 
         builder.addFormDataPart("login", loginId)
@@ -34,6 +42,7 @@ class RegisterModel(context: Context) : RegisterContract.Model {
             override fun onResponse(call: Call<ResultRegisterSleewell>, response: retrofit2.Response<ResultRegisterSleewell>) {
                 val responseRes: ResultRegisterSleewell? = response.body()
 
+                isRegistering = false
                 if (responseRes == null) {
                     Log.e(TAG, "Body null error")
                     Log.e(TAG, "Code : " + response.code())
@@ -45,6 +54,7 @@ class RegisterModel(context: Context) : RegisterContract.Model {
             }
 
             override fun onFailure(call: Call<ResultRegisterSleewell>, t: Throwable) {
+                isRegistering = false
                 Log.e(TAG, t.toString())
                 onFinishedListener.onFailure(t)
             }

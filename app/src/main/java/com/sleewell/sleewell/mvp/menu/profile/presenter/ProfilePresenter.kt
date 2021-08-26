@@ -18,7 +18,7 @@ import com.sleewell.sleewell.mvp.menu.profile.model.ProfileModel
 class ProfilePresenter(view: ProfileContract.View, context: Context) : ProfileContract.Presenter {
 
     private var view: ProfileContract.View? = view
-    private var model: ProfileContract.Model = ProfileModel()
+    private var model: ProfileContract.Model = ProfileModel(context)
 
     private var username: String = ""
     private var firstName: String = ""
@@ -79,5 +79,10 @@ class ProfilePresenter(view: ProfileContract.View, context: Context) : ProfileCo
 
     override fun setEmail(email: String?) {
         if (email != null) { this.email = email }
+    }
+
+    override fun logoutUser() {
+        model.removeToken()
+        model.deleteAllNightData()
     }
 }

@@ -12,7 +12,7 @@ class ApiClient {
 
         private var logging = run {
             val httpLoggingInterceptor = HttpLoggingInterceptor {message ->
-                Log.d("API CLIENT", message)
+                //Log.d("API CLIENT", message)
             }
             httpLoggingInterceptor.apply {
                 httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
