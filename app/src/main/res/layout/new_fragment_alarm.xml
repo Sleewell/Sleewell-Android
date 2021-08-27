@@ -267,6 +267,7 @@
                     android:textColorHint="@color/textOnBackground"
                     android:textSize="14sp"
                     android:visibility="invisible"
+                    android:textColor="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/label_modify_alarm"

@@ -124,13 +124,13 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/usernameInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="30dp"
                 android:visibility="invisible"
+                app:boxStrokeColor="@color/colorPrimary"
                 app:boxBackgroundColor="@color/colorPrimaryDark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -143,18 +143,16 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito"
                     android:hint="@string/editTextHintLogin"
+                    android:textColor="@color/text_input_label"
                     android:inputType="textAutoComplete"
                     android:maxLines="1"
                     android:imeOptions="actionDone"
-                    android:textColor="@color/colorPrimary"
-                    android:textColorHint="@color/colorPrimary"
                     android:visibility="invisible"
                     tools:visibility="invisible" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/firstNameInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
@@ -174,17 +172,15 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito"
                     android:hint="@string/editTextHintFirstName"
+                    android:textColor="@color/text_input_label"
                     android:inputType="textPersonName"
                     android:imeOptions="actionDone"
-                    android:textColor="@color/colorPrimary"
-                    android:textColorHint="@color/colorPrimary"
                     android:visibility="invisible"
                     tools:visibility="invisible" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/lastNameInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -202,17 +198,15 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito"
                     android:hint="@string/editTextHintLastName"
+                    android:textColor="@color/text_input_label"
                     android:inputType="textPersonName"
                     android:imeOptions="actionDone"
-                    android:textColor="@color/colorPrimary"
-                    android:textColorHint="@color/colorPrimary"
                     android:visibility="invisible"
                     tools:visibility="invisible" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/emailInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
@@ -229,17 +223,11 @@
                     android:id="@+id/emailEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/transparent"
-                    android:cursorVisible="true"
-                    android:editable="true"
-                    android:enabled="true"
-                    android:focusable="true"
                     android:fontFamily="@font/nunito"
                     android:hint="@string/editTextHintEmail"
+                    android:textColor="@color/text_input_label"
                     android:inputType="textEmailAddress"
-                    android:imeOptions="actionDone"
-                    android:textColor="@color/colorPrimary"
-                    android:textColorHint="@color/colorPrimary" />
+                    android:imeOptions="actionDone"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <ProgressBar
