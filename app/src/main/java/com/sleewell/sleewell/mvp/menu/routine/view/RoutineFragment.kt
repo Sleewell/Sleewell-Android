@@ -38,8 +38,8 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
         return root
     }
 
-    override fun sendInput(musicName: String, musicUri : String, tag : String?) {
-        presenter.updateSpotifyMusicSelected(musicName, musicUri, tag)
+    override fun sendInput(musicName: String, musicUri : String, musicImage : String,tag : String?) {
+        presenter.updateSpotifyMusicSelected(musicName, musicUri, musicImage, tag)
     }
 
     override fun sendInput(musicName: String, tag: String?) {

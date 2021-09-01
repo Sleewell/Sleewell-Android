@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e0539dce5546036074624d56e09b6ad5",
+    "identityHash": "25889c76057a3acb98debc4acdbe024c",
     "entities": [
       {
         "tableName": "Routine",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `apiId` INTEGER NOT NULL, `isSelected` INTEGER NOT NULL, `colorRed` INTEGER NOT NULL, `colorGreen` INTEGER NOT NULL, `colorBlue` INTEGER NOT NULL, `useHalo` INTEGER NOT NULL, `duration` INTEGER NOT NULL, `useMusic` INTEGER NOT NULL, `player` TEXT NOT NULL, `musicName` TEXT NOT NULL, `musicUri` TEXT NOT NULL, `name` TEXT NOT NULL, `state` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `apiId` INTEGER NOT NULL, `isSelected` INTEGER NOT NULL, `colorRed` INTEGER NOT NULL, `colorGreen` INTEGER NOT NULL, `colorBlue` INTEGER NOT NULL, `useHalo` INTEGER NOT NULL, `duration` INTEGER NOT NULL, `useMusic` INTEGER NOT NULL, `player` TEXT NOT NULL, `musicName` TEXT NOT NULL, `musicUri` TEXT NOT NULL, `name` TEXT NOT NULL, `state` INTEGER NOT NULL, `image` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "uId",
@@ -91,6 +91,12 @@
             "columnName": "state",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "image",
+            "columnName": "image",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -106,7 +112,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e0539dce5546036074624d56e09b6ad5')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '25889c76057a3acb98debc4acdbe024c')"
     ]
   }
 }

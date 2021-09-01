@@ -8,6 +8,7 @@ import com.sleewell.sleewell.R
 class HolderRoutine(v: View?)  {
 
     var title: TextView? = v!!.findViewById(R.id.item_routine_title)
+    var image: ImageView? = v!!.findViewById(R.id.item_routine_images)
     var halo_icon: ImageView? = v!!.findViewById(R.id.item_routine_halo_icon)
     var halo: ImageView? = v!!.findViewById(R.id.item_routine_halo)
     var music: ImageView? = v!!.findViewById(R.id.item_routine_music)
