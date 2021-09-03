@@ -268,6 +268,7 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
+                        android:layout_marginEnd="16dp"
                         android:visibility="invisible" />
                 </LinearLayout>
 
@@ -305,13 +306,13 @@
                     android:id="@+id/button_validate_modify"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/validate"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
+                    android:background="@color/transparent"
+                    android:text="@string/validate"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:visibility="invisible"
-                    android:background="@color/transparent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/editText_modify_alarm" />
@@ -476,6 +477,7 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
+                        android:layout_marginEnd="16dp"
                         android:visibility="invisible" />
                 </LinearLayout>
 
@@ -513,13 +515,13 @@
                     android:id="@+id/button_validate_create"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/validate"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
+                    android:background="@color/transparent"
+                    android:text="@string/validate"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:visibility="invisible"
-                    android:background="@color/transparent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/editText_create_alarm" />
