@@ -250,13 +250,14 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         changeVisibilityLayoutsAlarm()
 
         val days = listOf(
-            daypicker_create_layout.tM.isChecked,
-            daypicker_create_layout.tT.isChecked,
-            daypicker_create_layout.tW.isChecked,
-            daypicker_create_layout.tTh.isChecked,
-            daypicker_create_layout.tF.isChecked,
-            daypicker_create_layout.tS.isChecked,
-            daypicker_create_layout.tSu.isChecked
+            false,
+            // daypicker_create_layout.tM.isChecked,
+            //   daypicker_create_layout.tT.isChecked,
+            //   daypicker_create_layout.tW.isChecked,
+            //     daypicker_create_layout.tTh.isChecked,
+            //      daypicker_create_layout.tF.isChecked,
+            //      daypicker_create_layout.tS.isChecked,
+            //        daypicker_create_layout.tSu.isChecked
         )
 
         if (days.contains(true)) {
@@ -365,13 +366,14 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         presenter.getTime(time_picker_modify_alarm.hour, time_picker_modify_alarm.minute)
 
         val days = listOf(
-            daypicker_modify_layout.tM.isChecked,
-            daypicker_modify_layout.tT.isChecked,
-            daypicker_modify_layout.tW.isChecked,
-            daypicker_modify_layout.tTh.isChecked,
-            daypicker_modify_layout.tF.isChecked,
-            daypicker_modify_layout.tS.isChecked,
-            daypicker_modify_layout.tSu.isChecked
+            false
+            //  daypicker_modify_layout.tM.isChecked,
+            //   daypicker_modify_layout.tT.isChecked,
+            //   daypicker_modify_layout.tW.isChecked,
+            //    daypicker_modify_layout.tTh.isChecked,
+            //    daypicker_modify_layout.tF.isChecked,
+            //    daypicker_modify_layout.tS.isChecked,
+            //    daypicker_modify_layout.tSu.isChecked
         )
 
         val updateAlarm = Alarm(
@@ -425,13 +427,13 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         val editable: Editable = SpannableStringBuilder(currentAlarm.label)
         editText_modify_alarm.text = editable
 
-        daypicker_modify_layout.tM.isChecked = currentAlarm.days[0]
-        daypicker_modify_layout.tT.isChecked = currentAlarm.days[1]
-        daypicker_modify_layout.tW.isChecked = currentAlarm.days[2]
-        daypicker_modify_layout.tTh.isChecked = currentAlarm.days[3]
-        daypicker_modify_layout.tF.isChecked = currentAlarm.days[4]
-        daypicker_modify_layout.tS.isChecked = currentAlarm.days[5]
-        daypicker_modify_layout.tSu.isChecked = currentAlarm.days[6]
+        //daypicker_modify_layout.tM.isChecked = currentAlarm.days[0]
+        //daypicker_modify_layout.tT.isChecked = currentAlarm.days[1]
+        // daypicker_modify_layout.tW.isChecked = currentAlarm.days[2]
+        // daypicker_modify_layout.tTh.isChecked = currentAlarm.days[3]
+        // daypicker_modify_layout.tF.isChecked = currentAlarm.days[4]
+        // daypicker_modify_layout.tS.isChecked = currentAlarm.days[5]
+        // daypicker_modify_layout.tSu.isChecked = currentAlarm.days[6]
 
         validateupdateAlarm.setOnClickListener {
             funcValidateUpdateAlarm(currentAlarm)
@@ -710,8 +712,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         layoutCreate.visibility = View.VISIBLE
         toolbar_create_alarm.visibility = View.VISIBLE
         time_picker_create_alarm.visibility = View.VISIBLE
-        repeat_create_text.visibility = View.VISIBLE
-        daypicker_create_layout.visibility = View.VISIBLE
+//        repeat_create_text.visibility = View.VISIBLE
+//        daypicker_create_layout.visibility = View.VISIBLE
         create_alarm_ringtone.visibility = View.VISIBLE
         spinner_create_alarm.visibility = View.VISIBLE
         create_vibrate.visibility = View.VISIBLE
@@ -724,8 +726,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         add_alarm_button.hide()
         toolbar_modify_alarm.visibility = View.INVISIBLE
         time_picker_modify_alarm.visibility = View.INVISIBLE
-        repeat_modify_text.visibility = View.INVISIBLE
-        daypicker_modify_layout.visibility = View.INVISIBLE
+//        repeat_modify_text.visibility = View.INVISIBLE
+//        daypicker_modify_layout.visibility = View.INVISIBLE
         modify_alarm_ringtone.visibility = View.INVISIBLE
         spinner_modify_alarm.visibility = View.INVISIBLE
         modify_vibrate.visibility = View.INVISIBLE
@@ -754,8 +756,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         layoutModify.visibility = View.VISIBLE
         toolbar_create_alarm.visibility = View.INVISIBLE
         time_picker_create_alarm.visibility = View.INVISIBLE
-        repeat_create_text.visibility = View.INVISIBLE
-        daypicker_create_layout.visibility = View.INVISIBLE
+//        repeat_create_text.visibility = View.INVISIBLE
+//        daypicker_create_layout.visibility = View.INVISIBLE
         create_alarm_ringtone.visibility = View.INVISIBLE
         spinner_create_alarm.visibility = View.INVISIBLE
         create_vibrate.visibility = View.INVISIBLE
@@ -768,8 +770,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         add_alarm_button.hide()
         toolbar_modify_alarm.visibility = View.VISIBLE
         time_picker_modify_alarm.visibility = View.VISIBLE
-        repeat_modify_text.visibility = View.VISIBLE
-        daypicker_modify_layout.visibility = View.VISIBLE
+//        repeat_modify_text.visibility = View.VISIBLE
+//        daypicker_modify_layout.visibility = View.VISIBLE
         modify_alarm_ringtone.visibility = View.VISIBLE
         spinner_modify_alarm.visibility = View.VISIBLE
         modify_vibrate.visibility = View.VISIBLE
@@ -790,8 +792,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         layoutHome.visibility = View.VISIBLE
         toolbar_create_alarm.visibility = View.INVISIBLE
         time_picker_create_alarm.visibility = View.INVISIBLE
-        repeat_create_text.visibility = View.INVISIBLE
-        daypicker_create_layout.visibility = View.INVISIBLE
+//        repeat_create_text.visibility = View.INVISIBLE
+        //       daypicker_create_layout.visibility = View.INVISIBLE
         create_alarm_ringtone.visibility = View.INVISIBLE
         spinner_create_alarm.visibility = View.INVISIBLE
         create_vibrate.visibility = View.INVISIBLE
@@ -803,8 +805,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         add_alarm_button.show()
         toolbar_modify_alarm.visibility = View.INVISIBLE
         time_picker_modify_alarm.visibility = View.INVISIBLE
-        repeat_modify_text.visibility = View.INVISIBLE
-        daypicker_modify_layout.visibility = View.INVISIBLE
+        //     repeat_modify_text.visibility = View.INVISIBLE
+        //     daypicker_modify_layout.visibility = View.INVISIBLE
         modify_alarm_ringtone.visibility = View.INVISIBLE
         spinner_modify_alarm.visibility = View.INVISIBLE
         modify_vibrate.visibility = View.INVISIBLE

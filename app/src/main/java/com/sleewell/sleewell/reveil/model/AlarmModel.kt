@@ -106,15 +106,10 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
-        Log.d("CALTIME", c.timeInMillis.toString());
-        Log.d("ACTTIME", Calendar.getInstance().timeInMillis.toString());
         if (restart) {
             if (c.before(Calendar.getInstance())) {
                 c.add(Calendar.DATE, 1)
             }
-            Log.d("OTHER", "ALARM")
-            Log.d("ALARM 1", alarm.time.toString())
-            Log.d("ALARM 2", c.timeInMillis.toString())
             alarmManager.setAlarmClock(
                 AlarmClockInfo(alarm.time, pendingIntent),
                 pendingIntent
@@ -123,8 +118,6 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
             if (c.before(Calendar.getInstance())) {
                 c.add(Calendar.DATE, 1)
             }
-            Log.d("ALARM 1", alarm.time.toString());
-            Log.d("ALARM 2", c.timeInMillis.toString());
             alarmManager.setAlarmClock(
                 AlarmClockInfo(c.timeInMillis, pendingIntent),
                 pendingIntent
