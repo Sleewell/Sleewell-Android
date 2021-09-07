@@ -6,6 +6,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.spotify.view.SpotifyFragment
@@ -21,6 +22,7 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
 
     private lateinit var btn: ImageButton
     private lateinit var listView: ListView
+    private lateinit var refreshLayout: SwipeRefreshLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,6 +57,13 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
         btn = root.findViewById(R.id.button)
         btn.setOnClickListener {
             presenter.createNewItemRoutine(fragmentManager, this)
+        }
+
+        refreshLayout = root.findViewById(R.id.refreshLayoutRoutine)
+
+        refreshLayout.setOnRefreshListener {
+            presenter.updateAdapter()
+            refreshLayout.isRefreshing = false
         }
 
         if (MainActivity.accessTokenSleewell.isNotEmpty())
