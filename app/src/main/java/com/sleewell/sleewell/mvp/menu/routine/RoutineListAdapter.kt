@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.sleewell.sleewell.R.drawable.*
 import com.sleewell.sleewell.database.routine.entities.Routine
+import com.sleewell.sleewell.mvp.spotify.LoaderUrlImage
 
 
 class RoutineListAdapter(context: Context, aList: ArrayList<Routine>) : BaseAdapter()  {
@@ -28,6 +29,10 @@ class RoutineListAdapter(context: Context, aList: ArrayList<Routine>) : BaseAdap
             holder.title!!.text = "Routine " + aList[position].apiId.toString()
         } else {
             holder.title!!.text = aList[position].name
+        }
+
+        if (aList[position].imagePlaylist.isNotEmpty()) {
+            LoaderUrlImage().downloadImage(context, aList[position].imagePlaylist, holder.image)
         }
 
         if (aList[position].useMusic) {
