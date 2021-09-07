@@ -159,6 +159,7 @@
     <string name="check">Check</string>
     <string name="ringtone">Ringtone</string>
     <string name="deleteall">deleteAll</string>
+    <string name="validate">VALIDATE</string>
     <string name="my_alarms">My Alarms</string>
     <string name="my_routines">My Routines</string>
     <!-- Preference Titles -->

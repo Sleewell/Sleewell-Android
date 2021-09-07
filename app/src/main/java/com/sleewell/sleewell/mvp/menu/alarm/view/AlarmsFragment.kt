@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.mvp.menu.alarm.view
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.AlertDialog
 import android.content.Context
@@ -9,13 +10,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -42,7 +43,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     private lateinit var mAlarmViewModel: AlarmViewModel
     private lateinit var presenter: AlarmContract.Presenter
     private lateinit var validateupdateAlarm: ImageView
+    private lateinit var buttonValidateUpdateAlarm: Button
     private lateinit var validatesaveAlarm: ImageView
+    private lateinit var buttonValidateSaveAlarm: Button
     private lateinit var ringtone: Uri
 
     private lateinit var layoutCreate: ConstraintLayout
@@ -50,13 +53,16 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     private lateinit var layoutHome: ConstraintLayout
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         lateinit var instance: AlarmsFragment
     }
 
     /**
-     * When view is created
+     * Called to have the fragment instantiate its user interface view.
      *
-     * @param savedInstanceState Save of the instance state
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view. This value may be null.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
      */
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,7 +77,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
 
         ringtone = RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_ALARM)
         validatesaveAlarm = root.findViewById(R.id.validate_create_alarm)
+        buttonValidateSaveAlarm = root.findViewById(R.id.button_validate_create)
         validateupdateAlarm = root.findViewById(R.id.validate_modify_alarm)
+        buttonValidateUpdateAlarm = root.findViewById(R.id.button_validate_modify)
         layoutCreate = root.findViewById(R.id.layout_create_alarm)
         layoutModify = root.findViewById(R.id.layout_modify_alarm)
         layoutHome = root.findViewById(R.id.layout_alarm)
@@ -82,17 +90,17 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             createAlarm(root)
         }
 
-        val toolbarCreateAlarm : Toolbar = root.findViewById(R.id.toolbar_create_alarm)
+        val toolbarCreateAlarm: Toolbar = root.findViewById(R.id.toolbar_create_alarm)
         toolbarCreateAlarm.setNavigationOnClickListener {
             changeVisibilityLayoutsAlarm()
         }
 
-        val toolbarModifyAlarm : Toolbar = root.findViewById(R.id.toolbar_modify_alarm)
+        val toolbarModifyAlarm: Toolbar = root.findViewById(R.id.toolbar_modify_alarm)
         toolbarModifyAlarm.setNavigationOnClickListener {
             changeVisibilityLayoutsAlarm()
         }
 
-        val checkBoxAllAlarms : CheckBox = root.findViewById(R.id.checkBoxAllAlarms)
+        val checkBoxAllAlarms: CheckBox = root.findViewById(R.id.checkBoxAllAlarms)
         checkBoxAllAlarms.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked)
                 checkAllAlarms()
@@ -101,9 +109,12 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             }
         }
 
-        val spinnerCreateAlarm : Button = root.findViewById(R.id.spinner_create_alarm)
+        val spinnerCreateAlarm: Button = root.findViewById(R.id.spinner_create_alarm)
         spinnerCreateAlarm.setOnClickListener {
-            val ringtonePickerBuilder = RingtonePickerDialog.Builder(context!!, fragmentManager!!)
+            val ringtonePickerBuilder = RingtonePickerDialog.Builder(
+                context!!,
+                parentFragmentManager
+            )
             ringtonePickerBuilder.setTitle("Select ringtone")
             ringtonePickerBuilder.addRingtoneType(RingtonePickerDialog.Builder.TYPE_ALARM)
             ringtonePickerBuilder.setPositiveButtonText("SET RINGTONE")
@@ -116,9 +127,11 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             ringtonePickerBuilder.show()
         }
 
-        val spinnerModifyAlarm : Button = root.findViewById(R.id.spinner_modify_alarm)
+        val spinnerModifyAlarm: Button = root.findViewById(R.id.spinner_modify_alarm)
         spinnerModifyAlarm.setOnClickListener {
-            val ringtonePickerBuilder = RingtonePickerDialog.Builder(context!!, fragmentManager!!)
+            val ringtonePickerBuilder = RingtonePickerDialog.Builder(context!!,
+                parentFragmentManager
+            )
             ringtonePickerBuilder.setTitle("Select ringtone")
             ringtonePickerBuilder.addRingtoneType(RingtonePickerDialog.Builder.TYPE_ALARM)
             ringtonePickerBuilder.setPositiveButtonText("SET RINGTONE")
@@ -142,7 +155,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             )
         )
 
-        val deleteSelectedButton : ImageView = root.findViewById(R.id.deleteSelectedButton)
+        val deleteSelectedButton: ImageView = root.findViewById(R.id.deleteSelectedButton)
         deleteSelectedButton.setOnClickListener {
             deleteSelectedAlarms(adapter)
         }
@@ -156,6 +169,16 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         return root
     }
 
+    /**
+     * Set the alarm with specifics days.
+     *
+     * @param dayOfWeek Day of the week the alarm need to be create.
+     * @param calendar Calendar use to create the alarm.
+     * @param timePicker Time picker use to create the alarm.
+     * @param days Days the alarm need to be activated.
+     * @param index Index of the alarm.
+     * @author Romane Bézier
+     */
     private fun setAlarmWithDay(
         dayOfWeek: Int,
         calendar: Calendar,
@@ -182,7 +205,19 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         )
     }
 
-    private fun setAlarmWithoutDay(calendar: Calendar, timePicker: TimePicker, days: List<Boolean>) {
+    /**
+     * Set the alarm without specific days.
+     *
+     * @param calendar Calendar use to create the alarm.
+     * @param timePicker Time picker use to create the alarm.
+     * @param days Days the alarm need to be activated.
+     * @author Romane Bézier
+     */
+    private fun setAlarmWithoutDay(
+        calendar: Calendar,
+        timePicker: TimePicker,
+        days: List<Boolean>
+    ) {
         calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
         calendar.set(Calendar.MINUTE, timePicker.minute)
         calendar.set(Calendar.SECOND, 0)
@@ -203,45 +238,72 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         )
     }
 
+    /**
+     * Validate the save of the alarm.
+     *
+     * @param calendar Calendar use to save the alarm.
+     * @param timePicker Time picker use to save the alarm.
+     * @author Romane Bézier
+     */
+    private fun funcValidateSaveAlarm(calendar: Calendar, timePicker: TimePicker) {
+
+        changeVisibilityLayoutsAlarm()
+
+        val days = listOf(
+            false,
+            // daypicker_create_layout.tM.isChecked,
+            //   daypicker_create_layout.tT.isChecked,
+            //   daypicker_create_layout.tW.isChecked,
+            //     daypicker_create_layout.tTh.isChecked,
+            //      daypicker_create_layout.tF.isChecked,
+            //      daypicker_create_layout.tS.isChecked,
+            //        daypicker_create_layout.tSu.isChecked
+        )
+
+        if (days.contains(true)) {
+            var i = 0
+            var index = 0
+            while (i < days.size) {
+                if (days[i] && i < 6) {
+                    setAlarmWithDay(i + 2, calendar, timePicker, days, index)
+                    index++
+                } else if (days[i] && i == 6) {
+                    setAlarmWithDay(1, calendar, timePicker, days, index)
+                    index++
+                }
+                i++
+            }
+        } else {
+            setAlarmWithoutDay(calendar, timePicker, days)
+        }
+    }
+
+    /**
+     * Create the alarm.
+     *
+     * @param root The view of the alarm.
+     * @author Romane Bézier
+     */
     private fun createAlarm(root: View) {
         val calendar = Calendar.getInstance()
-        val timePicker : TimePicker = root.findViewById(R.id.time_picker_create_alarm)
+        val timePicker: TimePicker = root.findViewById(R.id.time_picker_create_alarm)
         timePicker.setIs24HourView(true)
         timePicker.hour = calendar.get(Calendar.HOUR_OF_DAY)
         timePicker.minute = calendar.get(Calendar.MINUTE)
 
         validatesaveAlarm.setOnClickListener {
-            changeVisibilityLayoutsAlarm()
-
-            val days = listOf(
-                daypicker_create_layout.tM.isChecked,
-                daypicker_create_layout.tT.isChecked,
-                daypicker_create_layout.tW.isChecked,
-                daypicker_create_layout.tTh.isChecked,
-                daypicker_create_layout.tF.isChecked,
-                daypicker_create_layout.tS.isChecked,
-                daypicker_create_layout.tSu.isChecked
-            )
-
-            if (days.contains(true)) {
-                var i = 0
-                var index = 0
-                while (i < days.size) {
-                    if (days[i] && i < 6) {
-                        setAlarmWithDay(i + 2, calendar, timePicker, days, index)
-                        index++
-                    } else if (days[i] && i == 6) {
-                        setAlarmWithDay(1, calendar, timePicker, days, index)
-                        index++
-                    }
-                    i++
-                }
-            } else {
-                setAlarmWithoutDay(calendar, timePicker, days)
-            }
+            funcValidateSaveAlarm(calendar, timePicker)
+        }
+        buttonValidateSaveAlarm.setOnClickListener {
+            funcValidateSaveAlarm(calendar, timePicker)
         }
     }
 
+    /**
+     * Switch all the check box of the alarms to true.
+     *
+     * @author Romane Bézier
+     */
     private fun checkAllAlarms() {
         val childCount = recyclerView_alarm.childCount
         var i = 0
@@ -252,6 +314,11 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         }
     }
 
+    /**
+     * Switch all the check box of the alarms to false.
+     *
+     * @author Romane Bézier
+     */
     private fun uncheckAllAlarms() {
         val childCount = recyclerView_alarm.childCount
         var i = 0
@@ -262,8 +329,13 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         }
     }
 
+    /**
+     * Delete all the alarms selected.
+     *
+     * @param adapter Adapter of the recycler view of the alarm.
+     */
     private fun deleteSelectedAlarms(adapter: ListAdapter) {
-        var alarmList = adapter.getAlarmList()
+        val alarmList = adapter.getAlarmList()
         val childCount = recyclerView_alarm.childCount
         var i = 0
         while (i < childCount) {
@@ -277,15 +349,70 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Update the alarm
+     * Validate update of the alarm.
      *
-     * @param currentAlarm Alarm to update
+     * @param currentAlarm Current alarm that is updated.
      * @author Romane Bézier
      */
+    private fun funcValidateUpdateAlarm(currentAlarm: Alarm) {
+        changeVisibilityLayoutsAlarm()
+
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, time_picker_modify_alarm.hour)
+        calendar.set(Calendar.MINUTE, time_picker_modify_alarm.minute)
+        if (calendar.before(Calendar.getInstance())) {
+            calendar.add(Calendar.DATE, 1)
+        }
+        presenter.getTime(time_picker_modify_alarm.hour, time_picker_modify_alarm.minute)
+
+        val days = listOf(
+            false
+            //  daypicker_modify_layout.tM.isChecked,
+            //   daypicker_modify_layout.tT.isChecked,
+            //   daypicker_modify_layout.tW.isChecked,
+            //    daypicker_modify_layout.tTh.isChecked,
+            //    daypicker_modify_layout.tF.isChecked,
+            //    daypicker_modify_layout.tS.isChecked,
+            //    daypicker_modify_layout.tSu.isChecked
+        )
+
+        val updateAlarm = Alarm(
+            currentAlarm.id,
+            calendar.timeInMillis,
+            currentAlarm.activate,
+            days,
+            ringtone.toString(),
+            checkBox_modify_vibrate.isChecked,
+            editText_modify_alarm.text.toString(),
+            true
+        )
+
+        presenter.updateAlarm(updateAlarm, mAlarmViewModel)
+
+        if (currentAlarm.activate) {
+            val alarmManager =
+                requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+            initStopAlarm(alarmManager, currentAlarm)
+            initStopAlert(alarmManager, currentAlarm)
+
+            initStartAlarm(alarmManager, updateAlarm, false)
+            initStartAlert(alarmManager, updateAlarm)
+        }
+    }
+
+    /**
+     * Update the alarm.
+     *
+     * @param currentAlarm Current alarm that is updated.
+     * @author Romane Bézier
+     */
+    @SuppressLint("SimpleDateFormat")
     override fun updateAlarm(currentAlarm: Alarm) {
 
         changeVisibilityLayoutsModify()
-        spinner_modify_alarm.text = RingtoneManager.getRingtone(context, Uri.parse(currentAlarm.ringtone)).getTitle(context)
+        spinner_modify_alarm.text =
+            RingtoneManager.getRingtone(context, Uri.parse(currentAlarm.ringtone)).getTitle(context)
 
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = currentAlarm.time
@@ -300,67 +427,30 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         val editable: Editable = SpannableStringBuilder(currentAlarm.label)
         editText_modify_alarm.text = editable
 
-        daypicker_modify_layout.tM.isChecked = currentAlarm.days[0]
-        daypicker_modify_layout.tT.isChecked = currentAlarm.days[1]
-        daypicker_modify_layout.tW.isChecked = currentAlarm.days[2]
-        daypicker_modify_layout.tTh.isChecked = currentAlarm.days[3]
-        daypicker_modify_layout.tF.isChecked = currentAlarm.days[4]
-        daypicker_modify_layout.tS.isChecked = currentAlarm.days[5]
-        daypicker_modify_layout.tSu.isChecked = currentAlarm.days[6]
+        //daypicker_modify_layout.tM.isChecked = currentAlarm.days[0]
+        //daypicker_modify_layout.tT.isChecked = currentAlarm.days[1]
+        // daypicker_modify_layout.tW.isChecked = currentAlarm.days[2]
+        // daypicker_modify_layout.tTh.isChecked = currentAlarm.days[3]
+        // daypicker_modify_layout.tF.isChecked = currentAlarm.days[4]
+        // daypicker_modify_layout.tS.isChecked = currentAlarm.days[5]
+        // daypicker_modify_layout.tSu.isChecked = currentAlarm.days[6]
 
         validateupdateAlarm.setOnClickListener {
-            changeVisibilityLayoutsAlarm()
-
-            val calendar = Calendar.getInstance()
-            calendar.set(Calendar.HOUR_OF_DAY, time_picker_modify_alarm.hour)
-            calendar.set(Calendar.MINUTE, time_picker_modify_alarm.minute)
-            if (calendar.before(Calendar.getInstance())) {
-                calendar.add(Calendar.DATE, 1)
-            }
-            presenter.getTime(time_picker_modify_alarm.hour, time_picker_modify_alarm.minute)
-
-            val days = listOf(
-                daypicker_modify_layout.tM.isChecked,
-                daypicker_modify_layout.tT.isChecked,
-                daypicker_modify_layout.tW.isChecked,
-                daypicker_modify_layout.tTh.isChecked,
-                daypicker_modify_layout.tF.isChecked,
-                daypicker_modify_layout.tS.isChecked,
-                daypicker_modify_layout.tSu.isChecked
-            )
-
-            val updateAlarm = Alarm(
-                currentAlarm.id,
-                calendar.timeInMillis,
-                currentAlarm.activate,
-                days,
-                ringtone.toString(),
-                checkBox_modify_vibrate.isChecked,
-                editText_modify_alarm.text.toString(),
-                true
-            )
-
-            presenter.updateAlarm(updateAlarm, mAlarmViewModel)
-
-            if (currentAlarm.activate) {
-                val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-                initStopAlarm(alarmManager, currentAlarm)
-                initStopAlert(alarmManager, currentAlarm)
-
-                initStartAlarm(alarmManager, updateAlarm)
-                initStartAlert(alarmManager, updateAlarm)
-            }
+            funcValidateUpdateAlarm(currentAlarm)
+        }
+        buttonValidateUpdateAlarm.setOnClickListener {
+            funcValidateUpdateAlarm(currentAlarm)
         }
     }
 
     /**
-     * Convert the time to String
+     * Convert the time to String.
      *
-     * @param milliSeconds Time to convert
-     * @return Time in a String
+     * @param milliSeconds Time to convert.
+     * @return Time in a String.
      * @author Romane Bézier
      */
+    @SuppressLint("SimpleDateFormat")
     override fun convertTime(milliSeconds: Long): String? {
         // Create a DateFormatter object for displaying date in specified format.
         val formatter = SimpleDateFormat("HH:mm")
@@ -372,12 +462,12 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Start the alarm
+     * Start the alarm.
      *
-     * @param currentAlarm Alarm to start
+     * @param currentAlarm Alarm to start.
      * @author Romane Bézier
      */
-    override fun startAlarm(currentAlarm: Alarm) {
+    override fun startAlarm(currentAlarm: Alarm, restart: Boolean) {
 
         val updateAlarm = Alarm(
             currentAlarm.id,
@@ -392,14 +482,14 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         presenter.updateAlarm(updateAlarm, mAlarmViewModel)
 
         val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        initStartAlarm(alarmManager, updateAlarm)
+        initStartAlarm(alarmManager, updateAlarm, restart)
         initStartAlert(alarmManager, updateAlarm)
     }
 
     /**
-     * Snooze the alarm
+     * Snooze the alarm.
      *
-     * @param currentAlarm Alarm to snooze
+     * @param currentAlarm Alarm to snooze.
      * @author Romane Bézier
      */
     override fun snoozeAlarm(currentAlarm: Alarm) {
@@ -416,9 +506,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Stop the alarm
+     * Stop the alarm.
      *
-     * @param currentAlarm Alarm to stop
+     * @param currentAlarm Alarm to stop.
      * @author Romane Bézier
      */
     override fun stopAlarm(currentAlarm: Alarm) {
@@ -440,10 +530,10 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Delete the alarm
+     * Delete the alarm.
      *
-     * @param currentAlarm Alarm to delete
-     * @param selectedAlarm Selected the alarm are delete
+     * @param currentAlarm Alarm to delete.
+     * @param selectedAlarm Selected the alarm are delete.
      * @author Romane Bézier
      */
     override fun deleteAlarm(currentAlarm: Alarm, selectedAlarm: Boolean) {
@@ -452,7 +542,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             builder.setPositiveButton("Yes") { _, _ ->
                 presenter.deleteAlarm(mAlarmViewModel, currentAlarm)
                 if (currentAlarm.activate) {
-                    val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    val alarmManager =
+                        requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
                     initStopAlarm(alarmManager, currentAlarm)
                     initStopAlert(alarmManager, currentAlarm)
                 }
@@ -464,7 +555,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         } else {
             presenter.deleteAlarm(mAlarmViewModel, currentAlarm)
             if (currentAlarm.activate) {
-                val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val alarmManager =
+                    requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
                 initStopAlarm(alarmManager, currentAlarm)
                 initStopAlert(alarmManager, currentAlarm)
             }
@@ -481,25 +573,25 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Prepare the starting of the alarm
+     * Prepare the starting of the alarm.
      *
-     * @param alarmManager Alarm manager for the alarms
-     * @param currentAlarm Alarm to start
+     * @param alarmManager Alarm manager for the alarms.
+     * @param currentAlarm Alarm to start.
      * @author Romane Bézier
      */
-    private fun initStartAlarm(alarmManager: AlarmManager, currentAlarm: Alarm) {
+    private fun initStartAlarm(alarmManager: AlarmManager, currentAlarm: Alarm, restart: Boolean) {
         val intentAlarm = Intent(context, AlarmReceiver::class.java)
         val bundle = Bundle()
         bundle.putParcelable("alarm", currentAlarm)
         intentAlarm.putExtra("ALARM", bundle)
-        presenter.startAlarm(alarmManager, intentAlarm, requireContext(), currentAlarm)
+        presenter.startAlarm(alarmManager, intentAlarm, requireContext(), currentAlarm, restart)
     }
 
     /**
-     * Prepare the starting of the lert
+     * Prepare the starting of the alert.
      *
-     * @param alarmManager Alarm manager for the alarms
-     * @param currentAlarm Alarm to start
+     * @param alarmManager Alarm manager for the alarms.
+     * @param currentAlarm Alarm to start.
      * @author Romane Bézier
      */
     private fun initStartAlert(alarmManager: AlarmManager, currentAlarm: Alarm) {
@@ -511,10 +603,10 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Prepare the stop of the alarm
+     * Prepare the stop of the alarm.
      *
-     * @param alarmManager Alarm manager for the alarms
-     * @param currentAlarm Alarm to stop
+     * @param alarmManager Alarm manager for the alarms.
+     * @param currentAlarm Alarm to stop.
      * @author Romane Bézier
      */
     private fun initStopAlarm(alarmManager: AlarmManager, currentAlarm: Alarm) {
@@ -526,10 +618,10 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Prepare the stop of the alert
+     * Prepare the stop of the alert.
      *
-     * @param alarmManager Alarm manager for the alarms
-     * @param currentAlarm Alarm to stop
+     * @param alarmManager Alarm manager for the alarms.
+     * @param currentAlarm Alarm to stop.
      * @author Romane Bézier
      */
     private fun initStopAlert(alarmManager: AlarmManager, currentAlarm: Alarm) {
@@ -540,14 +632,27 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         presenter.stopAlert(alarmManager, intentAlert, requireContext(), currentAlarm)
     }
 
+    /**
+     * Callback method to be invoked when an item in this view has been selected.
+     *
+     * @param parent The AdapterView where the selection happened
+     * @param view The view within the AdapterView that was clicked
+     * @param position The position of the view in the adapter
+     * @param id The row id of the item that is selected
+     */
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
     }
 
+    /**
+     * Callback method to be invoked when the selection disappears from this view.
+     *
+     * @param p0 The AdapterView that now contains no selected item.
+     */
     override fun onNothingSelected(p0: AdapterView<*>?) {
     }
 
     /**
-     * Change visibility holder
+     * Change visibility of the holder.
      *
      * @author Romane Bézier
      */
@@ -567,7 +672,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Check if the check boxed are not check
+     * Check if the check boxed are not check.
      *
      * @author Romane Bézier
      */
@@ -597,7 +702,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
-     * Change visibility of the layout alarm to create alarm
+     * Change visibility of the layout alarm to create alarm.
      *
      * @author Romane Bézier
      */
@@ -607,36 +712,41 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         layoutCreate.visibility = View.VISIBLE
         toolbar_create_alarm.visibility = View.VISIBLE
         time_picker_create_alarm.visibility = View.VISIBLE
-        repeat_create_text.visibility = View.VISIBLE
-        daypicker_create_layout.visibility = View.VISIBLE
+//        repeat_create_text.visibility = View.VISIBLE
+//        daypicker_create_layout.visibility = View.VISIBLE
         create_alarm_ringtone.visibility = View.VISIBLE
         spinner_create_alarm.visibility = View.VISIBLE
         create_vibrate.visibility = View.VISIBLE
         checkBox_create_vibrate.visibility = View.VISIBLE
         label_create_alarm.visibility = View.VISIBLE
         editText_create_alarm.visibility = View.VISIBLE
+        button_validate_create.visibility = View.VISIBLE
         recyclerView_alarm.visibility = View.INVISIBLE
         toolbar_alarm.visibility = View.INVISIBLE
         add_alarm_button.hide()
         toolbar_modify_alarm.visibility = View.INVISIBLE
         time_picker_modify_alarm.visibility = View.INVISIBLE
-        repeat_modify_text.visibility = View.INVISIBLE
-        daypicker_modify_layout.visibility = View.INVISIBLE
+//        repeat_modify_text.visibility = View.INVISIBLE
+//        daypicker_modify_layout.visibility = View.INVISIBLE
         modify_alarm_ringtone.visibility = View.INVISIBLE
         spinner_modify_alarm.visibility = View.INVISIBLE
         modify_vibrate.visibility = View.INVISIBLE
         checkBox_modify_vibrate.visibility = View.INVISIBLE
         label_modify_alarm.visibility = View.INVISIBLE
         editText_modify_alarm.visibility = View.INVISIBLE
+        button_validate_modify.visibility = View.INVISIBLE
         editText_create_alarm.text.clear()
         checkBox_create_vibrate.isChecked = true
 
-        val title = RingtoneManager.getRingtone(context, RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_ALARM)).getTitle(context)
+        val title = RingtoneManager.getRingtone(
+            context,
+            RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_ALARM)
+        ).getTitle(context)
         spinner_create_alarm.text = title
     }
 
     /**
-     * Change visibility of the layout alarm to modify alarm
+     * Change visibility of the layout alarm to modify alarm.
      *
      * @author Romane Bézier
      */
@@ -646,31 +756,33 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         layoutModify.visibility = View.VISIBLE
         toolbar_create_alarm.visibility = View.INVISIBLE
         time_picker_create_alarm.visibility = View.INVISIBLE
-        repeat_create_text.visibility = View.INVISIBLE
-        daypicker_create_layout.visibility = View.INVISIBLE
+//        repeat_create_text.visibility = View.INVISIBLE
+//        daypicker_create_layout.visibility = View.INVISIBLE
         create_alarm_ringtone.visibility = View.INVISIBLE
         spinner_create_alarm.visibility = View.INVISIBLE
         create_vibrate.visibility = View.INVISIBLE
         checkBox_create_vibrate.visibility = View.INVISIBLE
         label_create_alarm.visibility = View.INVISIBLE
         editText_create_alarm.visibility = View.INVISIBLE
+        button_validate_create.visibility = View.INVISIBLE
         recyclerView_alarm.visibility = View.INVISIBLE
         toolbar_alarm.visibility = View.INVISIBLE
         add_alarm_button.hide()
         toolbar_modify_alarm.visibility = View.VISIBLE
         time_picker_modify_alarm.visibility = View.VISIBLE
-        repeat_modify_text.visibility = View.VISIBLE
-        daypicker_modify_layout.visibility = View.VISIBLE
+//        repeat_modify_text.visibility = View.VISIBLE
+//        daypicker_modify_layout.visibility = View.VISIBLE
         modify_alarm_ringtone.visibility = View.VISIBLE
         spinner_modify_alarm.visibility = View.VISIBLE
         modify_vibrate.visibility = View.VISIBLE
         checkBox_modify_vibrate.visibility = View.VISIBLE
         label_modify_alarm.visibility = View.VISIBLE
         editText_modify_alarm.visibility = View.VISIBLE
+        button_validate_modify.visibility = View.VISIBLE
     }
 
     /**
-     * Change visibility of the layout alarm to show alarm
+     * Change visibility of the layout alarm to show alarm.
      *
      * @author Romane Bézier
      */
@@ -680,8 +792,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         layoutHome.visibility = View.VISIBLE
         toolbar_create_alarm.visibility = View.INVISIBLE
         time_picker_create_alarm.visibility = View.INVISIBLE
-        repeat_create_text.visibility = View.INVISIBLE
-        daypicker_create_layout.visibility = View.INVISIBLE
+//        repeat_create_text.visibility = View.INVISIBLE
+        //       daypicker_create_layout.visibility = View.INVISIBLE
         create_alarm_ringtone.visibility = View.INVISIBLE
         spinner_create_alarm.visibility = View.INVISIBLE
         create_vibrate.visibility = View.INVISIBLE
@@ -693,8 +805,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         add_alarm_button.show()
         toolbar_modify_alarm.visibility = View.INVISIBLE
         time_picker_modify_alarm.visibility = View.INVISIBLE
-        repeat_modify_text.visibility = View.INVISIBLE
-        daypicker_modify_layout.visibility = View.INVISIBLE
+        //     repeat_modify_text.visibility = View.INVISIBLE
+        //     daypicker_modify_layout.visibility = View.INVISIBLE
         modify_alarm_ringtone.visibility = View.INVISIBLE
         spinner_modify_alarm.visibility = View.INVISIBLE
         modify_vibrate.visibility = View.INVISIBLE

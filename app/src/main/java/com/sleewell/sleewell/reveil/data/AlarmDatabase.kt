@@ -18,6 +18,13 @@ abstract class AlarmDatabase: RoomDatabase() {
         @Volatile
         private var INSTANCE: AlarmDatabase? = null
 
+        /**
+         * Get the database of the alarms.
+         *
+         * @param context Context of the application.
+         * @return The database.
+         * @author Romane Bézier
+         */
         fun getDatabase(context: Context): AlarmDatabase{
             val tempInstance = INSTANCE
             if (tempInstance != null) {

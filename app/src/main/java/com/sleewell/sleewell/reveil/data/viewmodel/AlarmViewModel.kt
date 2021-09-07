@@ -22,6 +22,12 @@ class AlarmViewModel(application: Application): AndroidViewModel(application) {
         readAllData = repository.readAllData
     }
 
+    /**
+     * Add an alarm to the database.
+     *
+     * @param alarm Alarm to add.
+     * @return Id of the alarm
+     */
     fun addAlarm(alarm: Alarm): LiveData<Long> {
         val liveData = MutableLiveData<Long>()
         viewModelScope.launch(Dispatchers.IO) {
@@ -30,24 +36,34 @@ class AlarmViewModel(application: Application): AndroidViewModel(application) {
         return liveData
     }
 
+    /**
+     * Update an alarm in the database.
+     *
+     * @param alarm Alarm to update.
+     */
     fun updateAlarm(alarm: Alarm) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.updateAlarm(alarm)
         }
     }
 
+    /**
+     * Delete an alarm in the database.
+     *
+     * @param alarm Alarm to delete.
+     */
     fun deleteAlarm(alarm: Alarm) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAlarm(alarm)
         }
     }
 
-    fun deleteAllAlarms() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteAllAlarms()
-        }
-    }
-
+    /**
+     * Get an alarm with an id in the database.
+     *
+     * @param id Id of the alarm to return.
+     * @return Alarm corresponding to the id.
+     */
     fun getById(id: Int) : LiveData<Alarm> {
         val liveData = MutableLiveData<Alarm>()
         viewModelScope.launch(Dispatchers.IO) {

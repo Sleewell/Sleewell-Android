@@ -10,16 +10,17 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.sleewell.sleewell.R
-import com.sleewell.sleewell.mvp.menu.alarm.view.AlarmsFragment
+import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.reveil.data.model.Alarm
 
 /**
- * Alert notification helper of the application
+ * Alert notification helper of the application.
  *
  * @param base Context of the application
  * @author Romane Bézier
  */
 class AlertNotificationHelper(base: Context?, currentAlarm: Alarm) : ContextWrapper(base) {
+
     private var mManager: NotificationManager? = null
     private var alarm: Alarm = currentAlarm
 
@@ -44,7 +45,7 @@ class AlertNotificationHelper(base: Context?, currentAlarm: Alarm) : ContextWrap
 
     val channelNotification: NotificationCompat.Builder
         get() {
-            val intent = Intent(this, AlarmsFragment::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(this, alarm.id, intent, 0)
             return NotificationCompat.Builder(applicationContext, channelID)
                 .setContentTitle("Sleewell")

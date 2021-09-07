@@ -1,17 +1,13 @@
 package com.sleewell.sleewell.reveil.model
-
 import android.app.AlarmManager
 import android.app.AlarmManager.AlarmClockInfo
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Vibrator
-import android.text.format.DateUtils
-import android.text.format.Time
+import android.text.format.*
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
-import com.sleewell.sleewell.modules.audio.audioRecord.LOG_TAG
 import com.sleewell.sleewell.reveil.AlarmContract
 import com.sleewell.sleewell.reveil.AlarmReceiver
 import com.sleewell.sleewell.reveil.data.model.Alarm
@@ -20,8 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 /**
- * Alarm Model for the Alarm activity
- *
+ * Alarm Model for the Alarm activity.
  *
  * @author Romane Bézier
  */
@@ -31,10 +26,10 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
     var c : Calendar = Calendar.getInstance()
 
     /**
-     * Update the alarm
+     * Update the alarm.
      *
-     * @param updateAlarm Alarm to update
-     * @param mAlarmViewModel View model of the alarm
+     * @param updateAlarm Alarm to update.
+     * @param mAlarmViewModel View model of the alarm.
      * @author Romane Bézier
      */
     override fun updateAlarm(updateAlarm: Alarm, mAlarmViewModel: AlarmViewModel) {
@@ -42,10 +37,10 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
     }
 
     /**
-     * Delete the alarm
+     * Delete the alarm.
      *
-     * @param mAlarmViewModel View model of the alarm
-     * @param alarm Current alarm
+     * @param mAlarmViewModel View model of the alarm.
+     * @param alarm Current alarm.
      * @author Romane Bézier
      */
     override fun deleteAlarm(mAlarmViewModel: AlarmViewModel, alarm: Alarm) {
@@ -53,9 +48,17 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
     }
 
     /**
-     * Save the alarm
+     * Save the alarm.
      *
      * @param time Time of the alarm
+     * @param mAlarmViewModel View model of the alarm.
+     * @param lifecycleOwner Lifecycle owner.
+     * @param days Days of the alarm.
+     * @param ringtone Ringtone of the alarm.
+     * @param vibrate Vibration of the alarm.
+     * @param label Label of the alarm.
+     * @param index Index of the alarm.
+     * @param displayed Visibility of the alarm.
      * @author Romane Bézier
      */
     override fun saveAlarm(
@@ -82,19 +85,20 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
     }
 
     /**
-     * Start the alarm
+     * Start the alarm.
      *
-     * @param alarmManager Alarm manager of phone
-     * @param intent Intent of the activity
-     * @param context Context of the activity
-     * @param alarm Current alarm
+     * @param alarmManager Alarm manager of phone.
+     * @param intent Intent of the activity.
+     * @param context Context of the activity.
+     * @param alarm Current alarm.
      * @author Romane Bézier
      */
     override fun startAlarm(
         alarmManager: AlarmManager,
         intent: Intent,
         context: Context,
-        alarm: Alarm
+        alarm: Alarm,
+        restart: Boolean
     ) {
         val pendingIntent = PendingIntent.getBroadcast(
             context,
@@ -102,23 +106,32 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
-        if (c.before(Calendar.getInstance())) {
-            c.add(Calendar.DATE, 1)
+        if (restart) {
+            if (c.before(Calendar.getInstance())) {
+                c.add(Calendar.DATE, 1)
+            }
+            alarmManager.setAlarmClock(
+                AlarmClockInfo(alarm.time, pendingIntent),
+                pendingIntent
+            )
+        } else {
+            if (c.before(Calendar.getInstance())) {
+                c.add(Calendar.DATE, 1)
+            }
+            alarmManager.setAlarmClock(
+                AlarmClockInfo(c.timeInMillis, pendingIntent),
+                pendingIntent
+            )
         }
-        alarmManager.setAlarmClock(
-            AlarmClockInfo(c.timeInMillis, pendingIntent),
-            pendingIntent
-        )
-
     }
 
     /**
-     * Start the alert
+     * Start the alert.
      *
-     * @param alarmManager Alarm manager of phone
-     * @param intent Intent of the activity
-     * @param context Context of the activity
-     * @param alarm Alarm to start
+     * @param alarmManager Alarm manager of phone.
+     * @param intent Intent of the activity.
+     * @param context Context of the activity.
+     * @param alarm Alarm to start.
      * @author Romane Bézier
      */
     override fun startAlert(
@@ -142,12 +155,12 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
     }
 
     /**
-     * Snooze the alarm
+     * Snooze the alarm.
      *
-     * @param alarmManager Alarm manager of phone
-     * @param intent Intent of the activity
-     * @param context Context of the activity
-     * @param currentAlarm Current alarm
+     * @param alarmManager Alarm manager of phone.
+     * @param intent Intent of the activity.
+     * @param context Context of the activity.
+     * @param currentAlarm Current alarm.
      * @author Romane Bézier
      */
     override fun snoozeAlarm(
@@ -160,7 +173,9 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
 
         val currentTimeMillis = System.currentTimeMillis()
         val nextUpdateTimeMillis = currentTimeMillis + 5 * DateUtils.MINUTE_IN_MILLIS
+        @Suppress("DEPRECATION")
         val nextUpdateTime = Time()
+        @Suppress("DEPRECATION")
         nextUpdateTime.set(nextUpdateTimeMillis)
 
         alarmManager.setAlarmClock(
@@ -170,12 +185,12 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
     }
 
     /**
-     * Stop the alarm
+     * Stop the alarm.
      *
-     * @param alarmManager Alarm manager of phone
-     * @param intent Intent of the activity
-     * @param context Context of the activity
-     * @param currentAlarm Current alarm
+     * @param alarmManager Alarm manager of phone.
+     * @param intent Intent of the activity.
+     * @param context Context of the activity.
+     * @param currentAlarm Current alarm.
      * @author Romane Bézier
      */
     override fun stopAlarm(
@@ -191,12 +206,12 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
     }
 
     /**
-     * Stop the alert
+     * Stop the alert.
      *
-     * @param alarmManager Alarm manager of phone
-     * @param intent Intent of the activity
-     * @param context Context of the activity
-     * @param currentAlarm Current alarm
+     * @param alarmManager Alarm manager of phone.
+     * @param intent Intent of the activity.
+     * @param context Context of the activity.
+     * @param currentAlarm Current alarm.
      * @author Romane Bézier
      */
     override fun stopAlert(
@@ -210,11 +225,11 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
     }
 
     /**
-     * Get time of the alarm
+     * Get time of the alarm.
      *
-     * @param hourOfDay Hour of the alarm
-     * @param minute Minutes of the alarm
-     * @return Time in a string
+     * @param hourOfDay Hour of the alarm.
+     * @param minute Minutes of the alarm.
+     * @return Time in a string.
      * @author Romane Bézier
      */
     override fun getTime(hourOfDay: Int, minute: Int) : String {
@@ -223,6 +238,7 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         c[Calendar.MINUTE] = minute
         c[Calendar.SECOND] = 0
 
+        @Suppress("DEPRECATION")
         val date = Date(c.time.toString())
         val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())
 

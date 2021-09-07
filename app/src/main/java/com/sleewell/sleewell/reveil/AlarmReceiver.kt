@@ -11,7 +11,7 @@ import android.os.Vibrator
 import com.sleewell.sleewell.reveil.data.model.Alarm
 
 /**
- * Receiver of the alarm to start the notification
+ * Receiver of the alarm to start the notification.
  *
  * @author Romane Bézier
  */
@@ -23,11 +23,10 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     /**
-     * When alert receiver receive a signal
+     * This method is called when the BroadcastReceiver is receiving an Intent broadcast.
      *
-     * @param context Context of the application
-     * @param intent Intent of the application
-     * @author Romane Bézier
+     * @param context The Context in which the receiver is running.
+     * @param intent The Intent being received.
      */
     override fun onReceive(context: Context, intent: Intent) {
 
@@ -52,6 +51,7 @@ class AlarmReceiver : BroadcastReceiver() {
             )
 
             mp = MediaPlayer()
+            @Suppress("DEPRECATION")
             mp.setAudioStreamType(AudioManager.STREAM_ALARM)
             mp.setDataSource(context, alarmUri)
             mp.isLooping = true
@@ -61,6 +61,7 @@ class AlarmReceiver : BroadcastReceiver() {
             if (alarm.vibrate) {
                 val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                 val pattern = longArrayOf(0, 500, 1000)
+                @Suppress("DEPRECATION")
                 vibrator.vibrate(pattern, 0)
             }
 
