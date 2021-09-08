@@ -5,7 +5,6 @@
     android:id="@+id/registerParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
     tools:context=".mvp.menu.home.view.HomeFragment">
 
     <TextView
@@ -33,7 +32,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
             android:orientation="vertical">
 
             <TextView
