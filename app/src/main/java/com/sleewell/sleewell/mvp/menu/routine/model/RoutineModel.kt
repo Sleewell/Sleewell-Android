@@ -72,6 +72,7 @@ class RoutineModel(context: Context) : RoutineContract.Model {
             "None",
             "",
             "",
+            "",
             RoutineState.NEW.ordinal
         )
         val n = db.addNewRoutine(rt)
@@ -140,17 +141,19 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         updateItemRoutine(aList[nbr], nbr)
     }
 
-    override fun updateSpotifyMusicSelected(musicName: String, musicUri: String, tag: String?) {
+    override fun updateSpotifyMusicSelected(musicName: String, musicUri: String, musicImage: String, tag: String?) {
         if (musicName.isEmpty())
             return
         val routine = aList.find { it.uId == tag?.toLong() }
         val nbr = aList.indexOf(routine)
         routine?.musicName = musicName
         routine?.musicUri = musicUri
+        routine?.imagePlaylist = musicImage
         if (dialog.isShowing) {
             val nameMusicSelected = dialog.findViewById(R.id.musicNameSelectedDialog) as TextView
             nameMusicSelected.text = routine?.musicName
         }
+        Log.d("TEST", musicImage)
         routine?.let { updateItemRoutine(it, nbr) }
     }
 
@@ -161,6 +164,7 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         val nbr = aList.indexOf(routine)
         routine?.musicName = musicName
         routine?.musicUri = ""
+        routine?.imagePlaylist = ""
         if (dialog.isShowing) {
             val nameMusicSelected = dialog.findViewById(R.id.musicNameSelectedDialog) as TextView
             nameMusicSelected.text = routine?.musicName?.split("_")?.last()
@@ -434,7 +438,7 @@ class RoutineModel(context: Context) : RoutineContract.Model {
         CoroutineScope(Dispatchers.IO).launch {
             for (i in aList.indices) {
                 if (aList[i].uId == 0.toLong()) {
-                    val rt = Routine(aList[i].name, aList[i].isSelected, aList[i].apiId, aList[i].colorRed, aList[i].colorGreen, aList[i].colorBlue, aList[i].useHalo, aList[i].duration, aList[i].useMusic, aList[i].player, aList[i].musicName, aList[i].musicUri, aList[i].state)
+                    val rt = Routine(aList[i].name, aList[i].isSelected, aList[i].apiId, aList[i].colorRed, aList[i].colorGreen, aList[i].colorBlue, aList[i].useHalo, aList[i].duration, aList[i].useMusic, aList[i].player, aList[i].musicName, aList[i].musicUri, aList[i].imagePlaylist, aList[i].state)
                     db.addNewRoutine(rt)
                 } else {
                     db.updateRoutine(aList[i])
@@ -601,6 +605,7 @@ class RoutineModel(context: Context) : RoutineContract.Model {
                 nameMusicSelected.text = "None"
                 aList[nbr].musicName = "None"
                 aList[nbr].musicUri = ""
+                aList[nbr].imagePlaylist = ""
                 updateItemRoutine(aList[nbr], nbr)
             }
 

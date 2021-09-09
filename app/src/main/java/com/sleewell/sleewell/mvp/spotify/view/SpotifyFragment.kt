@@ -40,9 +40,10 @@ open class SpotifyFragment: DialogFragment(), MainContract.View {
 
     var musicName: String = ""
     var musicUri: String = ""
+    var musicImage: String = ""
 
     interface OnInputSelected {
-        fun sendInput(musicName : String, musicUri : String, tag : String?)
+        fun sendInput(musicName : String, musicUri : String, musicImage : String,tag : String?)
     }
     lateinit var selected : OnInputSelected
 
@@ -73,7 +74,7 @@ open class SpotifyFragment: DialogFragment(), MainContract.View {
         backButton = root.findViewById(R.id.MusicButton)
 
         backButton.setOnClickListener {
-            selected.sendInput(musicName, musicUri, tag)
+            selected.sendInput(musicName, musicUri, musicImage, tag)
             dismiss()
         }
 
@@ -93,6 +94,7 @@ open class SpotifyFragment: DialogFragment(), MainContract.View {
 
             musicName = musicSelected.getName()
             musicUri = musicSelected.getUri()
+            musicImage = musicSelected.getUrlImage()
         }
         authenticateSpotify()
     }

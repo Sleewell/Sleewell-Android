@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.database.routine.entities
 
+import android.widget.ImageView
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -34,7 +35,10 @@ data class Routine(
     // State
     var state: Int,
 
+    // Playlist image
+    var imagePlaylist: String,
+
     ) {
-    constructor(name: String, isSelected: Boolean = false, apiId: Int = -1, colorRed: Int = 0, colorGreen: Int = 0, colorBlue: Int = 0, useHalo: Boolean = false, duration: Int = 0, useMusic: Boolean = false, player: String = "music", musicName: String = "", musicUri: String = "", state: Int = RoutineState.NONE.ordinal) :
-            this(0, apiId, isSelected, colorRed, colorGreen, colorBlue, useHalo, duration, useMusic, player, musicName, musicUri, name, state)
+    constructor(name: String, isSelected: Boolean = false, apiId: Int = -1, colorRed: Int = 0, colorGreen: Int = 0, colorBlue: Int = 0, useHalo: Boolean = false, duration: Int = 0, useMusic: Boolean = false, player: String = "music", musicName: String = "", musicUri: String = "", imagePlaylist: String = "", state: Int = RoutineState.NONE.ordinal) :
+            this(0, apiId, isSelected, colorRed, colorGreen, colorBlue, useHalo, duration, useMusic, player, musicName, musicUri, name, state, imagePlaylist)
 }
