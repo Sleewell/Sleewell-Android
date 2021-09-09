@@ -73,7 +73,8 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         index: Int,
         displayed: Boolean
     ) {
-        val alarm = Alarm(0, time, false, days, ringtone.toString(), vibrate, label, displayed)
+        val uniqueId = (Date().time / 1000L % Int.MAX_VALUE).toInt() + index
+        val alarm = Alarm(uniqueId, time, false, days, ringtone.toString(), vibrate, label, displayed)
         if (index == 0) {
             mAlarmViewModel.addAlarm(alarm).observe(lifecycleOwner, { id ->
                 mAlarmViewModel.getById(id.toInt()).observe(lifecycleOwner, { alarm ->
@@ -110,6 +111,7 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         c.timeInMillis = alarm.time
         if (restart) {
             if (c.before(Calendar.getInstance())) {
+                c.add(Calendar.DATE, 1)
                 c.add(Calendar.DATE, 1)
             }
             alarmManager.setAlarmClock(
