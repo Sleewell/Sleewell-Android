@@ -1,4 +1,5 @@
 package com.sleewell.sleewell.reveil.model
+
 import android.app.AlarmManager
 import android.app.AlarmManager.AlarmClockInfo
 import android.app.PendingIntent
@@ -23,7 +24,7 @@ import java.util.*
 class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
 
     private var presenter: AlarmContract.Presenter? = presenter
-    var c : Calendar = Calendar.getInstance()
+    var c: Calendar = Calendar.getInstance()
 
     /**
      * Update the alarm.
@@ -106,12 +107,13 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
+        c.timeInMillis = alarm.time
         if (restart) {
             if (c.before(Calendar.getInstance())) {
                 c.add(Calendar.DATE, 1)
             }
             alarmManager.setAlarmClock(
-                AlarmClockInfo(alarm.time, pendingIntent),
+                AlarmClockInfo(c.timeInMillis, pendingIntent),
                 pendingIntent
             )
         } else {
@@ -146,6 +148,7 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
+        c.timeInMillis = alarm.time
         c.add(Calendar.HOUR, -8)
         if (c.before(Calendar.getInstance())) {
             c.add(Calendar.DATE, 1)
@@ -173,6 +176,7 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
 
         val currentTimeMillis = System.currentTimeMillis()
         val nextUpdateTimeMillis = currentTimeMillis + 5 * DateUtils.MINUTE_IN_MILLIS
+
         @Suppress("DEPRECATION")
         val nextUpdateTime = Time()
         @Suppress("DEPRECATION")
@@ -232,7 +236,7 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
      * @return Time in a string.
      * @author Romane Bézier
      */
-    override fun getTime(hourOfDay: Int, minute: Int) : String {
+    override fun getTime(hourOfDay: Int, minute: Int): String {
         c = Calendar.getInstance()
         c[Calendar.HOUR_OF_DAY] = hourOfDay
         c[Calendar.MINUTE] = minute

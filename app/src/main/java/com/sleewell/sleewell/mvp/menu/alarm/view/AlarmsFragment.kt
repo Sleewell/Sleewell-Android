@@ -87,6 +87,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         val floatingActionButton: FloatingActionButton = root.findViewById(R.id.add_alarm_button)
         floatingActionButton.setOnClickListener {
             changeVisibilityLayoutsCreate()
+            resetDays()
             createAlarm(root)
         }
 
@@ -170,6 +171,21 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     }
 
     /**
+     * Reset values of Day picker
+     *
+     * @author Romane Bézier
+     */
+    private fun resetDays() {
+        daypicker_create_layout.tM.isChecked = false
+        daypicker_create_layout.tT.isChecked = false
+        daypicker_create_layout.tW.isChecked = false
+        daypicker_create_layout.tTh.isChecked = false
+        daypicker_create_layout.tF.isChecked = false
+        daypicker_create_layout.tS.isChecked = false
+        daypicker_create_layout.tSu.isChecked = false
+    }
+
+    /**
      * Set the alarm with specifics days.
      *
      * @param dayOfWeek Day of the week the alarm need to be create.
@@ -190,7 +206,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
         calendar.set(Calendar.MINUTE, timePicker.minute)
         calendar.set(Calendar.SECOND, 0)
-
+        if (calendar.before(Calendar.getInstance())) {
+            calendar.add(Calendar.DATE, 7)
+        }
         presenter.getTime(timePicker.hour, timePicker.minute)
         presenter.saveAlarm(
             calendar.timeInMillis,
