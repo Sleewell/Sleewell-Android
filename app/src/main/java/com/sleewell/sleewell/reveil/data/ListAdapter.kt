@@ -60,7 +60,28 @@ class ListAdapter(private val view: AlarmContract.View): RecyclerView.Adapter<Li
             holder.itemView.textLabel.text = currentItem.label
         }
 
-        val days = ""
+        var days = ""
+        if (currentItem.days[0]) {
+            days += "M "
+        }
+        if (currentItem.days[1]) {
+            days += "T "
+        }
+        if (currentItem.days[2]) {
+            days += "W "
+        }
+        if (currentItem.days[3]) {
+            days += "Th "
+        }
+        if (currentItem.days[4]) {
+            days += "F "
+        }
+        if (currentItem.days[5]) {
+            days += "S "
+        }
+        if (currentItem.days[6]) {
+            days += "Su "
+        }
         if (days.compareTo("") == 0) {
             holder.itemView.textDays.visibility = View.GONE
         } else {
