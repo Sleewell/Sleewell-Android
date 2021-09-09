@@ -48,9 +48,21 @@ interface AlarmContract {
          * @param label Label of the alarm.
          * @param index Index of the alarm.
          * @param displayed Visibility of the alarm.
+         * @param show Visibility of the alarm.
          * @author Romane Bézier
          */
-        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, days: List<Boolean>, ringtone: Uri, vibrate: Boolean, label: String, index: Int, displayed: Boolean)
+        fun saveAlarm(
+            time: Long,
+            mAlarmViewModel: AlarmViewModel,
+            lifecycleOwner: LifecycleOwner,
+            days: List<Boolean>,
+            ringtone: Uri,
+            vibrate: Boolean,
+            label: String,
+            index: Int,
+            displayed: Boolean,
+            show: Boolean
+        )
 
         /**
          * Start the alarm.
@@ -61,7 +73,13 @@ interface AlarmContract {
          * @param alarm Current alarm.
          * @author Romane Bézier
          */
-        fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, alarm: Alarm, restart: Boolean)
+        fun startAlarm(
+            alarmManager: AlarmManager,
+            intent: Intent,
+            context: Context,
+            alarm: Alarm,
+            restart: Boolean
+        )
 
         /**
          * Start the alert.
@@ -83,7 +101,12 @@ interface AlarmContract {
          * @param currentAlarm Current alarm.
          * @author Romane Bézier
          */
-        fun snoozeAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm)
+        fun snoozeAlarm(
+            alarmManager: AlarmManager,
+            intent: Intent,
+            context: Context,
+            currentAlarm: Alarm
+        )
 
         /**
          * Stop the alarm.
@@ -94,7 +117,12 @@ interface AlarmContract {
          * @param currentAlarm Current alarm.
          * @author Romane Bézier
          */
-        fun stopAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm)
+        fun stopAlarm(
+            alarmManager: AlarmManager,
+            intent: Intent,
+            context: Context,
+            currentAlarm: Alarm
+        )
 
         /**
          * Stop the alert.
@@ -105,7 +133,12 @@ interface AlarmContract {
          * @param currentAlarm Current alarm.
          * @author Romane Bézier
          */
-        fun stopAlert(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm)
+        fun stopAlert(
+            alarmManager: AlarmManager,
+            intent: Intent,
+            context: Context,
+            currentAlarm: Alarm
+        )
 
         /**
          * Get time of the alarm.
@@ -157,9 +190,21 @@ interface AlarmContract {
          * @param label Label of the alarm.
          * @param index Index of the alarm.
          * @param displayed Visibility of the alarm.
+         * @param show Visibility of the alarm.
          * @author Romane Bézier
          */
-        fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, days: List<Boolean>, ringtone: Uri, vibrate: Boolean, label: String, index: Int, displayed: Boolean)
+        fun saveAlarm(
+            time: Long,
+            mAlarmViewModel: AlarmViewModel,
+            lifecycleOwner: LifecycleOwner,
+            days: List<Boolean>,
+            ringtone: Uri,
+            vibrate: Boolean,
+            label: String,
+            index: Int,
+            displayed: Boolean,
+            show: Boolean
+        )
 
         /**
          * Start the new alarm.
@@ -178,7 +223,13 @@ interface AlarmContract {
          * @param alarm Current alarm.
          * @author Romane Bézier
          */
-        fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, alarm: Alarm, restart: Boolean)
+        fun startAlarm(
+            alarmManager: AlarmManager,
+            intent: Intent,
+            context: Context,
+            alarm: Alarm,
+            restart: Boolean
+        )
 
         /**
          * Start the alert.
@@ -200,7 +251,12 @@ interface AlarmContract {
          * @param currentAlarm Current alarm.
          * @author Romane Bézier
          */
-        fun snoozeAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm)
+        fun snoozeAlarm(
+            alarmManager: AlarmManager,
+            intent: Intent,
+            context: Context,
+            currentAlarm: Alarm
+        )
 
         /**
          * Stop the alarm.
@@ -211,7 +267,12 @@ interface AlarmContract {
          * @param currentAlarm Current alarm.
          * @author Romane Bézier
          */
-        fun stopAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm)
+        fun stopAlarm(
+            alarmManager: AlarmManager,
+            intent: Intent,
+            context: Context,
+            currentAlarm: Alarm
+        )
 
         /**
          * Stop the alert.
@@ -222,7 +283,12 @@ interface AlarmContract {
          * @param currentAlarm Current alarm.
          * @author Romane Bézier
          */
-        fun stopAlert(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm)
+        fun stopAlert(
+            alarmManager: AlarmManager,
+            intent: Intent,
+            context: Context,
+            currentAlarm: Alarm
+        )
 
         /**
          * Get time of the alarm.

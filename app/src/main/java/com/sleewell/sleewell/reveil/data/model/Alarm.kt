@@ -20,7 +20,8 @@ data class Alarm(
     val ringtone: String,
     val vibrate: Boolean,
     val label: String,
-    var displayed: Boolean
+    var displayed: Boolean,
+    var show: Boolean
 ): Parcelable
 
 class DataConverter {

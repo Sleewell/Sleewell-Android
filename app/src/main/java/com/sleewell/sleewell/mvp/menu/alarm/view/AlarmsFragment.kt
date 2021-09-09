@@ -209,6 +209,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         if (calendar.before(Calendar.getInstance())) {
             calendar.add(Calendar.DATE, 7)
         }
+        var show = true
+        if (index > 0)
+            show = false
         presenter.getTime(timePicker.hour, timePicker.minute)
         presenter.saveAlarm(
             calendar.timeInMillis,
@@ -219,7 +222,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             checkBox_create_vibrate.isChecked,
             editText_create_alarm.text.toString(),
             index,
-            false
+            false,
+            show
         )
     }
 
@@ -234,7 +238,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     private fun setAlarmWithoutDay(
         calendar: Calendar,
         timePicker: TimePicker,
-        days: List<Boolean>
+        days: List<Boolean>,
     ) {
         calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
         calendar.set(Calendar.MINUTE, timePicker.minute)
@@ -252,7 +256,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             checkBox_create_vibrate.isChecked,
             editText_create_alarm.text.toString(),
             0,
-            false
+            false,
+            true
         )
     }
 
@@ -400,7 +405,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             ringtone.toString(),
             checkBox_modify_vibrate.isChecked,
             editText_modify_alarm.text.toString(),
-            true
+            true,
+            currentAlarm.show
         )
 
         presenter.updateAlarm(updateAlarm, mAlarmViewModel)
@@ -493,7 +499,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             currentAlarm.ringtone,
             currentAlarm.vibrate,
             currentAlarm.label,
-            false
+            false,
+            currentAlarm.show
         )
         presenter.updateAlarm(updateAlarm, mAlarmViewModel)
 
@@ -536,7 +543,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             currentAlarm.ringtone,
             currentAlarm.vibrate,
             currentAlarm.label,
-            true
+            true,
+            currentAlarm.show
         )
         presenter.updateAlarm(updateAlarm, mAlarmViewModel)
 

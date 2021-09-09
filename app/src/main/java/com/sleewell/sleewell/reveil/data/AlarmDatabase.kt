@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import com.sleewell.sleewell.reveil.data.model.Alarm
 import com.sleewell.sleewell.reveil.data.model.DataConverter
 
-@Database(entities = [Alarm::class], version = 4, exportSchema = false)
+@Database(entities = [Alarm::class], version = 5, exportSchema = false)
 @TypeConverters(DataConverter::class)
 abstract class AlarmDatabase: RoomDatabase() {
 

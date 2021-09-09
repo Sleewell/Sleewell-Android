@@ -60,6 +60,7 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
      * @param label Label of the alarm.
      * @param index Index of the alarm.
      * @param displayed Visibility of the alarm.
+     * @param show Visibility of the alarm.
      * @author Romane Bézier
      */
     override fun saveAlarm(
@@ -71,19 +72,38 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         vibrate: Boolean,
         label: String,
         index: Int,
-        displayed: Boolean
+        displayed: Boolean,
+        show: Boolean
     ) {
         val uniqueId = (Date().time / 1000L % Int.MAX_VALUE).toInt() + index
-        val alarm = Alarm(uniqueId, time, false, days, ringtone.toString(), vibrate, label, displayed)
-        if (index == 0) {
-            mAlarmViewModel.addAlarm(alarm).observe(lifecycleOwner, { id ->
-                mAlarmViewModel.getById(id.toInt()).observe(lifecycleOwner, { alarm ->
-                    presenter?.startNewAlarm(alarm)
-                })
-            })
-        } else {
-            presenter?.startNewAlarm(alarm)
+
+        val copy = mutableListOf(
+            days[0],
+            days[1],
+            days[2],
+            days[3],
+            days[4],
+            days[5],
+            days[6],
+        )
+        var i = 0
+        var nb = 0
+        while (i < copy.size) {
+            if (copy[i]) {
+                if (index != nb)
+                    copy[i] = false
+                nb++
+            }
+            i++
         }
+
+        val alarm =
+            Alarm(uniqueId, time, false, copy, ringtone.toString(), vibrate, label, displayed, show)
+        mAlarmViewModel.addAlarm(alarm).observe(lifecycleOwner, { id ->
+            mAlarmViewModel.getById(id.toInt()).observe(lifecycleOwner, { alarm ->
+                presenter?.startNewAlarm(alarm)
+            })
+        })
     }
 
     /**

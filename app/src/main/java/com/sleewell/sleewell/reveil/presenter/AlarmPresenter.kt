@@ -67,10 +67,33 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
      * @param label Label of the alarm.
      * @param index Index of the alarm.
      * @param displayed Visibility of the alarm.
+     * @param show Visibility of the alarm.
      * @author Romane Bézier
      */
-    override fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel, lifecycleOwner: LifecycleOwner, days: List<Boolean>, ringtone: Uri, vibrate: Boolean, label: String, index: Int, displayed: Boolean) {
-        model.saveAlarm(time,mAlarmViewModel, lifecycleOwner, days, ringtone, vibrate, label, index, displayed)
+    override fun saveAlarm(
+        time: Long,
+        mAlarmViewModel: AlarmViewModel,
+        lifecycleOwner: LifecycleOwner,
+        days: List<Boolean>,
+        ringtone: Uri,
+        vibrate: Boolean,
+        label: String,
+        index: Int,
+        displayed: Boolean,
+        show: Boolean
+    ) {
+        model.saveAlarm(
+            time,
+            mAlarmViewModel,
+            lifecycleOwner,
+            days,
+            ringtone,
+            vibrate,
+            label,
+            index,
+            displayed,
+            show
+        )
     }
 
     /**
@@ -92,7 +115,13 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
      * @param alarm Current alarm.
      * @author Romane Bézier
      */
-    override fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, alarm: Alarm, restart: Boolean) {
+    override fun startAlarm(
+        alarmManager: AlarmManager,
+        intent: Intent,
+        context: Context,
+        alarm: Alarm,
+        restart: Boolean
+    ) {
         model.startAlarm(alarmManager, intent, context, alarm, restart)
     }
 
@@ -105,7 +134,12 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
      * @param alarm Current alarm.
      * @author Romane Bézier
      */
-    override fun startAlert(alarmManager: AlarmManager, intent: Intent, context: Context, alarm: Alarm) {
+    override fun startAlert(
+        alarmManager: AlarmManager,
+        intent: Intent,
+        context: Context,
+        alarm: Alarm
+    ) {
         model.startAlert(alarmManager, intent, context, alarm)
     }
 
@@ -118,7 +152,12 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
      * @param currentAlarm Current alarm.
      * @author Romane Bézier
      */
-    override fun snoozeAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm) {
+    override fun snoozeAlarm(
+        alarmManager: AlarmManager,
+        intent: Intent,
+        context: Context,
+        currentAlarm: Alarm
+    ) {
         model.snoozeAlarm(alarmManager, intent, context, currentAlarm)
     }
 
@@ -131,7 +170,12 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
      * @param currentAlarm Current alarm.
      * @author Romane Bézier
      */
-    override fun stopAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm) {
+    override fun stopAlarm(
+        alarmManager: AlarmManager,
+        intent: Intent,
+        context: Context,
+        currentAlarm: Alarm
+    ) {
         model.stopAlarm(alarmManager, intent, context, currentAlarm)
     }
 
@@ -144,7 +188,12 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
      * @param currentAlarm Current alarm.
      * @author Romane Bézier
      */
-    override fun stopAlert(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm) {
+    override fun stopAlert(
+        alarmManager: AlarmManager,
+        intent: Intent,
+        context: Context,
+        currentAlarm: Alarm
+    ) {
         model.stopAlert(alarmManager, intent, context, currentAlarm)
     }
 
