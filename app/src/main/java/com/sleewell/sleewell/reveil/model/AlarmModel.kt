@@ -132,7 +132,6 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         if (restart) {
             if (c.before(Calendar.getInstance())) {
                 c.add(Calendar.DATE, 1)
-                c.add(Calendar.DATE, 1)
             }
             alarmManager.setAlarmClock(
                 AlarmClockInfo(c.timeInMillis, pendingIntent),
