@@ -12,18 +12,22 @@ import com.sleewell.sleewell.mvp.mainActivity.presenter.MainPresenter
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
+import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
 import com.sleewell.sleewell.modules.audio.upload.AudioAnalyseUpload
 import com.sleewell.sleewell.modules.permissions.PermissionManager
+import com.sleewell.sleewell.mvp.menu.profile.view.GivenImagesDialog
 import com.sleewell.sleewell.mvp.menu.profile.view.PickImageDialog
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.spotify.sdk.android.authentication.LoginActivity
 
-class MainActivity : AppCompatActivity(), MainContract.View, PickImageDialog.DialogEventListener {
+class MainActivity : AppCompatActivity(), MainContract.View,
+    PickImageDialog.DialogEventListener, GivenImagesDialog.DialogEventListener {
     private var userInteractionListener: UserInteractionListener? = null
-    private var dialogEventListener: PickImageDialog.DialogEventListener? = null
+    private var pickDialogEventListener: PickImageDialog.DialogEventListener? = null
+    private var givenDialogEventListener: GivenImagesDialog.DialogEventListener? = null
     private lateinit var presenter: MainContract.Presenter
     private lateinit var statsUpload : AudioAnalyseUpload
 
@@ -150,15 +154,27 @@ class MainActivity : AppCompatActivity(), MainContract.View, PickImageDialog.Dia
         permissionManager.askAllPermission()
     }
 
-    fun setDialogEventListener(listener: PickImageDialog.DialogEventListener?) {
-        this.dialogEventListener = listener
+    fun setPickDialogEventListener(listener: PickImageDialog.DialogEventListener?) {
+        this.pickDialogEventListener = listener
     }
 
     override fun onDialogTakePictureClick(dialog: DialogFragment) {
-        dialogEventListener?.onDialogTakePictureClick(dialog)
+        pickDialogEventListener?.onDialogTakePictureClick(dialog)
     }
 
     override fun onDialogPickPictureClick(dialog: DialogFragment) {
-        dialogEventListener?.onDialogPickPictureClick(dialog)
+        pickDialogEventListener?.onDialogPickPictureClick(dialog)
+    }
+
+    override fun onDialogGivenPictureClick(dialog: DialogFragment) {
+        pickDialogEventListener?.onDialogGivenPictureClick(dialog)
+    }
+
+    fun setGivenDialogEventListener(listener: GivenImagesDialog.DialogEventListener?) {
+        this.givenDialogEventListener = listener
+    }
+
+    override fun onDialogPictureClick(picture: ImageView) {
+        givenDialogEventListener?.onDialogPictureClick(picture)
     }
 }

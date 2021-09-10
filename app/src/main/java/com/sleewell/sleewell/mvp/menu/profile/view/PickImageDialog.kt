@@ -4,7 +4,8 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import android.app.AlertDialog
+import android.content.DialogInterface
 
 
 class PickImageDialog : DialogFragment() {
@@ -17,6 +18,7 @@ class PickImageDialog : DialogFragment() {
     interface DialogEventListener {
         fun onDialogTakePictureClick(dialog: DialogFragment)
         fun onDialogPickPictureClick(dialog: DialogFragment)
+        fun onDialogGivenPictureClick(dialog: DialogFragment)
     }
 
     // Override the Fragment.onAttach() method to instantiate the DialogEventListener
@@ -35,17 +37,29 @@ class PickImageDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity.let {
-            MaterialAlertDialogBuilder(requireContext())
+            AlertDialog.Builder(context)
                 .setItems(arrayOf(
                     "Take a picture",
-                    "Pick from gallery"))
-                { dialog, which ->
-                    dialog.dismiss()
+                    "Pick from gallery",
+                    "Choose from given pictures"))
+                { _, which ->
+                    this.dismiss()
                     when (which) {
                         0 -> eventListener.onDialogTakePictureClick(this)
                         1 -> eventListener.onDialogPickPictureClick(this)
+                        2 -> eventListener.onDialogGivenPictureClick(this)
                     }
                 }.create()
         }
+    }
+
+    override fun dismiss() {
+        super.dismiss()
+        ProfileFragment.flagPickDialog = true
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        ProfileFragment.flagPickDialog = true
     }
 }

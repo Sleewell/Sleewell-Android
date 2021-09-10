@@ -90,7 +90,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="25dp"
-                android:background="@drawable/shape_oval_stroke"
+                android:background="@drawable/shape_oval"
                 android:src="@drawable/logo_sleewell"
                 app:riv_oval="true"
                 app:riv_corner_radius="20dp"
@@ -99,6 +99,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView3"/>
 
+            <View
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/stroke"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView3"/>
             <View
                 android:id="@+id/backgroundPictureButton"
                 android:layout_width="23dp"
