@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.sleewell.sleewell.R
 
 class GivenImagesDialog : DialogFragment(), View.OnClickListener {
@@ -31,7 +32,7 @@ class GivenImagesDialog : DialogFragment(), View.OnClickListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity.let {
-            val builder = AlertDialog.Builder(it)
+            val builder = MaterialAlertDialogBuilder(it!!)
 
             val inflater = requireActivity().layoutInflater
             val dialogView = inflater.inflate(R.layout.dialog_profile_given_images, null)

@@ -10,8 +10,8 @@
         <item name="android:textColorTertiary">@color/colorPrimary</item>
         <item name="android:textColorHint">@color/colorPrimary</item>
         <item name="textInputStyle">@style/AppTheme.TextInputLayout</item>
-        <item name="alertDialogTheme">@style/AppTheme.MaterialAlertDialog</item>
-        <item name="colorSurface">@color/colorPrimaryDark</item>
+        <item name="materialAlertDialogTheme">@style/AppTheme.MaterialAlertDialog</item>
+        <item name="textAppearanceBody2">@style/AppTheme.MaterialAlertDialog.BodyText</item>
     </style>
 
     <style name="AppTheme.NoActionbar" parent="Theme.AppCompat.Light.NoActionBar">
@@ -26,14 +26,15 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.MaterialAlertDialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+    <style name="AppTheme.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="colorSurface">@color/colorPrimaryDark</item>
-        <item name="materialAlertDialogBodyTextStyle">@style/BodyTextStyle</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/AppTheme.MaterialAlertDialog.BodyText</item>
     </style>
-    
-    <style name="BodyTextStyle" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
+
+    <style name="AppTheme.MaterialAlertDialog.BodyText" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/nunito_light</item>
     </style>
 
     <style name="AppTheme.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">

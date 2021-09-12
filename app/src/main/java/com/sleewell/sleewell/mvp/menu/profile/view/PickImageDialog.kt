@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import android.app.AlertDialog
 import android.content.DialogInterface
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 class PickImageDialog : DialogFragment() {
@@ -37,7 +38,7 @@ class PickImageDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity.let {
-            AlertDialog.Builder(context)
+            MaterialAlertDialogBuilder(requireContext())
                 .setItems(arrayOf(
                     "Take a picture",
                     "Pick from gallery",

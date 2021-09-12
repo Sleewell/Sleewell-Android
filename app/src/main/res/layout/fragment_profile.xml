@@ -92,9 +92,10 @@
                 android:layout_marginTop="25dp"
                 android:background="@drawable/shape_oval"
                 android:src="@drawable/logo_sleewell"
+                android:scaleType="centerInside"
+                android:adjustViewBounds="true"
                 app:riv_oval="true"
                 app:riv_corner_radius="20dp"
-                android:scaleType="fitCenter"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView3"/>
@@ -156,7 +157,7 @@
                     android:maxLines="1"
                     android:imeOptions="actionDone"
                     android:visibility="invisible"
-                    tools:visibility="invisible" />
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
