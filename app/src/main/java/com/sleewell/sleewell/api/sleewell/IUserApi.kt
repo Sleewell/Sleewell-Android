@@ -11,7 +11,9 @@ import retrofit2.http.Multipart
 
 interface IUserApi {
     @GET("user/information")
-    fun getProfileInformation(@Header("Authorization") token: String): Call<ProfileInfo>
+    fun getProfileInformation(
+        @Header("Authorization") token: String
+    ): Call<ProfileInfo>
 
     @Multipart
     @POST("user/update")
