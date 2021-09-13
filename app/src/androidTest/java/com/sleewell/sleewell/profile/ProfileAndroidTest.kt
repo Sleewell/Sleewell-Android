@@ -46,9 +46,9 @@ class ProfileAndroidTest {
 
     @Before
     fun startActivity() {
-        mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        mDevice = UiDevice.getInstance(getInstrumentation())
         appDrawer = UiScrollable(UiSelector().scrollable(true))
-        context = ApplicationProvider.getApplicationContext<Context>()
+        context = ApplicationProvider.getApplicationContext()
         mInstrumentation = getInstrumentation()
         utils = UiAutomatorUtils(mDevice, appDrawer, context)
 

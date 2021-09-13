@@ -19,7 +19,7 @@ class AnalyseServiceBroadcast : BroadcastReceiver() {
         if (AnalyseServiceTracker.getServiceState(context) == AnalyseServiceTracker.ServiceState.STARTED) {
             with(Intent(context, AnalyseService::class.java)) {
                 action = intent?.action
-                context?.startService(this)
+                context.startService(this)
             }
         }
     }

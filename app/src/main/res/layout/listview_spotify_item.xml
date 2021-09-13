@@ -9,7 +9,7 @@
         android:id="@+id/circle_forest"
         android:layout_width="8dp"
         android:layout_height="8dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="23dp"
         android:background="@drawable/circle"
         android:backgroundTint="@color/textOnBackground"
@@ -35,7 +35,6 @@
             android:layout_marginTop="0dp"
             android:layout_marginStart="10dp"
             android:fontFamily="@font/roboto_bold"
-            android:text="SoundTitle"
             android:textColor="@color/textOnBackground"
             android:textSize="18sp" />
 

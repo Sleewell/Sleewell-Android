@@ -1,6 +1,5 @@
 package com.sleewell.sleewell.database.routine.entities
 
-import android.widget.ImageView
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 

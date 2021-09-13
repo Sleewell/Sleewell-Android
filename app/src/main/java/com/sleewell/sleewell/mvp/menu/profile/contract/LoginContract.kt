@@ -10,7 +10,7 @@ interface LoginContract {
             /**
              * This method is call when the request is finish
              *
-             * @param weather result for spotify
+             * @param loginResult result for spotify
              *
              * @author gabin warnier de wailly
              */

@@ -2,7 +2,6 @@ package com.sleewell.sleewell.mvp.menu.profile.model
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import com.sleewell.sleewell.api.sleewell.ApiClient
 import com.sleewell.sleewell.api.sleewell.IUserApi
 import com.sleewell.sleewell.api.sleewell.model.ProfileInfo
@@ -21,7 +20,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ProfileModel(context: Context) : ProfileContract.Model, IAudioAnalyseRecordListener {
-    private val TAG = "ProfileModelMVP"
+    private val tag = "ProfileModelMVP"
     private var api: IUserApi? = ApiClient.retrofit.create(IUserApi::class.java)
     private val dataManager: IAnalyseDataManager = AudioAnalyseDbUtils(context, this)
 
@@ -33,8 +32,8 @@ class ProfileModel(context: Context) : ProfileContract.Model, IAudioAnalyseRecor
                 val responseRes: ProfileInfo? = response.body()
 
                 if (responseRes == null) {
-                    Log.e(TAG, "Body null error")
-                    Log.e(TAG, "Code : " + response.code())
+                    Log.e(tag, "Body null error")
+                    Log.e(tag, "Code : " + response.code())
                     onProfileInfoListener.onFailure(Throwable("Body null error : " + response.code()))
                 } else {
                     onProfileInfoListener.onFinished(responseRes)
@@ -43,7 +42,7 @@ class ProfileModel(context: Context) : ProfileContract.Model, IAudioAnalyseRecor
 
             override fun onFailure(call: Call<ProfileInfo>, t: Throwable) {
                 // Log error here since request failed
-                Log.e(TAG, t.toString())
+                Log.e(tag, t.toString())
                 onProfileInfoListener.onFailure(t)
             }
         })
@@ -70,8 +69,8 @@ class ProfileModel(context: Context) : ProfileContract.Model, IAudioAnalyseRecor
                 val responseRes: ResponseSuccess? = response.body()
 
                 if (responseRes == null) {
-                    Log.e(TAG, "Body null error")
-                    Log.e(TAG, "Code : " + response.code())
+                    Log.e(tag, "Body null error")
+                    Log.e(tag, "Code : " + response.code())
                     onFinishedListener.onFailure(Throwable("Body null error : " + response.code()))
                 } else {
                     onFinishedListener.onFinished(responseRes)
@@ -80,7 +79,7 @@ class ProfileModel(context: Context) : ProfileContract.Model, IAudioAnalyseRecor
 
             override fun onFailure(call: Call<ResponseSuccess>, t: Throwable) {
                 // Log error here since request failed
-                Log.e(TAG, t.toString())
+                Log.e(tag, t.toString())
                 onFinishedListener.onFailure(t)
             }
         })

@@ -30,7 +30,7 @@ class WifiTest {
     fun startActivity() {
         mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         appDrawer = UiScrollable(UiSelector().scrollable(true))
-        context = ApplicationProvider.getApplicationContext<Context>()
+        context = ApplicationProvider.getApplicationContext()
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         utils = UiAutomatorUtils(mDevice, appDrawer, context)
 

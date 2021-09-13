@@ -13,7 +13,6 @@ class SpotifyPresenter(view: SpotifyFragment, context: Context) : MainContract.P
 
     private var view: SpotifyFragment? = view
     private var model: SpotifyModel = SpotifyModel(context)
-    private var context = context
 
     /**
      * this method is not use here

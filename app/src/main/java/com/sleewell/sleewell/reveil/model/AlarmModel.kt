@@ -5,8 +5,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.text.format.*
-import android.util.Log
+import android.text.format.DateUtils
+import android.text.format.Time
 import androidx.lifecycle.LifecycleOwner
 import com.sleewell.sleewell.reveil.AlarmContract
 import com.sleewell.sleewell.reveil.AlarmReceiver
@@ -74,11 +74,11 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
     ) {
         val alarm = Alarm(0, time, false, days, ringtone.toString(), vibrate, label, displayed)
         if (index == 0) {
-            mAlarmViewModel.addAlarm(alarm).observe(lifecycleOwner, { id ->
-                mAlarmViewModel.getById(id.toInt()).observe(lifecycleOwner, { alarm ->
+            mAlarmViewModel.addAlarm(alarm).observe(lifecycleOwner) { id ->
+                mAlarmViewModel.getById(id.toInt()).observe(lifecycleOwner) { alarm ->
                     presenter?.startNewAlarm(alarm)
-                })
-            })
+                }
+            }
         } else {
             presenter?.startNewAlarm(alarm)
         }

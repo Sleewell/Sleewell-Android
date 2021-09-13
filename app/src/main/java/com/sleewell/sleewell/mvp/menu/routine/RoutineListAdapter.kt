@@ -12,10 +12,8 @@ import com.sleewell.sleewell.database.routine.entities.Routine
 import com.sleewell.sleewell.mvp.spotify.LoaderUrlImage
 
 
-class RoutineListAdapter(context: Context, aList: ArrayList<Routine>) : BaseAdapter()  {
+class RoutineListAdapter(private var context: Context, private var aList: ArrayList<Routine>) : BaseAdapter()  {
 
-    private var context: Context = context
-    private var aList: ArrayList<Routine> = aList
     private var inflater: LayoutInflater = LayoutInflater.from(context)
 
     @SuppressLint("ViewHolder", "SetTextI18n")
@@ -37,14 +35,14 @@ class RoutineListAdapter(context: Context, aList: ArrayList<Routine>) : BaseAdap
 
         if (aList[position].useMusic) {
             holder.music!!.setBackgroundResource(ic_music_on)
-            holder.music_title!!.visibility = View.VISIBLE
+            holder.musicTitle!!.visibility = View.VISIBLE
             if (aList[position].player == "Sleewell")
-                holder.music_title!!.text = aList[position].musicName.split("_").last()
+                holder.musicTitle!!.text = aList[position].musicName.split("_").last()
             else
-                holder.music_title!!.text = aList[position].musicName
+                holder.musicTitle!!.text = aList[position].musicName
         } else {
             holder.music!!.setBackgroundResource(ic_music_off)
-            holder.music_title!!.visibility = View.INVISIBLE
+            holder.musicTitle!!.visibility = View.INVISIBLE
         }
 
         if (aList[position].useHalo) {
@@ -52,13 +50,13 @@ class RoutineListAdapter(context: Context, aList: ArrayList<Routine>) : BaseAdap
             val g = aList[position].colorGreen
             val b = aList[position].colorBlue
 
-            holder.halo_icon!!.setBackgroundResource(ic_halo)
+            holder.haloIcon!!.setBackgroundResource(ic_halo)
 
             holder.halo!!.visibility = View.VISIBLE
 
             holder.halo!!.setBackgroundColor(Color.rgb(r, g, b))
         } else {
-            holder.halo_icon!!.setBackgroundResource(ic_halo_off)
+            holder.haloIcon!!.setBackgroundResource(ic_halo_off)
             holder.halo!!.visibility = View.INVISIBLE
         }
 

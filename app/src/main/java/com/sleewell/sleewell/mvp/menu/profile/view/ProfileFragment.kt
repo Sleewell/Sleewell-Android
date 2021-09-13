@@ -32,7 +32,7 @@ class ProfileFragment : Fragment(), ProfileContract.View {
     //Touch Detection
     private var mDownX: Float = 0f
     private var mDownY = 0f
-    private val SCROLL_THRESHOLD: Float = 10f
+    private val scrollThreshold: Float = 10f
     private var isOnClick = false
 
     override fun onCreateView(
@@ -185,8 +185,8 @@ class ProfileFragment : Fragment(), ProfileContract.View {
                     }
                 }
                 if (event.action == MotionEvent.ACTION_MOVE) {
-                    if (isOnClick && (abs(mDownX - event.x) > SCROLL_THRESHOLD
-                                || abs(mDownY - event.y) > SCROLL_THRESHOLD)) {
+                    if (isOnClick && (abs(mDownX - event.x) > scrollThreshold
+                                || abs(mDownY - event.y) > scrollThreshold)) {
                         isOnClick = false
                     }
                 }

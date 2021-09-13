@@ -29,7 +29,7 @@
         <activity
             android:name=".splashScreen.SplashScreenActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait">
+            android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -64,7 +64,7 @@
             android:name=".mvp.mainActivity.view.MainActivity"
             android:configChanges="orientation"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".reveil.DesactivationActivity"

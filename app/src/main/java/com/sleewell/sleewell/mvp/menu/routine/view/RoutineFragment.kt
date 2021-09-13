@@ -28,7 +28,7 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         root = inflater.inflate(R.layout.new_fragment_routine, container, false)
 
         setPresenter(RoutinePresenter(this, this.activity as AppCompatActivity))

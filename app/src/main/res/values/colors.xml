@@ -29,5 +29,5 @@
     <color name="haloColorDarkGreen">#1B7340</color>
     <color name="haloColorPink">#D2386C</color>
 
-    <color name="mtrl_textinput_default_box_stroke_color">#73FFFFFF</color>
+    <color name="textinput_default_box_stroke_color">#73FFFFFF</color>
 </resources>

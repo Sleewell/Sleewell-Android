@@ -15,7 +15,7 @@ import retrofit2.Callback
 class LoginModel(context: Context) : LoginContract.Model {
 
     private var api : ILoginApi? = ApiClientSleewell.retrofit.create(ILoginApi::class.java)
-    private val TAG = "ConnectionModel"
+    private val tag = "ConnectionModel"
 
     override fun loginToSleewell(onFinishedListener: LoginContract.Model.OnFinishedListener, name : String, password: String) {
         val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
@@ -26,7 +26,7 @@ class LoginModel(context: Context) : LoginContract.Model {
         val requestBody: RequestBody = builder.build()
         val call : Call<ResultLoginSleewell>? = api?.loginSleewell(requestBody)
 
-        Log.e(TAG, call?.request().toString())
+        Log.e(tag, call?.request().toString())
 
         call?.enqueue(object : Callback<ResultLoginSleewell> {
 
@@ -34,17 +34,17 @@ class LoginModel(context: Context) : LoginContract.Model {
                 val responseRes: ResultLoginSleewell? = response.body()
 
                 if (responseRes == null) {
-                    Log.e(TAG, "Body null error")
-                    Log.e(TAG, "Code : " + response.code())
+                    Log.e(tag, "Body null error")
+                    Log.e(tag, "Code : " + response.code())
                     onFinishedListener.onFailure(Throwable("Body null error : " + response.code()))
                 } else {
-                    Log.e(TAG, "Success")
+                    Log.e(tag, "Success")
                     onFinishedListener.onFinished(responseRes)
                 }
             }
 
             override fun onFailure(call: Call<ResultLoginSleewell>, t: Throwable) {
-                Log.e(TAG, t.toString())
+                Log.e(tag, t.toString())
                 onFinishedListener.onFailure(t)
             }
         })

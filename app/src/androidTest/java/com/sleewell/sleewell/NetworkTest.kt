@@ -31,7 +31,7 @@ class NetworkTest {
     fun startActivity() {
         mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         appDrawer = UiScrollable(UiSelector().scrollable(true))
-        context = getApplicationContext<Context>()
+        context = getApplicationContext()
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         utils = UiAutomatorUtils(mDevice, appDrawer, context)
 
@@ -54,11 +54,10 @@ class NetworkTest {
         assertEquals(isNetworkEnable(), true)
     }
 
-    private fun isNetworkEnable() : Boolean
-    {
-        val cm = getApplicationContext<Context>().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    private fun isNetworkEnable(): Boolean {
+        val cm =
+            getApplicationContext<Context>().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val nInfo = cm.activeNetworkInfo
-        val connected = nInfo != null && nInfo.isAvailable && nInfo.isConnected
-        return connected
+        return nInfo != null && nInfo.isAvailable && nInfo.isConnected
     }
 }

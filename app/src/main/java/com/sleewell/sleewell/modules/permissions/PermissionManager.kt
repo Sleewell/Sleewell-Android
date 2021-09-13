@@ -64,13 +64,4 @@ class PermissionManager(private val context: AppCompatActivity) {
             context.startActivity(intent)
         }
     }
-
-    /**
-     * Check if the permission for do not disturb has been granted
-     *
-     * @return Boolean
-     */
-    fun permissionGrantedNotification() : Boolean {
-        return notificationManager.isNotificationPolicyAccessGranted
-    }
 }

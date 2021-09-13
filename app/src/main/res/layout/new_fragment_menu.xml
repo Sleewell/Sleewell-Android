@@ -79,8 +79,8 @@
                 android:fontFamily="@font/nunito_bold"
                 android:textAlignment="center"
                 android:textColor="@drawable/button_text_color"
-                android:textOff="ALARM"
-                android:textOn="ALARM"
+                android:textOff="@string/alarm_title_menu"
+                android:textOn="@string/alarm_title_menu"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/home_nav"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -95,8 +95,8 @@
                 android:fontFamily="@font/nunito_bold"
                 android:textAlignment="center"
                 android:textColor="@drawable/button_text_color"
-                android:textOff="PROFILE"
-                android:textOn="PROFILE"
+                android:textOff="@string/profile_title_menu"
+                android:textOn="@string/profile_title_menu"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/alarm_nav"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -111,8 +111,8 @@
                 android:fontFamily="@font/nunito_bold"
                 android:textAlignment="center"
                 android:textColor="@drawable/button_text_color"
-                android:textOff="ROUTINE"
-                android:textOn="ROUTINE"
+                android:textOff="@string/routine_title_menu"
+                android:textOn="@string/routine_title_menu"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/profile_nav"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -127,8 +127,8 @@
                 android:fontFamily="@font/nunito_bold"
                 android:textAlignment="center"
                 android:textColor="@drawable/button_text_color"
-                android:textOff="STATS"
-                android:textOn="STATS"
+                android:textOff="@string/stats_title_menu"
+                android:textOn="@string/stats_title_menu"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/routine_nav"
                 app:layout_constraintTop_toTopOf="parent" />

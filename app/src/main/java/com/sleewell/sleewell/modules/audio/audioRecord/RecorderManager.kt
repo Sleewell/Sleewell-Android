@@ -8,12 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import java.io.IOException
 
 private const val className = "Record Manager"
-private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 
 class RecorderManager(private val ctx: AppCompatActivity) : IRecorderManager{
     // Permissions
-    private var permissionToRecordAccepted = false
-    private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
 
     private var recorder: MediaRecorder? = null
     private var isRecording : Boolean = false

@@ -3,20 +3,18 @@ package com.sleewell.sleewell.mvp.mainActivity.view
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.sleewell.sleewell.R
-import com.sleewell.sleewell.modules.gesturelistener.UserInteractionListener
-import com.sleewell.sleewell.mvp.mainActivity.MainContract
-import com.sleewell.sleewell.mvp.mainActivity.presenter.MainPresenter
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
-import com.sleewell.sleewell.api.openWeather.Main
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
-import com.sleewell.sleewell.database.analyse.night.NightDatabase
 import com.sleewell.sleewell.modules.audio.upload.AudioAnalyseUpload
+import com.sleewell.sleewell.modules.gesturelistener.UserInteractionListener
 import com.sleewell.sleewell.modules.permissions.PermissionManager
+import com.sleewell.sleewell.mvp.mainActivity.MainContract
+import com.sleewell.sleewell.mvp.mainActivity.presenter.MainPresenter
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.spotify.sdk.android.authentication.LoginActivity
@@ -49,7 +47,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun onStart() {
         super.onStart()
-        askAuthorisation();
+        askAuthorisation()
     }
 
     override fun onResume() {
