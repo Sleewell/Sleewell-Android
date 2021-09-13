@@ -12,6 +12,7 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.drawToBitmap
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -93,8 +94,6 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         dialogPick = PickImageDialog()
         pictureButtonWidget.setOnClickListener {
             if (!dialogPick.isAdded && flagPickDialog) {
-                println("Is dialog added: " + dialogPick.isAdded)
-                println("Is dialog showing: " + dialogPick.dialog?.isShowing)
                 dialogPick.show(activity!!.supportFragmentManager, "Image picker")
                 flagPickDialog = false
             }
@@ -124,62 +123,19 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         }
 
         usernameInputWidget.editText?.setOnEditorActionListener { _, actionId, keyEvent ->
-            if (keyEvent == null) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    presenter.updateProfileInformation()
-                    return@setOnEditorActionListener true
-                }
-                return@setOnEditorActionListener false
-            }
-            if (isDoneKeyPressed(actionId, keyEvent)) {
-                return@setOnEditorActionListener true
-            }
-            return@setOnEditorActionListener false
+            return@setOnEditorActionListener onEditorActionListener(actionId, keyEvent)
         }
 
         firstNameInputWidget.editText?.setOnEditorActionListener { _, actionId, keyEvent ->
-            if (keyEvent == null) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    presenter.updateProfileInformation()
-                    return@setOnEditorActionListener true
-                }
-                return@setOnEditorActionListener false
-            }
-            if (isDoneKeyPressed(actionId, keyEvent)) {
-                presenter.updateProfileInformation()
-                return@setOnEditorActionListener true
-            }
-            return@setOnEditorActionListener false
+            return@setOnEditorActionListener onEditorActionListener(actionId, keyEvent)
         }
 
         lastNameInputWidget.editText?.setOnEditorActionListener { _, actionId, keyEvent ->
-            if (keyEvent == null) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    presenter.updateProfileInformation()
-                    return@setOnEditorActionListener true
-                }
-                return@setOnEditorActionListener false
-            }
-            if (isDoneKeyPressed(actionId, keyEvent)) {
-                presenter.updateProfileInformation()
-                return@setOnEditorActionListener true
-            }
-            return@setOnEditorActionListener false
+            return@setOnEditorActionListener onEditorActionListener(actionId, keyEvent)
         }
 
         emailInputWidget.editText?.setOnEditorActionListener { _, actionId, keyEvent ->
-            if (keyEvent == null) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    presenter.updateProfileInformation()
-                    return@setOnEditorActionListener true
-                }
-                return@setOnEditorActionListener false
-            }
-            if (isDoneKeyPressed(actionId, keyEvent)) {
-                presenter.updateProfileInformation()
-                return@setOnEditorActionListener true
-            }
-            return@setOnEditorActionListener false
+            return@setOnEditorActionListener onEditorActionListener(actionId, keyEvent)
         }
     }
 
@@ -269,17 +225,20 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         }
         if (requestCode == IMAGE_PICK_CODE && resultCode == RESULT_OK) {
             val selectedImage: Uri? = data?.data
+
             if(Build.VERSION.SDK_INT < 28) {
                 val bitmap = MediaStore.Images.Media.getBitmap(
                     activity?.contentResolver, selectedImage)
                 val cropImg = cropToSquare(bitmap)
                 pictureWidget.setImageBitmap(cropImg)
+                presenter.updateProfilePicture(cropImg)
             } else {
                 if (selectedImage != null) {
                     val source = ImageDecoder.createSource(activity!!.contentResolver, selectedImage)
                     val bitmap = ImageDecoder.decodeBitmap(source)
                     val cropImg = cropToSquare(bitmap)
                     pictureWidget.setImageBitmap(cropImg)
+                    presenter.updateProfilePicture(cropImg)
                 }
             }
         }
@@ -289,6 +248,7 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         val bitmap = getBitmapFromView(picture) ?: return
         val cropImg = cropToSquare(bitmap)
         pictureWidget.setImageBitmap(cropImg)
+        presenter.updateProfilePicture(cropImg)
     }
 
     override fun setPresenter(presenter: ProfileContract.Presenter) {
@@ -307,9 +267,29 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         Toast.makeText(this.activity, message, Toast.LENGTH_SHORT).show()
     }
 
+    private fun onEditorActionListener(actionId: Int, keyEvent: KeyEvent?): Boolean {
+        if (keyEvent == null) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                presenter.updateProfileInformation()
+                return true
+            }
+            return false
+        }
+        if (isDoneKeyPressed(actionId, keyEvent)) {
+            presenter.updateProfileInformation()
+            return true
+        }
+        return false
+    }
+
     private fun isDoneKeyPressed(actionId: Int, keyEvent: KeyEvent): Boolean {
         return (actionId == EditorInfo.IME_ACTION_DONE
                 || keyEvent.action == KeyEvent.ACTION_DOWN
                 && keyEvent.keyCode == KeyEvent.KEYCODE_ENTER)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        presenter.cancelHttpCall()
     }
 }
