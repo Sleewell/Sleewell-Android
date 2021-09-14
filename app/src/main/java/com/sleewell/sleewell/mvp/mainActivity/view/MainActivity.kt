@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.mvp.mainActivity.view
 
+import android.app.Dialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -12,6 +13,8 @@ import com.sleewell.sleewell.mvp.mainActivity.presenter.MainPresenter
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
+import android.view.Window
+import android.widget.Button
 import com.sleewell.sleewell.api.openWeather.Main
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
 import com.sleewell.sleewell.database.analyse.night.NightDatabase
@@ -20,11 +23,12 @@ import com.sleewell.sleewell.modules.permissions.PermissionManager
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.spotify.sdk.android.authentication.LoginActivity
+import kotlinx.android.synthetic.main.confirmation_stat_dialog.*
 
 class MainActivity : AppCompatActivity(), MainContract.View {
     private var userInteractionListener: UserInteractionListener? = null
     private lateinit var presenter: MainContract.Presenter
-    private lateinit var statsUpload : AudioAnalyseUpload
+    private lateinit var statsUpload: AudioAnalyseUpload
 
     companion object {
         var getAccessTokenSpotify: Boolean = false
@@ -37,13 +41,13 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         super.onCreate(savedInstanceState)
         createNotificationChannel()
         setContentView(R.layout.new_activity_main)
-        statsUpload = AudioAnalyseUpload(applicationContext)
+        statsUpload = AudioAnalyseUpload(this)
         setPresenter(MainPresenter(this))
         presenter.onViewCreated()
         accessTokenSleewell = getAccessToken()
     }
 
-    fun getAccessToken() : String {
+    fun getAccessToken(): String {
         return SleewellApiTracker.getToken(applicationContext)
     }
 
