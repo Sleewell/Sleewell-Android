@@ -12,6 +12,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.api.openWeather.Main
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
 import com.sleewell.sleewell.modules.keyboardUtils.hideSoftKeyboard
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
@@ -42,7 +43,7 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_profile, container, false)
 
-        if (MainActivity.accessTokenSleewell.isEmpty()) {
+        if (MainActivity.accessTokenSleewell.isEmpty() && !MainActivity.getAccessGoogleAccount) {
             fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
         } else {
             initActivityWidgets()

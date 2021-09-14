@@ -12,11 +12,19 @@ import com.sleewell.sleewell.mvp.mainActivity.presenter.MainPresenter
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
+import android.util.Log
+import android.widget.Toast
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.sleewell.sleewell.api.openWeather.Main
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
 import com.sleewell.sleewell.database.analyse.night.NightDatabase
 import com.sleewell.sleewell.modules.audio.upload.AudioAnalyseUpload
 import com.sleewell.sleewell.modules.permissions.PermissionManager
+import com.sleewell.sleewell.mvp.menu.profile.view.LoginFragment
+import com.sleewell.sleewell.mvp.menu.profile.view.ProfileFragment
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.spotify.sdk.android.authentication.LoginActivity
@@ -31,6 +39,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         lateinit var accessTokenSpotify: String
 
         var accessTokenSleewell: String = ""
+
+        var getAccessGoogleAccount: Boolean = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,6 +116,21 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                 }
                 else -> {
                 }
+            }
+        }
+        if (requestCode == 9001) {
+            try {
+                val account = GoogleSignIn.getSignedInAccountFromIntent(intent).getResult(
+                    ApiException::class.java
+                )
+                getAccessGoogleAccount = account?.account.toString().isNotEmpty()
+                if (getAccessGoogleAccount) {
+                    //this.supportFragmentManager.beginTransaction().replace(R.id.nav_menu, ProfileFragment()).commit()
+                    Toast.makeText(this, account?.email + " " + account?.displayName + " " + account?.familyName, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: ApiException) {
+                Log.e("ERROR", e.statusCode.toString())
+                getAccessGoogleAccount = false
             }
         }
     }
