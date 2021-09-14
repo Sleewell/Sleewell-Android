@@ -220,6 +220,7 @@ class ProfileFragment : Fragment(), ProfileContract.View,
                 if (bitmap != null) {
                     val cropImg = cropToSquare(bitmap)
                     pictureWidget.setImageBitmap(cropImg)
+                    presenter.updateProfilePicture(cropImg)
                 }
             }
         }
