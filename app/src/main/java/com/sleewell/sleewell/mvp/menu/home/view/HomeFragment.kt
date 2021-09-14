@@ -1,6 +1,8 @@
 package com.sleewell.sleewell.mvp.menu.home.view
 
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
+import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -19,6 +21,7 @@ import com.sleewell.sleewell.mvp.menu.home.presenter.HomePresenter
 import com.sleewell.sleewell.mvp.protocol.view.ProtocolContainer
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 class HomeFragment : Fragment(), HomeContract.View {
     //Context
@@ -50,9 +53,17 @@ class HomeFragment : Fragment(), HomeContract.View {
 
         val navController = Navigation.findNavController(requireActivity(), R.id.nav_main)
 
+        this.dateView = root.findViewById(R.id.date)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            this.dateView = root.findViewById(R.id.date)
-            dateView.text = LocalDate.now().format(DateTimeFormatter.ofPattern("EEE d LLL"))
+            dateView.text = LocalDate.now()
+                .format(DateTimeFormatter.ofPattern("EEE. d MMM.", Locale.ENGLISH))
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val calendar = Calendar.getInstance()
+            val dateFormat = SimpleDateFormat("EEE. d MMM.", Locale.ENGLISH)
+            dateView.text = dateFormat.format(calendar.time)
+        } else {
+            val dateFormat = java.text.SimpleDateFormat("EEE. d MMM.", Locale.ENGLISH)
+            dateView.text = dateFormat.format(Date())
         }
 
         val buttonProtocol = root.findViewById<Button>(R.id.button_protocol)
