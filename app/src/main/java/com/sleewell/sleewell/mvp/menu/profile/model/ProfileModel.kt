@@ -99,6 +99,36 @@ class ProfileModel(context: Context) : ProfileContract.Model, IAudioAnalyseRecor
         return api?.uploadProfilePicture(token, body)
     }
 
+    override fun deleteAccount(
+        token: String,
+        onFinishedListener: ProfileContract.Model.OnFinishedListener<ResponseSuccess>
+    ) {
+        val call : Call<ResponseSuccess>? = api?.deleteAccount(token)
+
+        call?.enqueue(object : Callback<ResponseSuccess> {
+            override
+            fun onResponse(call: Call<ResponseSuccess>,
+                           response: Response<ResponseSuccess>) {
+
+                val responseRes: ResponseSuccess? = response.body()
+
+                if (responseRes == null) {
+                    Log.e(TAG, "Body null error")
+                    Log.e(TAG, "Code : " + response.code())
+                    onFinishedListener.onFailure(Throwable("Body null error : " + response.code()))
+                } else {
+                    onFinishedListener.onFinished(responseRes)
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseSuccess>, t: Throwable) {
+                // Log error here since request failed
+                Log.e(TAG, t.toString())
+                onFinishedListener.onFailure(t)
+            }
+        })
+    }
+
     /**
      * Logout the user from the API
      * @author Hugo Berthomé

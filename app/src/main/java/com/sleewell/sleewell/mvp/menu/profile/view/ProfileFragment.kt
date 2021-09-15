@@ -36,6 +36,7 @@ class ProfileFragment : Fragment(), ProfileContract.View,
     private lateinit var root: View
 
     private lateinit var dialogPick: DialogFragment
+    private lateinit var dialogDelete: DialogFragment
     private var dialogPickIsAdded = false
     private var dialogGiven: DialogFragment? = null
     private var dialogGivenIsAdded = false
@@ -90,6 +91,7 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         val pictureButtonWidget = root.findViewById<View>(R.id.outlinePictureButton)
         val saveButtonWidget = root.findViewById<ImageButton>(R.id.buttonSave)
         val logoutButtonWidget = root.findViewById<ImageButton>(R.id.buttonLogout)
+        val deleteButtonWidget = root.findViewById<Button>(R.id.buttonDelete)
 
         dialogPick = PickImageDialog()
         pictureButtonWidget.setOnClickListener {
@@ -104,9 +106,11 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         }
 
         logoutButtonWidget.setOnClickListener {
-            context?.let { it1 -> SleewellApiTracker.disconnect(it1) }
-            presenter.logoutUser()
-            fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
+            logoutUser()
+        }
+
+        deleteButtonWidget.setOnClickListener {
+            presenter.deleteAccount()
         }
 
         usernameInputWidget.editText?.doOnTextChanged { input, _, _, _ ->
@@ -156,6 +160,12 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         emailInputLayout?.visibility = View.VISIBLE
 
         progressWidget.visibility = View.GONE
+    }
+
+    override fun logoutUser() {
+        context?.let { it1 -> SleewellApiTracker.disconnect(it1) }
+        presenter.logoutUser()
+        fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
     }
 
     private fun setupUI(view: View) {

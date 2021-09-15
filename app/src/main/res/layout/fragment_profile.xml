@@ -252,7 +252,8 @@
     </ScrollView>
 
     <Button
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+        android:id="@+id/buttonDelete"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/delete_account"
@@ -260,11 +261,9 @@
         android:textAppearance="@style/TextAppearance.App.Delete"
         android:textColor="@color/redOnSurface"
         android:textSize="12sp"
-        app:icon="@drawable/ic_delete_forever_24px_outlined"
-        app:iconSize="20dp"
-        app:iconTint="@color/redOnSurface"
         app:layout_constraintBottom_toBottomOf="@+id/view2"
         app:layout_constraintEnd_toStartOf="@+id/view2"
         app:layout_constraintStart_toEndOf="@+id/buttonLogout"
+        app:layout_constraintTop_toTopOf="@+id/view2"
         app:strokeColor="@color/redOnSurface" />
 </androidx.constraintlayout.widget.ConstraintLayout>
