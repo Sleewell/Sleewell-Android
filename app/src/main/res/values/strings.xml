@@ -127,6 +127,7 @@
     <string name="editTextHintEmail">Email</string>
     <string name="editTextHintFirstName">First Name</string>
     <string name="editTextHintLastName">Last Name</string>
+    <string name="delete_account">Delete account</string>
 
     <string name="log_in_underline"><u>Log in</u></string>
     <string name="sign_up_underline"><u>Sign up</u></string>
