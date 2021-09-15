@@ -15,7 +15,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class AlarmTest {
+class AlarmUITest {
     private lateinit var context: Context
     private lateinit var notificationManager: NotificationManager
     private lateinit var mDevice: UiDevice
@@ -55,8 +55,6 @@ class AlarmTest {
         )
         creationButton.click()
 
-        assert(mDevice.findObject(UiSelector().resourceId("com.sleewell.sleewell:id/checkBox_create_vibrate")).isChecked)
         assert(mDevice.findObject(UiSelector().resourceId("com.sleewell.sleewell:id/time_picker_create_alarm")).exists())
-
     }
 }
