@@ -114,6 +114,27 @@ class ProfilePresenter(view: ProfileContract.View,val context: Context) : Profil
         }
     }
 
+    override fun logoutUser() {
+        model.removeToken()
+        model.deleteAllNightData()
+    }
+
+    override fun deleteAccount() {
+        val token = MainActivity.accessTokenSleewell
+
+        model.deleteAccount(token,
+        object : ProfileContract.Model.OnFinishedListener<ResponseSuccess> {
+            override fun onFinished(response: ResponseSuccess) {
+                view?.logoutUser()
+                view?.showToast("Account deleted")
+            }
+
+            override fun onFailure(t: Throwable) {
+                view?.showToast("Error: could not delete the account")
+            }
+        })
+    }
+
     override fun onDestroy() {
         view = null;
     }
@@ -131,12 +152,11 @@ class ProfilePresenter(view: ProfileContract.View,val context: Context) : Profil
         if (email != null) { this.email = email }
     }
 
-    override fun logoutUser() {
-        model.removeToken()
-        model.deleteAllNightData()
-    }
+
 
     override fun cancelHttpCall() {
         coroutine?.cancel()
     }
+
+
 }

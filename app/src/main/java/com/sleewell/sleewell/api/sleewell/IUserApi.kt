@@ -31,4 +31,9 @@ interface IUserApi {
         @Header("Authorization") token: String,
         @Part body: MultipartBody.Part
     ): ResponseSuccess
+
+    @POST("user/delete")
+    fun deleteAccount(
+        @Header("Authorization") token: String
+    ): Call<ResponseSuccess>
 }
