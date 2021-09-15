@@ -291,6 +291,8 @@ class ProfileFragment : Fragment(), ProfileContract.View,
 
     override fun onPause() {
         super.onPause()
-        presenter.cancelHttpCall()
+        if (this::presenter.isInitialized) {
+            presenter.cancelHttpCall()
+        }
     }
 }
