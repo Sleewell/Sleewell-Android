@@ -28,12 +28,24 @@
 
     <style name="AppTheme.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="colorSurface">@color/colorPrimaryDark</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/AppTheme.MaterialAlertDialog.Title.Text</item>
         <item name="materialAlertDialogBodyTextStyle">@style/AppTheme.MaterialAlertDialog.BodyText</item>
+    </style>
+
+    <style name="AppTheme.MaterialAlertDialog.Title.Text" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.Delete.Title</item>
+    </style>
+
+    <style name="TextAppearance.App.Delete.Title" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:fontFamily">@font/nunito_semibold</item>
+        <item name="fontFamily">@font/nunito_semibold</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="AppTheme.MaterialAlertDialog.BodyText" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
         <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="fontFamily">@font/nunito_light</item>
     </style>
 
