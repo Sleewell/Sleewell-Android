@@ -120,7 +120,14 @@
     <string name="sharedPrefFile">sharedpreference</string>
     <string name="user_token_key">USER_TOKEN_SLEEWELL</string>
 
-    <!-- Underline -->
+    <!-- Account and Profile -->
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="editTextHintPassword">Password</string>
+    <string name="editTextHintLogin">Login</string>
+    <string name="editTextHintEmail">Email</string>
+    <string name="editTextHintFirstName">First Name</string>
+    <string name="editTextHintLastName">Last Name</string>
+
     <string name="log_in_underline"><u>Log in</u></string>
     <string name="sign_up_underline"><u>Sign up</u></string>
 
@@ -152,6 +159,7 @@
     <string name="check">Check</string>
     <string name="ringtone">Ringtone</string>
     <string name="deleteall">deleteAll</string>
+    <string name="validate">VALIDATE</string>
     <string name="my_alarms">My Alarms</string>
     <string name="my_routines">My Routines</string>
     <!-- Preference Titles -->
@@ -167,5 +175,4 @@
     <string name="attachment_title">Download incoming attachments</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 </resources>

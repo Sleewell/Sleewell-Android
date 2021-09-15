@@ -1,6 +1,5 @@
 package com.sleewell.sleewell.reveil.data.model
 
-import android.net.Uri
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -25,6 +24,7 @@ data class Alarm(
 ): Parcelable
 
 class DataConverter {
+
     @TypeConverter
     fun fromBooleanList(booleans: List<Boolean?>?): String? {
         if (booleans == null) {

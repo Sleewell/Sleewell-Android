@@ -6,17 +6,17 @@ import android.content.Intent
 import com.sleewell.sleewell.reveil.data.model.Alarm
 
 /**
- * Receiver of the alarm
+ * Receiver of the alert.
  *
  * @author Romane Bézier
  */
 class AlertReceiver : BroadcastReceiver() {
+
     /**
-     * When alert receiver receive a signal
+     * This method is called when the BroadcastReceiver is receiving an Intent broadcast.
      *
-     * @param context Context of the application
-     * @param intent Intent of the application
-     * @author Romane Bézier
+     * @param context The Context in which the receiver is running.
+     * @param intent The Intent being received.
      */
     override fun onReceive(context: Context, intent: Intent) {
         val alarm: Alarm

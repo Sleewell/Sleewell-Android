@@ -1,18 +1,26 @@
 package com.sleewell.sleewell.mvp.menu.profile.view
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.*
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.drawToBitmap
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
+import com.sleewell.sleewell.modules.imageUtils.ImageUtils.Companion.cropToSquare
+import com.sleewell.sleewell.modules.imageUtils.ImageUtils.Companion.getBitmapFromView
 import com.sleewell.sleewell.modules.keyboardUtils.hideSoftKeyboard
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.profile.contract.ProfileContract
@@ -21,13 +29,26 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlin.math.abs
 
 
-class ProfileFragment : Fragment(), ProfileContract.View {
+class ProfileFragment : Fragment(), ProfileContract.View,
+    PickImageDialog.DialogEventListener, GivenImagesDialog.DialogEventListener {
     //Context
     private lateinit var presenter: ProfileContract.Presenter
     private lateinit var root: View
 
+    private lateinit var dialogPick: DialogFragment
+    private var dialogPickIsAdded = false
+    private var dialogGiven: DialogFragment? = null
+    private var dialogGivenIsAdded = false
+
+    companion object {
+        const val IMAGE_CAPTURE_CODE = 0
+        const val IMAGE_PICK_CODE = 1
+        var flagPickDialog = true
+    }
+
     //View widgets
     private lateinit var progressWidget: ProgressBar
+    private lateinit var pictureWidget: ImageView
 
     //Touch Detection
     private var mDownX: Float = 0f
@@ -46,6 +67,8 @@ class ProfileFragment : Fragment(), ProfileContract.View {
             fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
         } else {
             initActivityWidgets()
+            (activity as MainActivity?)?.setPickDialogEventListener(this)
+            (activity as MainActivity?)?.setGivenDialogEventListener(this)
             setupUI(root.findViewById(R.id.profileParent))
             setPresenter(ProfilePresenter(this, this.activity as AppCompatActivity))
         }
@@ -60,17 +83,29 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         val firstNameInputWidget = root.findViewById<TextInputLayout>(R.id.firstNameInputLayout)
         val lastNameInputWidget = root.findViewById<TextInputLayout>(R.id.lastNameInputLayout)
         val emailInputWidget = root.findViewById<TextInputLayout>(R.id.emailInputLayout)
-        progressWidget = root.findViewById(R.id.progress)
 
+        progressWidget = root.findViewById(R.id.progress)
+        pictureWidget = root.findViewById(R.id.avatar)
+
+        val pictureButtonWidget = root.findViewById<View>(R.id.outlinePictureButton)
         val saveButtonWidget = root.findViewById<ImageButton>(R.id.buttonSave)
         val logoutButtonWidget = root.findViewById<ImageButton>(R.id.buttonLogout)
+
+        dialogPick = PickImageDialog()
+        pictureButtonWidget.setOnClickListener {
+            if (!dialogPick.isAdded && flagPickDialog) {
+                dialogPick.show(activity!!.supportFragmentManager, "Image picker")
+                flagPickDialog = false
+            }
+        }
 
         saveButtonWidget.setOnClickListener {
             presenter.updateProfileInformation()
         }
+
         logoutButtonWidget.setOnClickListener {
             context?.let { it1 -> SleewellApiTracker.disconnect(it1) }
-            MainActivity.accessTokenSleewell = ""
+            presenter.logoutUser()
             fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
         }
 
@@ -88,66 +123,19 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         }
 
         usernameInputWidget.editText?.setOnEditorActionListener { _, actionId, keyEvent ->
-            if (keyEvent == null) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    presenter.updateProfileInformation()
-                    return@setOnEditorActionListener true
-                }
-                return@setOnEditorActionListener false
-            }
-            if (isDoneKeyPressed(actionId, keyEvent)) {
-
-                return@setOnEditorActionListener true
-            }
-            return@setOnEditorActionListener false
+            return@setOnEditorActionListener onEditorActionListener(actionId, keyEvent)
         }
 
         firstNameInputWidget.editText?.setOnEditorActionListener { _, actionId, keyEvent ->
-            if (keyEvent == null) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    presenter.updateProfileInformation()
-                    return@setOnEditorActionListener true
-                }
-                return@setOnEditorActionListener false
-            }
-            if (isDoneKeyPressed(actionId, keyEvent)) {
-
-                presenter.updateProfileInformation()
-                return@setOnEditorActionListener true
-            }
-            return@setOnEditorActionListener false
+            return@setOnEditorActionListener onEditorActionListener(actionId, keyEvent)
         }
 
         lastNameInputWidget.editText?.setOnEditorActionListener { _, actionId, keyEvent ->
-            if (keyEvent == null) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    presenter.updateProfileInformation()
-                    return@setOnEditorActionListener true
-                }
-                return@setOnEditorActionListener false
-            }
-            if (isDoneKeyPressed(actionId, keyEvent)) {
-
-                presenter.updateProfileInformation()
-                return@setOnEditorActionListener true
-            }
-            return@setOnEditorActionListener false
+            return@setOnEditorActionListener onEditorActionListener(actionId, keyEvent)
         }
 
         emailInputWidget.editText?.setOnEditorActionListener { _, actionId, keyEvent ->
-            if (keyEvent == null) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    presenter.updateProfileInformation()
-                    return@setOnEditorActionListener true
-                }
-                return@setOnEditorActionListener false
-            }
-            if (isDoneKeyPressed(actionId, keyEvent)) {
-
-                presenter.updateProfileInformation()
-                return@setOnEditorActionListener true
-            }
-            return@setOnEditorActionListener false
+            return@setOnEditorActionListener onEditorActionListener(actionId, keyEvent)
         }
     }
 
@@ -174,8 +162,6 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         // Set up touch listener for non-text box views to hide keyboard.
         if (view !is EditText) {
             view.setOnTouchListener { v, event ->
-                println("action: " + event.action.toString())
-                println(isOnClick)
                 if (event.action == MotionEvent.ACTION_DOWN) {
                     mDownX = event.x
                     mDownY = event.y
@@ -206,18 +192,105 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         }
     }
 
+    override fun onDialogTakePictureClick(dialog: DialogFragment) {
+        val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(takePicture, IMAGE_CAPTURE_CODE)
+    }
+
+    override fun onDialogPickPictureClick(dialog: DialogFragment) {
+        val pickPhoto = Intent(Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(pickPhoto, IMAGE_PICK_CODE)
+    }
+
+    override fun onDialogGivenPictureClick(dialog: DialogFragment) {
+        if (dialogGiven == null) {
+            dialogGiven = GivenImagesDialog()
+        }
+        if (!dialogGiven!!.isAdded) {
+            dialogGiven!!.show(activity!!.supportFragmentManager, "Image chooser")
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == IMAGE_CAPTURE_CODE && resultCode == RESULT_OK) {
+            if (data != null) {
+                val bitmap = data.extras?.get("data") as Bitmap?
+                if (bitmap != null) {
+                    val cropImg = cropToSquare(bitmap)
+                    pictureWidget.setImageBitmap(cropImg)
+                    presenter.updateProfilePicture(cropImg)
+                }
+            }
+        }
+        if (requestCode == IMAGE_PICK_CODE && resultCode == RESULT_OK) {
+            val selectedImage: Uri? = data?.data
+
+            if(Build.VERSION.SDK_INT < 28) {
+                val bitmap = MediaStore.Images.Media.getBitmap(
+                    activity?.contentResolver, selectedImage)
+                val cropImg = cropToSquare(bitmap)
+                pictureWidget.setImageBitmap(cropImg)
+                presenter.updateProfilePicture(cropImg)
+            } else {
+                if (selectedImage != null) {
+                    val source = ImageDecoder.createSource(activity!!.contentResolver, selectedImage)
+                    val bitmap = ImageDecoder.decodeBitmap(source)
+                    val cropImg = cropToSquare(bitmap)
+                    pictureWidget.setImageBitmap(cropImg)
+                    presenter.updateProfilePicture(cropImg)
+                }
+            }
+        }
+    }
+
+    override fun onDialogPictureClick(picture: ImageView) {
+        val bitmap = getBitmapFromView(picture) ?: return
+        val cropImg = cropToSquare(bitmap)
+        pictureWidget.setImageBitmap(cropImg)
+        presenter.updateProfilePicture(cropImg)
+    }
+
     override fun setPresenter(presenter: ProfileContract.Presenter) {
         this.presenter = presenter
         presenter.onViewCreated()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
+        (activity as MainActivity).setPickDialogEventListener(null)
+        (activity as MainActivity).setGivenDialogEventListener(null)
     }
 
     override fun showToast(message: String) {
         Toast.makeText(this.activity, message, Toast.LENGTH_SHORT).show()
     }
 
+    private fun onEditorActionListener(actionId: Int, keyEvent: KeyEvent?): Boolean {
+        if (keyEvent == null) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                presenter.updateProfileInformation()
+                return true
+            }
+            return false
+        }
+        if (isDoneKeyPressed(actionId, keyEvent)) {
+            presenter.updateProfileInformation()
+            return true
+        }
+        return false
+    }
+
     private fun isDoneKeyPressed(actionId: Int, keyEvent: KeyEvent): Boolean {
         return (actionId == EditorInfo.IME_ACTION_DONE
                 || keyEvent.action == KeyEvent.ACTION_DOWN
                 && keyEvent.keyCode == KeyEvent.KEYCODE_ENTER)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        presenter.cancelHttpCall()
     }
 }

@@ -55,7 +55,7 @@ interface RoutineContract {
          *
          * @author gabin warnier de wailly
          */
-        fun updateSpotifyMusicSelected(musicName: String, musicUri: String, tag: String?)
+        fun updateSpotifyMusicSelected(musicName: String, musicUri: String, musicImage: String, tag: String?)
 
         /**
          * This method update in the routine the music you selected from Sleewell
@@ -141,7 +141,7 @@ interface RoutineContract {
          *
          * @author gabin warnier de wailly
          */
-        fun updateSpotifyMusicSelected(musicName: String, musicUri: String, tag: String?)
+        fun updateSpotifyMusicSelected(musicName: String, musicUri: String, musicImage : String,tag: String?)
 
         /**
          * This method update in the routine the music you selected from Sleewell

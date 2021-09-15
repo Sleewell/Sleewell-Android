@@ -47,8 +47,8 @@ class RoutinePresenter(view: RoutineContract.View, context: Context) : RoutineCo
         model.openRoutineParameter(nbr, fragmentManager, fragment)
     }
 
-    override fun updateSpotifyMusicSelected(musicName: String, musicUri: String, tag: String?) {
-        model.updateSpotifyMusicSelected(musicName, musicUri, tag)
+    override fun updateSpotifyMusicSelected(musicName: String, musicUri: String, musicImage : String, tag: String?) {
+        model.updateSpotifyMusicSelected(musicName, musicUri, musicImage, tag)
     }
 
     override fun updateSleewellMusicSelected(musicName: String, tag: String?) {

@@ -1,20 +1,35 @@
 package com.sleewell.sleewell.mvp.menu.profile.model
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import com.sleewell.sleewell.api.sleewell.ApiClient
 import com.sleewell.sleewell.api.sleewell.IUserApi
 import com.sleewell.sleewell.api.sleewell.model.ProfileInfo
 import com.sleewell.sleewell.api.sleewell.model.ResponseSuccess
+import com.sleewell.sleewell.database.analyse.night.entities.Night
+import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseDbUtils
+import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.IAnalyseDataManager
+import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
+import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
+import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.profile.contract.ProfileContract
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 
-class ProfileModel() : ProfileContract.Model {
+
+class ProfileModel(context: Context) : ProfileContract.Model, IAudioAnalyseRecordListener {
     private val TAG = "ProfileModelMVP"
     private var api: IUserApi? = ApiClient.retrofit.create(IUserApi::class.java)
+    private val dataManager: IAnalyseDataManager = AudioAnalyseDbUtils(context, this)
 
     override fun getProfileInformation(token: String, onProfileInfoListener: ProfileContract.Model.OnProfileInfoListener) {
         val call: Call<ProfileInfo>? = api?.getProfileInformation(token)
@@ -53,7 +68,6 @@ class ProfileModel() : ProfileContract.Model {
         )
 
         call?.enqueue(object : Callback<ResponseSuccess> {
-
             override fun onResponse(
                 call: Call<ResponseSuccess>,
                 response: Response<ResponseSuccess>
@@ -75,5 +89,52 @@ class ProfileModel() : ProfileContract.Model {
                 onFinishedListener.onFailure(t)
             }
         })
+    }
+
+    override suspend fun uploadProfilePicture(token: String, picture: File): ResponseSuccess? {
+
+        val fileBody = picture.asRequestBody("image/*".toMediaTypeOrNull())
+        val body = MultipartBody.Part.createFormData("picture", picture.name, fileBody)
+
+        return api?.uploadProfilePicture(token, body)
+    }
+
+    /**
+     * Logout the user from the API
+     * @author Hugo Berthomé
+     */
+    override fun removeToken() {
+        MainActivity.accessTokenSleewell = ""
+    }
+
+    /**
+     * Delete all the data nights saved on the phone
+     * @author Hugo Berthomé
+     */
+    override fun deleteAllNightData() {
+        dataManager.getAvailableAnalyse()
+    }
+
+    override fun onAnalyseRecordEnd() {
+        // Unused
+    }
+
+    override fun onReadAnalyseRecord(data: Array<AnalyseValue>, nightId: Long) {
+        // Unused
+    }
+
+    override fun onAnalyseRecordError(msg: String) {
+        // Unused
+    }
+
+    /**
+     * Function called when received the list of available analyse
+     *
+     * @param analyses
+     */
+    override fun onListAvailableAnalyses(analyses: List<Night>) {
+        analyses.forEach {
+            dataManager.deleteAnalyse(it.uId)
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.sleewell.sleewell.modules.navigation
 
-import android.util.Log
 import android.widget.CompoundButton
 import android.widget.ToggleButton
 import androidx.navigation.NavController
@@ -32,7 +31,6 @@ class CustomNavBar : ICustomNavBar {
             button.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
                 button.isEnabled = !b
                 if (b) {
-                    Log.d("StateMAGIQUE", index.toString())
                     if (destinationIDs.indexOf(navController.currentDestination?.id) > index) {
                         navController.navigate(destinationIDs[index], null, goLeft.build())
                     } else {
@@ -43,5 +41,33 @@ class CustomNavBar : ICustomNavBar {
                 }
             }
         }
+    }
+
+    fun navigateRight(navController: NavController): Boolean {
+        val index = destinationIDs.indexOf(navController.currentDestination?.id)
+
+        if (index < destinationIDs.size - 1) {
+            buttons[index].isEnabled = true
+            buttons[index].isChecked = false
+            buttons[index + 1].isEnabled = false
+            buttons[index + 1].isChecked = true
+            navController.navigate(destinationIDs[index + 1], null, goRight.build())
+            return true
+        }
+        return false
+    }
+
+    fun navigateLeft(navController: NavController): Boolean {
+        val index = destinationIDs.indexOf(navController.currentDestination?.id)
+
+        if (index != 0) {
+            buttons[index].isEnabled = true
+            buttons[index].isChecked = false
+            buttons[index - 1].isEnabled = false
+            buttons[index - 1].isChecked = true
+            navController.navigate(destinationIDs[index - 1], null, goLeft.build())
+            return true
+        }
+        return false
     }
 }

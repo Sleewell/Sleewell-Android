@@ -6,7 +6,9 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.spotify.view.SpotifyFragment
 import com.sleewell.sleewell.mvp.menu.routine.RoutineContract
 import com.sleewell.sleewell.mvp.menu.routine.RoutineListAdapter
@@ -20,6 +22,7 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
 
     private lateinit var btn: ImageButton
     private lateinit var listView: ListView
+    private lateinit var refreshLayout: SwipeRefreshLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,8 +40,8 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
         return root
     }
 
-    override fun sendInput(musicName: String, musicUri : String, tag : String?) {
-        presenter.updateSpotifyMusicSelected(musicName, musicUri, tag)
+    override fun sendInput(musicName: String, musicUri : String, musicImage : String,tag : String?) {
+        presenter.updateSpotifyMusicSelected(musicName, musicUri, musicImage, tag)
     }
 
     override fun sendInput(musicName: String, tag: String?) {
@@ -56,7 +59,17 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
             presenter.createNewItemRoutine(fragmentManager, this)
         }
 
-        presenter.updateAdapter()
+        refreshLayout = root.findViewById(R.id.refreshLayoutRoutine)
+
+        refreshLayout.setOnRefreshListener {
+            presenter.updateAdapter()
+            refreshLayout.isRefreshing = false
+        }
+
+        if (MainActivity.accessTokenSleewell.isNotEmpty())
+            presenter.updateAdapter()
+        else
+            btn.visibility = View.INVISIBLE
     }
 
     private fun initSettingButton() {
