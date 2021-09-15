@@ -30,21 +30,21 @@ import kotlin.math.abs
 
 
 class ProfileFragment : Fragment(), ProfileContract.View,
-    PickImageDialog.DialogEventListener, GivenImagesDialog.DialogEventListener {
+    PickImageDialog.DialogEventListener, GivenImagesDialog.DialogEventListener,
+    DeleteDialog.DialogEventListener {
     //Context
     private lateinit var presenter: ProfileContract.Presenter
     private lateinit var root: View
 
     private lateinit var dialogPick: DialogFragment
     private lateinit var dialogDelete: DialogFragment
-    private var dialogPickIsAdded = false
     private var dialogGiven: DialogFragment? = null
-    private var dialogGivenIsAdded = false
 
     companion object {
         const val IMAGE_CAPTURE_CODE = 0
         const val IMAGE_PICK_CODE = 1
         var flagPickDialog = true
+        var flagDeleteDialog = true
     }
 
     //View widgets
@@ -68,8 +68,7 @@ class ProfileFragment : Fragment(), ProfileContract.View,
             fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
         } else {
             initActivityWidgets()
-            (activity as MainActivity?)?.setPickDialogEventListener(this)
-            (activity as MainActivity?)?.setGivenDialogEventListener(this)
+            setDialogListeners()
             setupUI(root.findViewById(R.id.profileParent))
             setPresenter(ProfilePresenter(this, this.activity as AppCompatActivity))
         }
@@ -94,6 +93,8 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         val deleteButtonWidget = root.findViewById<Button>(R.id.buttonDelete)
 
         dialogPick = PickImageDialog()
+        dialogDelete = DeleteDialog()
+
         pictureButtonWidget.setOnClickListener {
             if (!dialogPick.isAdded && flagPickDialog) {
                 dialogPick.show(activity!!.supportFragmentManager, "Image picker")
@@ -110,7 +111,10 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         }
 
         deleteButtonWidget.setOnClickListener {
-            presenter.deleteAccount()
+            if (!dialogDelete.isAdded && flagDeleteDialog) {
+                dialogDelete.show(activity!!.supportFragmentManager, "Delete account")
+                flagDeleteDialog = false
+            }
         }
 
         usernameInputWidget.editText?.doOnTextChanged { input, _, _, _ ->
@@ -262,6 +266,16 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         presenter.updateProfilePicture(cropImg)
     }
 
+    override fun onContinue() {
+        presenter.deleteAccount()
+    }
+
+    fun setDialogListeners() {
+        (activity as MainActivity?)?.setPickDialogEventListener(this)
+        (activity as MainActivity?)?.setGivenDialogEventListener(this)
+        (activity as MainActivity?)?.setDeleteDialogEventListener(this)
+    }
+
     override fun setPresenter(presenter: ProfileContract.Presenter) {
         this.presenter = presenter
         presenter.onViewCreated()
@@ -272,6 +286,7 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         presenter.onDestroy()
         (activity as MainActivity).setPickDialogEventListener(null)
         (activity as MainActivity).setGivenDialogEventListener(null)
+        (activity as MainActivity).setDeleteDialogEventListener(null)
     }
 
     override fun showToast(message: String) {

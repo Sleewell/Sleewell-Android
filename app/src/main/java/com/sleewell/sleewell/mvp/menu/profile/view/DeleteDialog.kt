@@ -2,6 +2,7 @@ package com.sleewell.sleewell.mvp.menu.profile.view
 
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -31,12 +32,22 @@ class DeleteDialog : DialogFragment() {
                     "The following action will permanently delete your account.\n" +
                     "Are you sure you wish to continue?")
                 .setNegativeButton("Cancel") { dialog, which ->
-                    dialog.dismiss()
+                    this.dismiss()
                 }
-                .setPositiveButton("Cancel") { dialog, which ->
-                    dialog.dismiss()
+                .setPositiveButton("Delete") { dialog, which ->
+                    this.dismiss()
                     eventListener.onContinue()
                 }.create()
         }
+    }
+
+    override fun dismiss() {
+        super.dismiss()
+        ProfileFragment.flagDeleteDialog = true
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        ProfileFragment.flagDeleteDialog = true
     }
 }
