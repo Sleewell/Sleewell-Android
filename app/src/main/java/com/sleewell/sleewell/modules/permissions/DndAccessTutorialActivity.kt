@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.modules.permissions
 
+import android.app.NotificationManager
 import android.content.Intent
 import android.graphics.drawable.Animatable2
 import android.graphics.drawable.Drawable
@@ -9,11 +10,18 @@ import android.provider.Settings
 import android.widget.Button
 import android.widget.ImageView
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 
 class DndAccessTutorialActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dnd_access_tutorial)
+
+        val permissionManager = PermissionManager(this)
+        if (permissionManager.permissionGrantedNotification()) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
         val button = findViewById<Button>(R.id.buttonProceed)
         button.setOnClickListener {
@@ -30,5 +38,14 @@ class DndAccessTutorialActivity : AppCompatActivity() {
             }
         })
         animated.start()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val permissionManager = PermissionManager(this)
+        if (permissionManager.permissionGrantedNotification()) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
