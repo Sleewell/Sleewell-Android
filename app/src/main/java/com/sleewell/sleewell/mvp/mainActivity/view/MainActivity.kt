@@ -26,7 +26,6 @@ import com.sleewell.sleewell.mvp.menu.profile.view.PickImageDialog
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.spotify.sdk.android.authentication.LoginActivity
-import kotlinx.android.synthetic.main.confirmation_stat_dialog.*
 
 class MainActivity : AppCompatActivity(), MainContract.View,
     PickImageDialog.DialogEventListener, GivenImagesDialog.DialogEventListener {

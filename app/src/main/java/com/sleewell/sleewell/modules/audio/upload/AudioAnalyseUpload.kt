@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.Window
 import android.widget.Button
 import android.widget.TextView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.ApiClient
 import com.sleewell.sleewell.api.sleewell.IStatsApi
@@ -177,34 +178,27 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
      * @param nightFromApi
      */
     private fun showDialog(datas: Array<AnalyseValue>, nightId: Long, nightFromApi: NightAnalyse, date: String) {
-        val dialog = Dialog(context)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.confirmation_stat_dialog)
+        val year = date.substring(0..4)
+        val month = date.substring(4..6)
+        val day = date.substring(6..8)
 
-        // INIT the view of the dialog
-        val buttonFuse: Button = dialog.findViewById(R.id.fuse_button)
-        val buttonNew: Button = dialog.findViewById(R.id.new_night_button)
-        val text: TextView = dialog.findViewById(R.id.textView_title_confirmation)
-
-        text.text = "A night exist for $date, do you want to fuse or create a new whole night ?"
-
-        buttonFuse.setOnClickListener {
-            dialog.dismiss()
-            scopeIOThread.launch {
-                uploadData(datas, nightId, date, true)
+        MaterialAlertDialogBuilder(context)
+            .setCancelable(false)
+            .setMessage("A night exist for $year-$month-$day, do you want to merge or create a new whole night with the last registered ?")
+            .setNegativeButton("New") { dialog, _ ->
+                dialog.dismiss()
+                scopeIOThread.launch {
+                    uploadData(datas, nightId, date)
+                }
+                checkFusionList()
             }
-            checkFusionList()
-        }
-
-        buttonNew.setOnClickListener {
-            dialog.dismiss()
-            scopeIOThread.launch {
-                uploadData(datas, nightId, date)
-            }
-            checkFusionList()
-        }
-        dialog.show()
+            .setPositiveButton("Merge") { dialog, _ ->
+                dialog.dismiss()
+                scopeIOThread.launch {
+                    uploadData(datas, nightId, date, true)
+                }
+                checkFusionList()
+            }.show()
     }
 
     /**
