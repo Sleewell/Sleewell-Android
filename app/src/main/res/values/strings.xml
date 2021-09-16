@@ -175,14 +175,12 @@
     <string name="attachment_title">Download incoming attachments</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
-    <string name="dndAccessTutorialDescription1">
-        Before you can start using the app, there is a favor we have to ask of you. <br />
-        Sleewell needs to have access to the "Do not disturb" mode.
+    <string name="dndAccessTutorialDescription1">Before you can start using the app, there is a favor we have to ask of you.
+        Sleewell needs to have access to the Do not disturb mode.
          It will only use it during the routine, if you set it up as such.
     </string>
 
-    <string name="dndAccessTutorialDescription2">
-        By pressing the following button, you will be redirected to an android setting page
-         where you will have to find and authorize Sleewell to access the "Do not disturb" mode.
+    <string name="dndAccessTutorialDescription2">By pressing the following button, you will be redirected to an android setting page
+         where you will have to find Sleewell and grant access to the Do not disturb mode.
     </string>
 </resources>
