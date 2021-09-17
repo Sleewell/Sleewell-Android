@@ -170,7 +170,7 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
             PendingIntent.FLAG_UPDATE_CURRENT
         )
         c.timeInMillis = alarm.time
-        c.add(Calendar.HOUR, -8)
+        c.add(Calendar.HOUR, 8)
         if (c.before(Calendar.getInstance())) {
             c.add(Calendar.DATE, 1)
         }
