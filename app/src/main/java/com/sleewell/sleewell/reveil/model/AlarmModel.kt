@@ -132,6 +132,7 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         if (restart) {
             if (c.before(Calendar.getInstance())) {
                 c.add(Calendar.DATE, 1)
+                alarm.time = c.timeInMillis
             }
             alarmManager.setAlarmClock(
                 AlarmClockInfo(c.timeInMillis, pendingIntent),
@@ -140,6 +141,7 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         } else {
             if (c.before(Calendar.getInstance())) {
                 c.add(Calendar.DATE, 1)
+                alarm.time = c.timeInMillis
             }
             alarmManager.setAlarmClock(
                 AlarmClockInfo(c.timeInMillis, pendingIntent),
@@ -170,12 +172,10 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
             PendingIntent.FLAG_UPDATE_CURRENT
         )
         c.timeInMillis = alarm.time
-        c.add(Calendar.HOUR, 8)
-        if (c.before(Calendar.getInstance())) {
-            c.add(Calendar.DATE, 1)
+        c.add(Calendar.HOUR, -8)
+        if (!c.before(Calendar.getInstance())) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.timeInMillis, pendingIntent)
         }
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.timeInMillis, pendingIntent)
-
     }
 
     /**

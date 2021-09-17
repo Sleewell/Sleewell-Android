@@ -206,15 +206,16 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
         calendar.set(Calendar.MINUTE, timePicker.minute)
         calendar.set(Calendar.SECOND, 0)
+        var copy = calendar
         if (calendar.before(Calendar.getInstance())) {
-            calendar.add(Calendar.DATE, 7)
+            copy.add(Calendar.DATE, 7)
         }
         var show = true
         if (index > 0)
             show = false
         presenter.getTime(timePicker.hour, timePicker.minute)
         presenter.saveAlarm(
-            calendar.timeInMillis,
+            copy.timeInMillis,
             mAlarmViewModel,
             viewLifecycleOwner,
             days,

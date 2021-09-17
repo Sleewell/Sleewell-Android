@@ -14,7 +14,7 @@ import java.lang.reflect.Type
 data class Alarm(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val time: Long,
+    var time: Long,
     val activate: Boolean,
     val days: List<Boolean>,
     val ringtone: String,
