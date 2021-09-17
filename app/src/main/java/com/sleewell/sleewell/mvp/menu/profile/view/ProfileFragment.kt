@@ -30,20 +30,21 @@ import kotlin.math.abs
 
 
 class ProfileFragment : Fragment(), ProfileContract.View,
-    PickImageDialog.DialogEventListener, GivenImagesDialog.DialogEventListener {
+    PickImageDialog.DialogEventListener, GivenImagesDialog.DialogEventListener,
+    DeleteDialog.DialogEventListener {
     //Context
     private lateinit var presenter: ProfileContract.Presenter
     private lateinit var root: View
 
     private lateinit var dialogPick: DialogFragment
-    private var dialogPickIsAdded = false
+    private lateinit var dialogDelete: DialogFragment
     private var dialogGiven: DialogFragment? = null
-    private var dialogGivenIsAdded = false
 
     companion object {
         const val IMAGE_CAPTURE_CODE = 0
         const val IMAGE_PICK_CODE = 1
         var flagPickDialog = true
+        var flagDeleteDialog = true
     }
 
     //View widgets
@@ -67,8 +68,7 @@ class ProfileFragment : Fragment(), ProfileContract.View,
             fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
         } else {
             initActivityWidgets()
-            (activity as MainActivity?)?.setPickDialogEventListener(this)
-            (activity as MainActivity?)?.setGivenDialogEventListener(this)
+            setDialogListeners()
             setupUI(root.findViewById(R.id.profileParent))
             setPresenter(ProfilePresenter(this, this.activity as AppCompatActivity))
         }
@@ -90,8 +90,11 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         val pictureButtonWidget = root.findViewById<View>(R.id.outlinePictureButton)
         val saveButtonWidget = root.findViewById<ImageButton>(R.id.buttonSave)
         val logoutButtonWidget = root.findViewById<ImageButton>(R.id.buttonLogout)
+        val deleteButtonWidget = root.findViewById<Button>(R.id.buttonDelete)
 
         dialogPick = PickImageDialog()
+        dialogDelete = DeleteDialog()
+
         pictureButtonWidget.setOnClickListener {
             if (!dialogPick.isAdded && flagPickDialog) {
                 dialogPick.show(activity!!.supportFragmentManager, "Image picker")
@@ -104,9 +107,14 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         }
 
         logoutButtonWidget.setOnClickListener {
-            context?.let { it1 -> SleewellApiTracker.disconnect(it1) }
-            presenter.logoutUser()
-            fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
+            logoutUser()
+        }
+
+        deleteButtonWidget.setOnClickListener {
+            if (!dialogDelete.isAdded && flagDeleteDialog) {
+                dialogDelete.show(activity!!.supportFragmentManager, "Delete account")
+                flagDeleteDialog = false
+            }
         }
 
         usernameInputWidget.editText?.doOnTextChanged { input, _, _, _ ->
@@ -156,6 +164,12 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         emailInputLayout?.visibility = View.VISIBLE
 
         progressWidget.visibility = View.GONE
+    }
+
+    override fun logoutUser() {
+        context?.let { it1 -> SleewellApiTracker.disconnect(it1) }
+        presenter.logoutUser()
+        fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
     }
 
     private fun setupUI(view: View) {
@@ -252,6 +266,16 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         presenter.updateProfilePicture(cropImg)
     }
 
+    override fun onContinue() {
+        presenter.deleteAccount()
+    }
+
+    fun setDialogListeners() {
+        (activity as MainActivity?)?.setPickDialogEventListener(this)
+        (activity as MainActivity?)?.setGivenDialogEventListener(this)
+        (activity as MainActivity?)?.setDeleteDialogEventListener(this)
+    }
+
     override fun setPresenter(presenter: ProfileContract.Presenter) {
         this.presenter = presenter
         presenter.onViewCreated()
@@ -262,6 +286,7 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         presenter.onDestroy()
         (activity as MainActivity).setPickDialogEventListener(null)
         (activity as MainActivity).setGivenDialogEventListener(null)
+        (activity as MainActivity).setDeleteDialogEventListener(null)
     }
 
     override fun showToast(message: String) {

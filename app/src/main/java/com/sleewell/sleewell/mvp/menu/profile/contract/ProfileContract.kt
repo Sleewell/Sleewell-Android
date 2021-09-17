@@ -49,6 +49,9 @@ interface ProfileContract {
         suspend fun uploadProfilePicture(
             token: String, picture: File): ResponseSuccess?
 
+        fun deleteAccount(token: String,
+                          onFinishedListener: OnFinishedListener<ResponseSuccess>)
+
         /**
          * Delete the API token
          * @author Hugo Berthomé
@@ -84,6 +87,8 @@ interface ProfileContract {
         fun updateProfilePicture(picture: Bitmap)
         fun cancelHttpCall()
 
+        fun deleteAccount()
+
         fun setUsername(username: String)
         fun setFirstName(firstName: String?)
         fun setLastName(lastName: String?)
@@ -108,6 +113,8 @@ interface ProfileContract {
             lastName: String,
             email: String
         )
+
+        fun logoutUser()
 
         /**
          * Show a toast message tu the user
