@@ -12,17 +12,27 @@ import com.sleewell.sleewell.mvp.mainActivity.presenter.MainPresenter
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
-import com.sleewell.sleewell.api.openWeather.Main
+import android.widget.ImageView
+import androidx.fragment.app.DialogFragment
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
-import com.sleewell.sleewell.database.analyse.night.NightDatabase
 import com.sleewell.sleewell.modules.audio.upload.AudioAnalyseUpload
 import com.sleewell.sleewell.modules.permissions.PermissionManager
+import com.sleewell.sleewell.mvp.menu.profile.view.DeleteDialog
+import com.sleewell.sleewell.mvp.menu.profile.view.GivenImagesDialog
+import com.sleewell.sleewell.mvp.menu.profile.view.PickImageDialog
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.spotify.sdk.android.authentication.LoginActivity
 
-class MainActivity : AppCompatActivity(), MainContract.View {
+class MainActivity : AppCompatActivity(), MainContract.View,
+    PickImageDialog.DialogEventListener, GivenImagesDialog.DialogEventListener,
+    DeleteDialog.DialogEventListener {
     private var userInteractionListener: UserInteractionListener? = null
+
+    private var pickDialogEventListener: PickImageDialog.DialogEventListener? = null
+    private var givenDialogEventListener: GivenImagesDialog.DialogEventListener? = null
+    private var deleteDialogEventListener: DeleteDialog.DialogEventListener? = null
+
     private lateinit var presenter: MainContract.Presenter
     private lateinit var statsUpload : AudioAnalyseUpload
 
@@ -147,5 +157,37 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private fun askAuthorisation() {
         val permissionManager = PermissionManager(this)
         permissionManager.askAllPermission()
+    }
+
+    fun setPickDialogEventListener(listener: PickImageDialog.DialogEventListener?) {
+        this.pickDialogEventListener = listener
+    }
+
+    override fun onDialogTakePictureClick(dialog: DialogFragment) {
+        pickDialogEventListener?.onDialogTakePictureClick(dialog)
+    }
+
+    override fun onDialogPickPictureClick(dialog: DialogFragment) {
+        pickDialogEventListener?.onDialogPickPictureClick(dialog)
+    }
+
+    override fun onDialogGivenPictureClick(dialog: DialogFragment) {
+        pickDialogEventListener?.onDialogGivenPictureClick(dialog)
+    }
+
+    fun setGivenDialogEventListener(listener: GivenImagesDialog.DialogEventListener?) {
+        this.givenDialogEventListener = listener
+    }
+
+    override fun onDialogPictureClick(picture: ImageView) {
+        givenDialogEventListener?.onDialogPictureClick(picture)
+    }
+
+    fun setDeleteDialogEventListener(listener: DeleteDialog.DialogEventListener?) {
+        this.deleteDialogEventListener = listener
+    }
+
+    override fun onContinue() {
+        deleteDialogEventListener?.onContinue()
     }
 }

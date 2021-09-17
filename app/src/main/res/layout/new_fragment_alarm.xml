@@ -87,7 +87,7 @@
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/shape_oval"
+            android:background="@drawable/shape_oval_stroke"
             android:backgroundTint="@color/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="@+id/add_alarm_button"
             app:layout_constraintEnd_toEndOf="@+id/add_alarm_button"
@@ -298,6 +298,7 @@
                     android:textColorHint="@color/textOnBackground"
                     android:textSize="14sp"
                     android:visibility="invisible"
+                    android:textColor="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/label_modify_alarm"

@@ -14,11 +14,17 @@ import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyse
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.profile.contract.ProfileContract
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+
 
 class ProfileModel(context: Context) : ProfileContract.Model, IAudioAnalyseRecordListener {
     private val TAG = "ProfileModelMVP"
@@ -62,11 +68,48 @@ class ProfileModel(context: Context) : ProfileContract.Model, IAudioAnalyseRecor
         )
 
         call?.enqueue(object : Callback<ResponseSuccess> {
-
             override fun onResponse(
                 call: Call<ResponseSuccess>,
                 response: Response<ResponseSuccess>
             ) {
+                val responseRes: ResponseSuccess? = response.body()
+
+                if (responseRes == null) {
+                    Log.e(TAG, "Body null error")
+                    Log.e(TAG, "Code : " + response.code())
+                    onFinishedListener.onFailure(Throwable("Body null error : " + response.code()))
+                } else {
+                    onFinishedListener.onFinished(responseRes)
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseSuccess>, t: Throwable) {
+                // Log error here since request failed
+                Log.e(TAG, t.toString())
+                onFinishedListener.onFailure(t)
+            }
+        })
+    }
+
+    override suspend fun uploadProfilePicture(token: String, picture: File): ResponseSuccess? {
+
+        val fileBody = picture.asRequestBody("image/*".toMediaTypeOrNull())
+        val body = MultipartBody.Part.createFormData("picture", picture.name, fileBody)
+
+        return api?.uploadProfilePicture(token, body)
+    }
+
+    override fun deleteAccount(
+        token: String,
+        onFinishedListener: ProfileContract.Model.OnFinishedListener<ResponseSuccess>
+    ) {
+        val call : Call<ResponseSuccess>? = api?.deleteAccount(token)
+
+        call?.enqueue(object : Callback<ResponseSuccess> {
+            override
+            fun onResponse(call: Call<ResponseSuccess>,
+                           response: Response<ResponseSuccess>) {
+
                 val responseRes: ResponseSuccess? = response.body()
 
                 if (responseRes == null) {

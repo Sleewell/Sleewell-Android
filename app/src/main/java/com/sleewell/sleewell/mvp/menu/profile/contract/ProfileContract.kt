@@ -1,9 +1,11 @@
 package com.sleewell.sleewell.mvp.menu.profile.contract
 
+import android.graphics.Bitmap
 import com.sleewell.sleewell.api.sleewell.model.ProfileInfo
 import com.sleewell.sleewell.api.sleewell.model.ResponseSuccess
 import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
+import java.io.File
 
 /**
  * Contract that defines all the functions that will interact with the user
@@ -39,6 +41,17 @@ interface ProfileContract {
             onFinishedListener: OnUpdateProfileInfoListener
         )
 
+        interface OnFinishedListener<T> {
+            fun onFinished(response: T)
+            fun onFailure(t: Throwable)
+        }
+
+        suspend fun uploadProfilePicture(
+            token: String, picture: File): ResponseSuccess?
+
+        fun deleteAccount(token: String,
+                          onFinishedListener: OnFinishedListener<ResponseSuccess>)
+
         /**
          * Delete the API token
          * @author Hugo Berthomé
@@ -71,6 +84,11 @@ interface ProfileContract {
          */
         fun updateProfileInformation()
 
+        fun updateProfilePicture(picture: Bitmap)
+        fun cancelHttpCall()
+
+        fun deleteAccount()
+
         fun setUsername(username: String)
         fun setFirstName(firstName: String?)
         fun setLastName(lastName: String?)
@@ -95,6 +113,8 @@ interface ProfileContract {
             lastName: String,
             email: String
         )
+
+        fun logoutUser()
 
         /**
          * Show a toast message tu the user
