@@ -144,11 +144,10 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
         }
 
         val hours = TimeUtils.getHourFromTimestampFromLocalTimezone(data.first().ts)
-        // If data is over 1 days, don't register it or if is not during night
+        // If data is over 1 days, don't register it or if is not during night, Between 18h and 7h
         if (TimeUtils.getCurrentTimestamp() - data.first().ts <= 60 * 60 * 24 * 1 || (hours in 7..18)) {
             Log.e(
-                this.javaClass.name, "Night $nightId too old to register or not a real night" +
-                        ""
+                this.javaClass.name, "Night $nightId too old to register or not a real night"
             )
             analyse.deleteAnalyse(nightId)
             return
@@ -177,10 +176,15 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
      * @param nightId
      * @param nightFromApi
      */
-    private fun showDialog(datas: Array<AnalyseValue>, nightId: Long, nightFromApi: NightAnalyse, date: String) {
-        val year = date.substring(0..4)
-        val month = date.substring(4..6)
-        val day = date.substring(6..8)
+    private fun showDialog(
+        datas: Array<AnalyseValue>,
+        nightId: Long,
+        nightFromApi: NightAnalyse,
+        date: String
+    ) {
+        val year = date.substring(0..3)
+        val month = date.substring(4..5)
+        val day = date.substring(6..7)
 
         MaterialAlertDialogBuilder(context)
             .setCancelable(false)
