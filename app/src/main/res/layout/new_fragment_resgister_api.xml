@@ -249,7 +249,7 @@
                     android:scaleType="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editLastName"
-                    app:srcCompat="@drawable/ic_arrow_connection" />
+                    app:srcCompat="@drawable/ic_check_blue" />
             </FrameLayout>
 
             <FrameLayout
