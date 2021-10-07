@@ -2,8 +2,8 @@ package com.sleewell.sleewell.profile
 
 import android.app.Application
 import android.content.Context
-import com.sleewell.sleewell.api.sleewell.model.ProfileInfo
-import com.sleewell.sleewell.api.sleewell.model.ResponseSuccess
+import com.sleewell.sleewell.api.sleewell.model.profile.ProfileInfo
+import com.sleewell.sleewell.api.sleewell.model.profile.ResponseSuccess
 import com.sleewell.sleewell.mvp.menu.profile.contract.ProfileContract
 import com.sleewell.sleewell.mvp.menu.profile.model.ProfileModel
 import org.assertj.core.api.JUnitSoftAssertions

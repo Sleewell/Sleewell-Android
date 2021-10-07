@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.api.sleewell.model
+package com.sleewell.sleewell.api.sleewell.model.profile
 
 import com.google.gson.annotations.SerializedName
 

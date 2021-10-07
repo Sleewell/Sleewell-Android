@@ -4,8 +4,9 @@ import android.content.Context
 import android.util.Log
 import com.sleewell.sleewell.api.sleewell.ApiClient
 import com.sleewell.sleewell.api.sleewell.IUserApi
-import com.sleewell.sleewell.api.sleewell.model.ProfileInfo
-import com.sleewell.sleewell.api.sleewell.model.ResponseSuccess
+import com.sleewell.sleewell.api.sleewell.model.profile.ProfileInfo
+import com.sleewell.sleewell.api.sleewell.model.profile.ResponseBody
+import com.sleewell.sleewell.api.sleewell.model.profile.ResponseSuccess
 import com.sleewell.sleewell.database.analyse.night.entities.Night
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseDbUtils
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.IAnalyseDataManager
@@ -13,7 +14,6 @@ import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyse
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.profile.contract.ProfileContract
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
@@ -21,7 +21,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 
 
@@ -87,6 +86,17 @@ class ProfileModel(context: Context) : ProfileContract.Model, IAudioAnalyseRecor
                 Log.e(tag, t.toString())
                 onFinishedListener.onFailure(t)
             }
+        })
+    }
+
+    override fun getProfilePicture(
+        token: String,
+        onFinishedListener: ProfileContract.Model.OnFinishedListener<ResponseSuccess>
+    ) {
+        val call = api?.getProfilePicture(token)
+
+        call?.enqueue(object: Callback<ResponseBody> {
+
         })
     }
 
