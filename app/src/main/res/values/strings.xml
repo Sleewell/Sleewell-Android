@@ -70,6 +70,11 @@
 
     <string name="setting_language_name">Language</string>
     <string name="setting_language_summary">Change the language of the application</string>
+    <string name="setting_language_return_key">language_return_pref</string>
+    <string name="setting_english_name">English</string>
+    <string name="setting_english_return_pref">english_return_pref</string>
+    <string name="setting_french_name">French</string>
+    <string name="setting_french_return_pref">french_return_pref</string>
 
     <!-- Settings Routine -->
     <string name="setting_routine_return_key">routine_return_pref</string>
