@@ -158,13 +158,11 @@ class SettingsFragment : Fragment(), SettingsContract.View, PreferenceFragmentCo
             }
             val englishPref = findPreference<Preference>(getString(R.string.setting_english_return_pref))
             englishPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                Log.d("TEST", "English")
                 setLocale("en")
                 true
             }
             val frenchPref = findPreference<Preference>(getString(R.string.setting_french_return_pref))
             frenchPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                Log.d("TEST", "French")
                 setLocale("fr")
                 true
             }
@@ -179,8 +177,8 @@ class SettingsFragment : Fragment(), SettingsContract.View, PreferenceFragmentCo
                 conf.locale = locale
                 res.updateConfiguration(conf, dm)
 
-                val refresh = Intent(context, MainActivity::class.java)
-                startActivity(refresh)
+                preferenceScreen = null;
+                addPreferencesFromResource(R.xml.settings_preferences);
             }
         }
     }
