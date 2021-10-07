@@ -3,8 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/RomaneBzr/Epitech/Sleewell-Android/app/src/main/res/drawable-anydpi/language.xml" value="0.28703703703703703" />
+        <entry key="..\:/Users/RomaneBzr/Epitech/Sleewell-Android/app/src/main/res/drawable/language.xml" value="0.34629629629629627" />
+        <entry key="..\:/Users/RomaneBzr/Epitech/Sleewell-Android/app/src/main/res/drawable/notifications_24px.xml" value="0.28703703703703703" />
+        <entry key="..\:/Users/RomaneBzr/Epitech/Sleewell-Android/app/src/main/res/layout-v23/activity_desactivation_alarm.xml" value="0.24682971014492755" />
         <entry key="..\:/Users/RomaneBzr/Epitech/Sleewell-Android/app/src/main/res/layout-v23/custom_row.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/RomaneBzr/Epitech/Sleewell-Android/app/src/main/res/layout/daypicker_layout.xml" value="0.17806484295845998" />
         <entry key="..\:/Users/RomaneBzr/Epitech/Sleewell-Android/app/src/main/res/layout/new_fragment_alarm.xml" value="0.17806484295845998" />
+        <entry key="..\:/Users/RomaneBzr/Epitech/Sleewell-Android/app/src/main/res/layout/new_fragment_settings.xml" value="0.17806484295845998" />
+        <entry key="..\:/Users/RomaneBzr/Epitech/Sleewell-Android/app/src/main/res/layout/new_fragment_stat.xml" value="0.25" />
+        <entry key="..\:/Users/RomaneBzr/Epitech/Sleewell-Android/app/src/main/res/xml/settings_preferences.xml" value="0.17806484295845998" />
       </map>
     </option>
   </component>

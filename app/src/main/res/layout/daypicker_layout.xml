@@ -44,8 +44,8 @@
         android:layout_marginRight="3dp"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:textOff="@string/t"
-        android:textOn="@string/t"
+        android:textOff="@string/th"
+        android:textOn="@string/th"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 
@@ -77,8 +77,8 @@
         android:layout_marginRight="3dp"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:textOff="@string/s"
-        android:textOn="@string/s"
+        android:textOff="@string/su"
+        android:textOn="@string/su"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 </LinearLayout>
