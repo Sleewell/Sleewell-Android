@@ -193,4 +193,23 @@
     <string name="dndAccessTutorialDescription2">By pressing the following button, you will be redirected to an android setting page
          where you will have to find Sleewell and grant access to the Do not disturb mode.
     </string>
+
+    <string name="stats">STATS</string>
+    <string name="routine">ROUTINE</string>
+    <string name="profile">PROFILE</string>
+    <string name="alarm">ALARM</string>
+    <string name="welcome">Welcome!</string>
+    <string name="dndAccessTutorialIntroduction">We are happy to welcome you aboard and hope that Sleewell will help with your nights!</string>
+    <string name="dndAccessTutorialButton">Authorize</string>
+    <string name="dndAccessTutorialDescription3">After that you can open again the app and you will be free to use it.</string>
+    <string name="dndAccessTutorialThanks">Thank you for your cooperation!</string>
+    <string name="dndAccessTutorialTeam">The Sleewell team</string>
+    <string name="setAlarm">Set Alarm</string>
+    <string name="deleteAlarmMessage">Are you sure you want to delete this alarm?</string>
+    <string name="deleteAlarmTitle">Delete the alarm of</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="welcome_back">Welcome\nBack</string>
+    <string name="log_in">Log in</string>
+    <string name="not_connected">You\'re not connected, please connect and try again</string>
 </resources>

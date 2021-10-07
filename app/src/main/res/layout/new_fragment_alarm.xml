@@ -132,7 +132,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/arrow_back_24px"
-            app:title="Set Alarm"
+            app:title="@string/setAlarm"
             app:titleTextColor="@color/textOnBackground">
 
             <ImageView
@@ -345,7 +345,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/arrow_back_24px"
-            app:title="Set Alarm"
+            app:title="@string/setAlarm"
             app:titleTextColor="@color/textOnBackground">
 
             <ImageView

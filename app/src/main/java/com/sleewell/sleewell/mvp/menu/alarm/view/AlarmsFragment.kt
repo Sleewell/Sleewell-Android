@@ -564,7 +564,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     override fun deleteAlarm(currentAlarm: Alarm, selectedAlarm: Boolean) {
         if (!selectedAlarm) {
             val builder = AlertDialog.Builder(requireContext())
-            builder.setPositiveButton("Yes") { _, _ ->
+            builder.setPositiveButton(R.string.yes) { _, _ ->
                 presenter.deleteAlarm(mAlarmViewModel, currentAlarm)
                 if (currentAlarm.activate) {
                     val alarmManager =
@@ -573,9 +573,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
                     initStopAlert(alarmManager, currentAlarm)
                 }
             }
-            builder.setNegativeButton("No") { _, _ -> }
-            builder.setTitle("Delete the alarm of ${convertTime(currentAlarm.time)}?")
-            builder.setMessage("Are you sure you want to delete this alarm?")
+            builder.setNegativeButton(R.string.no) { _, _ -> }
+            builder.setTitle("${R.string.deleteAlarmTitle} ${convertTime(currentAlarm.time)}?")
+            builder.setMessage(R.string.deleteAlarmMessage)
             builder.create().show()
         } else {
             presenter.deleteAlarm(mAlarmViewModel, currentAlarm)

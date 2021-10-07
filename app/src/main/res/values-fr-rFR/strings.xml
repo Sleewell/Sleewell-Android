@@ -130,7 +130,7 @@
     <!-- Account and Profile -->
     <string name="attachment_summary_off">Ne téléchargez les pièces jointes que sur demande manuelle</string>
     <string name="editTextHintPassword">Mot de passe</string>
-    <string name="editTextHintLogin">Connexion</string>
+    <string name="editTextHintLogin">Identifiant</string>
     <string name="editTextHintEmail">Email</string>
     <string name="editTextHintFirstName">Prénom</string>
     <string name="editTextHintLastName">Nom de famille</string>
@@ -193,4 +193,23 @@
     <string name="dndAccessTutorialDescription2">En appuyant sur le bouton suivant, vous serez redirigé vers une page de paramètres Android
           où vous devrez trouver Sleewell et accorder l\'accès au mode Ne pas déranger.
      </string>
+
+    <string name="stats">STATS</string>
+    <string name="routine">ROUTINE</string>
+    <string name="profile">PROFIL</string>
+    <string name="alarm">ALARMES</string>
+    <string name="welcome">Bienvenue!</string>
+    <string name="dndAccessTutorialIntroduction">Nous sommes heureux de vous accueillir à bord et espérons que Sleewell vous aidera avec vos nuits !</string>
+    <string name="dndAccessTutorialButton">Autoriser</string>
+    <string name="dndAccessTutorialDescription3">Après cela, vous pouvez rouvrir l\'application et vous serez libre de l\'utiliser.</string>
+    <string name="dndAccessTutorialThanks">Merci de votre coopération !</string>
+    <string name="dndAccessTutorialTeam">L\'équipe Sleewell</string>
+    <string name="setAlarm">Définir l\'alarme</string>
+    <string name="deleteAlarmMessage">Voulez-vous vraiment supprimer cette alarme ?</string>
+    <string name="deleteAlarmTitle">Supprimer l\'alarme de</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="welcome_back">Content de\nte revoir</string>
+    <string name="log_in">Connexion</string>
+    <string name="not_connected">Vous n\'êtes pas connecté, veuillez vous connecter et réessayer</string>
 </resources>
