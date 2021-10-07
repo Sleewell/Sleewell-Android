@@ -34,19 +34,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageButton
-        android:id="@+id/buttonLogout"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/shape_oval_stroke"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:scaleType="center"
-        android:src="@drawable/ic_sign_out"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
@@ -251,6 +238,21 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
+    <ImageButton
+        android:id="@+id/buttonLogout"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/shape_oval_stroke"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:scaleType="center"
+        android:src="@drawable/ic_sign_out"
+        android:visibility="gone"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <Button
         android:id="@+id/buttonDelete"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -261,9 +263,11 @@
         android:textAppearance="@style/TextAppearance.App.Delete"
         android:textColor="@color/redOnSurface"
         android:textSize="12sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/view2"
         app:layout_constraintEnd_toStartOf="@+id/view2"
         app:layout_constraintStart_toEndOf="@+id/buttonLogout"
         app:layout_constraintTop_toTopOf="@+id/view2"
         app:strokeColor="@color/redOnSurface" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

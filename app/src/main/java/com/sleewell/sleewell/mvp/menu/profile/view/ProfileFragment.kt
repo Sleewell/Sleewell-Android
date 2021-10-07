@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.mvp.menu.profile.view
 
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.Bitmap
@@ -12,10 +13,10 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.drawToBitmap
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.textfield.TextInputLayout
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
@@ -25,8 +26,13 @@ import com.sleewell.sleewell.modules.keyboardUtils.hideSoftKeyboard
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.profile.contract.ProfileContract
 import com.sleewell.sleewell.mvp.menu.profile.presenter.ProfilePresenter
+import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.DeleteDialog
+import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.GivenImagesDialog
+import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.PickImageDialog
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlin.math.abs
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.ProfileBottomSheet
 
 
 class ProfileFragment : Fragment(), ProfileContract.View,
@@ -96,9 +102,13 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         dialogDelete = DeleteDialog()
 
         pictureButtonWidget.setOnClickListener {
-            if (!dialogPick.isAdded && flagPickDialog) {
+            /*if (!dialogPick.isAdded && flagPickDialog) {
                 dialogPick.show(activity!!.supportFragmentManager, "Image picker")
                 flagPickDialog = false
+            }*/
+            println("hallo ?")
+            ProfileBottomSheet().apply {
+                show(this@ProfileFragment.requireActivity().supportFragmentManager, ProfileBottomSheet.TAG)
             }
         }
 
@@ -172,6 +182,7 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setupUI(view: View) {
         // Set up touch listener for non-text box views to hide keyboard.
         if (view !is EditText) {
@@ -192,7 +203,6 @@ class ProfileFragment : Fragment(), ProfileContract.View,
                         isOnClick = false
                     }
                 }
-                v.performClick()
                 false
             }
         }

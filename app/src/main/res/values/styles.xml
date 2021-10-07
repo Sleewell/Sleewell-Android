@@ -12,6 +12,7 @@
         <item name="textInputStyle">@style/AppTheme.TextInputLayout</item>
         <item name="materialAlertDialogTheme">@style/AppTheme.MaterialAlertDialog</item>
         <item name="textAppearanceBody2">@style/AppTheme.MaterialAlertDialog.BodyText</item>
+        <item name="bottomSheetDialogTheme">@style/ModalBottomSheetDialog</item>
     </style>
 
     <style name="AppTheme.NoActionbar" parent="Theme.AppCompat.Light.NoActionBar">
@@ -62,6 +63,14 @@
         <item name="strokeWidth">2dp</item>
         <item name="backgroundTint">@color/button_text_dark_color</item>
         <item name="cornerRadius">10dp</item>
+    </style>
+
+    <style name="ModalBottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <!-- Apply attributes here -->
+    </style>
+
+    <style name="ModalBottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ModalBottomSheet</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

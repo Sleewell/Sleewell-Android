@@ -17,9 +17,9 @@ import androidx.fragment.app.DialogFragment
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
 import com.sleewell.sleewell.modules.audio.upload.AudioAnalyseUpload
 import com.sleewell.sleewell.modules.permissions.PermissionManager
-import com.sleewell.sleewell.mvp.menu.profile.view.DeleteDialog
-import com.sleewell.sleewell.mvp.menu.profile.view.GivenImagesDialog
-import com.sleewell.sleewell.mvp.menu.profile.view.PickImageDialog
+import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.DeleteDialog
+import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.GivenImagesDialog
+import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.PickImageDialog
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.spotify.sdk.android.authentication.LoginActivity
