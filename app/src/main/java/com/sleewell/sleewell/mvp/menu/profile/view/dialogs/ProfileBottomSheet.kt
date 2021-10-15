@@ -1,15 +1,34 @@
 package com.sleewell.sleewell.mvp.menu.profile.view.dialogs
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sleewell.sleewell.R
 import kotlinx.android.synthetic.main.profile_bottom_sheet_modal.*
 
 class ProfileBottomSheet : BottomSheetDialogFragment() {
+
+    private lateinit var eventListener: DialogEventListener
+
+    interface DialogEventListener {
+        fun onItem1Click()
+        fun onItem2Click()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            eventListener = context as DialogEventListener
+        } catch (e: ClassCastException) {
+            throw ClassCastException((context.toString() +
+                    " must implement DialogEventListener"))
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,12 +40,10 @@ class ProfileBottomSheet : BottomSheetDialogFragment() {
         super.onActivityCreated(savedInstanceState)
 
         item1.setOnClickListener {
-            //handle click event
-            Toast.makeText(context, "First Button Clicked", Toast.LENGTH_SHORT).show()
+            eventListener.onItem1Click()
         }
         item2.setOnClickListener {
-            //handle click event
-            Toast.makeText(context, "Third Button Clicked", Toast.LENGTH_SHORT).show()
+            eventListener.onItem2Click()
         }
     }
 

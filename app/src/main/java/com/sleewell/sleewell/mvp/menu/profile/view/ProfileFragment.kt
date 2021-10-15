@@ -37,7 +37,7 @@ import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.ProfileBottomSheet
 
 class ProfileFragment : Fragment(), ProfileContract.View,
     PickImageDialog.DialogEventListener, GivenImagesDialog.DialogEventListener,
-    DeleteDialog.DialogEventListener {
+    DeleteDialog.DialogEventListener, ProfileBottomSheet.DialogEventListener {
     //Context
     private lateinit var presenter: ProfileContract.Presenter
     private lateinit var root: View
@@ -93,6 +93,7 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         progressWidget = root.findViewById(R.id.progress)
         pictureWidget = root.findViewById(R.id.avatar)
 
+        val moreButtonWidget = root.findViewById<ImageButton>(R.id.buttonMore)
         val pictureButtonWidget = root.findViewById<View>(R.id.outlinePictureButton)
         val saveButtonWidget = root.findViewById<ImageButton>(R.id.buttonSave)
         val logoutButtonWidget = root.findViewById<ImageButton>(R.id.buttonLogout)
@@ -101,14 +102,16 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         dialogPick = PickImageDialog()
         dialogDelete = DeleteDialog()
 
-        pictureButtonWidget.setOnClickListener {
-            /*if (!dialogPick.isAdded && flagPickDialog) {
-                dialogPick.show(activity!!.supportFragmentManager, "Image picker")
-                flagPickDialog = false
-            }*/
-            println("hallo ?")
+        moreButtonWidget.setOnClickListener {
             ProfileBottomSheet().apply {
                 show(this@ProfileFragment.requireActivity().supportFragmentManager, ProfileBottomSheet.TAG)
+            }
+        }
+
+        pictureButtonWidget.setOnClickListener {
+            if (!dialogPick.isAdded && flagPickDialog) {
+                dialogPick.show(activity!!.supportFragmentManager, "Image picker")
+                flagPickDialog = false
             }
         }
 
@@ -280,10 +283,19 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         presenter.deleteAccount()
     }
 
-    fun setDialogListeners() {
+    override fun onItem1Click() {
+        logoutUser()
+    }
+
+    override fun onItem2Click() {
+        dialogDelete.show(activity!!.supportFragmentManager, "Delete account")
+    }
+
+    private fun setDialogListeners() {
         (activity as MainActivity?)?.setPickDialogEventListener(this)
         (activity as MainActivity?)?.setGivenDialogEventListener(this)
         (activity as MainActivity?)?.setDeleteDialogEventListener(this)
+        (activity as MainActivity?)?.setBottomSheetEventListener(this)
     }
 
     override fun setPresenter(presenter: ProfileContract.Presenter) {
@@ -297,6 +309,7 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         (activity as MainActivity).setPickDialogEventListener(null)
         (activity as MainActivity).setGivenDialogEventListener(null)
         (activity as MainActivity).setDeleteDialogEventListener(null)
+        (activity as MainActivity?)?.setBottomSheetEventListener(null)
     }
 
     override fun showToast(message: String) {

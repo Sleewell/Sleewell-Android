@@ -5,85 +5,41 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingHorizontal="25dp"
-    android:paddingBottom="15dp"
-    android:paddingTop="5dp"
-    android:background="@drawable/bottom_sheet_shape_profile"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    android:background="@color/colorPrimaryDark"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     >
 
-    <LinearLayout
+    <Button
         android:id="@+id/item1"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:foregroundTint="@color/TransparentLevel4"
-        android:minHeight="?attr/minTouchTargetSize"
+        android:backgroundTint="@color/colorSecondary"
+        android:text="Log out"
+        android:textAlignment="textStart"
+        android:textColor="@color/colorPrimary"
+        app:icon="@drawable/ic_logout_black_24dp"
+        app:iconTint="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/mtrl_list_item_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="8dp"
-            android:src="@drawable/ic_sign_out"
-            app:tint="@color/colorPrimaryDark" />
-
-        <TextView
-            android:id="@+id/mtrl_list_item_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:maxLines="1"
-            android:paddingEnd="16dp"
-            android:text="Log out"
-            android:textAppearance="?attr/textAppearanceSubtitle1"
-            android:textColor="@color/colorPrimaryDark" />
-
-    </LinearLayout>
-
-    <LinearLayout
+    <Button
         android:id="@+id/item2"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:foregroundTint="@color/TransparentLevel4"
-        android:minHeight="?attr/minTouchTargetSize"
+        android:backgroundTint="@color/colorSecondary"
+        android:text="Delete Account"
+        android:textAlignment="textStart"
+        android:textColor="@color/warning"
+        app:icon="@drawable/ic_delete_forever_24px_outlined"
+        app:iconTint="@color/warning"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/item1">
-
-        <ImageView
-            android:id="@+id/mtrl_list_item_icon_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="13dp"
-            android:paddingBottom="8dp"
-            android:src="@drawable/ic_delete_forever_24px_outlined"
-            app:tint="@color/colorPrimaryDark" />
-
-        <TextView
-            android:id="@+id/mtrl_list_item_text_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:maxLines="1"
-            android:paddingEnd="16dp"
-            android:text="@string/delete_account"
-            android:textAppearance="?attr/textAppearanceSubtitle1"
-            android:textColor="@color/colorPrimaryDark" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/item1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
