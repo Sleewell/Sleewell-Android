@@ -96,8 +96,6 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         val moreButtonWidget = root.findViewById<ImageButton>(R.id.buttonMore)
         val pictureButtonWidget = root.findViewById<View>(R.id.outlinePictureButton)
         val saveButtonWidget = root.findViewById<ImageButton>(R.id.buttonSave)
-        val logoutButtonWidget = root.findViewById<ImageButton>(R.id.buttonLogout)
-        val deleteButtonWidget = root.findViewById<Button>(R.id.buttonDelete)
 
         dialogPick = PickImageDialog()
         dialogDelete = DeleteDialog()
@@ -117,17 +115,6 @@ class ProfileFragment : Fragment(), ProfileContract.View,
 
         saveButtonWidget.setOnClickListener {
             presenter.updateProfileInformation()
-        }
-
-        logoutButtonWidget.setOnClickListener {
-            logoutUser()
-        }
-
-        deleteButtonWidget.setOnClickListener {
-            if (!dialogDelete.isAdded && flagDeleteDialog) {
-                dialogDelete.show(activity!!.supportFragmentManager, "Delete account")
-                flagDeleteDialog = false
-            }
         }
 
         usernameInputWidget.editText?.doOnTextChanged { input, _, _, _ ->

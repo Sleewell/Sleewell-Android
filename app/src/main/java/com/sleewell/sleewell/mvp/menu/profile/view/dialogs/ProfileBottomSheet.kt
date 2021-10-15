@@ -40,9 +40,11 @@ class ProfileBottomSheet : BottomSheetDialogFragment() {
         super.onActivityCreated(savedInstanceState)
 
         item1.setOnClickListener {
+            dismiss()
             eventListener.onItem1Click()
         }
         item2.setOnClickListener {
+            dismiss()
             eventListener.onItem2Click()
         }
     }

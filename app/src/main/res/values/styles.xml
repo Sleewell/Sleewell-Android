@@ -31,6 +31,7 @@
         <item name="colorSurface">@color/colorPrimaryDark</item>
         <item name="materialAlertDialogTitleTextStyle">@style/AppTheme.MaterialAlertDialog.Title.Text</item>
         <item name="materialAlertDialogBodyTextStyle">@style/AppTheme.MaterialAlertDialog.BodyText</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
     </style>
 
     <style name="AppTheme.MaterialAlertDialog.Title.Text" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
@@ -48,6 +49,10 @@
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">16sp</item>
         <item name="fontFamily">@font/nunito_light</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/warning</item>
     </style>
 
     <style name="AppTheme.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
