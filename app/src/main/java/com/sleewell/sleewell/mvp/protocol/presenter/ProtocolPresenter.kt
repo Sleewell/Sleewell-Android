@@ -69,6 +69,7 @@ class ProtocolPresenter(private var view: ProtocolMenuContract.View, private val
         if (model.routineUseMusic()) {
             playMusic()
         }
+        view.haloDisplayLooper()
     }
 
     override fun isHaloOn(): Boolean {
