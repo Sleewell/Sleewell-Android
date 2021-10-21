@@ -26,6 +26,7 @@
         tools:context=".mvp.protocol.view.ProtocolFragment">
 
         <View
+            android:id="@+id/view3"
             android:layout_width="161dp"
             android:layout_height="83dp"
             android:background="@drawable/rectangle_rounded"
@@ -68,6 +69,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/clock" />
 
+        <es.claucookie.miniequalizerlibrary.EqualizerView
+            android:id="@+id/equalizer"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:animDuration="3500"
+            app:foregroundColor="@color/textOnBackground"
+            app:layout_constraintBottom_toTopOf="@+id/swipeArrow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/date"
+            app:layout_constraintVertical_bias="0.8" />
+
         <TextView
             android:id="@+id/stopText"
             android:layout_width="wrap_content"
@@ -91,28 +104,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/wide_arrow" />
-
-        <Button
-            android:id="@+id/musicButton"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:background="@drawable/circle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.69" />
-
-        <es.claucookie.miniequalizerlibrary.EqualizerView
-            android:id="@+id/equalizer"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:animDuration="3500"
-            app:foregroundColor="@color/textOnBackground"
-            app:layout_constraintBottom_toBottomOf="@+id/musicButton"
-            app:layout_constraintEnd_toEndOf="@+id/musicButton"
-            app:layout_constraintStart_toStartOf="@+id/musicButton"
-            app:layout_constraintTop_toTopOf="@+id/musicButton" />
 
         <View
             android:id="@+id/haloBackground"

@@ -249,5 +249,6 @@ interface ProtocolMenuContract {
          * @author Titouan FIANCETTE
          */
         fun animateEqualizer(state: Boolean)
+        fun haloDisplayLooper()
     }
 }
