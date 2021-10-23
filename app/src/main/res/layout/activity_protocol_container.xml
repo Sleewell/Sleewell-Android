@@ -112,7 +112,7 @@
             android:background="@color/background"
             android:backgroundTint="@color/background"
             android:foregroundTint="@color/textOnBackground"
-            android:translationZ="2"
+            android:translationZ="2dp"
             app:animDuration="3500"
             app:foregroundColor="@color/textOnBackground"
             app:layout_constraintBottom_toBottomOf="@+id/musicButton"
