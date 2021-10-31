@@ -1,11 +1,15 @@
 package com.sleewell.sleewell.mvp.protocol.view
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
+import android.animation.*
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
+import android.provider.Settings.System.SCREEN_BRIGHTNESS
+import android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
@@ -32,6 +36,8 @@ class ProtocolContainer : AppCompatActivity(), ProtocolMenuContract.View {
     private var displayHaloRunnable = Runnable { displayHalo() }
     private var handler = Handler(Looper.getMainLooper())
     private var isHaloDisplayed: Boolean = false
+    private lateinit var haloAnimation: ObjectAnimator
+    private var brightnessValue: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +48,10 @@ class ProtocolContainer : AppCompatActivity(), ProtocolMenuContract.View {
         AnimationUtils.loadAnimation(this, R.anim.slide_in_up).also { animation ->
             protocolLayout.startAnimation(animation)
         }
+
+        if (Settings.System.canWrite(this))
+            brightnessValue = Settings.System.getInt(contentResolver, SCREEN_BRIGHTNESS)
+
     }
 
     private fun initActivityWidgets() {
@@ -66,6 +76,16 @@ class ProtocolContainer : AppCompatActivity(), ProtocolMenuContract.View {
             override fun onSwipeLeft() {}
             override fun onSwipeRight() {}
         })
+
+        haloAnimation = ObjectAnimator.ofPropertyValuesHolder(
+            halo,
+            PropertyValuesHolder.ofFloat("scaleX", 0.01f),
+            PropertyValuesHolder.ofFloat("scaleY", 0.01f)
+        )
+        haloAnimation.duration = 5000
+        haloAnimation.repeatMode = ValueAnimator.REVERSE
+        haloAnimation.repeatCount = ValueAnimator.INFINITE
+        haloAnimation.start()
     }
 
     /**
@@ -122,6 +142,11 @@ class ProtocolContainer : AppCompatActivity(), ProtocolMenuContract.View {
         }
     }
 
+    override fun stopAnimation() {
+        haloAnimation.end()
+        halo.visibility = View.GONE
+    }
+
     private fun displayHalo() {
         isHaloDisplayed = true
         window.statusBarColor = resources.getColor(android.R.color.black, resources.newTheme())
@@ -139,6 +164,8 @@ class ProtocolContainer : AppCompatActivity(), ProtocolMenuContract.View {
             animate().alpha(1f).setDuration(shortAnimationDuration.toLong())
                 .setListener(null)
         }
+        if (Settings.System.canWrite(this))
+            Settings.System.putInt(contentResolver, SCREEN_BRIGHTNESS, 10000)
     }
 
     private fun hideHalo() {
@@ -160,19 +187,15 @@ class ProtocolContainer : AppCompatActivity(), ProtocolMenuContract.View {
                     halo.visibility = View.GONE
                 }
             })
+        if (Settings.System.canWrite(this))
+            Settings.System.putInt(contentResolver, SCREEN_BRIGHTNESS, brightnessValue)
     }
 
     override fun setHaloColor(color: Int) {
-        val unwrappedDrawable = AppCompatResources.getDrawable(applicationContext, R.drawable.halo)
+        val unwrappedDrawable = AppCompatResources.getDrawable(applicationContext, R.drawable.halo_test)
         val wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable!!)
         DrawableCompat.setTint(wrappedDrawable, color)
         halo.background = wrappedDrawable
-    }
-
-    override fun printHalo(size: Int) {
-        halo.layoutParams.width = size
-        halo.layoutParams.height = size
-        halo.requestLayout()
     }
 
     override fun isMusicPlaying(): Boolean {
@@ -201,6 +224,10 @@ class ProtocolContainer : AppCompatActivity(), ProtocolMenuContract.View {
 
     override fun onDestroy() {
         super.onDestroy()
+        handler.removeCallbacks(displayHaloRunnable)
+        if (Settings.System.canWrite(this))
+            Settings.System.putInt(contentResolver, SCREEN_BRIGHTNESS, brightnessValue)
+        haloAnimation.end()
         presenter.onDestroy()
     }
 }

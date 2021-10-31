@@ -28,16 +28,8 @@ class ProtocolPresenter(private var view: ProtocolMenuContract.View, private val
     private var nbrBreath: Int = 0
     private val timer = object : CountDownTimer(10000, 10) {
 
-        override fun onTick(millisUntilFinished: Long) {
-            if (millisUntilFinished < 6000)
-                model.degradesSizeOfCircle()
-            else if (millisUntilFinished > 4000)
-                model.upgradeSizeOfCircle()
-            view.setHaloColor(model.getroutineColorHalo())
-            view.printHalo(model.getSizeOfCircle())
-        }
+        override fun onTick(millisUntilFinished: Long) {}
         override fun onFinish() {
-            model.resetSizeOfCircle()
             if (nbrBreath > 0) {
                 nbrBreath -= 1
                 this.start()
@@ -49,6 +41,7 @@ class ProtocolPresenter(private var view: ProtocolMenuContract.View, private val
     fun finishProtocol() {
         model.stopMusic()
         lockScreen.disableKeepScreenOn()
+        view.stopAnimation()
     }
 
     override fun onViewCreated() {
@@ -116,7 +109,6 @@ class ProtocolPresenter(private var view: ProtocolMenuContract.View, private val
     override fun startHalo() {
         timer.cancel()
         nbrBreath = 48 // TODO: settings.getHaloTime()
-        model.resetSizeOfCircle()
         view.setHaloColor(model.getroutineColorHalo())
         timer.start()
     }
