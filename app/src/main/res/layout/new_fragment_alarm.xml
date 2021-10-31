@@ -99,7 +99,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="35dp"
-            android:backgroundTint="@color/colorPrimary"
+            android:backgroundTint="@color/colorAccent"
+            app:backgroundTint="@color/colorAccent"
             android:clickable="true"
             android:contentDescription="@string/add_alarm"
             android:focusable="true"
@@ -144,7 +145,8 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@string/check"
-                android:src="@drawable/ic_check_white_24dp" />
+                android:src="@drawable/ic_check_white_24dp"
+                app:tint="@color/colorAccent" />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -281,7 +283,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@color/transparent"
                     android:text="@string/validate"
-                    android:textColor="@color/white"
+                    android:textColor="@color/colorAccent"
                     android:textSize="18sp"
                     android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
