@@ -127,7 +127,7 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -149,16 +149,6 @@
         </androidx.appcompat.widget.Toolbar>
 
 
-        <TimePicker
-            android:id="@+id/time_picker_modify_alarm"
-            style="@style/MyTimePickerWidgetStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_modify_alarm" />
-
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView_modify_alarme"
             android:layout_width="0dp"
@@ -167,7 +157,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/time_picker_modify_alarm">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_modify_alarm">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -183,6 +173,16 @@
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.sleewell.sleewell.widget.TimePickerScrollView
+                    android:id="@+id/time_picker_modify_alarm"
+                    style="@style/MyTimePickerWidgetStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -210,7 +210,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
                     android:text="@string/alarm_ringtone"
                     android:textColor="@color/white"
                     android:textSize="18sp"
@@ -218,7 +217,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/daypicker_modify_layout" />
+                    app:layout_constraintTop_toBottomOf="@+id/time_picker_modify_alarm" />
 
                 <Button
                     android:id="@+id/spinner_modify_alarm"
@@ -232,7 +231,7 @@
                     android:textAllCaps="false"
                     android:textColorHint="@color/textOnBackground"
                     android:textSize="14sp"
-                    android:visibility="invisible"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.1"
                     app:layout_constraintStart_toStartOf="parent"
@@ -267,8 +266,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
                         android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="5dp"
                         android:visibility="invisible" />
                 </LinearLayout>
 
@@ -293,16 +292,17 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
                     android:hint="@string/name_of_label"
+                    android:imeOptions="actionDone"
                     android:importantForAutofill="no"
                     android:inputType="text"
+                    android:minHeight="48dp"
+                    android:textColor="@color/colorPrimary"
                     android:textColorHint="@color/textOnBackground"
                     android:textSize="14sp"
                     android:visibility="invisible"
-                    android:textColor="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/label_modify_alarm"
-                    android:imeOptions="actionDone" />
+                    app:layout_constraintTop_toBottomOf="@+id/label_modify_alarm" />
 
                 <Button
                     android:id="@+id/button_validate_modify"
@@ -340,7 +340,6 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
-            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -361,28 +360,27 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <TimePicker
-            android:id="@+id/time_picker_create_alarm"
-            style="@style/MyTimePickerWidgetStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_create_alarm" />
-
-        <androidx.core.widget.NestedScrollView
+        <ScrollView
             android:id="@+id/scrollView_create_alarme"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/time_picker_create_alarm">
+            app:layout_constraintTop_toBottomOf="@id/toolbar_create_alarm">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+                <com.sleewell.sleewell.widget.TimePickerScrollView
+                    android:id="@+id/time_picker_create_alarm"
+                    style="@style/MyTimePickerWidgetStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/repeat_create_text"
@@ -424,14 +422,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
                     android:text="@string/alarm_ringtone"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/daypicker_create_layout" />
+                    app:layout_constraintTop_toBottomOf="@+id/time_picker_create_alarm" />
 
                 <Button
                     android:id="@+id/spinner_create_alarm"
@@ -445,7 +441,6 @@
                     android:textAllCaps="false"
                     android:textColorHint="@color/textOnBackground"
                     android:textSize="14sp"
-                    android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/create_alarm_ringtone" />
@@ -478,8 +473,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
                         android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="5dp"
                         android:visibility="invisible" />
                 </LinearLayout>
 
@@ -492,7 +487,6 @@
                     android:text="@string/label"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
@@ -504,15 +498,15 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
                     android:hint="@string/name_of_label"
+                    android:imeOptions="actionDone"
                     android:importantForAutofill="no"
                     android:inputType="text"
+                    android:minHeight="48dp"
                     android:textColorHint="@color/textOnBackground"
                     android:textSize="14sp"
-                    android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/label_create_alarm"
-                    android:imeOptions="actionDone" />
+                    app:layout_constraintTop_toBottomOf="@+id/label_create_alarm" />
 
                 <Button
                     android:id="@+id/button_validate_create"
@@ -524,13 +518,12 @@
                     android:text="@string/validate"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/editText_create_alarm" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

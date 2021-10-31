@@ -51,7 +51,11 @@ class ProtocolContainer : AppCompatActivity(), ProtocolMenuContract.View {
             date.text = LocalDate.now().format(DateTimeFormatter.ofPattern("EEE d LLL"))
         }
 
-        musicButton.setOnClickListener { presenter.pauseMusic() }
+
+        equalizer.setOnClickListener {
+            presenter.pauseMusic()
+        }
+        equalizer.stopBars()
 
         protocolLayout.setOnTouchListener(object : OnSwipeListener(applicationContext) {
             override fun onSwipeTop() {
@@ -62,8 +66,6 @@ class ProtocolContainer : AppCompatActivity(), ProtocolMenuContract.View {
             override fun onSwipeLeft() {}
             override fun onSwipeRight() {}
         })
-
-        haloDisplayLooper()
     }
 
     /**
@@ -110,7 +112,7 @@ class ProtocolContainer : AppCompatActivity(), ProtocolMenuContract.View {
      * Hide the halo if its on or reset inactivity timer if its off
      * @author Titouan FIANCETTE
      */
-    private fun haloDisplayLooper() {
+    override fun haloDisplayLooper() {
         if (isHaloDisplayed) {
             hideHalo()
             handler.postDelayed(displayHaloRunnable, inactivityDuration * 1000)

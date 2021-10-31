@@ -44,10 +44,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="25dp"
-                android:text="@string/welcome_back"
+                android:fontFamily="@font/nunito"
+                android:text="Welcome\nBack"
                 android:textColor="@color/textOnBackground"
                 android:textSize="40sp"
-                android:fontFamily="@font/nunito"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.1"
@@ -55,48 +55,67 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.1" />
 
-            <EditText
-                android:id="@+id/editTextName"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="60dp"
-                android:layout_marginEnd="30dp"
-                android:ems="10"
-                android:hint="@string/editTextHintLogin"
-                android:inputType="textVisiblePassword|textNoSuggestions"
-                android:autofillHints=".AUTOFILL_HINT_USERNAME"
-                android:textColor="@color/textOnBackground"
-                android:textColorHint="@color/textOnBackground"
-                android:fontFamily="@font/nunito_bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.3" />
-
-            <EditText
-                android:id="@+id/editTextPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginEnd="30dp"
-                android:ems="10"
-                android:hint="@string/editTextHintPassword"
-                android:inputType="textPassword"
-                android:autofillHints=".AUTOFILL_HINT_PASSWORD"
-                android:imeOptions="actionDone"
-                android:textColor="@color/textOnBackground"
-                android:textColorHint="@color/textOnBackground"
                 android:fontFamily="@font/nunito_bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextName"
-                app:layout_constraintVertical_bias="0.0" />
+                android:hint="@string/editTextHintLogin"
+                android:imeOptions="actionDone"
+                app:hintAnimationEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=".AUTOFILL_HINT_USERNAME"
+                    android:ems="10"
+                    android:fontFamily="@font/nunito_bold"
+                    android:inputType="textVisiblePassword|textNoSuggestions"
+                    android:minHeight="48dp"
+                    android:textColor="@color/textOnBackground"
+                    android:textColorHint="@color/textOnBackground"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.3" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="30dp"
+                android:fontFamily="@font/nunito_bold"
+                android:hint="@string/editTextHintPassword"
+                android:imeOptions="actionDone"
+                app:hintAnimationEnabled="true"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:autofillHints=".AUTOFILL_HINT_PASSWORD"
+                    android:ems="10"
+                    android:inputType="textPassword"
+                    android:minHeight="48dp"
+                    android:textColor="@color/textOnBackground"
+                    android:textColorHint="@color/textOnBackground"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextName"
+                    app:layout_constraintVertical_bias="0.0" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -111,10 +130,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="@string/log_in"
+                    android:fontFamily="@font/nunito_bold"
+                    android:text="Log in"
                     android:textColor="@color/textOnBackground"
                     android:textSize="30sp"
-                    android:fontFamily="@font/nunito_bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.1"
@@ -133,7 +152,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
                     app:layout_constraintVertical_bias="0.1"
-                    app:srcCompat="@drawable/ic_arrow_connection" />
+                    app:srcCompat="@drawable/ic_check_blue" />
 
             </FrameLayout>
 
