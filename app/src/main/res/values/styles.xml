@@ -53,6 +53,7 @@
         <item name="boxStrokeColor">@color/text_input_box_stroke</item>
         <item name="android:textColorHint">@color/text_input_label</item>
         <item name="placeholderTextColor">@color/text_input_label</item>
+        <item name="passwordToggleTint">@color/colorPrimary</item>
     </style>
 
     <style name="outlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
