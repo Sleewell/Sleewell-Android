@@ -149,23 +149,50 @@ class StatFragment : Fragment(), StatisticsContract.View {
             presenter.refreshAnalyse(calendar.time)
         }
         nextDate.setOnClickListener {
+            val currentDate = Calendar.getInstance()
+            val currentYear = currentDate.get(Calendar.YEAR)
+            val currentMonth = currentDate.get(Calendar.MONTH)
+            val currentWeek = currentDate.get(Calendar.WEEK_OF_YEAR)
+            val currentDay = currentDate.get(Calendar.DAY_OF_YEAR)
+
+            val selectedYear = calendar.get(Calendar.YEAR)
+            val selectedMonth = calendar.get(Calendar.MONTH)
+            val selectedWeek = calendar.get(Calendar.WEEK_OF_YEAR)
+            val selectedDay = calendar.get(Calendar.DAY_OF_YEAR)
+
+            var update = false
+
             when (presenter.getCurrentState()) {
                 State.DAY -> {
-                    calendar.add(Calendar.DAY_OF_YEAR, 1)
+                    if (selectedYear < currentYear || (selectedYear == currentYear && selectedDay < currentDay)) {
+                        update = true
+                        calendar.add(Calendar.DAY_OF_YEAR, 1)
+                    }
                 }
                 State.WEEK -> {
-                    calendar.add(Calendar.WEEK_OF_YEAR, 1)
+                    if (selectedYear < currentYear || (selectedYear == currentYear && selectedWeek < currentWeek)) {
+                        update = true
+                        calendar.add(Calendar.WEEK_OF_YEAR, 1)
+                    }
                 }
                 State.MONTH -> {
-                    calendar.add(Calendar.MONTH, 1)
+                    if (selectedYear < currentYear || (selectedYear == currentYear && selectedMonth < currentMonth)) {
+                        update = true
+                        calendar.add(Calendar.MONTH, 1)
+                    }
                 }
                 State.YEAR -> {
-                    calendar.add(Calendar.YEAR, 1)
+                    if (selectedYear < currentYear) {
+                        update = true
+                        calendar.add(Calendar.YEAR, 1)
+                    }
                 }
             }
-            refreshDateView()
-            setInLoadingState()
-            presenter.refreshAnalyse(calendar.time)
+            if (update) {
+                refreshDateView()
+                setInLoadingState()
+                presenter.refreshAnalyse(calendar.time)
+            }
         }
 
         toggleOffAll()
