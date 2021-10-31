@@ -5,6 +5,7 @@ import android.app.AlarmManager
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Bundle
@@ -35,6 +36,7 @@ import com.sleewell.sleewell.reveil.presenter.AlarmPresenter
 import kotlinx.android.synthetic.main.custom_row.view.*
 import kotlinx.android.synthetic.main.daypicker_layout.view.*
 import kotlinx.android.synthetic.main.new_fragment_alarm.*
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -110,6 +112,20 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             }
         }
 
+        val alarms: MutableList<Uri> = ArrayList()
+        val ringtoneMgr = RingtoneManager(activity)
+        ringtoneMgr.setType(RingtoneManager.TYPE_ALARM)
+        val alarmsCursor = ringtoneMgr.cursor
+        val alarmsCount = alarmsCursor.count
+        if (alarmsCount == 0 && !alarmsCursor.moveToFirst()) {
+            alarmsCursor.close()
+            return null
+        }
+        while (!alarmsCursor.isAfterLast && alarmsCursor.moveToNext()) {
+            val currentPosition = alarmsCursor.position
+            alarms.add(ringtoneMgr.getRingtoneUri(currentPosition))
+        }
+
         val spinnerCreateAlarm: Button = root.findViewById(R.id.spinner_create_alarm)
         spinnerCreateAlarm.setOnClickListener {
             val ringtonePickerBuilder = RingtonePickerDialog.Builder(
@@ -121,10 +137,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             ringtonePickerBuilder.setPositiveButtonText("SET RINGTONE")
             ringtonePickerBuilder.setCancelButtonText("CANCEL")
             ringtonePickerBuilder.setPlaySampleWhileSelection(true)
-            val defaultRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(
-                activity!!.applicationContext, RingtoneManager.TYPE_RINGTONE
-            )
-            ringtonePickerBuilder.setCurrentRingtoneUri(defaultRingtoneUri)
+            ringtonePickerBuilder.setCurrentRingtoneUri(alarms[0])
             ringtonePickerBuilder.setListener { ringtoneName, ringtoneUri ->
                 spinnerCreateAlarm.text = ringtoneName
                 ringtone = ringtoneUri

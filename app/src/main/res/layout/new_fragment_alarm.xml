@@ -150,7 +150,7 @@
 
 
         <androidx.core.widget.NestedScrollView
-            android:id="@+id/scrollView_modify_alarme"
+            android:id="@+id/scrollView_modify_alarm"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="visible"
@@ -162,6 +162,16 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+                <com.sleewell.sleewell.widget.TimePickerScrollView
+                    android:id="@+id/time_picker_modify_alarm"
+                    style="@style/MyTimePickerWidgetStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/repeat_modify_text"
@@ -175,17 +185,7 @@
                     android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.sleewell.sleewell.widget.TimePickerScrollView
-                    android:id="@+id/time_picker_modify_alarm"
-                    style="@style/MyTimePickerWidgetStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="visible"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/time_picker_modify_alarm"/>
 
                 <LinearLayout
                     android:id="@+id/daypicker_modify_layout"
@@ -217,7 +217,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/time_picker_modify_alarm" />
+                    app:layout_constraintTop_toBottomOf="@+id/daypicker_modify_layout" />
 
                 <Button
                     android:id="@+id/spinner_modify_alarm"
@@ -361,7 +361,7 @@
         </androidx.appcompat.widget.Toolbar>
 
         <ScrollView
-            android:id="@+id/scrollView_create_alarme"
+            android:id="@+id/scrollView_create_alarm"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -394,7 +394,7 @@
                     android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/time_picker_create_alarm"/>
 
                 <LinearLayout
                     android:id="@+id/daypicker_create_layout"
@@ -427,7 +427,7 @@
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/time_picker_create_alarm" />
+                    app:layout_constraintTop_toBottomOf="@+id/daypicker_create_layout" />
 
                 <Button
                     android:id="@+id/spinner_create_alarm"
