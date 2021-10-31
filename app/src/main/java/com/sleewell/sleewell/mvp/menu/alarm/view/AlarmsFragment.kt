@@ -121,6 +121,10 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             ringtonePickerBuilder.setPositiveButtonText("SET RINGTONE")
             ringtonePickerBuilder.setCancelButtonText("CANCEL")
             ringtonePickerBuilder.setPlaySampleWhileSelection(true)
+            val defaultRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(
+                activity!!.applicationContext, RingtoneManager.TYPE_RINGTONE
+            )
+            ringtonePickerBuilder.setCurrentRingtoneUri(defaultRingtoneUri)
             ringtonePickerBuilder.setListener { ringtoneName, ringtoneUri ->
                 spinnerCreateAlarm.text = ringtoneName
                 ringtone = ringtoneUri
@@ -138,6 +142,10 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             ringtonePickerBuilder.setPositiveButtonText("SET RINGTONE")
             ringtonePickerBuilder.setCancelButtonText("CANCEL")
             ringtonePickerBuilder.setPlaySampleWhileSelection(true)
+            val defaultRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(
+                activity!!.applicationContext, RingtoneManager.TYPE_RINGTONE
+            )
+            ringtonePickerBuilder.setCurrentRingtoneUri(defaultRingtoneUri)
             ringtonePickerBuilder.setListener { ringtoneName, ringtoneUri ->
                 spinnerModifyAlarm.text = ringtoneName
                 ringtone = ringtoneUri
