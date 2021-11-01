@@ -11,7 +11,9 @@ import com.sleewell.sleewell.mvp.mainActivity.MainContract
 import com.sleewell.sleewell.mvp.mainActivity.presenter.MainPresenter
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
@@ -53,6 +55,12 @@ class MainActivity : AppCompatActivity(), MainContract.View,
         setPresenter(MainPresenter(this))
         presenter.onViewCreated()
         accessTokenSleewell = getAccessToken()
+
+        if (!Settings.System.canWrite(this)) {
+            val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS)
+            intent.data = Uri.parse("package:$packageName")
+            startActivity(intent)
+        }
     }
 
     fun getAccessToken() : String {

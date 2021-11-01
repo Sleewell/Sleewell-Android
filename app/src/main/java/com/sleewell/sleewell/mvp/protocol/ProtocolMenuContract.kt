@@ -9,35 +9,6 @@ import com.sleewell.sleewell.mvp.global.BaseView
 
 interface ProtocolMenuContract {
     interface Model {
-        /**
-         * This method return the current size of the circle
-         *
-         * @return Int
-         * @author gabin warnier de wailly
-         */
-        fun getSizeOfCircle() : Int
-
-
-        /**
-         * This method reduce the size of the circle
-         *
-         * @author gabin warnier de wailly
-         */
-        fun degradesSizeOfCircle()
-
-        /**
-         * This method upgrade the size of the circle
-         *
-         * @author gabin warnier de wailly
-         */
-        fun upgradeSizeOfCircle()
-
-        /**
-         * This method reset the size of the circle
-         *
-         * @author gabin warnier de wailly
-         */
-        fun resetSizeOfCircle()
 
         /**
          * Record the audio from the mic source
@@ -204,13 +175,6 @@ interface ProtocolMenuContract {
     }
 
     interface View : BaseView<Presenter> {
-        /**
-         * This method display the halo with the size give in param
-         *
-         * @param size size of the the halo
-         * @author gabin warnier de wailly
-         */
-        fun printHalo(size: Int)
 
         /**
          * This method hide the system UI for android
@@ -250,5 +214,6 @@ interface ProtocolMenuContract {
          */
         fun animateEqualizer(state: Boolean)
         fun haloDisplayLooper()
+        fun stopAnimation()
     }
 }

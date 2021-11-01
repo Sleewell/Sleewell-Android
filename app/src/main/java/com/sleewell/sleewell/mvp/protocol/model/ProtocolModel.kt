@@ -26,7 +26,6 @@ import kotlinx.coroutines.launch
 class ProtocolModel(
     private val context: AppCompatActivity
 ) : ProtocolMenuContract.Model {
-    private var size: Int = 10
     var db: RoutineDao = RoutineDatabase.getDatabase(context).routineDao()
 
     private var routineColorRed: Int = 0
@@ -46,24 +45,6 @@ class ProtocolModel(
     private val clientId = "" // /!\ need to hide
     private val redirectUri = "http://com.sleewell.sleewell/callback"
     private var spotifyAppRemote: SpotifyAppRemote? = null
-
-    override fun getSizeOfCircle(): Int {
-        return size
-    }
-
-    override fun upgradeSizeOfCircle() {
-        if (size < 1000)
-            size += 3
-    }
-
-    override fun degradesSizeOfCircle() {
-        if (size > 10 && size - 2 > 10)
-            size -= 2
-    }
-
-    override fun resetSizeOfCircle() {
-        size = 10
-    }
 
     /**
      * Record the audio from the mic source

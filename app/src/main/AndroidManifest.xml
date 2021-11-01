@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.sleewell.sleewell">
 
     <uses-permission android:name="android.permission.INTERNET" /> <!-- Do Not Disturb mode -->
@@ -15,6 +16,8 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- Background service for analyse -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions"/>
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
