@@ -35,9 +35,24 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:divider="@null"
-            android:dividerHeight="10dp"/>
+            android:dividerHeight="10dp">
+
+        </ListView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/textNoRoutine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:fontFamily="@font/nunito"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/refreshLayoutRoutine"
+        app:layout_constraintVertical_bias="0.3" />
 
     <View
         android:id="@+id/view"

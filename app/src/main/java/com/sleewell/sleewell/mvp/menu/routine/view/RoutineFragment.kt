@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isEmpty
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -23,6 +24,7 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
     private lateinit var btn: ImageButton
     private lateinit var listView: ListView
     private lateinit var refreshLayout: SwipeRefreshLayout
+    private lateinit var textNoRoutine: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,10 +68,14 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
             refreshLayout.isRefreshing = false
         }
 
-        if (MainActivity.accessTokenSleewell.isNotEmpty())
+        textNoRoutine = root.findViewById(R.id.textNoRoutine)
+
+        if (MainActivity.accessTokenSleewell.isNotEmpty()) {
             presenter.updateAdapter()
-        else
+        } else {
             btn.visibility = View.INVISIBLE
+            textNoRoutine.text = "Please log in"
+        }
     }
 
     private fun initSettingButton() {
