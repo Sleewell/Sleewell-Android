@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -25,7 +26,12 @@
         android:roundIcon="@mipmap/icon_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvp.help.HelpSignalmenActivity" />
+        <activity
+            android:name=".modules.permissions.DndAccessTutorialActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.help.HelpSignalmenActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".splashScreen.SplashScreenActivity"
             android:configChanges="orientation"
@@ -36,7 +42,9 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvp.protocol.view.ProtocolContainer">
+        <activity
+            android:name=".mvp.protocol.view.ProtocolContainer"
+            android:screenOrientation="portrait">
 
             <!-- Open the app on this specific activity when a NFC tag contain a mime type as described below -->
             <intent-filter>
@@ -59,6 +67,7 @@
         </activity>
         <activity
             android:name="com.spotify.sdk.android.authentication.LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".mvp.mainActivity.view.MainActivity"
@@ -69,6 +78,7 @@
         <activity
             android:name=".reveil.DesactivationActivity"
             android:label="Desactivation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver android:name=".reveil.AlarmReceiver" />

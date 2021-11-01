@@ -189,7 +189,9 @@ class ProtocolModel(
                     routinePlayer = routines[0].player
                     routineMusicName = routines[0].musicName
                     routineMusicUri = routines[0].musicUri
-                    startRoutine()
+                    CoroutineScope(Dispatchers.Main).launch {
+                        startRoutine()
+                    }
                 }
             }
         }

@@ -14,11 +14,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginBottom="24dp"
+        android:fontFamily="@font/nunito_bold"
         android:text="@string/log_in_underline"
         android:textAllCaps="false"
         android:textColor="@color/textOnBackground"
         android:textSize="14sp"
-        android:fontFamily="@font/nunito_bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -43,9 +43,9 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="25dp"
                 android:text="@string/get_started_title"
+                android:fontFamily="@font/nunito"
                 android:textColor="@color/textOnBackground"
                 android:textSize="40sp"
-                android:fontFamily="@font/nunito"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.1"
@@ -53,78 +53,112 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.05" />
 
-            <EditText
-                android:id="@+id/editLoginId"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="30dp"
-                android:ems="10"
+                android:fontFamily="@font/nunito_bold"
                 android:hint="@string/editTextHintLogin"
-                android:inputType="textVisiblePassword|textNoSuggestions"
-                android:autofillHints=".AUTOFILL_HINT_NEW_USERNAME"
-                android:textColor="@color/textOnBackground"
-                android:textColorHint="@color/textOnBackground"
-                android:fontFamily="@font/nunito_bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textGetStarted" />
+                android:imeOptions="actionDone"
+                app:hintAnimationEnabled="true">
 
-            <EditText
-                android:id="@+id/editPassword_1"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editLoginId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=".AUTOFILL_HINT_NEW_USERNAME"
+                    android:ems="10"
+                    android:fontFamily="@font/nunito_bold"
+                    android:inputType="textVisiblePassword|textNoSuggestions"
+                    android:textColor="@color/textOnBackground"
+                    android:textColorHint="@color/textOnBackground"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textGetStarted" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="30dp"
-                android:ems="10"
+                android:fontFamily="@font/nunito_bold"
                 android:hint="@string/editTextHintPassword"
-                android:inputType="textPassword|textNoSuggestions"
-                android:autofillHints=".AUTOFILL_HINT_NOT_APPLICABLE"
-                android:textColor="@color/textOnBackground"
-                android:textColorHint="@color/textOnBackground"
-                android:fontFamily="@font/nunito_bold"
+                android:imeOptions="actionDone"
+                app:hintAnimationEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editLoginId" />
+                app:layout_constraintTop_toBottomOf="@+id/editLoginId"
+                app:passwordToggleEnabled="true">
 
-            <EditText
-                android:id="@+id/editPassword_2"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editPassword_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=".AUTOFILL_HINT_NOT_APPLICABLE"
+                    android:ems="10"
+                    android:fontFamily="@font/nunito_bold"
+                    android:inputType="textPassword|textNoSuggestions"
+                    android:textColor="@color/textOnBackground"
+                    android:textColorHint="@color/textOnBackground" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="30dp"
-                android:ems="10"
+                android:fontFamily="@font/nunito_bold"
                 android:hint="@string/editTextHintPassword"
-                android:inputType="textPassword|textNoSuggestions"
-                android:autofillHints=".AUTOFILL_HINT_NOT_APPLICABLE"
-                android:textColor="@color/textOnBackground"
-                android:textColorHint="@color/textOnBackground"
-                android:fontFamily="@font/nunito_bold"
+                android:imeOptions="actionDone"
+                app:hintAnimationEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editPassword_1" />
+                app:layout_constraintTop_toBottomOf="@+id/editPassword_1"
+                app:passwordToggleEnabled="true">
 
-            <EditText
-                android:id="@+id/editEmail"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editPassword_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=".AUTOFILL_HINT_NOT_APPLICABLE"
+                    android:ems="10"
+                    android:fontFamily="@font/nunito_bold"
+                    android:inputType="textPassword|textNoSuggestions"
+                    android:textColor="@color/textOnBackground"
+                    android:textColorHint="@color/textOnBackground" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="30dp"
-                android:ems="10"
+                android:fontFamily="@font/nunito_bold"
                 android:hint="@string/editTextHintEmail"
-                android:inputType="textEmailAddress"
-                android:autofillHints=".AUTOFILL_HINT_EMAIL_ADDRESS"
-                android:textColor="@color/textOnBackground"
-                android:textColorHint="@color/textOnBackground"
-                android:fontFamily="@font/nunito_bold"
+                android:imeOptions="actionDone"
+                app:hintAnimationEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editPassword_2" />
+                app:layout_constraintTop_toBottomOf="@+id/editPassword_2">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=".AUTOFILL_HINT_EMAIL_ADDRESS"
+                    android:ems="10"
+                    android:fontFamily="@font/nunito_bold"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/textOnBackground"
+                    android:textColorHint="@color/textOnBackground" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -134,37 +168,54 @@
                 android:layout_marginEnd="30dp"
                 android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/editFirstName"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputFirstName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="5dp"
-                    android:hint="@string/editTextHintFirstName"
-                    android:inputType="textPersonName"
-                    android:autofillHints=".AUTOFILL_HINT_PERSON_NAME_GIVEN"
-                    android:imeOptions="actionNext"
-                    android:textColor="@color/textOnBackground"
-                    android:textColorHint="@color/textOnBackground"
                     android:fontFamily="@font/nunito_bold"
-                    app:layout_constraintEnd_toStartOf="@+id/editLastName"
+                    android:hint="@string/editTextHintFirstName"
+                    android:imeOptions="actionDone"
+                    app:hintAnimationEnabled="true"
+                    app:layout_constraintEnd_toStartOf="@+id/textInputLayout"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <EditText
-                    android:id="@+id/editLastName"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editFirstName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints=".AUTOFILL_HINT_PERSON_NAME_GIVEN"
+                        android:fontFamily="@font/nunito_bold"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/textOnBackground"
+                        android:textColorHint="@color/textOnBackground" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:hint="@string/editTextHintLastName"
-                    android:inputType="textPersonName"
-                    android:autofillHints=".AUTOFILL_HINT_PERSON_NAME_FAMILY"
-                    android:imeOptions="actionDone"
-                    android:textColor="@color/textOnBackground"
-                    android:textColorHint="@color/textOnBackground"
                     android:fontFamily="@font/nunito_bold"
+                    android:hint="@string/editTextHintLastName"
+                    android:imeOptions="actionDone"
+                    app:hintAnimationEnabled="true"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/editFirstName"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toEndOf="@+id/textInputFirstName"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editLastName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints=".AUTOFILL_HINT_PERSON_NAME_FAMILY"
+                        android:fontFamily="@font/nunito_bold"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/textOnBackground"
+                        android:textColorHint="@color/textOnBackground" />
+                </com.google.android.material.textfield.TextInputLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <FrameLayout
@@ -181,9 +232,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@string/sign_up_title"
+                    android:fontFamily="@font/nunito_bold"
                     android:textColor="@color/textOnBackground"
                     android:textSize="30sp"
-                    android:fontFamily="@font/nunito_bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.122"
                     app:layout_constraintStart_toStartOf="parent"
@@ -198,7 +249,7 @@
                     android:scaleType="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editLastName"
-                    app:srcCompat="@drawable/ic_arrow_connection" />
+                    app:srcCompat="@drawable/ic_check_blue" />
             </FrameLayout>
 
             <FrameLayout

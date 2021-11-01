@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#73FFFFFF</color>
+    <color name="colorPrimary">#737C84</color>
     <color name="colorPrimaryDark">#00111F</color>
-    <color name="colorAccent">#73FFFFFF</color>
+    <color name="colorSecondary">#192935</color>
+    <color name="colorAccent">#D7882B</color>
+    <color name="colorSecondaryLight">#24343F</color>
     <color name="grey">#e0e0e0</color>
     <color name="white">#FFFFFF</color>
+    <color name="warning">#FF5D5D</color>
 
     <color name="blue">#0000FF</color>
     <color name="black">#000000</color>
@@ -12,7 +15,7 @@
     <color name="Orange">#D98735</color>
 
     <color name="background">#00111F</color>
-    <color name="textOnBackground">#73FFFFFF</color>
+    <color name="textOnBackground">#737C84</color>
     <color name="textButDarker">#4DFFFFFF</color>
     <color name="textButOnImage">#7D7D7D</color>
     <color name="level4LightOnDark">#29FFFFFF</color>
@@ -29,5 +32,9 @@
     <color name="haloColorDarkGreen">#1B7340</color>
     <color name="haloColorPink">#D2386C</color>
 
+    <color name="TransparentPrimary">#73FFFFFF</color>
+    <color name="TransparentLevel4">#26FFFFFF</color>
+    <color name="TransparentRed">#99FF0000</color>
+    <color name="mtrl_textinput_default_box_stroke_color">@color/colorPrimary</color>
     <color name="textinput_default_box_stroke_color">#73FFFFFF</color>
 </resources>
