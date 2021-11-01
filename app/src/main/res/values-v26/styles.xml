@@ -4,9 +4,9 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/textButOnImage</item>
-        <item name="android:textColor">@color/textOnBackground</item>
-        <item name="android:textColorSecondary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
         <item name="android:textColorTertiary">@color/colorPrimary</item>
         <item name="android:textColorHint">@color/colorPrimary</item>
         <item name="textInputStyle">@style/AppTheme.TextInputLayout</item>
