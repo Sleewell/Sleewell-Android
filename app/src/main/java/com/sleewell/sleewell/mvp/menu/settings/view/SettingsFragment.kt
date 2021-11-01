@@ -1,5 +1,7 @@
 package com.sleewell.sleewell.mvp.menu.settings.view
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.sleewell.sleewell.BuildConfig
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.menu.settings.SettingsContract
 import com.sleewell.sleewell.mvp.menu.settings.presenter.SettingsPresenter
@@ -125,6 +128,32 @@ class SettingsFragment : Fragment(), SettingsContract.View, PreferenceFragmentCo
             val returnPref = findPreference<Preference>(getString(R.string.setting_notification_return_key))
             returnPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 activity!!.supportFragmentManager.popBackStackImmediate()
+                true
+            }
+        }
+    }
+
+    class HelpPreferencesFragment : PreferenceFragmentCompat() {
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            setPreferencesFromResource(R.xml.help, rootKey)
+            val versionCode = BuildConfig.VERSION_CODE
+            val versionName = BuildConfig.VERSION_NAME
+
+            val returnPref = findPreference<Preference>(getString(R.string.setting_help_return_key))
+            returnPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                activity!!.supportFragmentManager.popBackStackImmediate()
+                true
+            }
+
+            val signalPref = findPreference<Preference>(getString(R.string.setting_help_signal_problem_key))
+            val urlReport = getString(R.string.url_report)
+            signalPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("$urlReport?version=$versionName-$versionCode")
+                    )
+                )
                 true
             }
         }

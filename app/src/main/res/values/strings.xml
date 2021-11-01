@@ -39,8 +39,20 @@
     <string name="setting_protocol_return_key">protocol_return_pref</string>
 
     <string name="setting_help_name">Help</string>
-    <string name="setting_help_summary">Signal a bug or get some assistance</string>
+    <string name="setting_help_summary">Get some assistance or signal a bug</string>
     <string name="setting_help_return_key">help_return_pref</string>
+
+    <string name="setting_tutorial_key">tutorial</string>
+    <string name="setting_tutorial_name">On Boarding</string>
+    <string name="setting_tutorial_summary_on">On Boarding is displayed on start</string>
+    <string name="setting_tutorial_summary_off">On Boarding is not displayed on start</string>
+
+    <string name="setting_help_title">Help</string>
+    <string name="setting_help_signal_problem">Signal a problem or a bug</string>
+    <string name="setting_help_signal_problem_key">signal</string>
+
+    <string name="version_app">Version %s - %s</string>
+    <string name="url_report">https://sleewell.fr/feedback_tester.php</string>
 
     <string name="setting_halo_name">Halo</string>
     <string name="settings_halo_key">halo</string>
@@ -72,13 +84,7 @@
     <string name="setting_dnd_key">dnd</string>
     <string name="setting_dnd_name">Dot Not Disturb</string>
     <string name="setting_dnd_summary_on">Dnd is on during protocol</string>
-    <string name="setting_dnd_summary_off">Dnd is off during protocol"</string>
-
-    <string name="setting_help_title">Help</string>
-    <string name="setting_help_signal_problem">Signal a problem or a bug</string>
-    <string name="version_app">Version %s - %s</string>
-    <string name="url_report">https://sleewell.fr/feedback_tester.php</string>
-
+    <string name="setting_dnd_summary_off">Dnd is off during protocol</string>
 
     <!-- Settings Routine -->
     <string name="setting_routine_return_key">routine_return_pref</string>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:orientation="horizontal"
+        android:paddingStart="45dp"
+        android:paddingEnd="45dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:text="Accueil"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:letterSpacing="0.13"
+            android:text="SKIP"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="64dp"
+        android:src="@drawable/logo_sleewell" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="80dp"
+        android:fontFamily="sans-serif-light"
+        android:includeFontPadding="false"
+        android:letterSpacing="-0.01"
+        android:text="Nouvelle"
+        android:textColor="@color/colorPrimary"
+        android:textSize="41sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:fontFamily="sans-serif-condensed"
+        android:includeFontPadding="false"
+        android:letterSpacing="-0.01"
+        android:text="ROUTINE"
+        android:textColor="@color/colorPrimary"
+        android:textSize="56sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-light"
+        android:letterSpacing="-0.01"
+        android:lineSpacingExtra="4sp"
+        android:text="Description de l'écran"
+        android:textColor="#b5b5b5"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/shape_oval" />
+
+</LinearLayout>

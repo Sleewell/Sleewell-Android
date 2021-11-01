@@ -30,6 +30,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".mvp.help.OnBoardingActivity"
+            android:exported="true" />
+        <activity
             android:name=".modules.permissions.DndAccessTutorialActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -41,7 +44,9 @@
             android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
+
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>

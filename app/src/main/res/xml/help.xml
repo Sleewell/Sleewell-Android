@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Preference
+        android:title="@string/setting_help_name"
+        android:key="@string/setting_help_return_key"
+        android:icon="@drawable/arrow_back_24px"
+        />
+
+    <SwitchPreferenceCompat
+        app:icon="@drawable/ic_info_black_24dp"
+        app:key="@string/setting_tutorial_key"
+        app:defaultValue="@bool/setting_tutorial_default_value"
+        app:summaryOff="@string/setting_tutorial_summary_off"
+        app:summaryOn="@string/setting_tutorial_summary_on"
+        app:title="@string/setting_tutorial_name" />
+    <Preference
+        android:title="@string/setting_help_signal_problem"
+        android:key="@string/setting_network_return_key"
+        android:icon="@drawable/ic_report_problem_black_24dp"
+        />
+</PreferenceScreen>

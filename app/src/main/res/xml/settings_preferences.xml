@@ -17,11 +17,7 @@
     <Preference
         app:title="@string/setting_help_name"
         app:summary="@string/setting_help_summary"
-        app:icon="@drawable/bookmark_24px_outlined">
-        <intent android:action="android.intent.action.VIEW"
-            android:targetPackage="com.sleewell.sleewell"
-            android:targetClass="@string/setting_file_help"
-            />
-    </Preference>
+        app:fragment="com.sleewell.sleewell.mvp.menu.settings.view.SettingsFragment$HelpPreferencesFragment"
+        app:icon="@drawable/bookmark_24px_outlined" />
 
 </androidx.preference.PreferenceScreen>

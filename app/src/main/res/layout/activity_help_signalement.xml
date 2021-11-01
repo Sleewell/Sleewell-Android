@@ -40,17 +40,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:checked="true"
+            android:text="Tutorial"
+            android:textColor="@color/colorPrimary"/>
+
         <Button
             android:id="@+id/buttonProblemSignal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/background"
+            android:layout_height="60dp"
+            android:backgroundTint="@color/colorSecondary"
             android:paddingStart="20dp"
             android:paddingEnd="0dp"
             android:text="@string/setting_help_signal_problem"
             android:textAlignment="textStart"
             android:textAllCaps="false"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimary"
+            app:icon="@drawable/ic_report_problem_black_24dp"
+            app:iconTint="@color/colorPrimary"
+            app:iconPadding="40dp"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -72,10 +84,7 @@
             android:src="@drawable/arrow_back_24px"
             android:tint="@color/BackgroundLightFull" />
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2" />
+
 
         <TextView
             android:id="@+id/textView4"
@@ -85,7 +94,8 @@
             android:background="@color/background"
             android:gravity="center|start"
             android:text="@string/setting_help_title"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginStart="23dp"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
