@@ -17,21 +17,23 @@ import androidx.fragment.app.DialogFragment
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
 import com.sleewell.sleewell.modules.audio.upload.AudioAnalyseUpload
 import com.sleewell.sleewell.modules.permissions.PermissionManager
-import com.sleewell.sleewell.mvp.menu.profile.view.DeleteDialog
-import com.sleewell.sleewell.mvp.menu.profile.view.GivenImagesDialog
-import com.sleewell.sleewell.mvp.menu.profile.view.PickImageDialog
+import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.DeleteDialog
+import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.GivenImagesDialog
+import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.PickImageDialog
+import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.ProfileBottomSheet
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.spotify.sdk.android.authentication.LoginActivity
 
 class MainActivity : AppCompatActivity(), MainContract.View,
     PickImageDialog.DialogEventListener, GivenImagesDialog.DialogEventListener,
-    DeleteDialog.DialogEventListener {
+    DeleteDialog.DialogEventListener, ProfileBottomSheet.DialogEventListener {
     private var userInteractionListener: UserInteractionListener? = null
 
     private var pickDialogEventListener: PickImageDialog.DialogEventListener? = null
     private var givenDialogEventListener: GivenImagesDialog.DialogEventListener? = null
     private var deleteDialogEventListener: DeleteDialog.DialogEventListener? = null
+    private var bottomSheetListener: ProfileBottomSheet.DialogEventListener? = null
 
     private lateinit var presenter: MainContract.Presenter
     private lateinit var statsUpload : AudioAnalyseUpload
@@ -189,5 +191,17 @@ class MainActivity : AppCompatActivity(), MainContract.View,
 
     override fun onContinue() {
         deleteDialogEventListener?.onContinue()
+    }
+
+    override fun onItem1Click() {
+        bottomSheetListener?.onItem1Click()
+    }
+
+    override fun onItem2Click() {
+        bottomSheetListener?.onItem2Click()
+    }
+
+    fun setBottomSheetEventListener(listener: ProfileBottomSheet.DialogEventListener?) {
+        this.bottomSheetListener = listener
     }
 }

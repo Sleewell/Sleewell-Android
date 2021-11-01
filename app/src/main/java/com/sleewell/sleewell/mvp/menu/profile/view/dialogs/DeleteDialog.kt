@@ -1,4 +1,4 @@
-package com.sleewell.sleewell.mvp.menu.profile.view
+package com.sleewell.sleewell.mvp.menu.profile.view.dialogs
 
 import android.app.Dialog
 import android.content.Context
@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.sleewell.sleewell.mvp.menu.profile.view.ProfileFragment
 
 class DeleteDialog : DialogFragment() {
     private lateinit var eventListener: DialogEventListener

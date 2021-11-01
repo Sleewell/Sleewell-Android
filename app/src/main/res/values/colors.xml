@@ -2,10 +2,12 @@
 <resources>
     <color name="colorPrimary">#737C84</color>
     <color name="colorPrimaryDark">#00111F</color>
-    <color name="colorAccent">#737C84</color>
+    <color name="colorSecondary">#192935</color>
+    <color name="colorAccent">#D7882B</color>
+    <color name="colorSecondaryLight">#24343F</color>
     <color name="grey">#e0e0e0</color>
     <color name="white">#FFFFFF</color>
-    <color name="redOnSurface">#BE3537</color>
+    <color name="warning">#FF5D5D</color>
 
     <color name="blue">#0000FF</color>
     <color name="black">#000000</color>
@@ -31,6 +33,8 @@
     <color name="haloColorPink">#D2386C</color>
 
     <color name="TransparentPrimary">#73FFFFFF</color>
+    <color name="TransparentLevel4">#26FFFFFF</color>
+    <color name="TransparentRed">#99FF0000</color>
 
-    <color name="mtrl_textinput_default_box_stroke_color">#73FFFFFF</color>
+    <color name="mtrl_textinput_default_box_stroke_color">@color/colorPrimary</color>
 </resources>

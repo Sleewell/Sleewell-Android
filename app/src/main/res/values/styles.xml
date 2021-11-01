@@ -12,6 +12,7 @@
         <item name="textInputStyle">@style/AppTheme.TextInputLayout</item>
         <item name="materialAlertDialogTheme">@style/AppTheme.MaterialAlertDialog</item>
         <item name="textAppearanceBody2">@style/AppTheme.MaterialAlertDialog.BodyText</item>
+        <item name="bottomSheetDialogTheme">@style/ModalBottomSheetDialog</item>
     </style>
 
     <style name="AppTheme.NoActionbar" parent="Theme.AppCompat.Light.NoActionBar">
@@ -30,6 +31,7 @@
         <item name="colorSurface">@color/colorPrimaryDark</item>
         <item name="materialAlertDialogTitleTextStyle">@style/AppTheme.MaterialAlertDialog.Title.Text</item>
         <item name="materialAlertDialogBodyTextStyle">@style/AppTheme.MaterialAlertDialog.BodyText</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
     </style>
 
     <style name="AppTheme.MaterialAlertDialog.Title.Text" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
@@ -49,6 +51,10 @@
         <item name="fontFamily">@font/nunito_light</item>
     </style>
 
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/warning</item>
+    </style>
+
     <style name="AppTheme.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/text_input_box_stroke</item>
         <item name="android:textColorHint">@color/text_input_label</item>
@@ -62,6 +68,14 @@
         <item name="strokeWidth">2dp</item>
         <item name="backgroundTint">@color/button_text_dark_color</item>
         <item name="cornerRadius">10dp</item>
+    </style>
+
+    <style name="ModalBottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <!-- Apply attributes here -->
+    </style>
+
+    <style name="ModalBottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ModalBottomSheet</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

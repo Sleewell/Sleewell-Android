@@ -1,6 +1,5 @@
-package com.sleewell.sleewell.mvp.menu.profile.view
+package com.sleewell.sleewell.mvp.menu.profile.view.dialogs
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle

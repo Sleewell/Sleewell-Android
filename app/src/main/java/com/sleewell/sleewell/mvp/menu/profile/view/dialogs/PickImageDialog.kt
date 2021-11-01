@@ -1,12 +1,12 @@
-package com.sleewell.sleewell.mvp.menu.profile.view
+package com.sleewell.sleewell.mvp.menu.profile.view.dialogs
 
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import android.app.AlertDialog
 import android.content.DialogInterface
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.sleewell.sleewell.mvp.menu.profile.view.ProfileFragment
 
 
 class PickImageDialog : DialogFragment() {

@@ -13,5 +13,6 @@
         <item name="materialAlertDialogTheme">@style/AppTheme.MaterialAlertDialog</item>
         <item name="textAppearanceBody2">@style/AppTheme.MaterialAlertDialog.BodyText</item>
         <item name="android:autofilledHighlight">@android:color/transparent</item>
+        <item name="bottomSheetDialogTheme">@style/ModalBottomSheetDialog</item>
     </style>
 </resources>
