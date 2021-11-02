@@ -13,7 +13,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="23dp"
         android:background="@drawable/circle"
-        android:backgroundTint="@color/textOnBackground"
+        android:backgroundTint="@color/colorAccent"
         android:visibility="invisible" />
 
     <ImageView

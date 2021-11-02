@@ -50,10 +50,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:background="@null"
         android:checked="true"
         android:clickable="true"
         android:focusable="true"
+        android:theme="@style/AppTheme.Switch"
         app:layout_constraintEnd_toStartOf="@+id/deleteButton"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -45,7 +45,7 @@
                 android:fontFamily="@font/nunito"
                 android:text="Get\nStarted"
                 android:textColor="@color/textOnBackground"
-                android:textSize="40sp"
+                android:textSize="35sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.1"
@@ -233,7 +233,7 @@
                     android:layout_gravity="center_vertical"
                     android:fontFamily="@font/nunito_bold"
                     android:text="Sign Up"
-                    android:textColor="@color/textOnBackground"
+                    android:textColor="@color/colorAccent"
                     android:textSize="30sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.122"
@@ -242,14 +242,16 @@
 
                 <ImageView
                     android:id="@+id/buttonSignUp"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="end"
                     android:background="@drawable/round_shape_grey"
                     android:scaleType="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editLastName"
-                    app:srcCompat="@drawable/ic_check_blue" />
+                    app:srcCompat="@drawable/ic_person_add_black_24dp"
+                    app:tint="@color/colorPrimaryDark"
+                    />
             </FrameLayout>
 
             <FrameLayout

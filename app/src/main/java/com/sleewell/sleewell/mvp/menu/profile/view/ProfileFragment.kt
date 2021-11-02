@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.mvp.menu.profile.view
 
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.Bitmap
@@ -12,10 +13,10 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.drawToBitmap
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.textfield.TextInputLayout
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
@@ -25,13 +26,18 @@ import com.sleewell.sleewell.modules.keyboardUtils.hideSoftKeyboard
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.profile.contract.ProfileContract
 import com.sleewell.sleewell.mvp.menu.profile.presenter.ProfilePresenter
+import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.DeleteDialog
+import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.GivenImagesDialog
+import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.PickImageDialog
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlin.math.abs
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.ProfileBottomSheet
 
 
 class ProfileFragment : Fragment(), ProfileContract.View,
     PickImageDialog.DialogEventListener, GivenImagesDialog.DialogEventListener,
-    DeleteDialog.DialogEventListener {
+    DeleteDialog.DialogEventListener, ProfileBottomSheet.DialogEventListener {
     //Context
     private lateinit var presenter: ProfileContract.Presenter
     private lateinit var root: View
@@ -87,13 +93,18 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         progressWidget = root.findViewById(R.id.progress)
         pictureWidget = root.findViewById(R.id.avatar)
 
+        val moreButtonWidget = root.findViewById<ImageButton>(R.id.buttonMore)
         val pictureButtonWidget = root.findViewById<View>(R.id.outlinePictureButton)
         val saveButtonWidget = root.findViewById<ImageButton>(R.id.buttonSave)
-        val logoutButtonWidget = root.findViewById<ImageButton>(R.id.buttonLogout)
-        val deleteButtonWidget = root.findViewById<Button>(R.id.buttonDelete)
 
         dialogPick = PickImageDialog()
         dialogDelete = DeleteDialog()
+
+        moreButtonWidget.setOnClickListener {
+            ProfileBottomSheet().apply {
+                show(this@ProfileFragment.requireActivity().supportFragmentManager, ProfileBottomSheet.TAG)
+            }
+        }
 
         pictureButtonWidget.setOnClickListener {
             if (!dialogPick.isAdded && flagPickDialog) {
@@ -104,17 +115,6 @@ class ProfileFragment : Fragment(), ProfileContract.View,
 
         saveButtonWidget.setOnClickListener {
             presenter.updateProfileInformation()
-        }
-
-        logoutButtonWidget.setOnClickListener {
-            logoutUser()
-        }
-
-        deleteButtonWidget.setOnClickListener {
-            if (!dialogDelete.isAdded && flagDeleteDialog) {
-                dialogDelete.show(activity!!.supportFragmentManager, "Delete account")
-                flagDeleteDialog = false
-            }
         }
 
         usernameInputWidget.editText?.doOnTextChanged { input, _, _, _ ->
@@ -172,6 +172,7 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setupUI(view: View) {
         // Set up touch listener for non-text box views to hide keyboard.
         if (view !is EditText) {
@@ -192,7 +193,6 @@ class ProfileFragment : Fragment(), ProfileContract.View,
                         isOnClick = false
                     }
                 }
-                v.performClick()
                 false
             }
         }
@@ -270,10 +270,19 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         presenter.deleteAccount()
     }
 
-    fun setDialogListeners() {
+    override fun onItem1Click() {
+        logoutUser()
+    }
+
+    override fun onItem2Click() {
+        dialogDelete.show(activity!!.supportFragmentManager, "Delete account")
+    }
+
+    private fun setDialogListeners() {
         (activity as MainActivity?)?.setPickDialogEventListener(this)
         (activity as MainActivity?)?.setGivenDialogEventListener(this)
         (activity as MainActivity?)?.setDeleteDialogEventListener(this)
+        (activity as MainActivity?)?.setBottomSheetEventListener(this)
     }
 
     override fun setPresenter(presenter: ProfileContract.Presenter) {
@@ -287,6 +296,7 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         (activity as MainActivity).setPickDialogEventListener(null)
         (activity as MainActivity).setGivenDialogEventListener(null)
         (activity as MainActivity).setDeleteDialogEventListener(null)
+        (activity as MainActivity?)?.setBottomSheetEventListener(null)
     }
 
     override fun showToast(message: String) {

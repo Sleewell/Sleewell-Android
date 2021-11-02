@@ -4,14 +4,15 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/textButOnImage</item>
-        <item name="android:textColor">@color/textOnBackground</item>
-        <item name="android:textColorSecondary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
         <item name="android:textColorTertiary">@color/colorPrimary</item>
         <item name="android:textColorHint">@color/colorPrimary</item>
         <item name="textInputStyle">@style/AppTheme.TextInputLayout</item>
         <item name="materialAlertDialogTheme">@style/AppTheme.MaterialAlertDialog</item>
         <item name="textAppearanceBody2">@style/AppTheme.MaterialAlertDialog.BodyText</item>
+        <item name="bottomSheetDialogTheme">@style/ModalBottomSheetDialog</item>
     </style>
 
     <style name="AppTheme.NoActionbar" parent="Theme.AppCompat.Light.NoActionBar">
@@ -26,12 +27,15 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!-- Theme pour les fenêtres de dialog -->
     <style name="AppTheme.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="colorSurface">@color/colorPrimaryDark</item>
         <item name="materialAlertDialogTitleTextStyle">@style/AppTheme.MaterialAlertDialog.Title.Text</item>
         <item name="materialAlertDialogBodyTextStyle">@style/AppTheme.MaterialAlertDialog.BodyText</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
     </style>
 
+    <!-- Theme pour le titre des fenêtres de dialog -->
     <style name="AppTheme.MaterialAlertDialog.Title.Text" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textAppearance">@style/TextAppearance.App.Delete.Title</item>
@@ -43,12 +47,18 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <!-- Theme pour le corps des fenêtres de dialog -->
     <style name="AppTheme.MaterialAlertDialog.BodyText" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">16sp</item>
         <item name="fontFamily">@font/nunito_light</item>
     </style>
 
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/warning</item>
+    </style>
+
+    <!-- Theme pour les champs d'input -->
     <style name="AppTheme.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/text_input_box_stroke</item>
         <item name="android:textColorHint">@color/text_input_label</item>
@@ -56,6 +66,7 @@
         <item name="passwordToggleTint">@color/colorPrimary</item>
     </style>
 
+    <!-- Theme pour les bouttons -->
     <style name="outlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="strokeColor">@color/button_text_color</item>
         <item name="android:textColor">@color/button_text_color</item>
@@ -64,10 +75,26 @@
         <item name="cornerRadius">10dp</item>
     </style>
 
+    <!-- Theme pour les switchs -->
+    <style name="AppTheme.Switch" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorSwitchThumbNormal">@color/colorPrimary</item>
+        <item name="android:colorForeground">@color/colorSecondaryLight</item>
+    </style>
+
+    <style name="ModalBottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <!-- Apply attributes here -->
+    </style>
+
+    <style name="ModalBottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ModalBottomSheet</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!-- Theme pour le time picker -->
     <style name="MyTimePickerWidgetStyle" parent="@android:style/Widget.Material.TimePicker">
         <item name="android:headerBackground">@color/transparent</item>
         <item name="android:headerTimeTextAppearance">@style/TextAppearance.TimePickerDialogStyle.TimeLabel</item>

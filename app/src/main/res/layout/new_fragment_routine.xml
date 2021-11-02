@@ -52,11 +52,11 @@
 
     <ImageButton
         android:id="@+id/button"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_marginBottom="35dp"
         android:background="@drawable/button_rounded"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="@color/colorAccent"
         android:src="@drawable/ic_add"
         android:tint="@color/background"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -67,7 +67,7 @@
         android:id="@+id/buttonSettings"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="3dp"
         android:layout_marginEnd="25dp"
         android:background="@color/colorPrimaryDark"
         android:src="@drawable/ic_setting"
