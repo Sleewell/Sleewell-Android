@@ -147,7 +147,8 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
 
         val spinnerModifyAlarm: Button = root.findViewById(R.id.spinner_modify_alarm)
         spinnerModifyAlarm.setOnClickListener {
-            val ringtonePickerBuilder = RingtonePickerDialog.Builder(context!!,
+            val ringtonePickerBuilder = RingtonePickerDialog.Builder(
+                context!!,
                 parentFragmentManager
             )
             ringtonePickerBuilder.setTitle("Select ringtone")
@@ -170,12 +171,12 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         val recyclerView: RecyclerView = root.findViewById(R.id.recyclerView_alarm)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                recyclerView.context,
-                DividerItemDecoration.VERTICAL
-            )
+        val divider = DividerItemDecoration(
+            recyclerView.context,
+            DividerItemDecoration.VERTICAL
         )
+        divider.setDrawable(context!!.resources.getDrawable(R.drawable.divider));
+        recyclerView.addItemDecoration(divider)
 
         val deleteSelectedButton: ImageView = root.findViewById(R.id.deleteSelectedButton)
         deleteSelectedButton.setOnClickListener {

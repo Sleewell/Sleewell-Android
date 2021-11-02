@@ -45,7 +45,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="25dp"
                 android:fontFamily="@font/nunito"
-                android:text="Welcome\nBack"
+                android:text="@string/welcome_back"
                 android:textColor="@color/textOnBackground"
                 android:textSize="35sp"
                 app:layout_constraintBottom_toBottomOf="parent"
