@@ -5,7 +5,10 @@
       <map>
         <entry key="..\:/Epitech/Sleewell-Android/app/src/main/res/drawable/divider.xml" value="0.2375" />
         <entry key="..\:/Epitech/Sleewell-Android/app/src/main/res/layout-v23/custom_row.xml" value="0.16077898550724637" />
+        <entry key="..\:/Epitech/Sleewell-Android/app/src/main/res/layout/daypicker_layout.xml" value="0.2558876811594203" />
+        <entry key="..\:/Epitech/Sleewell-Android/app/src/main/res/layout/new_fragment_alarm.xml" value="0.17806484295845998" />
         <entry key="..\:/Epitech/Sleewell-Android/app/src/main/res/layout/new_fragment_connection_api.xml" value="0.16077898550724637" />
+        <entry key="..\:/Epitech/Sleewell-Android/app/src/main/res/layout/new_fragment_menu.xml" value="0.2557291666666667" />
         <entry key="..\:/Users/RomaneBzr/Epitech/Sleewell-Android/app/src/main/res/drawable-anydpi/language.xml" value="0.28703703703703703" />
         <entry key="..\:/Users/RomaneBzr/Epitech/Sleewell-Android/app/src/main/res/drawable/language.xml" value="0.34629629629629627" />
         <entry key="..\:/Users/RomaneBzr/Epitech/Sleewell-Android/app/src/main/res/drawable/notifications_24px.xml" value="0.28703703703703703" />

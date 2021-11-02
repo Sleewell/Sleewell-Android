@@ -44,9 +44,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
 
     private lateinit var mAlarmViewModel: AlarmViewModel
     private lateinit var presenter: AlarmContract.Presenter
-    private lateinit var validateupdateAlarm: ImageView
     private lateinit var buttonValidateUpdateAlarm: Button
-    private lateinit var validatesaveAlarm: ImageView
     private lateinit var buttonValidateSaveAlarm: Button
     private lateinit var ringtone: Uri
 
@@ -78,9 +76,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         setHasOptionsMenu(true)
 
         ringtone = RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_ALARM)
-        validatesaveAlarm = root.findViewById(R.id.validate_create_alarm)
         buttonValidateSaveAlarm = root.findViewById(R.id.button_validate_create)
-        validateupdateAlarm = root.findViewById(R.id.validate_modify_alarm)
         buttonValidateUpdateAlarm = root.findViewById(R.id.button_validate_modify)
         layoutCreate = root.findViewById(R.id.layout_create_alarm)
         layoutModify = root.findViewById(R.id.layout_modify_alarm)
@@ -336,9 +332,6 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         timePicker.hour = calendar.get(Calendar.HOUR_OF_DAY)
         timePicker.minute = calendar.get(Calendar.MINUTE)
 
-        validatesaveAlarm.setOnClickListener {
-            funcValidateSaveAlarm(calendar, timePicker)
-        }
         buttonValidateSaveAlarm.setOnClickListener {
             funcValidateSaveAlarm(calendar, timePicker)
         }
@@ -480,9 +473,6 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         daypicker_modify_layout.tS.isChecked = currentAlarm.days[5]
         daypicker_modify_layout.tSu.isChecked = currentAlarm.days[6]
 
-        validateupdateAlarm.setOnClickListener {
-            funcValidateUpdateAlarm(currentAlarm)
-        }
         buttonValidateUpdateAlarm.setOnClickListener {
             funcValidateUpdateAlarm(currentAlarm)
         }

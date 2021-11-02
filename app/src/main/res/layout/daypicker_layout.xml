@@ -13,6 +13,7 @@
         android:layout_marginRight="3dp"
         android:textOff="@string/m"
         android:textOn="@string/m"
+        android:textColor="@color/colorPrimary"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 
@@ -24,6 +25,7 @@
         android:layout_height="35dp"
         android:textOff="@string/t"
         android:textOn="@string/t"
+        android:textColor="@color/colorPrimary"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 
@@ -35,6 +37,7 @@
         android:layout_height="35dp"
         android:textOff="@string/w"
         android:textOn="@string/w"
+        android:textColor="@color/colorPrimary"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 
@@ -46,6 +49,7 @@
         android:layout_height="35dp"
         android:textOff="@string/th"
         android:textOn="@string/th"
+        android:textColor="@color/colorPrimary"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 
@@ -57,6 +61,7 @@
         android:layout_height="35dp"
         android:textOff="@string/f"
         android:textOn="@string/f"
+        android:textColor="@color/colorPrimary"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 
@@ -68,6 +73,7 @@
         android:layout_height="35dp"
         android:textOff="@string/s"
         android:textOn="@string/s"
+        android:textColor="@color/colorPrimary"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 
@@ -79,6 +85,7 @@
         android:layout_height="35dp"
         android:textOff="@string/su"
         android:textOn="@string/su"
+        android:textColor="@color/colorPrimary"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 </LinearLayout>

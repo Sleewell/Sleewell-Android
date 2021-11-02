@@ -193,7 +193,7 @@
     <string name="dndAccessTutorialDescription2">By pressing the following button, you will be redirected to an android settings page
          where you will have to find Sleewell and grant access to the Do not disturb mode.
     </string>
-    <string name="leewell">\u0020leewell</string>
+    <string name="leewell" translatable="false">\u0020leewell</string>
 
     <string name="stats">STATS</string>
     <string name="routine">ROUTINE</string>
