@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
         android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/nunito"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="6:00" />
@@ -30,6 +31,7 @@
         android:layout_marginTop="5dp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
         android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/nunito"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTime" />
 
@@ -40,6 +42,7 @@
         android:layout_marginTop="5dp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
         android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/nunito"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textLabel"

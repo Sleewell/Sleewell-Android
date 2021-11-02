@@ -14,6 +14,7 @@
         android:textOff="@string/m"
         android:textOn="@string/m"
         android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/nunito"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 
@@ -26,6 +27,7 @@
         android:textOff="@string/t"
         android:textOn="@string/t"
         android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/nunito"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 
@@ -38,6 +40,7 @@
         android:textOff="@string/w"
         android:textOn="@string/w"
         android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/nunito"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 
@@ -50,6 +53,7 @@
         android:textOff="@string/th"
         android:textOn="@string/th"
         android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/nunito"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 
@@ -62,6 +66,7 @@
         android:textOff="@string/f"
         android:textOn="@string/f"
         android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/nunito"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 
@@ -74,6 +79,7 @@
         android:textOff="@string/s"
         android:textOn="@string/s"
         android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/nunito"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 
@@ -86,6 +92,7 @@
         android:textOff="@string/su"
         android:textOn="@string/su"
         android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/nunito"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 </LinearLayout>
