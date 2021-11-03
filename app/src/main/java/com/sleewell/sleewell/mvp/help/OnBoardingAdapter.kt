@@ -13,12 +13,11 @@ class OnBoardingAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAd
         for (i in 0 until total) {
             val fragment = PageFragment()
             val bundle = Bundle()
-            bundle.putInt("POSITION", i+1)
+            bundle.putInt("POSITION", i + 1)
             fragment.arguments = bundle
             data.add(fragment)
         }
     }
-
 
     override fun getItem(position: Int): Fragment {
         return data[position]

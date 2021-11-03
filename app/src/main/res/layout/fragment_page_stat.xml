@@ -3,20 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorSecondary"
+    android:background="@color/colorPrimaryDark"
     android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <HorizontalScrollView
         android:id="@+id/top"
         android:layout_width="0dp"
         android:layout_height="20dp"
         android:layout_marginTop="48dp"
         android:fillViewport="true"
         android:scrollbars="none"
-        android:background="@color/colorSecondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
 
             <ToggleButton
                 android:id="@+id/home_nav"
@@ -25,7 +28,7 @@
                 android:layout_marginStart="15dp"
                 android:background="@drawable/nav_button_style"
                 android:clickable="false"
-                android:checked="true"
+                android:checked="false"
                 android:focusable="false"
                 android:fontFamily="@font/nunito_bold"
                 android:textAlignment="center"
@@ -34,7 +37,6 @@
                 android:textOn="@string/nav_button_home"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/alarm_nav"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ToggleButton
@@ -42,7 +44,6 @@
                 android:layout_width="65dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/nav_button_style"
-                android:backgroundTint="@color/colorSecondary"
                 android:clickable="false"
                 android:checked="false"
                 android:focusable="false"
@@ -53,7 +54,6 @@
                 android:textOn="ALARM"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/home_nav"
-                app:layout_constraintEnd_toStartOf="@id/profile_nav"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ToggleButton
@@ -61,7 +61,6 @@
                 android:layout_width="75dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/nav_button_style"
-                android:backgroundTint="@color/colorSecondary"
                 android:clickable="false"
                 android:checked="false"
                 android:focusable="false"
@@ -72,7 +71,6 @@
                 android:textOn="PROFILE"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/alarm_nav"
-                app:layout_constraintEnd_toStartOf="@id/routine_nav"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ToggleButton
@@ -80,7 +78,6 @@
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/nav_button_style"
-                android:backgroundTint="@color/colorSecondary"
                 android:clickable="false"
                 android:checked="false"
                 android:focusable="false"
@@ -91,40 +88,56 @@
                 android:textOn="ROUTINE"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/profile_nav"
-                app:layout_constraintEnd_toStartOf="@id/stats_nav"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        <ToggleButton
-            android:id="@+id/stats_nav"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="15dp"
-            android:background="@drawable/nav_button_style"
-            android:backgroundTint="@color/colorSecondary"
-            android:checked="false"
-            android:clickable="false"
-            android:focusable="false"
-            android:fontFamily="@font/nunito_bold"
-            android:textAlignment="center"
-            android:textColor="@color/button_text_color"
-            android:textOff="STATS"
-            android:textOn="STATS"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/routine_nav"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ToggleButton
+                android:id="@+id/stats_nav"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/nav_button_style"
+                android:clickable="false"
+                android:checked="true"
+                android:focusable="false"
+                android:fontFamily="@font/nunito_bold"
+                android:textAlignment="center"
+                android:textColor="@color/button_text_color"
+                android:textOff="STATS"
+                android:textOn="STATS"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/routine_nav"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ToggleButton
+                android:id="@+id/settings_nav"
+                android:layout_width="85dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/nav_button_style"
+                android:clickable="false"
+                android:checked="false"
+                android:focusable="false"
+                android:fontFamily="@font/nunito_bold"
+                android:textAlignment="center"
+                android:textColor="@color/button_text_color"
+                android:textOff="@string/nav_button_settings"
+                android:textOn="@string/nav_button_settings"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/stats_nav"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </HorizontalScrollView>
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="130dp"
-        android:layout_marginBottom="45dp"
+        android:layout_height="200dp"
         android:layout_marginEnd="45dp"
-        android:src="@drawable/undraw_moonlight__5_ksn"
+        android:layout_marginBottom="45dp"
+        android:src="@drawable/ic_undraw_analytics_re_dkf8"
         app:layout_constraintBottom_toTopOf="@id/subtitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/subtitle"
@@ -135,7 +148,7 @@
         android:fontFamily="sans-serif-light"
         android:includeFontPadding="false"
         android:letterSpacing="-0.01"
-        android:text="New"
+        android:text="Nouveau"
         android:textColor="@color/colorPrimary"
         android:textSize="41sp"
         app:layout_constraintBottom_toTopOf="@+id/skipButton"
@@ -150,8 +163,7 @@
         android:fontFamily="sans-serif-condensed"
         android:includeFontPadding="false"
         android:letterSpacing="-0.01"
-        android:text="user ?"
-        android:textAllCaps="true"
+        android:text="REVEIL"
         android:textColor="@color/colorPrimary"
         android:textSize="56sp"
         android:textStyle="bold"
@@ -166,7 +178,7 @@
         android:fontFamily="sans-serif-light"
         android:letterSpacing="-0.01"
         android:lineSpacingExtra="4sp"
-        android:text="Welcome to our on boarding tutorial.\nSwipe left to discover the Sleewell App"
+        android:text="Description de l'écran"
         android:textColor="@color/colorPrimary"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -181,8 +193,8 @@
         android:layout_marginBottom="65dp"
         android:insetBottom="0dp"
         android:insetTop="0dp"
+        android:backgroundTint="@color/colorPrimaryDark"
         android:text="SKIP"
-        android:backgroundTint="@color/colorSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

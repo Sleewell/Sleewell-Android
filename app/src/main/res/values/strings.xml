@@ -43,9 +43,7 @@
     <string name="setting_help_return_key">help_return_pref</string>
 
     <string name="setting_tutorial_key">tutorial</string>
-    <string name="setting_tutorial_name">On Boarding</string>
-    <string name="setting_tutorial_summary_on">On Boarding is displayed on start</string>
-    <string name="setting_tutorial_summary_off">On Boarding is not displayed on start</string>
+    <string name="setting_tutorial_name">Show the on boarding</string>
 
     <string name="setting_help_title">Help</string>
     <string name="setting_help_signal_problem">Signal a problem or a bug</string>

@@ -31,7 +31,9 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".mvp.help.OnBoardingActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".modules.permissions.DndAccessTutorialActivity"
             android:screenOrientation="portrait" />

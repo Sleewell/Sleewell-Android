@@ -6,7 +6,7 @@
     android:background="@color/colorSecondary"
     android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <HorizontalScrollView
         android:id="@+id/top"
         android:layout_width="0dp"
         android:layout_height="20dp"
@@ -18,14 +18,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
             <ToggleButton
                 android:id="@+id/home_nav"
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="15dp"
                 android:background="@drawable/nav_button_style"
+                android:backgroundTint="@color/colorSecondary"
                 android:clickable="false"
-                android:checked="true"
+                android:checked="false"
                 android:focusable="false"
                 android:fontFamily="@font/nunito_bold"
                 android:textAlignment="center"
@@ -34,7 +39,6 @@
                 android:textOn="@string/nav_button_home"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/alarm_nav"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ToggleButton
@@ -53,7 +57,6 @@
                 android:textOn="ALARM"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/home_nav"
-                app:layout_constraintEnd_toStartOf="@id/profile_nav"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ToggleButton
@@ -72,12 +75,28 @@
                 android:textOn="PROFILE"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/alarm_nav"
-                app:layout_constraintEnd_toStartOf="@id/routine_nav"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ToggleButton
                 android:id="@+id/routine_nav"
                 android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/nav_button_style"
+                android:clickable="false"
+                android:checked="true"
+                android:focusable="false"
+                android:fontFamily="@font/nunito_bold"
+                android:textAlignment="center"
+                android:textColor="@color/button_text_color"
+                android:textOff="ROUTINE"
+                android:textOn="ROUTINE"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/profile_nav"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ToggleButton
+                android:id="@+id/stats_nav"
+                android:layout_width="60dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/nav_button_style"
                 android:backgroundTint="@color/colorSecondary"
@@ -87,44 +106,42 @@
                 android:fontFamily="@font/nunito_bold"
                 android:textAlignment="center"
                 android:textColor="@color/button_text_color"
-                android:textOff="ROUTINE"
-                android:textOn="ROUTINE"
+                android:textOff="STATS"
+                android:textOn="STATS"
                 android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/profile_nav"
-                app:layout_constraintEnd_toStartOf="@id/stats_nav"
+                app:layout_constraintStart_toEndOf="@+id/routine_nav"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        <ToggleButton
-            android:id="@+id/stats_nav"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="15dp"
-            android:background="@drawable/nav_button_style"
-            android:backgroundTint="@color/colorSecondary"
-            android:checked="false"
-            android:clickable="false"
-            android:focusable="false"
-            android:fontFamily="@font/nunito_bold"
-            android:textAlignment="center"
-            android:textColor="@color/button_text_color"
-            android:textOff="STATS"
-            android:textOn="STATS"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/routine_nav"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ToggleButton
+                android:id="@+id/settings_nav"
+                android:layout_width="85dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/nav_button_style"
+                android:backgroundTint="@color/colorSecondary"
+                android:clickable="false"
+                android:checked="false"
+                android:focusable="false"
+                android:fontFamily="@font/nunito_bold"
+                android:textAlignment="center"
+                android:textColor="@color/button_text_color"
+                android:textOff="@string/nav_button_settings"
+                android:textOn="@string/nav_button_settings"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/stats_nav"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </HorizontalScrollView>
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="130dp"
+        android:layout_height="200dp"
         android:layout_marginBottom="45dp"
-        android:layout_marginEnd="45dp"
-        android:src="@drawable/undraw_moonlight__5_ksn"
+        android:src="@drawable/undraw_personal_settings_re_i6w4"
         app:layout_constraintBottom_toTopOf="@id/subtitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
         android:id="@+id/subtitle"

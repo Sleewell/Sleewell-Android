@@ -11,6 +11,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.sleewell.sleewell.BuildConfig
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.mvp.help.OnBoardingActivity
 import com.sleewell.sleewell.mvp.menu.settings.SettingsContract
 import com.sleewell.sleewell.mvp.menu.settings.presenter.SettingsPresenter
 
@@ -142,6 +143,13 @@ class SettingsFragment : Fragment(), SettingsContract.View, PreferenceFragmentCo
             val returnPref = findPreference<Preference>(getString(R.string.setting_help_return_key))
             returnPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 activity!!.supportFragmentManager.popBackStackImmediate()
+                true
+            }
+
+            val onBoardingPref = findPreference<Preference>(getString(R.string.setting_tutorial_key))
+            onBoardingPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                val intent = Intent(context, OnBoardingActivity::class.java)
+                startActivity(intent)
                 true
             }
 
