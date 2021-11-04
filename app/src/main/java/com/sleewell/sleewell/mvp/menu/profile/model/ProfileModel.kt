@@ -91,12 +91,28 @@ class ProfileModel(context: Context) : ProfileContract.Model, IAudioAnalyseRecor
 
     override fun getProfilePicture(
         token: String,
-        onFinishedListener: ProfileContract.Model.OnFinishedListener<ResponseSuccess>
+        onFinishedListener: ProfileContract.Model.OnFinishedListener<ResponseBody>
     ) {
         val call = api?.getProfilePicture(token)
 
         call?.enqueue(object: Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                val responseRes: ResponseBody? = response.body()
 
+                if (responseRes == null) {
+                    Log.e(TAG, "Body null error")
+                    Log.e(TAG, "Code : " + response.code())
+                    onFinishedListener.onFailure(Throwable("Body null error : " + response.code()))
+                } else {
+                    onFinishedListener.onFinished(responseRes)
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                // Log error here since request failed
+                Log.e(TAG, t.toString())
+                onFinishedListener.onFailure(t)
+            }
         })
     }
 

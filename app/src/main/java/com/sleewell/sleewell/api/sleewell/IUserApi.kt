@@ -26,13 +26,13 @@ interface IUserApi {
         @Part("email") email: RequestBody,
     ): Call<ResponseSuccess>
 
-    @GET("user/picture")
+    @GET("user/get-picture")
     fun getProfilePicture(
         @Header("Authorization") token: String
     ): Call<ResponseBody>
 
     @Multipart
-    @POST("user/uploadPicture")
+    @POST("user/picture")
     suspend fun uploadProfilePicture(
         @Header("Authorization") token: String,
         @Part body: MultipartBody.Part

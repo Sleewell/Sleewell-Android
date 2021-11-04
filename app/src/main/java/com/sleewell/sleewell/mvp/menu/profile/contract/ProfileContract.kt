@@ -91,6 +91,7 @@ interface ProfileContract {
          */
         fun updateProfileInformation()
 
+        fun getProfilePicture()
         fun updateProfilePicture(picture: Bitmap)
         fun cancelHttpCall()
 
@@ -120,6 +121,8 @@ interface ProfileContract {
             lastName: String,
             email: String
         )
+
+        fun setProfilePictureBitmap(url : String)
 
         fun logoutUser()
 
