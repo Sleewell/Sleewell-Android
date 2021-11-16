@@ -55,6 +55,7 @@ repositories {
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 dependencies {
     // Can use JAVA 8 feature without using a min 29 sdk
@@ -137,7 +138,10 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
 
     // SECTION FIREBASE
-    implementation platform('com.google.firebase:firebase-bom:28.4.2')
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:29.0.0')
+
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-messaging'
 

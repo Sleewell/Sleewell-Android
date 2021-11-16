@@ -48,12 +48,12 @@ class NotificationsService : FirebaseMessagingService() {
         val channelId = "General"
 
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.ic_sleewell)
             .setContentTitle(notification.title)
             .setContentText(notification.body)
             .setAutoCancel(true)
             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
             .setContentIntent(pending)
+            .setSmallIcon(R.drawable.ic_sleewell)
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
