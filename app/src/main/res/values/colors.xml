@@ -39,5 +39,7 @@
     <color name="TransparentLevel4">#26FFFFFF</color>
     <color name="TransparentRed">#99FF0000</color>
 
+    <color name="star_color_1">#ffffff</color>
+
     <color name="mtrl_textinput_default_box_stroke_color">@color/colorPrimary</color>
 </resources>

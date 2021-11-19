@@ -5,7 +5,6 @@
     android:id="@+id/connectionParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
     tools:context=".mvp.menu.home.view.HomeFragment">
 
     <TextView
@@ -72,6 +71,7 @@
                     android:layout_height="wrap_content"
                     android:autofillHints=".AUTOFILL_HINT_USERNAME"
                     android:ems="10"
+                    android:backgroundTint="@color/button_text_dark_color"
                     android:fontFamily="@font/nunito_bold"
                     android:inputType="textVisiblePassword|textNoSuggestions"
                     android:minHeight="48dp"
@@ -104,6 +104,7 @@
                     android:layout_gravity="center_horizontal"
                     android:autofillHints=".AUTOFILL_HINT_PASSWORD"
                     android:ems="10"
+                    android:backgroundTint="@color/button_text_dark_color"
                     android:inputType="textPassword"
                     android:minHeight="48dp"
                     android:textColor="@color/textOnBackground"
