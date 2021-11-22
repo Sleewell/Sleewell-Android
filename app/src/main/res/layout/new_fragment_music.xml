@@ -94,20 +94,19 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="805dp"
+            android:layout_height="wrap_content"
             tools:layout_editor_absoluteY="1dp">
-
 
             <View
                 android:id="@+id/circle_forest"
                 android:layout_width="7dp"
                 android:layout_height="7dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="64dp"
                 android:background="@drawable/circle"
                 android:backgroundTint="@color/textOnBackground"
-                app:layout_constraintBottom_toTopOf="@+id/nav_music_forest"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="@+id/forest_menu"
-                app:layout_constraintHorizontal_bias="0.485"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/forest_menu"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -115,12 +114,10 @@
                 android:id="@+id/circle_wind"
                 android:layout_width="7dp"
                 android:layout_height="7dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="64dp"
                 android:background="@drawable/circle"
                 android:backgroundTint="@color/textOnBackground"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/nav_music_wind"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.512"
                 app:layout_constraintStart_toStartOf="parent"
@@ -130,12 +127,10 @@
                 android:id="@+id/circle_fire"
                 android:layout_width="7dp"
                 android:layout_height="7dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="64dp"
                 android:background="@drawable/circle"
                 android:backgroundTint="@color/textOnBackground"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/nav_music_fire"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nav_music_wind" />
@@ -144,12 +139,10 @@
                 android:id="@+id/circle_rain"
                 android:layout_width="7dp"
                 android:layout_height="7dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="64dp"
                 android:background="@drawable/circle"
                 android:backgroundTint="@color/textOnBackground"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/nav_music_rain"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nav_music_fire" />
@@ -158,16 +151,13 @@
                 android:id="@+id/circle_water"
                 android:layout_width="7dp"
                 android:layout_height="7dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="64dp"
                 android:background="@drawable/circle"
                 android:backgroundTint="@color/textOnBackground"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/nav_music_water"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nav_music_rain"
-                app:layout_constraintVertical_bias="0.807" />
+                app:layout_constraintTop_toBottomOf="@+id/nav_music_rain" />
 
             <TextView
                 android:id="@+id/forest_menu"
@@ -262,9 +252,7 @@
                 android:layout_width="35dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="32dp"
                 android:background="@color/transparent"
-                app:layout_constraintBottom_toTopOf="@+id/circle_wind"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/circle_forest" />
@@ -274,9 +262,7 @@
                 android:layout_width="35dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="32dp"
                 android:background="@color/transparent"
-                app:layout_constraintBottom_toTopOf="@+id/circle_fire"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/circle_wind" />
@@ -286,9 +272,7 @@
                 android:layout_width="35dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="32dp"
                 android:background="@color/transparent"
-                app:layout_constraintBottom_toTopOf="@+id/circle_rain"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/circle_fire" />
@@ -298,9 +282,7 @@
                 android:layout_width="35dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="32dp"
                 android:background="@color/transparent"
-                app:layout_constraintBottom_toTopOf="@+id/circle_water"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/circle_rain" />
@@ -310,11 +292,9 @@
                 android:layout_width="35dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
                 android:background="@color/transparent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.52"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/circle_water" />
 
@@ -352,6 +332,7 @@
             android:textColor="@color/textOnBackground"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

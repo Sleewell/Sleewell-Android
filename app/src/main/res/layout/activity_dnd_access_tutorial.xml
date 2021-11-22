@@ -27,8 +27,7 @@
         android:background="@color/colorPrimaryDark"
         android:fontFamily="@font/nunito_light"
         android:text="Welcome!"
-        android:textColor="@color/textOnBackground"
-        android:textColorHighlight="#FFFFFF"
+        android:textColor="@color/colorAccent"
         android:textSize="64sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -57,7 +56,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textIntro"
         app:srcCompat="@drawable/avd_squirel"
-        app:tint="@color/colorPrimary" />
+        app:tint="@color/colorAccent" />
 
     <TextView
         android:id="@+id/textTutorial1"
@@ -98,10 +97,10 @@
         android:text="Authorize"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="12sp"
+        android:backgroundTint="@color/colorAccent"
         app:layout_constraintTop_toBottomOf="@+id/textTutorial2"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="30dp"
-        app:strokeColor="@color/colorPrimary" />
+        android:layout_marginEnd="30dp" />
 
     <TextView
         android:id="@+id/textTutorial3"

@@ -47,7 +47,7 @@
                 android:fontFamily="@font/nunito"
                 android:text="@string/welcom_back_title"
                 android:textColor="@color/textOnBackground"
-                android:textSize="40sp"
+                android:textSize="35sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.1"
@@ -132,7 +132,7 @@
                     android:layout_gravity="center_vertical"
                     android:fontFamily="@font/nunito_bold"
                     android:text="@string/log_in_title"
-                    android:textColor="@color/textOnBackground"
+                    android:textColor="@color/colorAccent"
                     android:textSize="30sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -143,8 +143,8 @@
 
                 <ImageView
                     android:id="@+id/loginImageLogin"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="end"
                     android:background="@drawable/round_shape_grey"
                     android:scaleType="center"
@@ -152,7 +152,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
                     app:layout_constraintVertical_bias="0.1"
-                    app:srcCompat="@drawable/ic_check_blue" />
+                    app:srcCompat="@drawable/ic_login_black_24dp"
+                    app:tint="@color/colorPrimaryDark" />
 
             </FrameLayout>
 
