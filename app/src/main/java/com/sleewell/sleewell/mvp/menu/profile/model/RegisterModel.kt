@@ -13,13 +13,13 @@ import retrofit2.Callback
 
 class RegisterModel(context: Context) : RegisterContract.Model {
     private var api : ILoginApi? = ApiClientSleewell.retrofit.create(ILoginApi::class.java)
-    private val TAG = "RegisterModel"
+    private val tag = "RegisterModel"
 
     private var isRegistering = false
 
     override fun registerToSleewellApi(onFinishedListener: RegisterContract.Model.OnFinishedListener, loginId: String, password: String, email: String, firstName: String, lastName: String) {
         if (isRegistering) {
-            Log.e(TAG, "Please wait for other registration to finish")
+            Log.e(tag, "Please wait for other registration to finish")
             return
         }
 
@@ -35,7 +35,7 @@ class RegisterModel(context: Context) : RegisterContract.Model {
         val requestBody: RequestBody = builder.build()
         val call : Call<ResultRegisterSleewell>? = api?.registerSleewell(requestBody)
 
-        Log.e(TAG, call?.request().toString())
+        Log.e(tag, call?.request().toString())
 
         call?.enqueue(object : Callback<ResultRegisterSleewell> {
 
@@ -44,18 +44,18 @@ class RegisterModel(context: Context) : RegisterContract.Model {
 
                 isRegistering = false
                 if (responseRes == null) {
-                    Log.e(TAG, "Body null error")
-                    Log.e(TAG, "Code : " + response.code())
+                    Log.e(tag, "Body null error")
+                    Log.e(tag, "Code : " + response.code())
                     onFinishedListener.onFailure(Throwable("Body null error : " + response.code()))
                 } else {
-                    Log.e(TAG, "Success")
+                    Log.e(tag, "Success")
                     onFinishedListener.onFinished(responseRes)
                 }
             }
 
             override fun onFailure(call: Call<ResultRegisterSleewell>, t: Throwable) {
                 isRegistering = false
-                Log.e(TAG, t.toString())
+                Log.e(tag, t.toString())
                 onFinishedListener.onFailure(t)
             }
         })

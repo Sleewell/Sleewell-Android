@@ -44,9 +44,8 @@ import retrofit2.Call
 import retrofit2.Callback
 
 
-class RoutineModel(context: Context) : RoutineContract.Model {
+class RoutineModel(private var context: Context) : RoutineContract.Model {
 
-    private var context = context
     private var db: RoutineDao = RoutineDatabase.getDatabase(context).routineDao()
     private var adapter: RoutineListAdapter
     private var aList: ArrayList<Routine> = ArrayList()
@@ -211,7 +210,7 @@ class RoutineModel(context: Context) : RoutineContract.Model {
                     db.updateRoutine(isRoutine)
                 }
             } else {
-                val rt = db.addNewRoutine(convertToRoutine(routines?.data[i]))
+                val rt = db.addNewRoutine(convertToRoutine(routines.data[i]))
                 aList.add(db.getRoutine(rt))
             }
         }

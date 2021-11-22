@@ -18,7 +18,18 @@
     <!-- Home -->
     <string name="protocol_button">Night mode</string>
 
+    <!-- Menu title -->
+    <string name="alarm_title_menu">ALARM</string>
+    <string name="profile_title_menu">PROFILE</string>
+    <string name="routine_title_menu">ROUTINE</string>
+    <string name="stats_title_menu">STATS</string>
+
+    <!-- Spotify -->
+    <string name="back_title">Back</string>
+    <string name="enter_music_title">Enter music</string>
+
     <!-- Settings -->
+    <string name="setting_tittle">Settings</string>
     <string name="setting_network_name">Network</string>
     <string name="setting_network_summary">Customise the network during the protocol</string>
     <string name="setting_network_return_key">network_return_pref</string>
@@ -116,11 +127,19 @@
     <string name="cart_average_title_time_to_wake_up">WakingUp</string>
     <string name="card_analyse_title">Analyse</string>
 
+    <!-- Protocol -->
+    <string name="stop_title">Stop</string>
+
     <!-- shared preferences -->
     <string name="sharedPrefFile">sharedpreference</string>
     <string name="user_token_key">USER_TOKEN_SLEEWELL</string>
 
     <!-- Account and Profile -->
+    <string name="profile_title">My Profile</string>
+    <string name="welcom_back_title">Welcome\nBack</string>
+    <string name="get_started_title">Get\nStarted</string>
+    <string name="log_in_title">Log in</string>
+    <string name="sign_up_title">Sign Up</string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="editTextHintPassword">Password</string>
     <string name="editTextHintLogin">Login</string>

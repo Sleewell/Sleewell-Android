@@ -7,16 +7,13 @@ import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 const val LOG_TAG = "RawRecorderManager"
-private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 
 /**
  * Record audio and send it inside a buffer as a PCM
@@ -32,7 +29,6 @@ class RawRecorderManager(
     private val onListener: IRecorderListener,
     private val samplingRate : Int = 44100
 ) : IRecorderManager {
-    private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
 
     // record managing
     private var isRecording: Boolean = false
@@ -84,10 +80,10 @@ class RawRecorderManager(
                 AudioFormat.ENCODING_PCM_16BIT
             )
             if (bufferSize == AudioRecord.ERROR || bufferSize == AudioRecord.ERROR_BAD_VALUE) {
-                bufferSize = samplingRate * 2;
+                bufferSize = samplingRate * 2
             }
             //val buffer: ByteBuffer = ByteBuffer.allocateDirect(bufferSize)
-            val buffer: ShortArray = ShortArray(bufferSize / 2)
+            val buffer = ShortArray(bufferSize / 2)
 
             // initialize recorder
             try {
@@ -99,14 +95,14 @@ class RawRecorderManager(
                     bufferSize
                 )
                 if (record.state != AudioRecord.STATE_INITIALIZED) {
-                    Log.e(LOG_TAG, "Audio Record can't initialize!");
+                    Log.e(LOG_TAG, "Audio Record can't initialize!")
                     onFinishedInsideThread()
                     return@launch
                 }
 
                 // Start recording
-                record.startRecording();
-                Log.v(LOG_TAG, "Start recording");
+                record.startRecording()
+                Log.v(LOG_TAG, "Start recording")
                 while (!stopThread) {
                     record.read(buffer, 0, buffer.size)
 

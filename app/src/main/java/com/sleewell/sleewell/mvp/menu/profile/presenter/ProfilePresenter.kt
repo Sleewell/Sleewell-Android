@@ -136,7 +136,7 @@ class ProfilePresenter(view: ProfileContract.View,val context: Context) : Profil
     }
 
     override fun onDestroy() {
-        view = null;
+        view = null
     }
 
     override fun setUsername(username: String) { this.username = username }

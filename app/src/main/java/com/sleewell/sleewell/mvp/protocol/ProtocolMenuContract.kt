@@ -140,7 +140,6 @@ interface ProtocolMenuContract {
         /**
          * this method start the protocol with a specific number of repetition
          *
-         * @param number the number of repetition for the halo
          * @author gabin warnier de wailly
          */
         fun startHalo()
@@ -209,7 +208,7 @@ interface ProtocolMenuContract {
         /**
          * Animates or stops the equalizer
          *
-         * @param color color rgb for the halo
+         * @param state
          * @author Titouan FIANCETTE
          */
         fun animateEqualizer(state: Boolean)

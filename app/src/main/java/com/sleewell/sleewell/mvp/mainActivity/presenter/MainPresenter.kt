@@ -11,8 +11,6 @@ import com.sleewell.sleewell.mvp.mainActivity.MainContract
  */
 class MainPresenter(view: MainContract.View) : MainContract.Presenter {
 
-    private var view: MainContract.View? = view
-
     /**
      * onDestroy is called at each time e presenter will be destroyed
      * @author Hugo Berthomé

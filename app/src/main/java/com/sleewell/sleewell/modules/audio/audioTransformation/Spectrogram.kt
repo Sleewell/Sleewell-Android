@@ -25,7 +25,7 @@ class Spectrogram(
 ) {
     // Coroutines
     private var scopeDefault = CoroutineScope(Job() + Dispatchers.Default)
-    private var queueBuffer: Queue<ShortArray> = LinkedList<ShortArray>()
+    private var queueBuffer: Queue<ShortArray> = LinkedList()
 
     private val strideSize = (0.001 * sampleRate * strideMs).toInt()
     private val windowSize = (0.001 * sampleRate * windowMs).toInt()

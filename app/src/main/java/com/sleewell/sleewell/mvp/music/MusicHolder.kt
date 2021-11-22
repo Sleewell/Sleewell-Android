@@ -1,7 +1,6 @@
 package com.sleewell.sleewell.mvp.music
 
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import com.sleewell.sleewell.R
 

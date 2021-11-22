@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="IconDuplicates">
+        <ignore path="src/main/res/drawable-hdpi/ic_close.png" />
+    </issue>
+    <issue id="IconLocation">
+        <ignore path="src/main/res/drawable/full_stars.png" />
+        <ignore path="src/main/res/drawable/main_picture_rain.png" />
+        <ignore path="src/main/res/drawable/rain_forest.png" />
+        <ignore path="src/main/res/drawable/spotify_icon_rgb_green.png" />
+        <ignore path="src/main/res/drawable/stars.png" />
+        <ignore path="src/main/res/drawable/wheel_rgb.png" />
+        <ignore path="src/main/res/drawable/wide_arrow.png" />
+    </issue>
+</lint>

@@ -39,7 +39,7 @@ class Item {
     var description: String? = null
 
     @SerializedName("external_urls")
-    var external_urls: ExternalUrls? = null
+    var externalUrls: ExternalUrls? = null
 
     @SerializedName("href")
     var href: String? = null
@@ -57,13 +57,13 @@ class Item {
     var owner: Owner? = null
 
     @SerializedName("primary_color")
-    var primary_color: Objects? = null
+    var primaryColor: Objects? = null
 
     @SerializedName("public")
     var public: Objects? = null
 
     @SerializedName("snapshot_id")
-    var snapshot_id: String? = null
+    var snapshotId: String? = null
 
     @SerializedName("tracks")
     var tracks: Tracks? = null
@@ -85,10 +85,10 @@ class Tracks {
 
 class Owner {
     @SerializedName("display_name")
-    var display_name: String? = null
+    var displayName: String? = null
 
     @SerializedName("external_urls")
-    var external_urls: ExternalUrls? = null
+    var externalUrls: ExternalUrls? = null
 
     @SerializedName("href")
     var href: String? = null

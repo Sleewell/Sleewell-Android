@@ -18,7 +18,7 @@ import java.lang.ClassCastException
 
  /**
  * A simple [Fragment] subclass.
- * Use the [MusicFragment.newInstance] factory method to
+ * Use the [MusicFragment] factory method to
  * create an instance of this fragment.
  */
 class MusicFragment : MainContract.View, DialogFragment() {
@@ -26,22 +26,22 @@ class MusicFragment : MainContract.View, DialogFragment() {
     private lateinit var presenter: MainContract.Presenter
     private lateinit var root: View
     private lateinit var listView: ListView
-    private lateinit var button_forest: Button
-    private lateinit var button_wind: Button
-    private lateinit var button_rain: Button
-    private lateinit var button_water: Button
-    private lateinit var button_fire: Button
+    private lateinit var buttonForest: Button
+    private lateinit var buttonWind: Button
+    private lateinit var buttonRain: Button
+    private lateinit var buttonWater: Button
+    private lateinit var buttonFire: Button
 
-     private lateinit var circle_forest: View
-     private lateinit var circle_wind: View
-     private lateinit var circle_rain: View
-     private lateinit var circle_water: View
-     private lateinit var circle_fire: View
+     private lateinit var circleForest: View
+     private lateinit var circleWind: View
+     private lateinit var circleRain: View
+     private lateinit var circleWater: View
+     private lateinit var circleFire: View
 
 
     private var circle: View? = null
     private var equalizer: EqualizerView? = null
-    private lateinit var main_text: TextView
+    private lateinit var mainText: TextView
     private var musicSelected: Int = -1
 
     companion object {
@@ -53,13 +53,13 @@ class MusicFragment : MainContract.View, DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         root = inflater.inflate(R.layout.new_fragment_music, container, false)
 
         setPresenter(MusicPresenter(this, this.activity as AppCompatActivity))
         presenter.onViewCreated()
         initListView()
-        InitActivityWidgets()
+        initActivityWidgets()
 
         return root
     }
@@ -100,7 +100,7 @@ class MusicFragment : MainContract.View, DialogFragment() {
             }
             musicSelected = i
             music_selected = true
-            val main = main_text!!.text.toString()
+            val main = mainText.text.toString()
             val title = viewItem.findViewById<TextView>(R.id.soundTitle)!!.text.toString()
             musicName = main + "_" + title
         }
@@ -115,53 +115,53 @@ class MusicFragment : MainContract.View, DialogFragment() {
      *
      * @author gabin warnier de wailly
      */
-    private fun InitActivityWidgets() {
+    private fun initActivityWidgets() {
 
-        main_text = root.findViewById(R.id.main_image_title)
-        button_fire = root.findViewById(R.id.nav_music_fire)
-        button_wind = root.findViewById(R.id.nav_music_wind)
-        button_water = root.findViewById(R.id.nav_music_water)
-        button_rain = root.findViewById(R.id.nav_music_rain)
-        button_forest = root.findViewById(R.id.nav_music_forest)
-        circle_fire = root.findViewById(R.id.circle_fire)
-        circle_wind = root.findViewById(R.id.circle_wind)
-        circle_water = root.findViewById(R.id.circle_water)
-        circle_rain = root.findViewById(R.id.circle_rain)
-        circle_forest = root.findViewById(R.id.circle_forest)
+        mainText = root.findViewById(R.id.main_image_title)
+        buttonFire = root.findViewById(R.id.nav_music_fire)
+        buttonWind = root.findViewById(R.id.nav_music_wind)
+        buttonWater = root.findViewById(R.id.nav_music_water)
+        buttonRain = root.findViewById(R.id.nav_music_rain)
+        buttonForest = root.findViewById(R.id.nav_music_forest)
+        circleFire = root.findViewById(R.id.circle_fire)
+        circleWind = root.findViewById(R.id.circle_wind)
+        circleWater = root.findViewById(R.id.circle_water)
+        circleRain = root.findViewById(R.id.circle_rain)
+        circleForest = root.findViewById(R.id.circle_forest)
 
-        button_forest.setOnClickListener{
+        buttonForest.setOnClickListener{
             setCircleInvisible()
-            circle_forest.visibility = View.VISIBLE
+            circleForest.visibility = View.VISIBLE
             listView.adapter = presenter.getAdapterMusiqueByName("forest")
-            main_text.text = "forest"
+            mainText.text = "forest"
         }
 
-        button_wind.setOnClickListener{
+        buttonWind.setOnClickListener{
             setCircleInvisible()
-            circle_wind.visibility = View.VISIBLE
+            circleWind.visibility = View.VISIBLE
             listView.adapter = presenter.getAdapterMusiqueByName("wind")
-            main_text.text = "wind"
+            mainText.text = "wind"
         }
 
-        button_water.setOnClickListener{
+        buttonWater.setOnClickListener{
             setCircleInvisible()
-            circle_water.visibility = View.VISIBLE
+            circleWater.visibility = View.VISIBLE
             listView.adapter = presenter.getAdapterMusiqueByName("water")
-            main_text.text = "water"
+            mainText.text = "water"
         }
 
-        button_fire.setOnClickListener{
+        buttonFire.setOnClickListener{
             setCircleInvisible()
-            circle_fire.visibility = View.VISIBLE
+            circleFire.visibility = View.VISIBLE
             listView.adapter = presenter.getAdapterMusiqueByName("fire")
-            main_text.text = "fire"
+            mainText.text = "fire"
         }
 
-        button_rain.setOnClickListener{
+        buttonRain.setOnClickListener{
             setCircleInvisible()
-            circle_rain.visibility = View.VISIBLE
+            circleRain.visibility = View.VISIBLE
             listView.adapter = presenter.getAdapterMusiqueByName("rain")
-            main_text.text = "rain"
+            mainText.text = "rain"
         }
 
         val menu = root.findViewById<Button>(R.id.MenuButton)
@@ -181,11 +181,11 @@ class MusicFragment : MainContract.View, DialogFragment() {
      }
 
      private fun setCircleInvisible() {
-         circle_forest.visibility = View.INVISIBLE
-         circle_water.visibility = View.INVISIBLE
-         circle_wind.visibility = View.INVISIBLE
-         circle_fire.visibility = View.INVISIBLE
-         circle_rain.visibility = View.INVISIBLE
+         circleForest.visibility = View.INVISIBLE
+         circleWater.visibility = View.INVISIBLE
+         circleWind.visibility = View.INVISIBLE
+         circleFire.visibility = View.INVISIBLE
+         circleRain.visibility = View.INVISIBLE
 
          circle!!.visibility = View.INVISIBLE
          if (equalizer != null) {
@@ -193,7 +193,7 @@ class MusicFragment : MainContract.View, DialogFragment() {
              equalizer!!.visibility = View.INVISIBLE
          }
          presenter.stopMusique()
-         musicSelected = -1;
+         musicSelected = -1
      }
 
     /**

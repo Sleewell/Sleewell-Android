@@ -10,7 +10,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +32,6 @@ import com.sleewell.sleewell.reveil.data.model.Alarm
 import com.sleewell.sleewell.reveil.data.viewmodel.AlarmViewModel
 import com.sleewell.sleewell.reveil.presenter.AlarmPresenter
 import kotlinx.android.synthetic.main.custom_row.view.*
-import kotlinx.android.synthetic.main.daypicker_layout.view.*
 import kotlinx.android.synthetic.main.new_fragment_alarm.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -161,9 +159,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         }
 
         mAlarmViewModel = ViewModelProvider(this).get(AlarmViewModel::class.java)
-        mAlarmViewModel.readAllData.observe(viewLifecycleOwner, { alarm ->
+        mAlarmViewModel.readAllData.observe(viewLifecycleOwner) { alarm ->
             adapter.setData(alarm)
-        })
+        }
 
         setPresenter(AlarmPresenter(this))
         return root

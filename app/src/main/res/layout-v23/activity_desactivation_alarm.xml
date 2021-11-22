@@ -61,7 +61,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/time_desactivation"
         app:layout_constraintVertical_bias="0.95"
-        app:srcCompat="@drawable/ic_snooze" />
+        app:srcCompat="@drawable/ic_snooze"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/snooze_text"

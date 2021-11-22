@@ -1,10 +1,8 @@
 package com.sleewell.sleewell.database.analyse.night.entities
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
 
 @Entity
 data class Night(
