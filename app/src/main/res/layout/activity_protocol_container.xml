@@ -117,8 +117,8 @@
 
         <ImageView
             android:id="@+id/halo"
-            android:layout_width="800dp"
-            android:layout_height="800dp"
+            android:layout_width="1200dp"
+            android:layout_height="1200dp"
             android:layout_gravity="center|center_horizontal"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
