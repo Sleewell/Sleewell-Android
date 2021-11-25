@@ -53,6 +53,10 @@ repositories {
     }
 }
 
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
 dependencies {
     // Can use JAVA 8 feature without using a min 29 sdk
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.9'
@@ -132,5 +136,13 @@ dependencies {
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
     implementation 'com.google.android.material:material:1.4.0'
+
+    // SECTION FIREBASE
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:29.0.0')
+
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging'
 
 }
