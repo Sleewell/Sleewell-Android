@@ -108,8 +108,6 @@
                 android:textOn="@string/profile_title_menu"
                 android:textOff="@string/profile_title_menu"
                 android:textColor="@color/button_text_color"
-                android:textOff="PROFILE"
-                android:textOn="PROFILE"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/alarm_nav"
                 app:layout_constraintTop_toTopOf="parent" />

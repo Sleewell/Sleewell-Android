@@ -18,7 +18,18 @@
     <!-- Home -->
     <string name="protocol_button">Mode nuit</string>
 
+    <!-- Menu title -->
+    <string name="alarm_title_menu">ALARME</string>
+    <string name="profile_title_menu">PROFILE</string>
+    <string name="routine_title_menu">ROUTINE</string>
+    <string name="stats_title_menu">STATS</string>
+
+    <!-- Spotify -->
+    <string name="back_title">Retour</string>
+    <string name="enter_music_title">Entrer musique</string>
+
     <!-- Settings -->
+    <string name="setting_tittle">Paramètres</string>
     <string name="setting_network_name">Réseau</string>
     <string name="setting_network_summary">Personnaliser le réseau pendant le protocole</string>
     <string name="setting_network_return_key">network_return_pref</string>

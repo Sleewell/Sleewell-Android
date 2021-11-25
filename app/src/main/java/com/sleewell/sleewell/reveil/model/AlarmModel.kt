@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.text.format.DateUtils
 import android.text.format.Time
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import com.sleewell.sleewell.reveil.AlarmContract
 import com.sleewell.sleewell.reveil.AlarmReceiver
@@ -198,13 +199,8 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         val currentTimeMillis = System.currentTimeMillis()
         val nextUpdateTimeMillis = currentTimeMillis + 5 * DateUtils.MINUTE_IN_MILLIS
 
-        @Suppress("DEPRECATION")
-        val nextUpdateTime = Time()
-        @Suppress("DEPRECATION")
-        nextUpdateTime.set(nextUpdateTimeMillis)
-
         alarmManager.setAlarmClock(
-            AlarmClockInfo(c.timeInMillis, pendingIntent),
+            AlarmClockInfo(nextUpdateTimeMillis, pendingIntent),
             pendingIntent
         )
     }
