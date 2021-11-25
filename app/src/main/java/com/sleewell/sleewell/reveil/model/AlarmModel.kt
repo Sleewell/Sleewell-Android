@@ -130,25 +130,14 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
             PendingIntent.FLAG_UPDATE_CURRENT
         )
         c.timeInMillis = alarm.time
-        if (restart) {
-            if (c.before(Calendar.getInstance())) {
-                c.add(Calendar.DATE, 1)
-                alarm.time = c.timeInMillis
-            }
-            alarmManager.setAlarmClock(
-                AlarmClockInfo(c.timeInMillis, pendingIntent),
-                pendingIntent
-            )
-        } else {
-            if (c.before(Calendar.getInstance())) {
-                c.add(Calendar.DATE, 1)
-                alarm.time = c.timeInMillis
-            }
-            alarmManager.setAlarmClock(
-                AlarmClockInfo(c.timeInMillis, pendingIntent),
-                pendingIntent
-            )
+        if (c.before(Calendar.getInstance())) {
+            c.add(Calendar.DATE, 1)
+            alarm.time = c.timeInMillis
         }
+        alarmManager.setAlarmClock(
+            AlarmClockInfo(c.timeInMillis, pendingIntent),
+            pendingIntent
+        )
     }
 
     /**
