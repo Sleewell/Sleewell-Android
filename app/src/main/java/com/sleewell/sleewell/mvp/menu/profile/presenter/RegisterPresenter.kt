@@ -6,10 +6,9 @@ import com.sleewell.sleewell.mvp.menu.profile.contract.RegisterContract
 import com.sleewell.sleewell.mvp.menu.profile.model.RegisterModel
 import com.sleewell.sleewell.mvp.menu.profile.view.RegisterFragment
 
-class RegisterPresenter(view: RegisterFragment, context: Context) : RegisterContract.Presenter, RegisterContract.Model.OnFinishedListener  {
+class RegisterPresenter(view: RegisterFragment, private var context: Context) : RegisterContract.Presenter, RegisterContract.Model.OnFinishedListener  {
     private var view: RegisterFragment? = view
     private var model: RegisterModel = RegisterModel(context)
-    private var context = context
 
     override fun onViewCreated() {
     }
@@ -23,7 +22,7 @@ class RegisterPresenter(view: RegisterFragment, context: Context) : RegisterCont
     }
 
     override fun onFinished(registerResult: ResultRegisterSleewell) {
-        registerResult.AccessToken?.let { view?.setAccessToken(it) }
+        registerResult.accessToken?.let { view?.setAccessToken(it) }
     }
 
     override fun onFailure(t: Throwable) {

@@ -3,12 +3,6 @@ package com.sleewell.sleewell.mvp.mainActivity.view
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.sleewell.sleewell.R
-import com.sleewell.sleewell.modules.gesturelistener.UserInteractionListener
-import com.sleewell.sleewell.mvp.mainActivity.MainContract
-import com.sleewell.sleewell.mvp.mainActivity.presenter.MainPresenter
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -16,9 +10,15 @@ import android.os.Build
 import android.provider.Settings
 import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
 import com.sleewell.sleewell.modules.audio.upload.AudioAnalyseUpload
+import com.sleewell.sleewell.modules.gesturelistener.UserInteractionListener
 import com.sleewell.sleewell.modules.permissions.PermissionManager
+import com.sleewell.sleewell.mvp.mainActivity.MainContract
+import com.sleewell.sleewell.mvp.mainActivity.presenter.MainPresenter
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.DeleteDialog
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.GivenImagesDialog
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.PickImageDialog
@@ -72,7 +72,6 @@ class MainActivity : AppCompatActivity(), MainContract.View,
         super.onStart()
         askAuthorisation();
         stars_white.onStart()
-
     }
 
     override fun onResume() {

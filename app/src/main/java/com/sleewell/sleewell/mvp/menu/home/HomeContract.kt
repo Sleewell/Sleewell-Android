@@ -28,6 +28,5 @@ interface HomeContract {
         fun onViewCreated()
     }
 
-    interface View : BaseView<Presenter> {
-    }
+    interface View : BaseView<Presenter>
 }

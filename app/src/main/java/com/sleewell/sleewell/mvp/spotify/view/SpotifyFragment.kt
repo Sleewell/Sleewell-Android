@@ -57,7 +57,7 @@ open class SpotifyFragment: DialogFragment(), MainContract.View {
         setPresenter(SpotifyPresenter(this, this.activity as AppCompatActivity))
         presenter.onViewCreated()
 
-        InitFragmentWidget()
+        initFragmentWidget()
         return root
     }
 
@@ -70,7 +70,7 @@ open class SpotifyFragment: DialogFragment(), MainContract.View {
         }
     }
 
-    private fun InitFragmentWidget() {
+    private fun initFragmentWidget() {
         backButton = root.findViewById(R.id.MusicButton)
 
         backButton.setOnClickListener {

@@ -11,7 +11,7 @@ import retrofit2.Response
 
 class OpenWeatherModel : OpenWeatherContract.Model{
 
-    private val TAG = "WeatherModelMvp"
+    private val tag = "WeatherModelMvp"
     private var api : ApiInterface? = ApiClient.retrofit.create(ApiInterface::class.java)
 
     override fun getCurrentWeather(onFinishedListener: OpenWeatherContract.Model.OnFinishedListener) {
@@ -23,8 +23,8 @@ class OpenWeatherModel : OpenWeatherContract.Model{
                 val responseRes : ApiResult? = response.body()
 
                 if (responseRes == null) {
-                    Log.e(TAG, "Body null error")
-                    Log.e(TAG, "Code : " + response.code())
+                    Log.e(tag, "Body null error")
+                    Log.e(tag, "Code : " + response.code())
                     onFinishedListener.onFailure(Throwable("Body null error : " + response.code()))
                 } else {
                     onFinishedListener.onFinished(responseRes)
@@ -34,7 +34,7 @@ class OpenWeatherModel : OpenWeatherContract.Model{
 
             override fun onFailure(call: Call<ApiResult>, t: Throwable) {
                 // Log error here since request failed
-                Log.e(TAG, t.toString())
+                Log.e(tag, t.toString())
                 onFinishedListener.onFailure(t)
             }
         })

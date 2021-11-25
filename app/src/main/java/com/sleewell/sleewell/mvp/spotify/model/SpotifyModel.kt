@@ -12,7 +12,7 @@ class SpotifyModel(context: Context) : MainContract.Model {
     private var adapter: SpotifyPlaylistAdapter
     private var aList: ArrayList<SpotifyPlaylist> = ArrayList()
     private var api : ApiInterfaceSpotify? = ApiClientSpotify.retrofit.create(ApiInterfaceSpotify::class.java)
-    private val TAG = "SpotifyModel"
+    private val tag = "SpotifyModel"
 
     init {
         aList.add(SpotifyPlaylist("No playlist found","Try something else", ""))
@@ -28,18 +28,18 @@ class SpotifyModel(context: Context) : MainContract.Model {
                 val responseRes : ApiResultSpotify? = response.body()
 
                 if (responseRes == null) {
-                    Log.e(TAG, "Body null error")
-                    Log.e(TAG, "Code : " + response.code())
+                    Log.e(tag, "Body null error")
+                    Log.e(tag, "Code : " + response.code())
                     onFinishedListener.onFailure(Throwable("Body null error : " + response.code()))
                 } else {
-                    Log.e(TAG, "Success")
+                    Log.e(tag, "Success")
                     onFinishedListener.onFinished(responseRes)
                 }
             }
 
             override fun onFailure(call: Call<ApiResultSpotify>, t: Throwable) {
                 // Log error here since request failed
-                Log.e(TAG, t.toString())
+                Log.e(tag, t.toString())
                 onFinishedListener.onFailure(t)
             }
         })
@@ -53,7 +53,7 @@ class SpotifyModel(context: Context) : MainContract.Model {
             var image = ""
             if (response.playlists!!.items!![i].images!!.isNotEmpty())
                 image = response.playlists!!.items!![i].images!![0].url!!
-            aList.add(SpotifyPlaylist(name!!, uri!!, image!!))
+            aList.add(SpotifyPlaylist(name!!, uri!!, image))
         }
         if (aList.size == 0) {
             aList.add(SpotifyPlaylist("No playlist found","", ""))

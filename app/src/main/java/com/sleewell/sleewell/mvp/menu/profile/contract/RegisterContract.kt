@@ -10,7 +10,7 @@ interface RegisterContract {
             /**
              * This method is call when the request is finish
              *
-             * @param weather result for spotify
+             * @param registerResult result for spotify
              *
              * @author gabin warnier de wailly
              */

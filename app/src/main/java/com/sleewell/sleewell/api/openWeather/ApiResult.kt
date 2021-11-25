@@ -64,15 +64,10 @@ class Main {
     var humidity: Int? = null
 
     @SerializedName("temp_min")
-    var temp_min: Float? = null
+    var tempMin: Float? = null
 
     @SerializedName("temp_max")
-    var temp_max: Float? = null
-}
-
-class Rain {
-    @SerializedName("amount")
-    var amount: Int? = null
+    var tempMax: Float? = null
 }
 
 class Wind {

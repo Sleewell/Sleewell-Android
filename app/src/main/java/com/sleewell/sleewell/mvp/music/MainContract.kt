@@ -1,6 +1,5 @@
 package com.sleewell.sleewell.mvp.music
 
-import android.widget.ListAdapter
 import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
 

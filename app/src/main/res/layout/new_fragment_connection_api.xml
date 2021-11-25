@@ -132,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:fontFamily="@font/nunito_bold"
-                    android:text="Log in"
+                    android:text="@string/log_in_title"
                     android:textColor="@color/colorAccent"
                     android:textSize="30sp"
                     app:layout_constraintBottom_toBottomOf="parent"

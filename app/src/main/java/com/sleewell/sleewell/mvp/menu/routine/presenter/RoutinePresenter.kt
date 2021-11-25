@@ -14,7 +14,6 @@ class RoutinePresenter(view: RoutineContract.View, context: Context) : RoutineCo
 
     private var view: RoutineContract.View? = view
     private var model: RoutineModel = RoutineModel(context)
-    private var context = context
 
     override fun onDestroy() {
         view = null
