@@ -1,13 +1,11 @@
 package com.sleewell.sleewell.mvp.menu.routine.model
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.media.Image
 import android.util.Log
 import android.view.View
 import android.view.View.OnFocusChangeListener
@@ -25,7 +23,10 @@ import androidx.fragment.app.FragmentManager
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.ApiClient
 import com.sleewell.sleewell.api.sleewell.IRoutineApi
-import com.sleewell.sleewell.api.sleewell.model.*
+import com.sleewell.sleewell.api.sleewell.model.AddRoutineResponse
+import com.sleewell.sleewell.api.sleewell.model.DeleteRoutineResponse
+import com.sleewell.sleewell.api.sleewell.model.RoutinesResponse
+import com.sleewell.sleewell.api.sleewell.model.UpdateRoutineResponse
 import com.sleewell.sleewell.database.routine.RoutineDao
 import com.sleewell.sleewell.database.routine.RoutineDatabase
 import com.sleewell.sleewell.database.routine.entities.Routine
@@ -478,7 +479,7 @@ class RoutineModel(private var context: Context) : RoutineContract.Model {
         dialog.setContentView(R.layout.routine_layout)
 
         val buttonDelete = dialog.findViewById(R.id.dialog_routine_button_delete) as ImageButton
-        val buttonSelect = dialog.findViewById(R.id.dialog_routine_selected_button) as Button
+        val buttonSelect = dialog.findViewById(R.id.dialog_routine_selected_button) as TextView
         val buttonClose = dialog.findViewById(R.id.dialog_routine_close) as Button
         val title = dialog.findViewById(R.id.dialog_routine_title) as EditText
 
@@ -491,6 +492,12 @@ class RoutineModel(private var context: Context) : RoutineContract.Model {
             dialog.dismiss()
         }
         buttonSelect.setOnClickListener {
+            for (item in aList) {
+                if (item.isSelected && aList[nbr] != item) {
+                    item.isSelected = false
+                    updateItemRoutine(item, aList.indexOf(item))
+                }
+            }
             aList[nbr].isSelected = true
             updateItemRoutine(aList[nbr], nbr)
             dialog.dismiss()
