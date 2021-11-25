@@ -548,10 +548,13 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
      * @author Romane Bézier
      */
     override fun stopAlarm(currentAlarm: Alarm) {
+        var active = false
+        if (currentAlarm.days.contains(true))
+            active = true
         val updateAlarm = Alarm(
             currentAlarm.id,
             currentAlarm.time,
-            false,
+            active,
             currentAlarm.days,
             currentAlarm.ringtone,
             currentAlarm.vibrate,

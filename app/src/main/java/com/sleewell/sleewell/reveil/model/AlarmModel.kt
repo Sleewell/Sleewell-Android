@@ -16,6 +16,7 @@ import com.sleewell.sleewell.reveil.data.model.Alarm
 import com.sleewell.sleewell.reveil.data.viewmodel.AlarmViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.time.milliseconds
 
 /**
  * Alarm Model for the Alarm activity.
@@ -130,14 +131,23 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
             PendingIntent.FLAG_UPDATE_CURRENT
         )
         c.timeInMillis = alarm.time
-        if (c.before(Calendar.getInstance())) {
-            c.add(Calendar.DATE, 1)
-            alarm.time = c.timeInMillis
+        if (alarm.days.contains(true)) {
+            alarmManager.setInexactRepeating(
+                AlarmManager.RTC_WAKEUP,
+                alarm.time,
+                604800000,
+                pendingIntent
+            )
+        } else {
+            if (c.before(Calendar.getInstance())) {
+                c.add(Calendar.DATE, 1)
+                alarm.time = c.timeInMillis
+            }
+            alarmManager.setAlarmClock(
+                AlarmClockInfo(c.timeInMillis, pendingIntent),
+                pendingIntent
+            )
         }
-        alarmManager.setAlarmClock(
-            AlarmClockInfo(c.timeInMillis, pendingIntent),
-            pendingIntent
-        )
     }
 
     /**
@@ -163,8 +173,17 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         )
         c.timeInMillis = alarm.time
         c.add(Calendar.HOUR, -8)
-        if (!c.before(Calendar.getInstance())) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.timeInMillis, pendingIntent)
+        if (alarm.days.contains(true)) {
+            alarmManager.setInexactRepeating(
+                AlarmManager.RTC_WAKEUP,
+                c.timeInMillis,
+                604800000,
+                pendingIntent
+            )
+        } else {
+            if (!c.before(Calendar.getInstance())) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.timeInMillis, pendingIntent)
+            }
         }
     }
 
@@ -209,8 +228,10 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         context: Context,
         currentAlarm: Alarm
     ) {
-        val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
-        alarmManager.cancel(pendingIntent)
+        if (!currentAlarm.days.contains(true)) {
+            val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
+            alarmManager.cancel(pendingIntent)
+        }
         if (AlarmReceiver.isMpInitialised() && AlarmReceiver.mp.isPlaying)
             AlarmReceiver.mp.stop()
     }
@@ -230,8 +251,10 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         context: Context,
         currentAlarm: Alarm
     ) {
-        val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
-        alarmManager.cancel(pendingIntent)
+        if (!currentAlarm.days.contains(true)) {
+            val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
+            alarmManager.cancel(pendingIntent)
+        }
     }
 
     /**
