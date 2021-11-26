@@ -178,7 +178,8 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     }
 
     private fun showOnBoardingTutorial() {
-        if (settings.getTutorial()) {
+        val permissionManager = PermissionManager(this)
+        if (permissionManager.isNotificationPolicyAccessGranted() && settings.getTutorial()) {
             val intent = Intent(this, OnBoardingActivity::class.java)
             startActivity(intent)
         }
