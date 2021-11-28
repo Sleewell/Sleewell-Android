@@ -26,6 +26,7 @@ import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.ProfileBottomSheet
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.spotify.sdk.android.authentication.LoginActivity
+import kotlinx.android.synthetic.main.new_activity_main.*
 
 class MainActivity : AppCompatActivity(), MainContract.View,
     PickImageDialog.DialogEventListener, GivenImagesDialog.DialogEventListener,
@@ -69,12 +70,18 @@ class MainActivity : AppCompatActivity(), MainContract.View,
 
     override fun onStart() {
         super.onStart()
-        askAuthorisation()
+        askAuthorisation();
+        stars_white.onStart()
     }
 
     override fun onResume() {
         super.onResume()
         statsUpload.updateUpload()
+    }
+
+    override fun onStop() {
+        stars_white.onStop()
+        super.onStop()
     }
 
     /**

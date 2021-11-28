@@ -122,8 +122,8 @@
                 android:fontFamily="@font/nunito_bold"
                 android:textAlignment="center"
                 android:textColor="@color/button_text_color"
-                android:textOff="@string/routine_title_menu"
-                android:textOn="@string/routine_title_menu"
+                android:textOff="ROUTINE"
+                android:textOn="ROUTINE"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/profile_nav"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -138,8 +138,8 @@
                 android:fontFamily="@font/nunito_bold"
                 android:textAlignment="center"
                 android:textColor="@color/button_text_color"
-                android:textOff="@string/stats_title_menu"
-                android:textOn="@string/stats_title_menu"
+                android:textOff="STATS"
+                android:textOn="STATS"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/routine_nav"
                 app:layout_constraintTop_toTopOf="parent" />

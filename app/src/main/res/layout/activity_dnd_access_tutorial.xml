@@ -26,8 +26,8 @@
         android:layout_marginTop="25dp"
         android:background="@color/colorPrimaryDark"
         android:fontFamily="@font/nunito_light"
-        android:text="Welcome!"
         android:textColor="@color/colorAccent"
+        android:text="@string/welcome"
         android:textSize="64sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +40,7 @@
         android:layout_marginEnd="25dp"
         android:background="@color/colorPrimaryDark"
         android:fontFamily="@font/nunito_semibold"
-        android:text="We are happy to welcome you aboard and hope that Sleewell will help with your nights!"
+        android:text="@string/dndAccessTutorialIntroduction"
         android:justificationMode="inter_word"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -89,19 +89,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textTutorial1" />
 
-    <Button
-        android:id="@+id/buttonProceed"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Authorize"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="12sp"
-        android:backgroundTint="@color/colorAccent"
-        app:layout_constraintTop_toBottomOf="@+id/textTutorial2"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="30dp" />
-
     <TextView
         android:id="@+id/textTutorial3"
         android:layout_width="0dp"
@@ -111,12 +98,12 @@
         android:layout_marginTop="5dp"
         android:background="@color/colorPrimaryDark"
         android:fontFamily="@font/nunito"
-        android:text="After that you can open again the app and you will be free to use it."
+        android:text="@string/dndAccessTutorialDescription3"
         android:textSize="16sp"
         android:justificationMode="inter_word"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonProceed" />
+        app:layout_constraintTop_toBottomOf="@+id/textTutorial2" />
 
     <TextView
         android:id="@+id/textTutorial4"
@@ -127,7 +114,7 @@
         android:layout_marginTop="5dp"
         android:background="@color/colorPrimaryDark"
         android:fontFamily="@font/nunito_bold"
-        android:text="Thank you for your cooperation!"
+        android:text="@string/dndAccessTutorialThanks"
         android:textSize="16sp"
         android:justificationMode="inter_word"
         app:layout_constraintEnd_toEndOf="parent"
@@ -143,10 +130,25 @@
         android:layout_marginTop="5dp"
         android:background="@color/colorPrimaryDark"
         android:fontFamily="@font/nunito_semibold"
-        android:text="The Sleewell team"
+        android:text="@string/dndAccessTutorialTeam"
         android:textSize="16sp"
         android:justificationMode="inter_word"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textTutorial4" />
+
+
+    <Button
+        android:id="@+id/buttonProceed"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dndAccessTutorialButton"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@+id/textSignature"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="30dp"
+        android:backgroundTint="@color/colorAccent"
+        app:strokeColor="@color/colorPrimary" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
