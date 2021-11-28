@@ -121,7 +121,8 @@ interface AlarmContract {
             alarmManager: AlarmManager,
             intent: Intent,
             context: Context,
-            currentAlarm: Alarm
+            currentAlarm: Alarm,
+            fromNotification: Boolean
         )
 
         /**
@@ -137,7 +138,7 @@ interface AlarmContract {
             alarmManager: AlarmManager,
             intent: Intent,
             context: Context,
-            currentAlarm: Alarm
+            currentAlarm: Alarm, fromNotification: Boolean
         )
 
         /**
@@ -271,7 +272,8 @@ interface AlarmContract {
             alarmManager: AlarmManager,
             intent: Intent,
             context: Context,
-            currentAlarm: Alarm
+            currentAlarm: Alarm,
+            fromNotification: Boolean
         )
 
         /**
@@ -287,7 +289,7 @@ interface AlarmContract {
             alarmManager: AlarmManager,
             intent: Intent,
             context: Context,
-            currentAlarm: Alarm
+            currentAlarm: Alarm, fromNotification: Boolean
         )
 
         /**
@@ -342,7 +344,7 @@ interface AlarmContract {
          * @param currentAlarm Alarm to stop.
          * @author Romane Bézier
          */
-        fun stopAlarm(currentAlarm: Alarm)
+        fun stopAlarm(currentAlarm: Alarm, fromNotification: Boolean, fromSwitch: Boolean)
 
         /**
          * Delete the alarm.

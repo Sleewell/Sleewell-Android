@@ -174,9 +174,10 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
         alarmManager: AlarmManager,
         intent: Intent,
         context: Context,
-        currentAlarm: Alarm
+        currentAlarm: Alarm,
+        fromNotification: Boolean
     ) {
-        model.stopAlarm(alarmManager, intent, context, currentAlarm)
+        model.stopAlarm(alarmManager, intent, context, currentAlarm, fromNotification)
     }
 
     /**
@@ -192,9 +193,9 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
         alarmManager: AlarmManager,
         intent: Intent,
         context: Context,
-        currentAlarm: Alarm
+        currentAlarm: Alarm, fromNotification: Boolean
     ) {
-        model.stopAlert(alarmManager, intent, context, currentAlarm)
+        model.stopAlert(alarmManager, intent, context, currentAlarm, fromNotification)
     }
 
     /**

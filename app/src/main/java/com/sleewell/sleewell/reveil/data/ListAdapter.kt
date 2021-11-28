@@ -2,6 +2,7 @@ package com.sleewell.sleewell.reveil.data
 
 import android.content.Context
 import android.opengl.Visibility
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -109,7 +110,7 @@ class ListAdapter(private val view: AlarmContract.View) :
                 }
                 currentItem.displayed = false
             } else {
-                view.stopAlarm(currentItem)
+                view.stopAlarm(currentItem, false, true)
             }
         }
         holder.itemView.checkBoxAlarm.setOnCheckedChangeListener { _, isChecked ->

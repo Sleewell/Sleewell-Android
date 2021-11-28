@@ -226,14 +226,20 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         alarmManager: AlarmManager,
         intent: Intent,
         context: Context,
-        currentAlarm: Alarm
+        currentAlarm: Alarm,
+        fromNotification: Boolean
     ) {
-        if (!currentAlarm.days.contains(true)) {
+        if (fromNotification) {
+            if (!currentAlarm.days.contains(true)) {
+                val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
+                alarmManager.cancel(pendingIntent)
+            }
+            if (AlarmReceiver.isMpInitialised() && AlarmReceiver.mp.isPlaying)
+                AlarmReceiver.mp.stop()
+        } else {
             val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
             alarmManager.cancel(pendingIntent)
         }
-        if (AlarmReceiver.isMpInitialised() && AlarmReceiver.mp.isPlaying)
-            AlarmReceiver.mp.stop()
     }
 
     /**
@@ -249,9 +255,16 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         alarmManager: AlarmManager,
         intent: Intent,
         context: Context,
-        currentAlarm: Alarm
+        currentAlarm: Alarm, fromNotification: Boolean
     ) {
-        if (!currentAlarm.days.contains(true)) {
+        if (fromNotification) {
+            if (!currentAlarm.days.contains(true)) {
+                val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
+                alarmManager.cancel(pendingIntent)
+            }
+            if (AlarmReceiver.isMpInitialised() && AlarmReceiver.mp.isPlaying)
+                AlarmReceiver.mp.stop()
+        } else {
             val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
             alarmManager.cancel(pendingIntent)
         }
