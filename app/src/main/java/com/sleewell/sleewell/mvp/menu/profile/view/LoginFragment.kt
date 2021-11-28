@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.mvp.menu.profile.view
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
 import android.view.animation.AlphaAnimation
@@ -61,7 +62,7 @@ class LoginFragment : Fragment(), LoginContract.View {
             displayLoading()
         }
         signUpButton.setOnClickListener {
-            fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, RegisterFragment())?.commit()
+            parentFragmentManager.beginTransaction().replace(R.id.fragment_container_view, RegisterFragment())?.commit()
         }
 
         editPassword.setOnEditorActionListener { _, actionId, keyEvent ->
@@ -119,9 +120,10 @@ class LoginFragment : Fragment(), LoginContract.View {
     override fun setAccessToken(token: String) {
         context?.let { SleewellApiTracker.setToken(it, token) }
         MainActivity.accessTokenSleewell = token
-        fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, ProfileFragment())?.commit()
+        parentFragmentManager.beginTransaction().replace(R.id.fragment_container_view, ProfileFragment()).commit()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setupUI(view: View) {
         // Set up touch listener for non-text box views to hide keyboard.
         if (view !is EditText) {
@@ -142,7 +144,6 @@ class LoginFragment : Fragment(), LoginContract.View {
                         isOnClick = false
                     }
                 }
-                v.performClick()
                 false
             }
         }

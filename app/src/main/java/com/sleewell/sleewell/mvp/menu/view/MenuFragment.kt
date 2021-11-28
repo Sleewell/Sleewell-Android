@@ -16,6 +16,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.modules.gesturelistener.OnSwipeListenerWithAnimation
 import com.sleewell.sleewell.modules.navigation.CustomNavBar
@@ -27,99 +30,60 @@ class MenuFragment : Fragment(), MenuContract.View {
 
     private lateinit var root: View
     private lateinit var presenter: MenuContract.Presenter
+    private lateinit var demoCollectionAdapter: MenuFragmentStateAdapter
+    private lateinit var viewPager: ViewPager2
+    private var firstTime = true;
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
+
         root = inflater.inflate(R.layout.new_fragment_menu, container, false)
         initActivityWidgets()
         setPresenter(MenuPresenter(this, this.activity as AppCompatActivity))
-
         return root
     }
 
     /**
      * Initialise all the widgets from the layout
      */
-    @SuppressLint("ClickableViewAccessibility")
     private fun initActivityWidgets() {
-        val nestedNavHostFragment =
-            childFragmentManager.findFragmentById(R.id.nav_menu) as? NavHostFragment
-        val navController = nestedNavHostFragment?.navController
+        demoCollectionAdapter = MenuFragmentStateAdapter(this)
+        viewPager = root.findViewById(R.id.pager)
+        viewPager.adapter = demoCollectionAdapter
 
-        val homeNav = root.findViewById<ToggleButton>(R.id.home_nav)
-        val alarmNav = root.findViewById<ToggleButton>(R.id.alarm_nav)
-        val profileNav = root.findViewById<ToggleButton>(R.id.profile_nav)
-        val routineNav = root.findViewById<ToggleButton>(R.id.routine_nav)
-        val statNav = root.findViewById<ToggleButton>(R.id.stats_nav)
-        val settingsNav = root.findViewById<ToggleButton>(R.id.settings_nav)
-
-        val layout = root.findViewById<ConstraintLayout>(R.id.constraintLayout)
-
-        val customNavBar = CustomNavBar()
-
-        customNavBar.addButton(homeNav, R.id.homeFragment)
-        customNavBar.addButton(alarmNav, R.id.alarmFragment)
-        customNavBar.addButton(profileNav, R.id.profileFragment)
-        customNavBar.addButton(routineNav, R.id.routineFragment)
-        customNavBar.addButton(statNav, R.id.statFragment)
-        customNavBar.addButton(settingsNav, R.id.settingsFragment)
-
-        customNavBar.setNavigation(navController!!)
-
-        layout.setOnTouchListener(object : OnSwipeListenerWithAnimation(activity!!.applicationContext,
-            getScreenWidth(activity!!).toFloat()) {
-            override fun onSwipeTop() {}
-            override fun onSwipeBottom() {}
-
-            override fun onSwipeLeft() {
-                customNavBar.navigateRight(navController)
+        val tabLayout = root.findViewById<TabLayout>(R.id.tab_layout)
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> "HOME"
+                1 -> "ALARM"
+                2 -> "PROFILE"
+                3 -> "ROUTINE"
+                4 -> "STAT"
+                5 -> "SETTINGS"
+                else -> "HOME"
             }
+        }.attach()
 
-            override fun onSwipeRight() {
-                customNavBar.navigateLeft(navController)
-            }
-
-            override fun onAnimationProgress(currentX: Float) {
-                val translation = calculateTranslation(currentX)
-                nestedNavHostFragment.view?.translationX = translation.toFloat()
-            }
-
-            override fun onAnimationFinished(finalX: Float, up: Boolean) {
-                cancelAnimations()
-                animator = if (up) {
-                    ValueAnimator.ofFloat(nestedNavHostFragment.view!!.translationX * 10, 0f)
-                } else {
-                    ValueAnimator.ofFloat(finalX, 0f)
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                tab?.position?.let {
+                    if ((it == 4 || it == 3) && firstTime) {
+                        viewPager.setCurrentItem(it, false)
+                    } else {
+                        viewPager.setCurrentItem(it, true)
+                    }
+                    firstTime = false
                 }
-                animator?.addUpdateListener { valueAnimator -> onAnimationProgress(valueAnimator.animatedValue as Float) }
-                animator?.duration = ANIMATE_TO_START_DURATION
-                animator?.start()
             }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
-    }
-
-    private fun calculateTranslation(x: Float): Int {
-        return x.toInt() / 10
     }
 
     override fun setPresenter(presenter: MenuContract.Presenter) {
         this.presenter = presenter
         presenter.onViewCreated()
-    }
-
-    fun getScreenWidth(activity: Activity): Int {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val windowMetrics = activity.windowManager.currentWindowMetrics
-            val insets: Insets = windowMetrics.windowInsets
-                .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
-            windowMetrics.bounds.width() - insets.left - insets.right
-        } else {
-            val displayMetrics = DisplayMetrics()
-            activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
-            displayMetrics.widthPixels
-        }
     }
 }

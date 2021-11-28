@@ -13,6 +13,24 @@
         <item name="materialAlertDialogTheme">@style/AppTheme.MaterialAlertDialog</item>
         <item name="textAppearanceBody2">@style/AppTheme.MaterialAlertDialog.BodyText</item>
         <item name="bottomSheetDialogTheme">@style/ModalBottomSheetDialog</item>
+        <item name="tabStyle">@style/AppTheme.TabLayout</item>
+    </style>
+
+    <style name="AppTheme.TabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.TabLayout</item>
+        <item name="tabTextAppearance">@style/TextAppearance.App.Button</item>
+    </style>
+
+    <style name="ThemeOverlay.App.TabLayout" parent="">
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorSurface">@color/colorPrimaryDark</item>
+        <item name="colorOnSurface">@color/colorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.App.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="fontFamily">@font/nunito_semibold</item>
+        <item name="android:fontFamily">@font/nunito_semibold</item>
     </style>
 
     <style name="AppTheme.NoActionbar" parent="Theme.AppCompat.Light.NoActionBar">
@@ -71,6 +89,11 @@
         <item name="strokeColor">@color/button_text_color</item>
         <item name="android:textColor">@color/button_text_color</item>
         <item name="strokeWidth">2dp</item>
+        <item name="cornerRadius">10dp</item>
+    </style>
+
+    <style name="textButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/button_text_color</item>
         <item name="cornerRadius">10dp</item>
     </style>
 

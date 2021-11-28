@@ -67,14 +67,12 @@ class ProfileFragment : Fragment(), ProfileContract.View,
     ): View {
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_profile, container, false)
-
-        if (MainActivity.accessTokenSleewell.isEmpty() && !MainActivity.getAccessGoogleAccount) {
-            fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
-        } else {
-            initActivityWidgets()
-            setDialogListeners()
-            setupUI(root.findViewById(R.id.profileParent))
-            setPresenter(ProfilePresenter(this, this.activity as AppCompatActivity))
+        initActivityWidgets()
+        setDialogListeners()
+        setupUI(root.findViewById(R.id.profileParent))
+        setPresenter(ProfilePresenter(this, this.activity as AppCompatActivity))
+        if (MainActivity.accessTokenSleewell.isEmpty()) {
+            parentFragmentManager.beginTransaction().replace(R.id.fragment_container_view, LoginFragment()).commit()
         }
         return root
     }
@@ -167,7 +165,7 @@ class ProfileFragment : Fragment(), ProfileContract.View,
     override fun logoutUser() {
         context?.let { it1 -> SleewellApiTracker.disconnect(it1) }
         presenter.logoutUser()
-        fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
+        parentFragmentManager.beginTransaction().replace(R.id.fragment_container_view, LoginFragment()).commit()
     }
 
     @SuppressLint("ClickableViewAccessibility")

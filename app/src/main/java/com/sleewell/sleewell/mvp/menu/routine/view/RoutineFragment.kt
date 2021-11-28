@@ -11,11 +11,14 @@ import androidx.navigation.Navigation
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
+import com.sleewell.sleewell.mvp.menu.MenuContract
+import com.sleewell.sleewell.mvp.spotify.view.SpotifyFragment
 import com.sleewell.sleewell.mvp.menu.routine.RoutineContract
 import com.sleewell.sleewell.mvp.menu.routine.RoutineListAdapter
 import com.sleewell.sleewell.mvp.menu.routine.presenter.RoutinePresenter
 import com.sleewell.sleewell.mvp.music.view.MusicFragment
 import com.sleewell.sleewell.mvp.spotify.view.SpotifyFragment
+import okhttp3.internal.notify
 
 class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInputSelected, MusicFragment.OnInputSelected {
 
@@ -38,8 +41,6 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
         presenter.onViewCreated()
 
         initListView()
-        initSettingButton()
-
         return root
     }
 
@@ -70,21 +71,14 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
         }
 
         textNoRoutine = root.findViewById(R.id.textNoRoutine)
-
         if (MainActivity.accessTokenSleewell.isNotEmpty()) {
             presenter.updateAdapter()
+            btn.visibility = View.VISIBLE
+            textNoRoutine.text = ""
         } else {
+            listView.adapter = null
             btn.visibility = View.INVISIBLE
             textNoRoutine.text = "Please log in"
-        }
-    }
-
-    private fun initSettingButton() {
-        val buttonSettings = root.findViewById<ImageButton>(R.id.buttonSettings)
-        buttonSettings.setOnClickListener {
-
-            val navController = Navigation.findNavController(requireActivity(), R.id.nav_menu)
-            navController.navigate(R.id.routineSettingsFragment)
         }
     }
 
@@ -103,5 +97,10 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
     override fun onStop() {
         super.onStop()
         presenter.onDestroy()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initListView()
     }
 }
