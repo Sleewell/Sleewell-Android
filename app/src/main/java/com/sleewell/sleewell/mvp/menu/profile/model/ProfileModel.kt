@@ -22,8 +22,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
 
 
 class ProfileModel(context: Context) : ProfileContract.Model, IAudioAnalyseRecordListener {

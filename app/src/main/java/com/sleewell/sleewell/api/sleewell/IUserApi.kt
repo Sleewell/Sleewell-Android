@@ -1,7 +1,5 @@
 package com.sleewell.sleewell.api.sleewell
 
-import com.sleewell.sleewell.api.sleewell.model.ProfileInfo
-import com.sleewell.sleewell.api.sleewell.model.ResponseSuccess
 import okhttp3.MultipartBody
 import com.sleewell.sleewell.api.sleewell.model.profile.ProfileInfo
 import com.sleewell.sleewell.api.sleewell.model.profile.ResponseBody
