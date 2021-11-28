@@ -1,41 +1,49 @@
 {
   "project_info": {
-    "project_number": "926920727731",
-    "project_id": "sleewell-8dcbd",
-    "storage_bucket": "sleewell-8dcbd.appspot.com"
+    "project_number": "999967521500",
+    "project_id": "sleewell-1618144117791",
+    "storage_bucket": "sleewell-1618144117791.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:926920727731:android:ad0eca60b028d6c98464c6",
+        "mobilesdk_app_id": "1:999967521500:android:45ef1b3f8d221db67cd219",
         "android_client_info": {
           "package_name": "com.sleewell.sleewell"
         }
       },
       "oauth_client": [
         {
-          "client_id": "926920727731-p8tmmev3fb8d3lronfaueflq2jfujdah.apps.googleusercontent.com",
+          "client_id": "999967521500-1vpplt0243epun9bj32ofu7p98599jiq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.sleewell.sleewell",
-            "certificate_hash": "4612642aa418f14814d357e5c0c3d6d02739eb8d"
+            "certificate_hash": "c8a4d5c25698509b5b3a013acfdd6b6567bf0f1d"
           }
         },
         {
-          "client_id": "926920727731-858hp19jgnfb86rfg1i8nli874v87v3p.apps.googleusercontent.com",
+          "client_id": "999967521500-k5ku7gd6r1spmkn5d1268g656ck6pv7b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sleewell.sleewell",
+            "certificate_hash": "742f6fb81e1ccbe5f481811b88a9d89e3b1131d1"
+          }
+        },
+        {
+          "client_id": "999967521500-4e9cioa921870pqj9d50lufbqe34grgq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBWErpuDQMkokPIrMq6mBmDDxr1ZphcBnc"
+          "current_key": "AIzaSyCHi7Tt53i3XMpSvj_n9fKeq1Z2cYC-N1U"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "926920727731-858hp19jgnfb86rfg1i8nli874v87v3p.apps.googleusercontent.com",
+              "client_id": "999967521500-4e9cioa921870pqj9d50lufbqe34grgq.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
