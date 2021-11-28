@@ -18,14 +18,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
+        <TextView
+            android:id="@+id/main_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="44dp"
+            android:fontFamily="@font/nunito_bold"
+            android:text="Sound to sleep to"
+            android:textColor="@color/textButOnImage"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/main_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/main_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_title"
             app:srcCompat="@drawable/main_picture_rain" />
 
         <ImageView
@@ -84,7 +99,7 @@
 
     <ScrollView
         android:id="@+id/menu_scroll"
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:background="@color/background"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -94,20 +109,19 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="805dp"
+            android:layout_height="wrap_content"
             tools:layout_editor_absoluteY="1dp">
-
 
             <View
                 android:id="@+id/circle_forest"
                 android:layout_width="7dp"
                 android:layout_height="7dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="64dp"
                 android:background="@drawable/circle"
                 android:backgroundTint="@color/textOnBackground"
-                app:layout_constraintBottom_toTopOf="@+id/nav_music_forest"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="@+id/forest_menu"
-                app:layout_constraintHorizontal_bias="0.485"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/forest_menu"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -115,12 +129,10 @@
                 android:id="@+id/circle_wind"
                 android:layout_width="7dp"
                 android:layout_height="7dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="64dp"
                 android:background="@drawable/circle"
                 android:backgroundTint="@color/textOnBackground"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/nav_music_wind"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.512"
                 app:layout_constraintStart_toStartOf="parent"
@@ -130,12 +142,10 @@
                 android:id="@+id/circle_fire"
                 android:layout_width="7dp"
                 android:layout_height="7dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="64dp"
                 android:background="@drawable/circle"
                 android:backgroundTint="@color/textOnBackground"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/nav_music_fire"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nav_music_wind" />
@@ -144,12 +154,10 @@
                 android:id="@+id/circle_rain"
                 android:layout_width="7dp"
                 android:layout_height="7dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="64dp"
                 android:background="@drawable/circle"
                 android:backgroundTint="@color/textOnBackground"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/nav_music_rain"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nav_music_fire" />
@@ -158,27 +166,24 @@
                 android:id="@+id/circle_water"
                 android:layout_width="7dp"
                 android:layout_height="7dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="64dp"
                 android:background="@drawable/circle"
                 android:backgroundTint="@color/textOnBackground"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/nav_music_water"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nav_music_rain"
-                app:layout_constraintVertical_bias="0.807" />
+                app:layout_constraintTop_toBottomOf="@+id/nav_music_rain" />
 
             <TextView
                 android:id="@+id/forest_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_bold"
                 android:letterSpacing="0.1"
                 android:rotation="90"
                 android:text="@string/forest_menu"
                 android:textColor="@color/textOnBackground"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/nav_music_forest"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -188,12 +193,12 @@
                 android:id="@+id/wind_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_bold"
                 android:letterSpacing="0.1"
                 android:rotation="90"
                 android:text="@string/wind_menu"
                 android:textColor="@color/textOnBackground"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/nav_music_wind"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -203,12 +208,12 @@
                 android:id="@+id/fire_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_bold"
                 android:letterSpacing="0.1"
                 android:rotation="90"
                 android:text="@string/fire_menu"
                 android:textColor="@color/textOnBackground"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/nav_music_fire"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -218,12 +223,12 @@
                 android:id="@+id/rain_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_bold"
                 android:letterSpacing="0.1"
                 android:rotation="90"
                 android:text="@string/rain_menu"
                 android:textColor="@color/textOnBackground"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/nav_music_rain"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -233,38 +238,23 @@
                 android:id="@+id/water_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_bold"
                 android:letterSpacing="0.1"
                 android:rotation="90"
                 android:text="@string/water_menu"
                 android:textColor="@color/textOnBackground"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/nav_music_water"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/nav_music_water" />
-
-            <TextView
-                android:id="@+id/extender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="120dp"
-                android:fontFamily="@font/nunito"
-                android:rotation="90"
-                android:textColor="@color/textOnBackground"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/water_menu" />
 
             <Button
                 android:id="@+id/nav_music_forest"
                 android:layout_width="35dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="32dp"
                 android:background="@color/transparent"
-                app:layout_constraintBottom_toTopOf="@+id/circle_wind"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/circle_forest" />
@@ -274,9 +264,7 @@
                 android:layout_width="35dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="32dp"
                 android:background="@color/transparent"
-                app:layout_constraintBottom_toTopOf="@+id/circle_fire"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/circle_wind" />
@@ -286,9 +274,7 @@
                 android:layout_width="35dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="32dp"
                 android:background="@color/transparent"
-                app:layout_constraintBottom_toTopOf="@+id/circle_rain"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/circle_fire" />
@@ -298,9 +284,7 @@
                 android:layout_width="35dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="32dp"
                 android:background="@color/transparent"
-                app:layout_constraintBottom_toTopOf="@+id/circle_water"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/circle_rain" />
@@ -310,26 +294,34 @@
                 android:layout_width="35dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="32dp"
                 android:background="@color/transparent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.52"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/circle_water" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
+    <View
+        android:id="@+id/lineButton"
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:background="@color/textOnBackground"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintEnd_toStartOf="@+id/menu_scroll"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/menu_scroll"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout1">
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
             android:id="@+id/menu_icon"
@@ -345,14 +337,15 @@
         <Button
             android:id="@+id/MenuButton"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:fontFamily="@font/nunito"
+            android:padding="12dp"
             android:text="@string/menu_button"
             android:textColor="@color/textOnBackground"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/MusicButton"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

@@ -15,6 +15,12 @@
         app:icon="@drawable/notifications_24px"/>
 
     <Preference
+        app:title="@string/setting_language_name"
+        app:summary="@string/setting_language_summary"
+        app:fragment="com.sleewell.sleewell.mvp.menu.settings.view.SettingsFragment$LanguagePreferencesFragment"
+        app:icon="@drawable/language_24px"/>
+
+    <Preference
         app:title="@string/setting_help_name"
         app:summary="@string/setting_help_summary"
         app:icon="@drawable/bookmark_24px_outlined">

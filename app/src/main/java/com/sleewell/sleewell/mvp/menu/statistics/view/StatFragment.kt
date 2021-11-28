@@ -26,8 +26,6 @@ import com.sleewell.sleewell.mvp.menu.statistics.presenter.StatisticsPresenter
 import com.sleewell.sleewell.mvp.menu.statistics.model.StatisticsModel
 import com.sleewell.sleewell.mvp.menu.statistics.model.dataClass.AnalyseDetail
 import com.sleewell.sleewell.mvp.menu.statistics.view.recyclerView.AnalyseRecyclerAdapter
-import kotlinx.android.synthetic.main.new_fragment_alarm.*
-import kotlinx.android.synthetic.main.new_fragment_stat.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -44,10 +42,10 @@ class StatFragment : Fragment(), StatisticsContract.View {
     private lateinit var root: View
 
     // widget date
-    private val FORMAT_DAY = "dd LLLL"
-    private val FORMAT_WEEK = "dd LLLL"
-    private val FORMAT_MONTH = "LLLL yyyy"
-    private val FORMAT_YEAR = "yyyy"
+    private val formatDay = "dd LLLL"
+    private val formatWeek = "dd LLLL"
+    private val formatMonth = "LLLL yyyy"
+    private val formatYear = "yyyy"
     private val calendar = Calendar.getInstance()
     private lateinit var textDate: TextView
     private lateinit var previousDate: ImageButton
@@ -149,23 +147,50 @@ class StatFragment : Fragment(), StatisticsContract.View {
             presenter.refreshAnalyse(calendar.time)
         }
         nextDate.setOnClickListener {
+            val currentDate = Calendar.getInstance()
+            val currentYear = currentDate.get(Calendar.YEAR)
+            val currentMonth = currentDate.get(Calendar.MONTH)
+            val currentWeek = currentDate.get(Calendar.WEEK_OF_YEAR)
+            val currentDay = currentDate.get(Calendar.DAY_OF_YEAR)
+
+            val selectedYear = calendar.get(Calendar.YEAR)
+            val selectedMonth = calendar.get(Calendar.MONTH)
+            val selectedWeek = calendar.get(Calendar.WEEK_OF_YEAR)
+            val selectedDay = calendar.get(Calendar.DAY_OF_YEAR)
+
+            var update = false
+
             when (presenter.getCurrentState()) {
                 State.DAY -> {
-                    calendar.add(Calendar.DAY_OF_YEAR, 1)
+                    if (selectedYear < currentYear || (selectedYear == currentYear && selectedDay < currentDay)) {
+                        update = true
+                        calendar.add(Calendar.DAY_OF_YEAR, 1)
+                    }
                 }
                 State.WEEK -> {
-                    calendar.add(Calendar.WEEK_OF_YEAR, 1)
+                    if (selectedYear < currentYear || (selectedYear == currentYear && selectedWeek < currentWeek)) {
+                        update = true
+                        calendar.add(Calendar.WEEK_OF_YEAR, 1)
+                    }
                 }
                 State.MONTH -> {
-                    calendar.add(Calendar.MONTH, 1)
+                    if (selectedYear < currentYear || (selectedYear == currentYear && selectedMonth < currentMonth)) {
+                        update = true
+                        calendar.add(Calendar.MONTH, 1)
+                    }
                 }
                 State.YEAR -> {
-                    calendar.add(Calendar.YEAR, 1)
+                    if (selectedYear < currentYear) {
+                        update = true
+                        calendar.add(Calendar.YEAR, 1)
+                    }
                 }
             }
-            refreshDateView()
-            setInLoadingState()
-            presenter.refreshAnalyse(calendar.time)
+            if (update) {
+                refreshDateView()
+                setInLoadingState()
+                presenter.refreshAnalyse(calendar.time)
+            }
         }
 
         toggleOffAll()
@@ -701,10 +726,10 @@ class StatFragment : Fragment(), StatisticsContract.View {
      */
     private fun dateToString(date: Date, state: State = presenter.getCurrentState()): String {
         val dateFormat = when (state) {
-            State.DAY -> FORMAT_DAY
-            State.WEEK -> FORMAT_WEEK
-            State.MONTH -> FORMAT_MONTH
-            State.YEAR -> FORMAT_YEAR
+            State.DAY -> formatDay
+            State.WEEK -> formatWeek
+            State.MONTH -> formatMonth
+            State.YEAR -> formatYear
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return DateTimeFormatter

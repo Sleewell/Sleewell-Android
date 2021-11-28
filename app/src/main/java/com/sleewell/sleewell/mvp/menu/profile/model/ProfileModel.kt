@@ -2,7 +2,6 @@ package com.sleewell.sleewell.mvp.menu.profile.model
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import com.sleewell.sleewell.api.sleewell.ApiClient
 import com.sleewell.sleewell.api.sleewell.IUserApi
 import com.sleewell.sleewell.api.sleewell.model.ProfileInfo
@@ -14,14 +13,20 @@ import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyse
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.profile.contract.ProfileContract
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+
 
 class ProfileModel(context: Context) : ProfileContract.Model, IAudioAnalyseRecordListener {
-    private val TAG = "ProfileModelMVP"
+    private val tag = "ProfileModelMVP"
     private var api: IUserApi? = ApiClient.retrofit.create(IUserApi::class.java)
     private val dataManager: IAnalyseDataManager = AudioAnalyseDbUtils(context, this)
 
@@ -33,8 +38,8 @@ class ProfileModel(context: Context) : ProfileContract.Model, IAudioAnalyseRecor
                 val responseRes: ProfileInfo? = response.body()
 
                 if (responseRes == null) {
-                    Log.e(TAG, "Body null error")
-                    Log.e(TAG, "Code : " + response.code())
+                    Log.e(tag, "Body null error")
+                    Log.e(tag, "Code : " + response.code())
                     onProfileInfoListener.onFailure(Throwable("Body null error : " + response.code()))
                 } else {
                     onProfileInfoListener.onFinished(responseRes)
@@ -43,7 +48,7 @@ class ProfileModel(context: Context) : ProfileContract.Model, IAudioAnalyseRecor
 
             override fun onFailure(call: Call<ProfileInfo>, t: Throwable) {
                 // Log error here since request failed
-                Log.e(TAG, t.toString())
+                Log.e(tag, t.toString())
                 onProfileInfoListener.onFailure(t)
             }
         })
@@ -62,7 +67,6 @@ class ProfileModel(context: Context) : ProfileContract.Model, IAudioAnalyseRecor
         )
 
         call?.enqueue(object : Callback<ResponseSuccess> {
-
             override fun onResponse(
                 call: Call<ResponseSuccess>,
                 response: Response<ResponseSuccess>
@@ -70,8 +74,8 @@ class ProfileModel(context: Context) : ProfileContract.Model, IAudioAnalyseRecor
                 val responseRes: ResponseSuccess? = response.body()
 
                 if (responseRes == null) {
-                    Log.e(TAG, "Body null error")
-                    Log.e(TAG, "Code : " + response.code())
+                    Log.e(tag, "Body null error")
+                    Log.e(tag, "Code : " + response.code())
                     onFinishedListener.onFailure(Throwable("Body null error : " + response.code()))
                 } else {
                     onFinishedListener.onFinished(responseRes)
@@ -80,7 +84,45 @@ class ProfileModel(context: Context) : ProfileContract.Model, IAudioAnalyseRecor
 
             override fun onFailure(call: Call<ResponseSuccess>, t: Throwable) {
                 // Log error here since request failed
-                Log.e(TAG, t.toString())
+                Log.e(tag, t.toString())
+                onFinishedListener.onFailure(t)
+            }
+        })
+    }
+
+    override suspend fun uploadProfilePicture(token: String, picture: File): ResponseSuccess? {
+
+        val fileBody = picture.asRequestBody("image/*".toMediaTypeOrNull())
+        val body = MultipartBody.Part.createFormData("picture", picture.name, fileBody)
+
+        return api?.uploadProfilePicture(token, body)
+    }
+
+    override fun deleteAccount(
+        token: String,
+        onFinishedListener: ProfileContract.Model.OnFinishedListener<ResponseSuccess>
+    ) {
+        val call : Call<ResponseSuccess>? = api?.deleteAccount(token)
+
+        call?.enqueue(object : Callback<ResponseSuccess> {
+            override
+            fun onResponse(call: Call<ResponseSuccess>,
+                           response: Response<ResponseSuccess>) {
+
+                val responseRes: ResponseSuccess? = response.body()
+
+                if (responseRes == null) {
+                    Log.e(tag, "Body null error")
+                    Log.e(tag, "Code : " + response.code())
+                    onFinishedListener.onFailure(Throwable("Body null error : " + response.code()))
+                } else {
+                    onFinishedListener.onFinished(responseRes)
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseSuccess>, t: Throwable) {
+                // Log error here since request failed
+                Log.e(tag, t.toString())
                 onFinishedListener.onFailure(t)
             }
         })

@@ -7,7 +7,19 @@
     android:background="@color/background"
     tools:context=".mvp.mainActivity.view.MainActivity">
 
-    <ImageView
+    <com.sleewell.sleewell.stars.AnimatedStarsView
+        android:id="@+id/stars_white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:starsView_bigStarThreshold="20dp"
+        app:starsView_maxStarSize="4dp"
+        app:starsView_meteoritesColors="@array/meteorites_colors"
+        app:starsView_meteoritesEnabled="true"
+        app:starsView_meteoritesInterval="1000"
+        app:starsView_minStarSize="1dp"
+        app:starsView_starColors="@array/star_colors_small"
+        app:starsView_starCount="30" />
+<!--    <ImageView
         android:id="@+id/stars"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,7 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/full_stars" />
+        app:srcCompat="@drawable/full_stars" />-->
 
     <fragment
         android:id="@+id/nav_main"

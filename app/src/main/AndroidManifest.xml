@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.sleewell.sleewell">
 
     <uses-permission android:name="android.permission.INTERNET" /> <!-- Do Not Disturb mode -->
@@ -15,8 +16,11 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- Background service for analyse -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions"/>
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -25,18 +29,25 @@
         android:roundIcon="@mipmap/icon_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvp.help.HelpSignalmenActivity" />
+        <activity
+            android:name=".modules.permissions.DndAccessTutorialActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.help.HelpSignalmenActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".splashScreen.SplashScreenActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait">
+            android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvp.protocol.view.ProtocolContainer">
+        <activity
+            android:name=".mvp.protocol.view.ProtocolContainer"
+            android:screenOrientation="portrait">
 
             <!-- Open the app on this specific activity when a NFC tag contain a mime type as described below -->
             <intent-filter>
@@ -59,16 +70,18 @@
         </activity>
         <activity
             android:name="com.spotify.sdk.android.authentication.LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".mvp.mainActivity.view.MainActivity"
             android:configChanges="orientation"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".reveil.DesactivationActivity"
             android:label="Desactivation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver android:name=".reveil.AlarmReceiver" />
@@ -92,6 +105,17 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_sleewell" />
+
+        <!-- NOTIFICATION SERVICE -->
+        <service
+            android:name=".firebase.notifications.NotificationsService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

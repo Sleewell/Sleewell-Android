@@ -1,8 +1,6 @@
 package com.sleewell.sleewell.modules.gesturelistener
 
-import android.app.Activity
 import android.content.Context
-import android.view.GestureDetector
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
 import android.view.View

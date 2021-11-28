@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+<!--changing autofill highlight color-->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/textButOnImage</item>
-        <item name="android:textColor">@color/textOnBackground</item>
-        <item name="android:textColorSecondary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
         <item name="android:textColorTertiary">@color/colorPrimary</item>
         <item name="android:textColorHint">@color/colorPrimary</item>
+        <item name="textInputStyle">@style/AppTheme.TextInputLayout</item>
+        <item name="materialAlertDialogTheme">@style/AppTheme.MaterialAlertDialog</item>
+        <item name="textAppearanceBody2">@style/AppTheme.MaterialAlertDialog.BodyText</item>
         <item name="android:autofilledHighlight">@android:color/transparent</item>
+        <item name="bottomSheetDialogTheme">@style/ModalBottomSheetDialog</item>
     </style>
 </resources>

@@ -6,7 +6,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.JUnitSoftAssertions
 import org.junit.Rule
 import org.junit.Test
-import java.util.*
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 import kotlin.math.PI
@@ -38,7 +37,7 @@ class SpectrogramTest {
         val spectrogram = Spectrogram(object : ISpectrogramListener {
             override fun onBufferReceived(spectrogram: Array<DoubleArray>) {
                 softly.assertThat(spectrogram.size).isEqualTo(99)
-                spectrogram.forEach { it ->
+                spectrogram.forEach {
                     softly.assertThat(it.size).isEqualTo(441)
                 }
 
@@ -83,7 +82,7 @@ class SpectrogramTest {
 
         val data = spectrogram.convertToSpectrogram(x.toShortArray())
         assertThat(data.size).isEqualTo(99)
-        data.forEach { it ->
+        data.forEach {
             assertThat(it.size).isEqualTo(441)
         }
     }

@@ -45,7 +45,7 @@ class GlobalReceiver : BroadcastReceiver() {
                     "Stop" -> {
                         val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                         vibrator.cancel()
-                        AlarmsFragment.instance.stopAlarm(alarm)
+                        AlarmsFragment.instance.stopAlarm(alarm, true, false)
                         stopNotification(context, alarm.id)
                         stopAnalyse(context)
                     }

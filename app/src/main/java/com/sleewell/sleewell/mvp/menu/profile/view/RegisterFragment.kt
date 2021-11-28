@@ -29,8 +29,8 @@ class RegisterFragment : Fragment(), RegisterContract.View {
         "(?:[a-z0-9!#\$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#\$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"
 
     private lateinit var editLoginId: EditText
-    private lateinit var editPassword_1: EditText
-    private lateinit var editPassword_2: EditText
+    private lateinit var editPassword1: EditText
+    private lateinit var editPassword2: EditText
     private lateinit var editEmail: EditText
     private lateinit var editFirstName: EditText
     private lateinit var editLastName: EditText
@@ -40,7 +40,7 @@ class RegisterFragment : Fragment(), RegisterContract.View {
     //Touch Detection
     private var mDownX: Float = 0f
     private var mDownY = 0f
-    private val SCROLL_THRESHOLD: Float = 10f
+    private val scrollThreshold: Float = 10f
     private var isOnClick = false
 
     override fun onCreateView(
@@ -57,8 +57,8 @@ class RegisterFragment : Fragment(), RegisterContract.View {
         setupUI(root.findViewById(R.id.registerParent))
 
         editLoginId = root.findViewById(R.id.editLoginId)
-        editPassword_1 = root.findViewById(R.id.editPassword_1)
-        editPassword_2 = root.findViewById(R.id.editPassword_2)
+        editPassword1 = root.findViewById(R.id.editPassword_1)
+        editPassword2 = root.findViewById(R.id.editPassword_2)
         editEmail = root.findViewById(R.id.editEmail)
         editFirstName = root.findViewById(R.id.editFirstName)
         editLastName = root.findViewById(R.id.editLastName)
@@ -70,11 +70,11 @@ class RegisterFragment : Fragment(), RegisterContract.View {
                 displayToast("Error : invalid login, must contains at least 5 characters")
                 return@setOnClickListener
             }
-            if (!checkPassword(editPassword_1.text.toString())) {
+            if (!checkPassword(editPassword1.text.toString())) {
                 displayToast("Error : password must contains 8 characters and at least 1 number")
                 return@setOnClickListener
             }
-            if (editPassword_1.text.toString() != editPassword_2.text.toString()) {
+            if (editPassword1.text.toString() != editPassword2.text.toString()) {
                 displayToast("Error : password are not identical")
                 return@setOnClickListener
             }
@@ -88,7 +88,7 @@ class RegisterFragment : Fragment(), RegisterContract.View {
             }
             presenter.register(
                 editLoginId.text.toString(),
-                editPassword_1.text.toString(),
+                editPassword1.text.toString(),
                 editEmail.text.toString(),
                 editFirstName.text.toString(),
                 editLastName.text.toString()
@@ -160,8 +160,8 @@ class RegisterFragment : Fragment(), RegisterContract.View {
                     }
                 }
                 if (event.action == MotionEvent.ACTION_MOVE) {
-                    if (isOnClick && (abs(mDownX - event.x) > SCROLL_THRESHOLD
-                                || abs(mDownY - event.y) > SCROLL_THRESHOLD)) {
+                    if (isOnClick && (abs(mDownX - event.x) > scrollThreshold
+                                || abs(mDownY - event.y) > scrollThreshold)) {
                         isOnClick = false
                     }
                 }

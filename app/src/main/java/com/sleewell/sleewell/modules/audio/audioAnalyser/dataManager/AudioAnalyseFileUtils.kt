@@ -28,7 +28,7 @@ import java.util.*
  */
 class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordListener) :
     IAnalyseDataManager {
-    private val CLASS_TAG = "AUDIO_ANALYSE_FILE_UTIL"
+    private val classtag = "AUDIO_ANALYSE_FILE_UTIL"
 
     private val gson = Gson()
     private var startFile = true
@@ -59,7 +59,7 @@ class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordL
                 listAvailableAnalyse.add(Night(dateStringToTimestamp(currentFileDate), null, null))
             } catch (error: DateTimeParseException) {
                 Log.e(
-                    CLASS_TAG,
+                    classtag,
                     "Invalid file name for analyse, cannot be converted to epoch seconds : " + file.name.replace(
                         ".json",
                         ""
@@ -93,10 +93,10 @@ class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordL
                 else
                     listener.onReadAnalyseRecord(res, id)
             } catch (eSyntax: JsonSyntaxException) {
-                Log.e(CLASS_TAG, "Invalid json syntax in analyse file " + analyse.name)
+                Log.e(classtag, "Invalid json syntax in analyse file " + analyse.name)
                 listener.onAnalyseRecordError("Invalid json syntax in analyse file " + analyse.name)
             } catch (eIO: JsonIOException) {
-                Log.e(CLASS_TAG, "Failed to read file  " + analyse.name)
+                Log.e(classtag, "Failed to read file  " + analyse.name)
                 listener.onAnalyseRecordError("Failed to read file  " + analyse.name)
             }
         }
@@ -144,7 +144,7 @@ class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordL
         } catch (e: FileNotFoundException) {
             outputFile = null
             outputStream = null
-            Log.e(CLASS_TAG, "File " + outputFile?.name + " couldn't be created");
+            Log.e(classtag, "File " + outputFile?.name + " couldn't be created")
             return false
         }
         return true
@@ -177,7 +177,7 @@ class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordL
                             outputStream?.write(jsonString.toByteArray())
                             startFile = false
                         } catch (e: IOException) {
-                            Log.e(CLASS_TAG, "Unable to write inside the file")
+                            Log.e(classtag, "Unable to write inside the file")
                             listener.onAnalyseRecordError("Unable to write inside the file")
                             threadRunning = false
                             return@run
@@ -261,7 +261,7 @@ class AudioAnalyseFileUtils(context: Context, val listener: IAudioAnalyseRecordL
             try {
                 dir.mkdirs()
             } catch (e: SecurityException) {
-                Log.e(CLASS_TAG, "Directory $outputDirectory couldn't be created")
+                Log.e(classtag, "Directory $outputDirectory couldn't be created")
                 return false
             }
         }

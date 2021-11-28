@@ -1,7 +1,6 @@
 package com.sleewell.sleewell.mvp.music.presenter
 
 import android.content.Context
-import android.widget.ListAdapter
 import com.sleewell.sleewell.mvp.music.MainContract
 import com.sleewell.sleewell.mvp.music.MusicPlaylistAdapter
 import com.sleewell.sleewell.mvp.music.model.MusicModel

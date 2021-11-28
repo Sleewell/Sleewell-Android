@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,10 +11,10 @@
         android:id="@+id/circle_forest"
         android:layout_width="8dp"
         android:layout_height="8dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="23dp"
         android:background="@drawable/circle"
-        android:backgroundTint="@color/textOnBackground"
+        android:backgroundTint="@color/colorAccent"
         android:visibility="invisible" />
 
     <ImageView
@@ -32,7 +33,7 @@
         android:layout_marginStart="-45dp"
         android:visibility="invisible"
         app:animDuration="3500"
-        app:foregroundColor="@color/textOnBackground" />
+        app:foregroundColor="@color/colorAccent" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,7 +47,6 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="0dp"
             android:fontFamily="@font/nunito"
-            android:text="SoundTitle"
             android:textColor="@color/textOnBackground"
             android:textSize="18sp" />
 
@@ -57,7 +57,6 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="0dp"
             android:fontFamily="@font/nunito"
-            android:text="Description"
             android:textColor="@color/textButDarker"
             android:textSize="14sp"
             android:textStyle="bold" />

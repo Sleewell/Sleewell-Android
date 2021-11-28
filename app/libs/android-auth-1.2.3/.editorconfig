@@ -20,6 +20,5 @@ insert_final_newline = true
 continuation_indent_size = 4
 
 [*.{cpp,h,hpp}]
-indent_style = space
 indent_size = 2
 continuation_indent_size = 4

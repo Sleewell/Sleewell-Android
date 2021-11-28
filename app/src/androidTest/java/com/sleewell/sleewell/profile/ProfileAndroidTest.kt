@@ -22,7 +22,7 @@ class ProfileAndroidTest {
     companion object {
         const val TIME_OUT: Long = 5000
 
-        const val USER_TOKEN = "622ad5d32ae8aab2887f29f4b27e2aa51822b35b"
+        const val USER_TOKEN = "536fac7efb2a5e20026288eb9d8d59db6f5c6a79"
         const val USER_PASSWORD = "UnitTest1234"
 
         const val PROFILE_USERNAME = "UnitTest"
@@ -46,9 +46,9 @@ class ProfileAndroidTest {
 
     @Before
     fun startActivity() {
-        mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        mDevice = UiDevice.getInstance(getInstrumentation())
         appDrawer = UiScrollable(UiSelector().scrollable(true))
-        context = ApplicationProvider.getApplicationContext<Context>()
+        context = ApplicationProvider.getApplicationContext()
         mInstrumentation = getInstrumentation()
         utils = UiAutomatorUtils(mDevice, appDrawer, context)
 

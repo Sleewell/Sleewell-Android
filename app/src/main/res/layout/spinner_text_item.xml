@@ -7,4 +7,4 @@
     android:gravity="start"
     android:textColor="@color/background"
     android:padding="12dp"
-    android:textSize="18dp" />
+    android:textSize="18sp" />

@@ -22,7 +22,7 @@ class LoginPresenter(view: LoginFragment, context: Context) : LoginContract.Pres
     }
 
     override fun onFinished(loginResult: ResultLoginSleewell) {
-        loginResult.AccessToken?.let { view?.setAccessToken(it) }
+        loginResult.accessToken?.let { view?.setAccessToken(it) }
     }
 
 

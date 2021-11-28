@@ -27,7 +27,7 @@ class ProfileTest {
         const val GET_INFO_SUCCESS = "User information has been return"
         const val UPDATE_INFO_SUCCESS = "User information has been update"
 
-        const val USER_TOKEN = "622ad5d32ae8aab2887f29f4b27e2aa51822b35b"
+        const val USER_TOKEN = "536fac7efb2a5e20026288eb9d8d59db6f5c6a79"
         const val PROFILE_USERNAME = "UnitTest"
         const val PROFILE_EMAIL = "unittest@email.com"
         const val PROFILE_FIRSTNAME = "Unit"

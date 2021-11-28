@@ -1,0 +1,232 @@
+<resources>
+    <string name="app_name">Sleewell</string>
+    <string name="foreground_service_analyse_description">Service de premier plan qui analyse le son de vos nuits</string>
+    <string name="foreground_service_analyse_label">Analyse du sommeil</string>
+
+    <string name="title_home">Accueil</string>
+    <string name="title_dashboard">Tableau de bord</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="start">Lancer</string>
+    <string name="time_desactivation">TEMPS</string>
+
+    <!-- Menu -->
+    <string name="nav_button_home">ACCUEIL</string>
+    <string name="nav_button_settings">PARAMÈTRES</string>
+    <string name="nav_button_stats">STATS</string>
+    <string name="nav_button_music">MUSIQUE</string>
+
+    <!-- Home -->
+    <string name="protocol_button">Mode nuit</string>
+
+    <!-- Menu title -->
+    <string name="alarm_title_menu">ALARME</string>
+    <string name="profile_title_menu">PROFILE</string>
+    <string name="routine_title_menu">ROUTINE</string>
+    <string name="stats_title_menu">STATS</string>
+
+    <!-- Spotify -->
+    <string name="back_title">Retour</string>
+    <string name="enter_music_title">Entrer musique</string>
+
+    <!-- Settings -->
+    <string name="setting_tittle">Paramètres</string>
+    <string name="setting_network_name">Réseau</string>
+    <string name="setting_network_summary">Personnaliser le réseau pendant le protocole</string>
+    <string name="setting_network_return_key">network_return_pref</string>
+
+    <string name="setting_protocol_name">Protocole</string>
+    <string name="setting_protocol_summary">Personnaliser le protocol</string>
+    <string name="setting_protocol_return_key">protocol_return_pref</string>
+
+    <string name="setting_help_name">Aide</string>
+    <string name="setting_help_summary">Signalez un bug ou obtenez de l\'aide</string>
+    <string name="setting_help_return_key">help_return_pref</string>
+
+    <string name="setting_halo_name">Halo</string>
+    <string name="settings_halo_key">halo</string>
+    <string name="setting_halo_summary">Personnaliser le halo pendant le protocole</string>
+    <string name="setting_halo_return_key">halo_return_pref</string>
+    <string name="setting_halo_summary_on">halo turn on during protocol</string>
+    <string name="setting_halo_summary_off">halo turn off during protocol</string>
+
+    <string name="setting_music_name">Musique</string>
+    <string name="settings_music_key">music</string>
+    <string name="setting_music_summary_on">music turn on during protocol</string>
+    <string name="setting_music_summary_off">music turn off during protocol</string>
+
+    <string name="setting_notification_name">Notifications</string>
+    <string name="setting_notification_summary">Personnaliser les notifications</string>
+    <string name="setting_notification_return_key">notification_return_pref</string>
+    <string name="setting_wifi_key">wifi</string>
+    <string name="setting_wifi_name">Wifi et données cellulaires</string>
+    <string name="setting_wifi_summary_on">Activer le wifi et les données cellulaires pendant le protocole</string>
+    <string name="setting_wifi_summary_off">Désactiver le wifi et les données cellulaires pendant le protocole</string>
+    <string name="setting_bluetooth_key">bluetooth</string>
+    <string name="setting_bluetooth_name">Bluetooth</string>
+    <string name="setting_bluetooth_summary_on">Activer Bluetooth pendant le protocole</string>
+    <string name="setting_bluetooth_summary_off">Désactiver Bluetooth pendant le protocole</string>
+    <string name="setting_cellular_key">cellular</string>
+    <string name="setting_cellular_name">Données cellulaire</string>
+    <string name="setting_cellular_summary_on">Les données cellulaires sont activées pendant le protocole</string>
+    <string name="setting_cellular_summary_off">Les données cellulaires sont désactivées pendant le protocole</string>
+    <string name="setting_dnd_key">dnd</string>
+    <string name="setting_dnd_name">Ne pas déranger</string>
+    <string name="setting_dnd_summary_on">Npd est activé pendant le protocole</string>
+    <string name="setting_dnd_summary_off">Npd est désactivé pendant le protocole</string>
+
+    <string name="setting_help_title">Aide</string>
+    <string name="setting_help_signal_problem">Signaler un problème ou un bug</string>
+    <string name="version_app">Version %s - %s</string>
+    <string name="url_report">https://sleewell.fr/feedback_tester.php</string>
+
+    <string name="setting_language_name">Langue</string>
+    <string name="setting_language_summary">Changer la langue de l\'application</string>
+    <string name="setting_language_return_key">language_return_pref</string>
+    <string name="setting_english_name">Anglais</string>
+    <string name="setting_english_return_pref">english_return_pref</string>
+    <string name="setting_french_name">Français</string>
+    <string name="setting_french_return_pref">french_return_pref</string>
+
+    <!-- Settings Routine -->
+    <string name="setting_routine_return_key">routine_return_pref</string>
+
+    <!-- Settings file name-->
+    <string name="setting_file_network">com.sleewell.sleewell.network</string>
+    <string name="setting_file_notification">com.sleewell.sleewell.notification</string>
+    <string name="setting_file_help">com.sleewell.sleewell.mvp.help.HelpSignalmenActivity</string>
+
+    <!-- Network initial state before starting protocol -->
+    <string name="setting_bluetooth_initial_state_key">bluetooth initial state</string>
+
+    <!-- Fragment labels -->
+    <string name="home_label">new_fragment_home</string>
+    <string name="alarm_label">new_fragment_alarm</string>
+    <string name="settings_label">new_fragment_settings</string>
+    <string name="statistics_label">new_fragment_stat</string>
+    <string name="routine_label">new_fragment_routine</string>
+
+    <!-- Music page -->
+    <string name="forest_menu">FORÊT</string>
+    <string name="wind_menu">VENT</string>
+    <string name="fire_menu">FEU</string>
+    <string name="water_menu">EAU</string>
+    <string name="rain_menu">PLUIE</string>
+    <string name="menu_button">Retour</string>
+    <string name="main_image_title">forêt</string>
+
+    <!-- Notifications -->
+    <string name="notification_analyse_channel_name">Sleewell Analyse</string>
+    <string name="notification_analyse_channel_id">SleewellAnalyse</string>
+    <string name="notification_analyse_channel_description">La notification est envoyée à l\'utilisateur pour l\'informer de l\'analyse ou de l\'actualité de ses nuits</string>
+    <string name="analyse_foreground_notification_name">Analyse de nuit</string>
+    <string name="analyse_foreground_notification_content_text">Analyse en cours</string>
+    <string name="analyse_foreground_stopping_notification_content_text">Arrêt de l\'analyse…</string>
+
+    <!-- Stats -->
+    <string name="nav_day_stat">JOUR</string>
+    <string name="nav_week_stat">SEMAINE</string>
+    <string name="nav_month_stat">MOIS</string>
+    <string name="nav_year_stat">ANNÉE</string>
+    <string name="nav_next_description">Analyse suivante</string>
+    <string name="nav_prev_description">Analyse précédente</string>
+    <string name="card_average_title">Statistiques</string>
+    <string name="cart_average_title_time_to_sleep">Endormissement</string>
+    <string name="cart_average_title_time_to_wake_up">Réveil</string>
+    <string name="card_analyse_title">Analyse</string>
+
+    <!-- shared preferences -->
+    <string name="sharedPrefFile">sharedpreference</string>
+    <string name="user_token_key">USER_TOKEN_SLEEWELL</string>
+
+    <!-- Account and Profile -->
+    <string name="attachment_summary_off">Ne téléchargez les pièces jointes que sur demande manuelle</string>
+    <string name="editTextHintPassword">Mot de passe</string>
+    <string name="editTextHintLogin">Identifiant</string>
+    <string name="editTextHintEmail">Email</string>
+    <string name="editTextHintFirstName">Prénom</string>
+    <string name="editTextHintLastName">Nom de famille</string>
+    <string name="delete_account">Supprimer le compte</string>
+
+    <string name="log_in_underline"><u>Connexion</u></string>
+    <string name="sign_up_underline"><u>S\'inscrire</u></string>
+
+    <string name="music_screen_title">Sons pour dormir</string>
+    <string name="hello_blank_fragment">New Fragment</string>
+
+    <!-- Strings Array -->
+
+    <string-array name="music_player">
+        <item>Rien</item>
+        <item>Spotify</item>
+        <item>Sleewell</item>
+    </string-array>
+
+    <!-- Alarm -->
+    <string name="snooze_5_min">Répéter 5 minutes</string>
+    <string name="stars">Étoiles</string>
+    <string name="repeat">Répéter</string>
+    <string name="add_alarm">Ajouter une alarme</string>
+    <string name="m">L</string>
+    <string name="t">M</string>
+    <string name="w">M</string>
+    <string name="th">J</string>
+    <string name="f">V</string>
+    <string name="s">S</string>
+    <string name="su">D</string>
+    <string name="alarm_ringtone">Sonnerie d\'alarme</string>
+    <string name="vibrate">Vibration</string>
+    <string name="label">Libellé</string>
+    <string name="name_of_label">Nom du libellé</string>
+    <string name="check">Vérifier</string>
+    <string name="ringtone">Sonnerie</string>
+    <string name="deleteall">Tout supprimer</string>
+    <string name="validate">VALIDER</string>
+    <string name="my_alarms">Mes alarmes</string>
+    <string name="my_routines">Mes routines</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Ta signature</string>
+    <string name="reply_title">Action de réponse par défaut</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Synchroniser les e-mails périodiquement</string>
+    <string name="attachment_title">Télécharger les pièces jointes entrantes</string>
+    <string name="attachment_summary_on">Télécharger automatiquement les pièces jointes pour les e-mails entrants
+     </string>
+    <string name="dndAccessTutorialDescription1">Avant de pouvoir commencer à utiliser l\'application, nous devons vous demander une faveur.
+         Sleewell doit avoir accès au mode Ne pas déranger.
+          Il ne l\'utilisera que pendant la routine, si vous le configurez comme tel.
+     </string>
+
+    <string name="dndAccessTutorialDescription2">En appuyant sur le bouton suivant, vous serez redirigé vers une page de paramètres Android
+          où vous devrez trouver Sleewell et accorder l\'accès au mode Ne pas déranger.
+     </string>
+
+    <string name="stats">STATS</string>
+    <string name="routine">ROUTINE</string>
+    <string name="profile">PROFIL</string>
+    <string name="alarm">ALARMES</string>
+    <string name="welcome">Bienvenue!</string>
+    <string name="dndAccessTutorialIntroduction">Nous sommes heureux de vous accueillir à bord et espérons que Sleewell vous aidera avec vos nuits !</string>
+    <string name="dndAccessTutorialButton">Autoriser</string>
+    <string name="dndAccessTutorialDescription3">Après cela, vous pouvez rouvrir l\'application et vous serez libre de l\'utiliser.</string>
+    <string name="dndAccessTutorialThanks">Merci de votre coopération !</string>
+    <string name="dndAccessTutorialTeam">L\'équipe Sleewell</string>
+    <string name="setAlarm">Définir l\'alarme</string>
+    <string name="deleteAlarmMessage">Voulez-vous vraiment supprimer cette alarme ?</string>
+    <string name="deleteAlarmTitle">Supprimer l\'alarme de</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="welcome_back">Content de\nte revoir</string>
+    <string name="log_in">Connexion</string>
+    <string name="not_connected">Vous n\'êtes pas connecté, veuillez vous connecter et réessayer</string>
+    <string name="stop_title">Stop</string>
+    <string name="profile_title">Mon Profil</string>
+    <string name="welcom_back_title">Content de te revoir</string>
+    <string name="get_started_title">Commencer</string>
+    <string name="log_in_title">Connexion</string>
+    <string name="sign_up_title">Inscription</string>
+</resources>

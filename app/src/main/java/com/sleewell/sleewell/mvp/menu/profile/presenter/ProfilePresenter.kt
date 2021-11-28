@@ -1,11 +1,15 @@
 package com.sleewell.sleewell.mvp.menu.profile.presenter
 
 import android.content.Context
+import android.graphics.Bitmap
 import com.sleewell.sleewell.api.sleewell.model.ProfileInfo
 import com.sleewell.sleewell.api.sleewell.model.ResponseSuccess
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.profile.contract.ProfileContract
 import com.sleewell.sleewell.mvp.menu.profile.model.ProfileModel
+import kotlinx.coroutines.*
+import retrofit2.Retrofit
+import java.io.*
 
 /**
  * Presenter for the Profile fragment, it will link the HomeView and the HomeModel
@@ -15,10 +19,11 @@ import com.sleewell.sleewell.mvp.menu.profile.model.ProfileModel
  * @param context Context of the activity / view
  * @author Titouan Fiancette
  */
-class ProfilePresenter(view: ProfileContract.View, context: Context) : ProfileContract.Presenter {
+class ProfilePresenter(view: ProfileContract.View,val context: Context) : ProfileContract.Presenter {
 
     private var view: ProfileContract.View? = view
     private var model: ProfileContract.Model = ProfileModel(context)
+    private var coroutine: Job? = null
 
     private var username: String = ""
     private var firstName: String = ""
@@ -64,8 +69,74 @@ class ProfilePresenter(view: ProfileContract.View, context: Context) : ProfileCo
             })
     }
 
+    override fun updateProfilePicture(picture: Bitmap) {
+        val token = MainActivity.accessTokenSleewell
+
+        //Convert bitmap to byte array
+        coroutine = CoroutineScope(Job()).launch(Dispatchers.IO) {
+            val file = File(context.cacheDir, "avatar.jpg")
+            file.createNewFile()
+
+            val bos = ByteArrayOutputStream()
+            picture.compress(Bitmap.CompressFormat.JPEG, 50 /*ignored for PNG*/, bos)
+            val bitmapData = bos.toByteArray()
+
+            //write the bytes in file
+            var fos: FileOutputStream? = null
+            try {
+                fos = FileOutputStream(file)
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            }
+            try {
+                fos?.write(bitmapData)
+                fos?.flush()
+                fos?.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+
+            try {
+                val response = model.uploadProfilePicture(token, file)
+
+                withContext(Dispatchers.Main) {
+                    if (response != null) {
+                        view?.showToast("Avatar Saved")
+                    } else {
+                        view?.showToast("Error: could not upload your avatar")
+                    }
+                }
+            } catch (e: retrofit2.HttpException) {
+                withContext(Dispatchers.Main) {
+                    view?.showToast("Error: could not upload your avatar")
+                }
+            }
+        }
+    }
+
+    override fun logoutUser() {
+        model.removeToken()
+        model.deleteAllNightData()
+    }
+
+    override fun deleteAccount() {
+        val token = MainActivity.accessTokenSleewell
+
+        model.deleteAccount(token,
+        object : ProfileContract.Model.OnFinishedListener<ResponseSuccess> {
+            override fun onFinished(response: ResponseSuccess) {
+                view?.logoutUser()
+                view?.showToast("Account deleted")
+            }
+
+            override fun onFailure(t: Throwable) {
+                view?.showToast("Error: could not delete the account")
+            }
+        })
+    }
+
     override fun onDestroy() {
-        view = null;
+        view = null
     }
 
     override fun setUsername(username: String) { this.username = username }
@@ -81,8 +152,11 @@ class ProfilePresenter(view: ProfileContract.View, context: Context) : ProfileCo
         if (email != null) { this.email = email }
     }
 
-    override fun logoutUser() {
-        model.removeToken()
-        model.deleteAllNightData()
+
+
+    override fun cancelHttpCall() {
+        coroutine?.cancel()
     }
+
+
 }
