@@ -100,8 +100,8 @@ class ProfileModel(context: Context) : ProfileContract.Model, IAudioAnalyseRecor
                 val responseRes: ResponseBody? = response.body()
 
                 if (responseRes == null) {
-                    Log.e(TAG, "Body null error")
-                    Log.e(TAG, "Code : " + response.code())
+                    Log.e(tag, "Body null error")
+                    Log.e(tag, "Code : " + response.code())
                     onFinishedListener.onFailure(Throwable("Body null error : " + response.code()))
                 } else {
                     onFinishedListener.onFinished(responseRes)
@@ -110,7 +110,7 @@ class ProfileModel(context: Context) : ProfileContract.Model, IAudioAnalyseRecor
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 // Log error here since request failed
-                Log.e(TAG, t.toString())
+                Log.e(tag, t.toString())
                 onFinishedListener.onFailure(t)
             }
         })

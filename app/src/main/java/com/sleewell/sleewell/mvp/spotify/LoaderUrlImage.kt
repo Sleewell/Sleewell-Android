@@ -9,7 +9,7 @@ class LoaderUrlImage {
 
     fun downloadImage(c: Context?, url: String?, img: ImageView?) {
         if (url != null && url.isNotEmpty()) {
-            Picasso.get(c).load(url).placeholder(com.sleewell.sleewell.R.drawable.playlistholder).into(img)
+            Picasso.get().load(url).placeholder(com.sleewell.sleewell.R.drawable.playlistholder).into(img)
         } else {
             Picasso.get().load(com.sleewell.sleewell.R.drawable.playlistholder).into(img)
         }
