@@ -7,8 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.text.format.DateUtils
-import android.text.format.Time
-import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import com.sleewell.sleewell.reveil.AlarmContract
 import com.sleewell.sleewell.reveil.AlarmReceiver
@@ -16,7 +14,6 @@ import com.sleewell.sleewell.reveil.data.model.Alarm
 import com.sleewell.sleewell.reveil.data.viewmodel.AlarmViewModel
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.time.milliseconds
 
 /**
  * Alarm Model for the Alarm activity.

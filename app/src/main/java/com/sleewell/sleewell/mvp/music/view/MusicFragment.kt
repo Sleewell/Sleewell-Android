@@ -14,7 +14,6 @@ import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.music.MainContract
 import com.sleewell.sleewell.mvp.music.presenter.MusicPresenter
 import es.claucookie.miniequalizerlibrary.EqualizerView
-import java.lang.ClassCastException
 
  /**
  * A simple [Fragment] subclass.

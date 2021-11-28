@@ -7,11 +7,14 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
-import android.provider.Settings
-import android.widget.ImageView
-import androidx.fragment.app.DialogFragment
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.common.api.ApiException
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
 import com.sleewell.sleewell.modules.audio.upload.AudioAnalyseUpload
@@ -19,22 +22,6 @@ import com.sleewell.sleewell.modules.gesturelistener.UserInteractionListener
 import com.sleewell.sleewell.modules.permissions.PermissionManager
 import com.sleewell.sleewell.mvp.mainActivity.MainContract
 import com.sleewell.sleewell.mvp.mainActivity.presenter.MainPresenter
-import android.content.Intent
-import android.graphics.Color
-import android.os.Build
-import android.util.Log
-import android.widget.Toast
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
-import com.sleewell.sleewell.api.openWeather.Main
-import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
-import com.sleewell.sleewell.database.analyse.night.NightDatabase
-import com.sleewell.sleewell.modules.audio.upload.AudioAnalyseUpload
-import com.sleewell.sleewell.modules.permissions.PermissionManager
-import com.sleewell.sleewell.mvp.menu.profile.view.LoginFragment
-import com.sleewell.sleewell.mvp.menu.profile.view.ProfileFragment
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.DeleteDialog
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.GivenImagesDialog
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.PickImageDialog
@@ -64,6 +51,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
         var accessTokenSleewell: String = ""
 
         var getAccessGoogleAccount: Boolean = false
+        lateinit var sendTokenToSleewell: (token : String) -> Unit
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -155,16 +143,13 @@ class MainActivity : AppCompatActivity(), MainContract.View,
         }
         if (requestCode == 9001) {
             try {
-                val account = GoogleSignIn.getSignedInAccountFromIntent(intent).getResult(
-                    ApiException::class.java
-                )
+                val account = GoogleSignIn.getSignedInAccountFromIntent(intent).getResult(ApiException::class.java)
                 getAccessGoogleAccount = account?.account.toString().isNotEmpty()
                 if (getAccessGoogleAccount) {
-                    //this.supportFragmentManager.beginTransaction().replace(R.id.nav_menu, ProfileFragment()).commit()
-                    Toast.makeText(this, account?.email + " " + account?.displayName + " " + account?.familyName, Toast.LENGTH_SHORT).show()
+                    sendTokenToSleewell(account.idToken!!)
                 }
             } catch (e: ApiException) {
-                Log.e("ERROR", e.statusCode.toString())
+                Log.e("ERROR", e.status.toString())
                 getAccessGoogleAccount = false
             }
         }

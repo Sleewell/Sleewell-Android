@@ -1,9 +1,5 @@
 package com.sleewell.sleewell.mvp.protocol
 
-import android.app.Dialog
-import android.graphics.ColorFilter
-import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderListener
-import com.sleewell.sleewell.modules.audio.audioTransformation.ISpectrogramListener
 import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
 
@@ -214,5 +210,6 @@ interface ProtocolMenuContract {
         fun animateEqualizer(state: Boolean)
         fun haloDisplayLooper()
         fun stopAnimation()
+        fun undisplayEquilizer()
     }
 }

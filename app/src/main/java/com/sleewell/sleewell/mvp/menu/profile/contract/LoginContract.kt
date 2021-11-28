@@ -1,8 +1,8 @@
 package com.sleewell.sleewell.mvp.menu.profile.contract
 
+import com.sleewell.sleewell.api.sleewell.model.ResultLoginSleewell
 import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
-import com.sleewell.sleewell.api.sleewell.model.ResultLoginSleewell
 
 interface LoginContract {
     interface Model {
@@ -25,11 +25,13 @@ interface LoginContract {
             fun onFailure(t : Throwable)
         }
         fun loginToSleewell(onFinishedListener: OnFinishedListener, name : String, password: String)
+        fun loginToGoogle(onFinishedListener: OnFinishedListener, token: String)
     }
 
     interface Presenter : BasePresenter {
         fun onViewCreated()
         fun login(name: String, password: String)
+        fun loginGoogle(token: String)
     }
 
     interface View : BaseView<Presenter> {

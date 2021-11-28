@@ -3,7 +3,6 @@ package com.sleewell.sleewell.mvp.menu.routine.presenter
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.sleewell.sleewell.database.routine.entities.Routine
 import com.sleewell.sleewell.mvp.menu.routine.RoutineContract
 import com.sleewell.sleewell.mvp.menu.routine.model.RoutineModel
 import kotlinx.coroutines.CoroutineScope

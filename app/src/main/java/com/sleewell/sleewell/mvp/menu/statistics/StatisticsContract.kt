@@ -7,7 +7,6 @@ import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
 import com.sleewell.sleewell.mvp.menu.statistics.model.dataClass.AnalyseDetail
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Interface that defines how the statistic activity will work

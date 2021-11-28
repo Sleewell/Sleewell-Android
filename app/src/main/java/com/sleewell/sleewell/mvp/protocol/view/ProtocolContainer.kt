@@ -1,15 +1,12 @@
 package com.sleewell.sleewell.mvp.protocol.view
 
 import android.animation.*
-import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import android.provider.Settings.System.SCREEN_BRIGHTNESS
-import android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
@@ -104,6 +101,10 @@ class ProtocolContainer : AppCompatActivity(), ProtocolMenuContract.View {
             })
             protocolLayout.startAnimation(animation)
         }
+    }
+
+    override fun undisplayEquilizer() {
+        equalizer.visibility = View.GONE
     }
 
     override fun hideSystemUI() {

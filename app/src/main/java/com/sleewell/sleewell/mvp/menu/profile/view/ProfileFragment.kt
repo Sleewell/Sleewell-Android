@@ -16,10 +16,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.textfield.TextInputLayout
 import com.sleewell.sleewell.R
-import com.sleewell.sleewell.api.openWeather.Main
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
 import com.sleewell.sleewell.modules.imageUtils.ImageUtils.Companion.cropToSquare
 import com.sleewell.sleewell.modules.imageUtils.ImageUtils.Companion.getBitmapFromView
@@ -30,10 +28,9 @@ import com.sleewell.sleewell.mvp.menu.profile.presenter.ProfilePresenter
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.DeleteDialog
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.GivenImagesDialog
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.PickImageDialog
+import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.ProfileBottomSheet
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlin.math.abs
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.ProfileBottomSheet
 
 
 class ProfileFragment : Fragment(), ProfileContract.View,

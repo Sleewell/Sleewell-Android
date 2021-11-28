@@ -8,7 +8,6 @@ import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.profile.contract.ProfileContract
 import com.sleewell.sleewell.mvp.menu.profile.model.ProfileModel
 import kotlinx.coroutines.*
-import retrofit2.Retrofit
 import java.io.*
 
 /**
@@ -40,7 +39,10 @@ class ProfilePresenter(view: ProfileContract.View,val context: Context) : Profil
         model.getProfileInformation(token,
             object : ProfileContract.Model.OnProfileInfoListener {
             override fun onFinished(profileInfo: ProfileInfo) {
-                setUsername(profileInfo.username)
+                if (!profileInfo.username.isNullOrEmpty())
+                    setUsername(profileInfo.username)
+                else
+                    setUsername("")
                 setFirstName(profileInfo.firstname)
                 setLastName(profileInfo.lastname)
                 setEmail(profileInfo.email)

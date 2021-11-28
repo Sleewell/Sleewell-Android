@@ -1,14 +1,13 @@
 package com.sleewell.sleewell.modules.permissions
 
-import android.app.NotificationManager
 import android.content.Intent
 import android.graphics.drawable.Animatable2
 import android.graphics.drawable.Drawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.Button
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 

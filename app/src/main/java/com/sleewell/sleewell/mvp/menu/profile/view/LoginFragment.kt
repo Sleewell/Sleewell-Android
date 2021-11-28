@@ -1,12 +1,13 @@
 package com.sleewell.sleewell.mvp.menu.profile.view
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.view.animation.AlphaAnimation
 import android.view.inputmethod.EditorInfo
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -59,9 +60,9 @@ class LoginFragment : Fragment(), LoginContract.View {
             presenter.login(editName.text.toString(), editPassword.text.toString())
             displayLoading()
         }
-        //signUpButton.setOnClickListener {
-        //    fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, RegisterFragment())?.commit()
-        //}
+        signUpButton.setOnClickListener {
+            fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, RegisterFragment())?.commit()
+        }
 
         editPassword.setOnEditorActionListener { _, actionId, keyEvent ->
             if (keyEvent == null) {
@@ -79,19 +80,21 @@ class LoginFragment : Fragment(), LoginContract.View {
         }
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken("") // ADD !!!
             .requestEmail()
             .build()
-        val mGoogleSignInClient = GoogleSignIn.getClient(root.context, gso);
+        val mGoogleSignInClient = GoogleSignIn.getClient(root.context, gso)
 
         val signInButton: SignInButton = root.findViewById(R.id.sign_in_button)
         signInButton.setSize(SignInButton.SIZE_STANDARD)
         signInButton.setOnClickListener {
             val signInIntent = mGoogleSignInClient.signInIntent
             activity?.startActivityForResult(signInIntent, 9001)
+            mGoogleSignInClient.signOut()
         }
 
-        signUpButton.setOnClickListener {
-            mGoogleSignInClient.signOut()
+        MainActivity.sendTokenToSleewell = { token ->
+            presenter.loginGoogle(token)
         }
 
         return root

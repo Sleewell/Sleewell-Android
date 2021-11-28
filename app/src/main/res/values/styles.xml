@@ -81,6 +81,10 @@
         <item name="android:colorForeground">@color/colorSecondaryLight</item>
     </style>
 
+    <style name="AppTheme.SwitchRoutine" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/background</item>
+    </style>
+
     <style name="ModalBottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
         <!-- Apply attributes here -->
     </style>
