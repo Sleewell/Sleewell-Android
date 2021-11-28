@@ -75,8 +75,7 @@ class RoutineSettingsFragment : Fragment(), PreferenceFragmentCompat.OnPreferenc
             setPreferencesFromResource(R.xml.settings_routine, rootKey)
             val returnPref = findPreference<Preference>(getString(R.string.setting_routine_return_key))
             returnPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                val navController = Navigation.findNavController(requireActivity(), R.id.nav_menu)
-                navController.navigate(R.id.routineFragment)
+                this.childFragmentManager.popBackStack()
                 true
             }
         }

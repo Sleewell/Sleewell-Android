@@ -14,5 +14,6 @@
         <item name="textAppearanceBody2">@style/AppTheme.MaterialAlertDialog.BodyText</item>
         <item name="android:autofilledHighlight">@android:color/transparent</item>
         <item name="bottomSheetDialogTheme">@style/ModalBottomSheetDialog</item>
+        <item name="tabStyle">@style/AppTheme.TabLayout</item>
     </style>
 </resources>

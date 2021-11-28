@@ -49,6 +49,14 @@ class SettingsFragment : Fragment(), SettingsContract.View, PreferenceFragmentCo
         return root
     }
 
+    override fun onResume() {
+        super.onResume()
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.settings, SettingsFragment())
+            .commit()
+    }
+
     override fun setPresenter(presenter: SettingsContract.Presenter) {
         this.presenter = presenter
         presenter.onViewCreated()
