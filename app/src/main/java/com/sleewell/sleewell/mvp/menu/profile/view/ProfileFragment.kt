@@ -29,6 +29,9 @@ import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.DeleteDialog
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.GivenImagesDialog
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.PickImageDialog
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.ProfileBottomSheet
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.Transformation
+import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlin.math.abs
 
@@ -253,6 +256,10 @@ class ProfileFragment : Fragment(), ProfileContract.View,
                 }
             }
         }
+    }
+
+    override fun setProfilePictureBitmap(url: String) {
+        Picasso.get().load(url).transform(CropCircleTransformation()).placeholder(R.drawable.logo_sleewell).into(pictureWidget)
     }
 
     override fun onDialogPictureClick(picture: ImageView) {

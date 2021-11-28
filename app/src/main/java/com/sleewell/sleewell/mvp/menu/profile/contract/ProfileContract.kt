@@ -1,8 +1,9 @@
 package com.sleewell.sleewell.mvp.menu.profile.contract
 
 import android.graphics.Bitmap
-import com.sleewell.sleewell.api.sleewell.model.ProfileInfo
-import com.sleewell.sleewell.api.sleewell.model.ResponseSuccess
+import com.sleewell.sleewell.api.sleewell.model.profile.ProfileInfo
+import com.sleewell.sleewell.api.sleewell.model.profile.ResponseBody
+import com.sleewell.sleewell.api.sleewell.model.profile.ResponseSuccess
 import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
 import java.io.File
@@ -40,6 +41,12 @@ interface ProfileContract {
             username: String, firstName: String, lastName: String, email: String,
             onFinishedListener: OnUpdateProfileInfoListener
         )
+
+        /**
+         * retrieve user profile picture
+         * @author Titouan Fiancette
+         */
+        fun getProfilePicture(token:String, onFinishedListener: OnFinishedListener<ResponseBody>)
 
         interface OnFinishedListener<T> {
             fun onFinished(response: T)
@@ -84,6 +91,7 @@ interface ProfileContract {
          */
         fun updateProfileInformation()
 
+        fun getProfilePicture()
         fun updateProfilePicture(picture: Bitmap)
         fun cancelHttpCall()
 
@@ -113,6 +121,8 @@ interface ProfileContract {
             lastName: String,
             email: String
         )
+
+        fun setProfilePictureBitmap(url : String)
 
         fun logoutUser()
 
