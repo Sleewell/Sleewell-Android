@@ -223,4 +223,10 @@
     <string name="welcome_back">Content de\nte revoir</string>
     <string name="log_in">Connexion</string>
     <string name="not_connected">Vous n\'êtes pas connecté, veuillez vous connecter et réessayer</string>
+    <string name="stop_title">Stop</string>
+    <string name="profile_title">Mon Profil</string>
+    <string name="welcom_back_title">Content de te revoir</string>
+    <string name="get_started_title">Commencer</string>
+    <string name="log_in_title">Connexion</string>
+    <string name="sign_up_title">Inscription</string>
 </resources>
