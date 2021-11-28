@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Sleewell</string>
     <string name="foreground_service_analyse_description">Foreground service which analyse the sound from you nights</string>
-    <string name="foreground_service_analyse_label">Sleep Analyse</string>
+    <string name="foreground_service_analyse_label">Sleep Analysis</string>
 
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
@@ -80,9 +80,23 @@
     <string name="setting_cellular_summary_on">Cellular Data is on during protocol</string>
     <string name="setting_cellular_summary_off">Cellular Data is off during protocol</string>
     <string name="setting_dnd_key">dnd</string>
-    <string name="setting_dnd_name">Dot Not Disturb</string>
+    <string name="setting_dnd_name">Do Not Disturb</string>
     <string name="setting_dnd_summary_on">Dnd is on during protocol</string>
-    <string name="setting_dnd_summary_off">Dnd is off during protocol</string>
+    <string name="setting_dnd_summary_off">Dnd is off during protocol"</string>
+
+    <string name="setting_help_title">Help</string>
+    <string name="setting_help_signal_problem">Signal a problem or a bug</string>
+    <string name="version_app">Version %s - %s</string>
+    <string name="url_report">https://sleewell.fr/feedback_tester.php</string>
+
+    <string name="setting_language_name">Language</string>
+    <string name="setting_language_summary">Change the language of the application</string>
+    <string name="setting_language_return_key">language_return_pref</string>
+    <string name="setting_english_name">English</string>
+    <string name="setting_english_return_pref">english_return_pref</string>
+    <string name="setting_french_name">French</string>
+    <string name="setting_french_return_pref">french_return_pref</string>
+
 
     <!-- Settings Routine -->
     <string name="setting_routine_return_key">routine_return_pref</string>
@@ -174,15 +188,17 @@
     <string name="m">M</string>
     <string name="t">T</string>
     <string name="w">W</string>
+    <string name="th">T</string>
     <string name="f">F</string>
     <string name="s">S</string>
+    <string name="su">S</string>
     <string name="alarm_ringtone">Alarm ringtone</string>
     <string name="vibrate">Vibrate</string>
     <string name="label">Label</string>
     <string name="name_of_label">Name of label</string>
     <string name="check">Check</string>
     <string name="ringtone">Ringtone</string>
-    <string name="deleteall">deleteAll</string>
+    <string name="deleteall">Delete all</string>
     <string name="validate">VALIDATE</string>
     <string name="my_alarms">My Alarms</string>
     <string name="my_routines">My Routines</string>
@@ -207,5 +223,24 @@
     <string name="dndAccessTutorialDescription2">By pressing the following button, you will be redirected to an android settings page
          where you will have to find Sleewell and grant access to the Do not disturb mode.
     </string>
-    <string name="leewell">\u0020leewell</string>
+    <string name="leewell" translatable="false">\u0020leewell</string>
+
+    <string name="stats">STATS</string>
+    <string name="routine">ROUTINE</string>
+    <string name="profile">PROFILE</string>
+    <string name="alarm">ALARM</string>
+    <string name="welcome">Welcome!</string>
+    <string name="dndAccessTutorialIntroduction">We are happy to welcome you aboard and hope that Sleewell will help with your nights!</string>
+    <string name="dndAccessTutorialButton">Authorize</string>
+    <string name="dndAccessTutorialDescription3">After that you can open again the app and you will be free to use it.</string>
+    <string name="dndAccessTutorialThanks">Thank you for your cooperation!</string>
+    <string name="dndAccessTutorialTeam">The Sleewell team</string>
+    <string name="setAlarm">Set Alarm</string>
+    <string name="deleteAlarmMessage">Are you sure you want to delete this alarm?</string>
+    <string name="deleteAlarmTitle">Delete the alarm of</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="welcome_back">Welcome\nBack</string>
+    <string name="log_in">Log in</string>
+    <string name="not_connected">You\'re not connected, please connect and try again</string>
 </resources>

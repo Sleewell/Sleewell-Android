@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.mvp.menu.profile.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -98,7 +99,7 @@ class RegisterFragment : Fragment(), RegisterContract.View {
         }
 
         loginButton.setOnClickListener {
-            fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
+            parentFragmentManager.beginTransaction().replace(R.id.fragment_container_view, LoginFragment()).commit()
         }
         return root
     }
@@ -142,9 +143,10 @@ class RegisterFragment : Fragment(), RegisterContract.View {
             this?.apply()
         }
         MainActivity.accessTokenSleewell = token
-        fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, ProfileFragment())?.commit()
+        parentFragmentManager.beginTransaction().replace(R.id.fragment_container_view, ProfileFragment()).commit()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setupUI(view: View) {
         // Set up touch listener for non-text box views to hide keyboard.
         if (view !is EditText) {
@@ -165,7 +167,6 @@ class RegisterFragment : Fragment(), RegisterContract.View {
                         isOnClick = false
                     }
                 }
-                v.performClick()
                 false
             }
         }

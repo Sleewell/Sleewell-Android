@@ -5,7 +5,6 @@
     android:id="@+id/connectionParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
     tools:context=".mvp.menu.home.view.HomeFragment">
 
     <TextView
@@ -45,7 +44,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="25dp"
                 android:fontFamily="@font/nunito"
-                android:text="@string/welcom_back_title"
+                android:text="@string/welcome_back"
                 android:textColor="@color/textOnBackground"
                 android:textSize="35sp"
                 app:layout_constraintBottom_toBottomOf="parent"

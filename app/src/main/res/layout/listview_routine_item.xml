@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
@@ -7,26 +9,25 @@
     android:padding="7dp">
 
     <ImageView
-        android:id="@+id/item_routine_is_selected"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/ic_check_white_24dp"
-        android:backgroundTint="@color/textButOnImage" />
-
-    <ImageView
         android:id="@+id/item_routine_images"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="5dp"
-        android:background="@mipmap/icon_launcher" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@mipmap/icon_launcher"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/linearLayout6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:orientation="vertical"
-        android:layout_marginStart="10dp">
+        app:layout_constraintEnd_toStartOf="@+id/item_routine_is_selected"
+        app:layout_constraintStart_toEndOf="@+id/item_routine_images"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,31 +46,31 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/item_routine_halo_icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@drawable/ic_halo"
                 android:layout_marginStart="10dp"
-                android:rotation="90"/>
+                android:background="@drawable/ic_halo"
+                android:rotation="90" />
 
             <ImageView
                 android:id="@+id/item_routine_halo"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="10dp"
-                android:background="@color/haloColorRed"/>
+                android:background="@color/haloColorRed" />
 
             <ImageView
                 android:layout_width="4dp"
                 android:layout_height="15dp"
                 android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="30dp"
                 android:background="@drawable/rectangle" />
 
             <ImageView
@@ -90,4 +91,15 @@
         </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/item_routine_is_selected"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/ic_check_white_24dp"
+        android:backgroundTint="@color/textButOnImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

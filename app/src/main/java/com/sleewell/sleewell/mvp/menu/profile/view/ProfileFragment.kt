@@ -29,6 +29,9 @@ import com.sleewell.sleewell.mvp.menu.profile.presenter.ProfilePresenter
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.DeleteDialog
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.GivenImagesDialog
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.PickImageDialog
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.Transformation
+import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlin.math.abs
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -70,13 +73,12 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_profile, container, false)
 
+        initActivityWidgets()
+        setDialogListeners()
+        setupUI(root.findViewById(R.id.profileParent))
+        setPresenter(ProfilePresenter(this, this.activity as AppCompatActivity))
         if (MainActivity.accessTokenSleewell.isEmpty()) {
-            fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
-        } else {
-            initActivityWidgets()
-            setDialogListeners()
-            setupUI(root.findViewById(R.id.profileParent))
-            setPresenter(ProfilePresenter(this, this.activity as AppCompatActivity))
+            parentFragmentManager.beginTransaction().replace(R.id.fragment_container_view, LoginFragment()).commit()
         }
         return root
     }
@@ -169,7 +171,7 @@ class ProfileFragment : Fragment(), ProfileContract.View,
     override fun logoutUser() {
         context?.let { it1 -> SleewellApiTracker.disconnect(it1) }
         presenter.logoutUser()
-        fragmentManager?.beginTransaction()?.replace(R.id.nav_menu, LoginFragment())?.commit()
+        parentFragmentManager.beginTransaction().replace(R.id.fragment_container_view, LoginFragment()).commit()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -257,6 +259,10 @@ class ProfileFragment : Fragment(), ProfileContract.View,
                 }
             }
         }
+    }
+
+    override fun setProfilePictureBitmap(url: String) {
+        Picasso.get().load(url).transform(CropCircleTransformation()).placeholder(R.drawable.logo_sleewell).into(pictureWidget)
     }
 
     override fun onDialogPictureClick(picture: ImageView) {

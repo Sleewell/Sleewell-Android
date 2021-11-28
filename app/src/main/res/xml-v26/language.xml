@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        app:icon="@drawable/arrow_back_24px"
+        app:key="@string/setting_language_return_key"
+        app:title="@string/setting_language_name" />
+
+    <Preference
+        app:title="@string/setting_english_name"
+        app:key="@string/setting_english_return_pref"/>
+
+    <Preference
+        app:title="@string/setting_french_name"
+        app:key="@string/setting_french_return_pref"/>
+
+</androidx.preference.PreferenceScreen>
