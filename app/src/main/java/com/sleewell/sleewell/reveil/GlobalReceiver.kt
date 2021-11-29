@@ -24,9 +24,10 @@ class GlobalReceiver : BroadcastReceiver() {
      * @param id Id of the notification.
      * @author Romane Bézier
      */
-    private fun stopNotification(context: Context?, id: Int) {
-        val notificationManager = NotificationManagerCompat.from(context!!)
-        notificationManager.cancel(id)
+    private fun stopNotification(context: Context, id: Int) {
+        val notificationManager = NotificationManagerCompat.from(context)
+        //notificationManager.cancel(id)
+        notificationManager.cancelAll()
     }
 
     /**
