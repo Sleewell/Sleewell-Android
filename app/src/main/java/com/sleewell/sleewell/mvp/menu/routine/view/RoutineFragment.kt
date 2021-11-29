@@ -1,22 +1,20 @@
 package com.sleewell.sleewell.mvp.menu.routine.view
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isEmpty
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
-import com.sleewell.sleewell.mvp.menu.MenuContract
-import com.sleewell.sleewell.mvp.spotify.view.SpotifyFragment
 import com.sleewell.sleewell.mvp.menu.routine.RoutineContract
 import com.sleewell.sleewell.mvp.menu.routine.RoutineListAdapter
 import com.sleewell.sleewell.mvp.menu.routine.presenter.RoutinePresenter
 import com.sleewell.sleewell.mvp.music.view.MusicFragment
-import okhttp3.internal.notify
+import com.sleewell.sleewell.mvp.spotify.view.SpotifyFragment
 
 class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInputSelected, MusicFragment.OnInputSelected {
 

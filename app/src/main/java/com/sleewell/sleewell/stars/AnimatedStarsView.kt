@@ -8,8 +8,8 @@ import com.sleewell.sleewell.R
 import com.sleewell.sleewell.stars.entities.InterstellarFactory
 import com.sleewell.sleewell.stars.entities.Star
 import com.sleewell.sleewell.stars.entities.StarConstraints
-import com.sleewell.sleewell.stars.entities.stars.BaseStar
 import com.sleewell.sleewell.stars.entities.meteor.Meteorite
+import com.sleewell.sleewell.stars.entities.stars.BaseStar
 import java.util.*
 import java.util.concurrent.Executors
 import kotlin.concurrent.timerTask

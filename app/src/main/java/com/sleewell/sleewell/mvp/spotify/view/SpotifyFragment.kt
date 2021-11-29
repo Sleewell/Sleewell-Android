@@ -12,16 +12,15 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.spotify.MainContract
-import com.sleewell.sleewell.mvp.spotify.presenter.SpotifyPresenter
 import com.sleewell.sleewell.mvp.spotify.SpotifyPlaylist
 import com.sleewell.sleewell.mvp.spotify.SpotifyPlaylistAdapter
-import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
+import com.sleewell.sleewell.mvp.spotify.presenter.SpotifyPresenter
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.spotify.sdk.android.authentication.LoginActivity
-import java.lang.ClassCastException
 
 
 open class SpotifyFragment: DialogFragment(), MainContract.View {
@@ -35,7 +34,7 @@ open class SpotifyFragment: DialogFragment(), MainContract.View {
     private lateinit var accessToken: String
     private lateinit var musicSelected: SpotifyPlaylist
 
-    private val clientId = "" // /!\ need to hide
+    private val clientId = MainActivity.allToken?.data?.spotify
     private val redirectUri = "http://com.sleewell.sleewell/callback"
 
     var musicName: String = ""

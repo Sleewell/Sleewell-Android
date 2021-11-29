@@ -4,8 +4,8 @@ import android.content.Context
 import android.text.Editable
 import com.sleewell.sleewell.mvp.spotify.ApiResultSpotify
 import com.sleewell.sleewell.mvp.spotify.MainContract
-import com.sleewell.sleewell.mvp.spotify.model.SpotifyModel
 import com.sleewell.sleewell.mvp.spotify.SpotifyPlaylist
+import com.sleewell.sleewell.mvp.spotify.model.SpotifyModel
 import com.sleewell.sleewell.mvp.spotify.view.SpotifyFragment
 
 class SpotifyPresenter(view: SpotifyFragment, context: Context) : MainContract.Presenter,

@@ -5,9 +5,15 @@ import android.os.Bundle
 import android.view.*
 import android.view.animation.AlphaAnimation
 import android.view.inputmethod.EditorInfo
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.SignInButton
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
 import com.sleewell.sleewell.modules.keyboardUtils.hideSoftKeyboard
@@ -73,6 +79,26 @@ class LoginFragment : Fragment(), LoginContract.View {
             }
             return@setOnEditorActionListener false
         }
+
+        val idToken = MainActivity.allToken?.data?.google
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(idToken!!)
+            .requestEmail()
+            .build()
+        val mGoogleSignInClient = GoogleSignIn.getClient(root.context, gso)
+
+        val signInButton: SignInButton = root.findViewById(R.id.sign_in_button)
+        signInButton.setSize(SignInButton.SIZE_STANDARD)
+        signInButton.setOnClickListener {
+            val signInIntent = mGoogleSignInClient.signInIntent
+            activity?.startActivityForResult(signInIntent, 9001)
+            mGoogleSignInClient.signOut()
+        }
+
+        MainActivity.sendTokenToSleewell = { token ->
+            presenter.loginGoogle(token)
+        }
+
         return root
     }
 

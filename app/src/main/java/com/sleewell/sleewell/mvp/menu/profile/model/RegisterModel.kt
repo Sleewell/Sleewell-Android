@@ -2,9 +2,9 @@ package com.sleewell.sleewell.mvp.menu.profile.model
 
 import android.content.Context
 import android.util.Log
-import com.sleewell.sleewell.mvp.menu.profile.ApiClientSleewell
 import com.sleewell.sleewell.api.sleewell.ILoginApi
 import com.sleewell.sleewell.api.sleewell.model.ResultRegisterSleewell
+import com.sleewell.sleewell.mvp.menu.profile.ApiClientSleewell
 import com.sleewell.sleewell.mvp.menu.profile.contract.RegisterContract
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

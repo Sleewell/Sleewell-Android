@@ -21,6 +21,10 @@ class LoginPresenter(view: LoginFragment, context: Context) : LoginContract.Pres
         model.loginToSleewell(this, name, password)
     }
 
+    override fun loginGoogle(token: String) {
+        model.loginToGoogle(this, token)
+    }
+
     override fun onFinished(loginResult: ResultLoginSleewell) {
         loginResult.accessToken?.let { view?.setAccessToken(it) }
     }

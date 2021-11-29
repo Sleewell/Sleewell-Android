@@ -5,13 +5,11 @@ import android.app.AlarmManager
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.database.Cursor
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,7 +34,6 @@ import com.sleewell.sleewell.reveil.presenter.AlarmPresenter
 import kotlinx.android.synthetic.main.custom_row.view.*
 import kotlinx.android.synthetic.main.daypicker_layout.view.*
 import kotlinx.android.synthetic.main.new_fragment_alarm.*
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 

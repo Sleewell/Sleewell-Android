@@ -9,6 +9,7 @@ import com.sleewell.sleewell.database.routine.RoutineDao
 import com.sleewell.sleewell.database.routine.RoutineDatabase
 import com.sleewell.sleewell.modules.audio.service.AnalyseService
 import com.sleewell.sleewell.modules.audio.service.AnalyseServiceTracker
+import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.protocol.ProtocolMenuContract
 import com.spotify.android.appremote.api.ConnectionParams
 import com.spotify.android.appremote.api.Connector
@@ -42,7 +43,7 @@ class ProtocolModel(
     private var mediaPlayer: MediaPlayer? = null
 
     //Spotify
-    private val clientId = "" // /!\ need to hide
+    private val clientId = MainActivity.allToken?.data?.spotify // /!\ need to hide
     private val redirectUri = "http://com.sleewell.sleewell/callback"
     private var spotifyAppRemote: SpotifyAppRemote? = null
 

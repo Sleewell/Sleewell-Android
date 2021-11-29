@@ -1,8 +1,8 @@
 package com.sleewell.sleewell.mvp.menu.profile.contract
 
+import com.sleewell.sleewell.api.sleewell.model.ResultRegisterSleewell
 import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
-import com.sleewell.sleewell.api.sleewell.model.ResultRegisterSleewell
 
 interface RegisterContract {
     interface Model {

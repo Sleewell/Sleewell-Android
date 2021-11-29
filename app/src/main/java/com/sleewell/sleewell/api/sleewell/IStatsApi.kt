@@ -1,6 +1,8 @@
 package com.sleewell.sleewell.api.sleewell
 
-import com.sleewell.sleewell.api.sleewell.model.*
+import com.sleewell.sleewell.api.sleewell.model.ListAnalyse
+import com.sleewell.sleewell.api.sleewell.model.NightAnalyse
+import com.sleewell.sleewell.api.sleewell.model.PostResponse
 import retrofit2.Call
 import retrofit2.http.*
 

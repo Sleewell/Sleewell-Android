@@ -3,13 +3,13 @@ package com.sleewell.sleewell.mvp.menu.statistics.view
 import android.os.Build
 import android.os.Bundle
 import android.text.format.DateUtils
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,9 +22,9 @@ import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.model.NightAnalyse
 import com.sleewell.sleewell.mvp.menu.statistics.State
 import com.sleewell.sleewell.mvp.menu.statistics.StatisticsContract
-import com.sleewell.sleewell.mvp.menu.statistics.presenter.StatisticsPresenter
 import com.sleewell.sleewell.mvp.menu.statistics.model.StatisticsModel
 import com.sleewell.sleewell.mvp.menu.statistics.model.dataClass.AnalyseDetail
+import com.sleewell.sleewell.mvp.menu.statistics.presenter.StatisticsPresenter
 import com.sleewell.sleewell.mvp.menu.statistics.view.recyclerView.AnalyseRecyclerAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +35,6 @@ import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.collections.ArrayList
 
 class StatFragment : Fragment(), StatisticsContract.View {
     private lateinit var presenter: StatisticsContract.Presenter

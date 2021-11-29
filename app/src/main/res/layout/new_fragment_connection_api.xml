@@ -22,7 +22,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.80"
+        app:colorScheme="dark"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="5dp"
@@ -160,39 +172,6 @@
 
     </ScrollView>
 
-    <!--<ImageView
-        android:id="@+id/logoGoogle"
-        android:layout_width="413dp"
-        android:layout_height="217dp"
-        android:src="@drawable/dialog_corner"
-        android:translationY="150dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginEnd="64dp"
-        android:background="@drawable/button_rounded_color_background"
-        android:drawableStart="@drawable/ic_google_icon"
-        android:drawablePadding="0dp"
-        android:paddingLeft="40dp"
-        android:text="Sign in with Google"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="@color/background"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/logoGoogle"
-        app:layout_constraintVertical_bias="0.7" />-->
 
     <FrameLayout
         android:id="@+id/progressBarHolder"

@@ -23,7 +23,6 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.collections.ArrayList
 
 class StatisticsPresenter(context: AppCompatActivity, private val view: StatisticsContract.View) :
     StatisticsContract.Presenter {

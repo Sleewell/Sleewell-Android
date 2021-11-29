@@ -1,12 +1,10 @@
 package com.sleewell.sleewell.modules.permissions
 
 import android.Manifest
-import android.app.Activity
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 
