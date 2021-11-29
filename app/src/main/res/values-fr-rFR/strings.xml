@@ -74,6 +74,8 @@
     <string name="setting_dnd_summary_on">Npd est activé pendant le protocole</string>
     <string name="setting_dnd_summary_off">Npd est désactivé pendant le protocole</string>
 
+    <string name="setting_tutorial_name">Affiche le tutoriel</string>
+
     <string name="setting_help_title">Aide</string>
     <string name="setting_help_signal_problem">Signaler un problème ou un bug</string>
     <string name="version_app">Version %s - %s</string>
@@ -229,4 +231,30 @@
     <string name="get_started_title">Commencer</string>
     <string name="log_in_title">Connexion</string>
     <string name="sign_up_title">Inscription</string>
+    <string name="wake">Le</string>
+    <string name="up">réveil</string>
+    <string name="page_alarm_text">Sleewell propose un réveil intégré. Vous pouvez personaliser vos alarmes à volonté.\nComme ça, vous serez debout à l\'heure !</string>
+    <string name="already_done">La fin !</string>
+    <string name="the">Déjà</string>
+    <string name="end">fini</string>
+    <string name="get_started">Commencer</string>
+    <string name="skip">Passer</string>
+    <string name="night">Mode</string>
+    <string name="mode">nuit</string>
+    <string name="my_own">Ma propre</string>
+    <string name="page_routine">routine</string>
+    <string name="on_boarding">On boarding</string>
+    <string name="new_user">Nouvel</string>
+    <string name="user">arrivant ?</string>
+    <string name="page_start_text">Bienvenue sur le tutoriel.\nBalayez vers la gauche pour décrouvrir l\'appli.</string>
+    <string name="how_did_you">Vous avez bien</string>
+    <string name="sleep">Dormi ?</string>
+    <string name="page_stat_text">Ici sont affichés les statistiques de vos nuits. Vous pouvez regarder, grâce aux sons que vous produisez dans la nuit, quelle est la qualité de votre sommeil.</string>
+    <string name="stats_menu">STATS</string>
+    <string name="alarm_menu">ALARME</string>
+    <string name="profile_menu">PROFIL</string>
+    <string name="routine_menu">ROUTINE</string>
+    <string name="page_routine_text">Créez la routine parfaite. Choisissez la musique ou les sons adéquats. Ajoutez un métronome lumineux pour se relaxer…\nPensez à vous connecter pour utiliser cette fonctionnalité.</string>
+    <string name="page_home_text">Le bouton principal de l\'écran d\'accueil permet de lancer le mode nuit.\nLes paramètres de votre routine seront utilisés. Bonne Nuit !</string>
+    <string name="page_and_text">Vous savez tout ce qu\'il y a à savoir sur l\'appli.\nProfitez bien de vos nuits !</string>
 </resources>

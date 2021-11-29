@@ -23,6 +23,9 @@ jobs:
       run: chmod +x ./gradlew
     - name: Build with Gradle
       run: ./gradlew build
+      env:
+        GPR_USER: TitouanFi
+        GPR_API_KEY: ${{ secrets.PACKAGE_TOKEN }}
       
   test:
     name: Run Unit Tests
@@ -41,3 +44,6 @@ jobs:
         run: chmod +x ./gradlew
       - name: Unit tests
         run: ./gradlew test --stacktrace
+        env:
+          GPR_USER: TitouanFi
+          GPR_API_KEY: ${{ secrets.PACKAGE_TOKEN }}

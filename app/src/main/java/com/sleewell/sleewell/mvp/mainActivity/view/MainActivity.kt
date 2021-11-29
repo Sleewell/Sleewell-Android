@@ -16,9 +16,13 @@ import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
 import com.sleewell.sleewell.modules.audio.upload.AudioAnalyseUpload
 import com.sleewell.sleewell.modules.gesturelistener.UserInteractionListener
+import com.sleewell.sleewell.modules.permissions.DndAccessTutorialActivity
 import com.sleewell.sleewell.modules.permissions.PermissionManager
 import com.sleewell.sleewell.mvp.mainActivity.MainContract
 import com.sleewell.sleewell.mvp.mainActivity.presenter.MainPresenter
+import com.sleewell.sleewell.modules.settings.ISettingsManager
+import com.sleewell.sleewell.modules.settings.SettingsManager
+import com.sleewell.sleewell.mvp.help.OnBoardingActivity
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.DeleteDialog
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.GivenImagesDialog
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.PickImageDialog
@@ -38,6 +42,8 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     private var deleteDialogEventListener: DeleteDialog.DialogEventListener? = null
     private var bottomSheetListener: ProfileBottomSheet.DialogEventListener? = null
 
+    private lateinit var settings : ISettingsManager
+
     private lateinit var presenter: MainContract.Presenter
     private lateinit var statsUpload : AudioAnalyseUpload
 
@@ -56,6 +62,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
         setPresenter(MainPresenter(this))
         presenter.onViewCreated()
         accessTokenSleewell = getAccessToken()
+        settings = SettingsManager(this)
 
         if (!Settings.System.canWrite(this)) {
             val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS)
@@ -70,7 +77,8 @@ class MainActivity : AppCompatActivity(), MainContract.View,
 
     override fun onStart() {
         super.onStart()
-        askAuthorisation();
+        askAuthorisation()
+        showOnBoardingTutorial()
         stars_white.onStart()
     }
 
@@ -174,6 +182,14 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     private fun askAuthorisation() {
         val permissionManager = PermissionManager(this)
         permissionManager.askAllPermission()
+    }
+
+    private fun showOnBoardingTutorial() {
+        val permissionManager = PermissionManager(this)
+        if (permissionManager.isNotificationPolicyAccessGranted() && settings.getTutorial()) {
+            val intent = Intent(this, OnBoardingActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     fun setPickDialogEventListener(listener: PickImageDialog.DialogEventListener?) {

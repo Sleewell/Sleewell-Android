@@ -46,10 +46,26 @@ android {
     }
 }
 
+// liquid swipe github library reader
+def githubProperties = new Properties()
+githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
+
 repositories {
     mavenCentral()
     flatDir {
         dirs 'libs'
+    }
+    maven {
+        name = "GitHubPackages"
+
+        url = uri("https://maven.pkg.github.com/Cuberto/liquid-swipe-android")
+        credentials {
+            /** Create github.properties in root project folder file with
+             ** gpr.usr=GITHUB_USER_ID & gpr.key=PERSONAL_ACCESS_TOKEN
+             ** Or set env variable GPR_USER & GPR_API_KEY if not adding a properties file**/
+            username = githubProperties['gpr.usr'] ?: System.getenv("GPR_USER")
+            password = githubProperties['gpr.key'] ?: System.getenv("GPR_API_KEY")
+        }
     }
 }
 
@@ -143,8 +159,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-messaging'
 
+    implementation 'com.cuberto:liquid-swipe:1.0.0'
+
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     implementation 'jp.wasabeef:picasso-transformations:2.4.0'
-
 }

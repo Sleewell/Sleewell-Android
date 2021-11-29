@@ -66,6 +66,10 @@ class PermissionManager(private val context: AppCompatActivity) {
         }
     }
 
+    fun isNotificationPolicyAccessGranted(): Boolean {
+        return notificationManager.isNotificationPolicyAccessGranted
+    }
+
     /**
      * Check if the permission for do not disturb has been granted
      *

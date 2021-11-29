@@ -1,6 +1,7 @@
 package com.sleewell.sleewell.mvp.menu.settings.view
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,7 +11,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.sleewell.sleewell.BuildConfig
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.mvp.help.OnBoardingActivity
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.settings.SettingsContract
 import com.sleewell.sleewell.mvp.menu.settings.presenter.SettingsPresenter
@@ -149,6 +152,39 @@ class SettingsFragment : Fragment(), SettingsContract.View, PreferenceFragmentCo
         }
     }
 
+    class HelpPreferencesFragment : PreferenceFragmentCompat() {
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            setPreferencesFromResource(R.xml.help, rootKey)
+            val versionCode = BuildConfig.VERSION_CODE
+            val versionName = BuildConfig.VERSION_NAME
+
+            val returnPref = findPreference<Preference>(getString(R.string.setting_help_return_key))
+            returnPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                activity!!.supportFragmentManager.popBackStackImmediate()
+                true
+            }
+            
+            val onBoardingPref = findPreference<Preference>(getString(R.string.setting_tutorial_key))
+            onBoardingPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                val intent = Intent(context, OnBoardingActivity::class.java)
+                startActivity(intent)
+                true
+            }
+
+            val signalPref = findPreference<Preference>(getString(R.string.setting_help_signal_problem_key))
+            val urlReport = getString(R.string.url_report)
+            signalPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("$urlReport?version=$versionName-$versionCode")
+                    )
+                )
+                true
+            }
+        }
+    }
+
     /**
      * Class instantiate to display Language settings
      *
@@ -164,6 +200,7 @@ class SettingsFragment : Fragment(), SettingsContract.View, PreferenceFragmentCo
                 activity!!.supportFragmentManager.popBackStackImmediate()
                 true
             }
+            
             val englishPref = findPreference<Preference>(getString(R.string.setting_english_return_pref))
             englishPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 setLocale("en")
