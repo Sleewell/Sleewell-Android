@@ -246,7 +246,7 @@
     <string name="on_boarding">On boarding</string>
     <string name="new_user">Nouvel</string>
     <string name="user">arrivant ?</string>
-    <string name="page_start_text">Bienvenue sur le tutoriel.\nBalayer vers la gauche pour décrouvrir l'appli.</string>
+    <string name="page_start_text">Bienvenue sur le tutoriel.\nBalayez vers la gauche pour décrouvrir l\'appli.</string>
     <string name="how_did_you">Vous avez bien</string>
     <string name="sleep">Dormi ?</string>
     <string name="page_stat_text">Ici sont affichés les statistiques de vos nuits. Vous pouvez regarder, grâce aux sons que vous produisez dans la nuit, quelle est la qualité de votre sommeil.</string>
