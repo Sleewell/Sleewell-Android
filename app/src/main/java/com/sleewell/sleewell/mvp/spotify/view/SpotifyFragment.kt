@@ -34,7 +34,7 @@ open class SpotifyFragment: DialogFragment(), MainContract.View {
     private lateinit var accessToken: String
     private lateinit var musicSelected: SpotifyPlaylist
 
-    private val clientId = "" // /!\ need to hide
+    private val clientId = MainActivity.allToken?.data?.spotify
     private val redirectUri = "http://com.sleewell.sleewell/callback"
 
     var musicName: String = ""

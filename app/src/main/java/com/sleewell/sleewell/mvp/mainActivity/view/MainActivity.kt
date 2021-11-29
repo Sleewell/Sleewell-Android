@@ -15,8 +15,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
+import com.sleewell.sleewell.database.tokenData
 import com.sleewell.sleewell.modules.audio.upload.AudioAnalyseUpload
 import com.sleewell.sleewell.modules.gesturelistener.UserInteractionListener
 import com.sleewell.sleewell.modules.permissions.DndAccessTutorialActivity
@@ -34,6 +37,7 @@ import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.spotify.sdk.android.authentication.LoginActivity
 import kotlinx.android.synthetic.main.new_activity_main.*
+import java.io.IOException
 
 class MainActivity : AppCompatActivity(), MainContract.View,
     PickImageDialog.DialogEventListener, GivenImagesDialog.DialogEventListener,
@@ -58,6 +62,8 @@ class MainActivity : AppCompatActivity(), MainContract.View,
 
         var getAccessGoogleAccount: Boolean = false
         lateinit var sendTokenToSleewell: (token : String) -> Unit
+
+        var allToken: tokenData? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,6 +81,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
             intent.data = Uri.parse("package:$packageName")
             startActivity(intent)
         }
+        readToken()
     }
 
     fun getAccessToken() : String {
@@ -252,5 +259,21 @@ class MainActivity : AppCompatActivity(), MainContract.View,
 
     fun setBottomSheetEventListener(listener: ProfileBottomSheet.DialogEventListener?) {
         this.bottomSheetListener = listener
+    }
+
+    fun readToken() {
+        val jsonFileString = try {
+            applicationContext.assets.open("token.json").bufferedReader().use { it.readText() }
+        } catch (e: IOException) {
+            null
+        }
+
+        if (jsonFileString.isNullOrEmpty())
+            return
+
+        val gson = Gson()
+        val demandeType = object : TypeToken<tokenData>() {}.type
+
+        allToken = gson.fromJson(jsonFileString, demandeType)
     }
 }

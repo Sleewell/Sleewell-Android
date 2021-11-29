@@ -80,8 +80,9 @@ class LoginFragment : Fragment(), LoginContract.View {
             return@setOnEditorActionListener false
         }
 
+        val idToken = MainActivity.allToken?.data?.google
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("") // ADD !!!
+            .requestIdToken(idToken!!)
             .requestEmail()
             .build()
         val mGoogleSignInClient = GoogleSignIn.getClient(root.context, gso)
