@@ -1,7 +1,13 @@
 package com.sleewell.sleewell.modules.audio.upload
 
+import android.app.Dialog
 import android.content.Context
 import android.util.Log
+import android.view.Window
+import android.widget.Button
+import android.widget.TextView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.ApiClient
 import com.sleewell.sleewell.api.sleewell.IStatsApi
 import com.sleewell.sleewell.api.sleewell.model.NightAnalyse
@@ -12,6 +18,7 @@ import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.IAnalyseDat
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.modules.audio.service.AnalyseServiceTracker
+import com.sleewell.sleewell.modules.time.TimeUtils
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,10 +37,12 @@ import java.util.*
  */
 class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
 
+    private val minLength: Int = 60 * 60
     private var scopeIOThread = CoroutineScope(Job() + Dispatchers.IO)
+    private var scopeViewThread = CoroutineScope(Job() + Dispatchers.Main)
 
     // Database
-    private val analyse : IAnalyseDataManager = AudioAnalyseDbUtils(context, this)
+    private val analyse: IAnalyseDataManager = AudioAnalyseDbUtils(context, this)
 
     // API
     private var token = MainActivity.accessTokenSleewell
@@ -43,6 +52,11 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
     private val dbNone = 0.0
     private val maxDataPerMin: Int = 1
     private var timestampMin: Long = -1
+
+    // List night to ask fusion
+    private val listData: Queue<Array<AnalyseValue>> = LinkedList()
+    private val listNightId: Queue<Long> = LinkedList()
+    private var lastNightId: Long = 0;
 
     /**
      * Check if need to upload and upload
@@ -59,9 +73,55 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
     }
 
     override fun onListAvailableAnalyses(analyses: List<Night>) {
-        analyses.forEach {
-            analyse.readAnalyse(it.uId)
+        if (analyses.isEmpty())
+            return
+
+        lastNightId = analyses.last().uId
+        for (night in analyses) {
+            analyse.readAnalyse(night.uId)
         }
+    }
+
+    private fun checkFusionList() {
+        if (token.isEmpty())
+            return
+        val datas = listData.poll()
+        val nightId = listNightId.poll()
+
+        // Ask for existing night
+        if (datas.isNullOrEmpty() || nightId == null)
+            return
+        val dateToAsk = TimeUtils.getNightDateFromTimeStamp(datas.first().ts)
+        val call: Call<NightAnalyse> = api.getNight("Bearer $token", dateToAsk)
+        call.enqueue(object : Callback<NightAnalyse> {
+
+            override fun onResponse(
+                call: Call<NightAnalyse>,
+                response: Response<NightAnalyse>
+            ) {
+                val responseRes: NightAnalyse? = response.body()
+
+                if (responseRes == null) {
+                    // ERROR
+                    Log.e(this.javaClass.name, "Body null error")
+                    Log.e(this.javaClass.name, "Code : " + response.code())
+                } else {
+                    // SUCCESS
+                    if (responseRes.data.isNullOrEmpty()) {
+                        uploadData(datas, nightId, dateToAsk)
+                    } else {
+                        showDialog(datas, nightId, responseRes, dateToAsk)
+                    }
+                    Log.d(this.javaClass.name, "Stats found, ask for fusion")
+                }
+            }
+
+            override fun onFailure(call: Call<NightAnalyse>, t: Throwable) {
+                // ERROR
+                Log.e(this.javaClass.name, t.toString())
+            }
+
+        })
     }
 
     /**
@@ -75,18 +135,75 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
         if (data.isEmpty())
             return
         if (data.size <= 2) {
+            Log.e(
+                this.javaClass.name,
+                "Night $nightId too small to be sent for Analyse : length ${data.size}"
+            )
             analyse.deleteAnalyse(nightId)
             return
         }
-        val dataToSend = filterData(data)
-        val toSend =
-            NightAnalyse(
-                data = dataToSend,
-                start = data.first().ts,
-                end = data.last().ts,
-                id = null
+
+        val hours = TimeUtils.getHourFromTimestampFromLocalTimezone(data.first().ts)
+
+        // If data is over 1 days, don't register it or if is not during night, Between 18h and 7h
+        if (TimeUtils.getCurrentTimestamp() - data.first().ts >= 60 * 60 * 24 * 1 || (hours in 9..17)) {
+            Log.e(
+                this.javaClass.name, "Night $nightId too old to register or not a real night"
             )
-        uploadData(toSend, nightId)
+            analyse.deleteAnalyse(nightId)
+            return
+        }
+
+        // If data is too small, check if fusion with last night (must be less than 5 hours difference)
+        if (data.first().ts - data.last().ts < minLength) {
+            listData.add(data)
+            listNightId.add(nightId)
+        } else {
+            val date = TimeUtils.getNightDateFromTimeStamp(data.first().ts)
+            uploadData(data, nightId, date)
+        }
+
+        if (lastNightId == nightId) {
+            scopeViewThread.launch {
+                checkFusionList()
+            }
+        }
+    }
+
+    /**
+     * Display dialog to fuse or create new night
+     *
+     * @param datas
+     * @param nightId
+     * @param nightFromApi
+     */
+    private fun showDialog(
+        datas: Array<AnalyseValue>,
+        nightId: Long,
+        nightFromApi: NightAnalyse,
+        date: String
+    ) {
+        val year = date.substring(0..3)
+        val month = date.substring(4..5)
+        val day = date.substring(6..7)
+
+        MaterialAlertDialogBuilder(context)
+            .setCancelable(false)
+            .setMessage("A night exist for $year-$month-$day, do you want to merge or create a new whole night with the last registered ?")
+            .setNegativeButton("New") { dialog, _ ->
+                dialog.dismiss()
+                scopeIOThread.launch {
+                    uploadData(datas, nightId, date)
+                }
+                checkFusionList()
+            }
+            .setPositiveButton("Merge") { dialog, _ ->
+                dialog.dismiss()
+                scopeIOThread.launch {
+                    uploadData(datas, nightId, date, true)
+                }
+                checkFusionList()
+            }.show()
     }
 
     /**
@@ -276,9 +393,26 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
         Log.e(this.javaClass.name, msg)
     }
 
-    private fun uploadData(toSend: NightAnalyse, nightId: Long) {
+    private fun uploadData(
+        data: Array<AnalyseValue>,
+        nightId: Long,
+        date: String,
+        fusion: Boolean = false
+    ) {
         if (token.isEmpty())
             return
+
+        val dataToSend = filterData(data)
+        val toSend =
+            NightAnalyse(
+                data = dataToSend,
+                start = data.first().ts,
+                end = data.last().ts,
+                id = null,
+                fusion = fusion,
+                date = date
+            )
+
         val call: Call<PostResponse> = api.postNight("Bearer $token", toSend)
 
         call.enqueue(object : Callback<PostResponse> {

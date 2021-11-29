@@ -11,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import com.sleewell.sleewell.modules.time.TimeUtils
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -101,7 +102,7 @@ class AudioAnalyseDbUtils(context: Context, val listener: IAudioAnalyseRecordLis
         scope.launch {
             nightId = nightDao.insertNight(
                 Night(
-                    getCurrentTimestamp(),
+                    TimeUtils.getCurrentTimestamp(),
                     0,
                     dateToDateString(Date.from(Instant.now()))
                 )
@@ -141,20 +142,11 @@ class AudioAnalyseDbUtils(context: Context, val listener: IAudioAnalyseRecordLis
     override fun endNewAnalyse() {
         scope.launch {
             if (nightId != null) {
-                nightDao.updateNightEnd(NightUpdate(nightId!!, getCurrentTimestamp()))
+                nightDao.updateNightEnd(NightUpdate(nightId!!, TimeUtils.getCurrentTimestamp()))
 
                 nightId = null
             }
         }
-    }
-
-    /**
-     * Return the current timestamp in seconds
-     *
-     * @return Long timestamp
-     */
-    private fun getCurrentTimestamp(): Long {
-        return Instant.now().epochSecond
     }
 
     private fun dateToDateString(date: Date, dateFormat: String = FORMAT_DAY): String {
