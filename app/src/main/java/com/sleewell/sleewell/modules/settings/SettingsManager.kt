@@ -141,4 +141,19 @@ class SettingsManager(private val ctx: Context) : ISettingsManager {
             commit()
         }
     }
+
+    override fun getTutorial(): Boolean {
+        val defaultValue = ctx.resources.getBoolean(R.bool.setting_tutorial_default_value)
+        return sharedPref.getBoolean(
+            ctx.resources.getString(R.string.setting_tutorial_key),
+            defaultValue
+        )
+    }
+
+    override fun setTutorial(state: Boolean) {
+        with(sharedPref.edit()) {
+            putBoolean(ctx.resources.getString(R.string.setting_tutorial_key), state)
+            commit()
+        }
+    }
 }

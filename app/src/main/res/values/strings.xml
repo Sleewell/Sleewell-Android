@@ -39,8 +39,18 @@
     <string name="setting_protocol_return_key">protocol_return_pref</string>
 
     <string name="setting_help_name">Help</string>
-    <string name="setting_help_summary">Signal a bug or get some assistance</string>
+    <string name="setting_help_summary">Get some assistance or signal a bug</string>
     <string name="setting_help_return_key">help_return_pref</string>
+
+    <string name="setting_tutorial_key" translatable="false">tutorial</string>
+    <string name="setting_tutorial_name">Show the on boarding</string>
+
+    <string name="setting_help_title">Help</string>
+    <string name="setting_help_signal_problem">Signal a problem or a bug</string>
+    <string name="setting_help_signal_problem_key" translatable="false">signal</string>
+
+    <string name="version_app">Version %s - %s</string>
+    <string name="url_report">https://sleewell.fr/feedback_tester.php</string>
 
     <string name="setting_halo_name">Halo</string>
     <string name="settings_halo_key">halo</string>
@@ -74,11 +84,6 @@
     <string name="setting_dnd_summary_on">Dnd is on during protocol</string>
     <string name="setting_dnd_summary_off">Dnd is off during protocol"</string>
 
-    <string name="setting_help_title">Help</string>
-    <string name="setting_help_signal_problem">Signal a problem or a bug</string>
-    <string name="version_app">Version %s - %s</string>
-    <string name="url_report">https://sleewell.fr/feedback_tester.php</string>
-
     <string name="setting_language_name">Language</string>
     <string name="setting_language_summary">Change the language of the application</string>
     <string name="setting_language_return_key">language_return_pref</string>
@@ -86,6 +91,7 @@
     <string name="setting_english_return_pref">english_return_pref</string>
     <string name="setting_french_name">French</string>
     <string name="setting_french_return_pref">french_return_pref</string>
+
 
     <!-- Settings Routine -->
     <string name="setting_routine_return_key">routine_return_pref</string>
@@ -232,4 +238,30 @@
     <string name="welcome_back">Welcome\nBack</string>
     <string name="log_in">Log in</string>
     <string name="not_connected">You\'re not connected, please connect and try again</string>
+    <string name="wake">Wake</string>
+    <string name="up">up</string>
+    <string name="page_alarm_text">Sleewell offers integrated alarms. You can personalize them in any way you want.\nSo you can be awake at the right time!</string>
+    <string name="already_done">Already done!</string>
+    <string name="the">The</string>
+    <string name="end">end</string>
+    <string name="page_and_text">Now, you know everything there is to know about the App.\nLet\'s begin the Sleewell experience!</string>
+    <string name="get_started">Get started</string>
+    <string name="skip">SKIP</string>
+    <string name="night">Night</string>
+    <string name="mode">mode</string>
+    <string name="page_home_text">The main button on the home screen allows you to start the night mode.\nThe settings of your personal routine will be applied. Goodnight!</string>
+    <string name="my_own">My own</string>
+    <string name="page_routine">routine</string>
+    <string name="page_routine_text">Set up the perfect routine. Choose the perfect sound or music. Add a light metronome to reduce stress…\nPlease note that you have to be connected using the profile tab.</string>
+    <string name="on_boarding">On boarding</string>
+    <string name="new_user">New</string>
+    <string name="user">user ?</string>
+    <string name="page_start_text">Welcome to our on boarding tutorial.\nSwipe left to discover the App.</string>
+    <string name="how_did_you">How did you</string>
+    <string name="sleep">Sleep ?</string>
+    <string name="page_stat_text">Here are displayed your nights statistics. You can check, based on the sound you made, how was your sleep last night, week, month or year.</string>
+    <string name="routine_menu">ROUTINE</string>
+    <string name="profile_menu">PROFILE</string>
+    <string name="alarm_menu">ALARM</string>
+    <string name="stats_menu">STATS</string>
 </resources>
