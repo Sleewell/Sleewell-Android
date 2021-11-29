@@ -144,8 +144,9 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
         }
 
         val hours = TimeUtils.getHourFromTimestampFromLocalTimezone(data.first().ts)
+
         // If data is over 1 days, don't register it or if is not during night, Between 18h and 7h
-        if (TimeUtils.getCurrentTimestamp() - data.first().ts <= 60 * 60 * 24 * 1 || (hours in 7..18)) {
+        if (TimeUtils.getCurrentTimestamp() - data.first().ts >= 60 * 60 * 24 * 1 || (hours in 9..17)) {
             Log.e(
                 this.javaClass.name, "Night $nightId too old to register or not a real night"
             )
@@ -408,7 +409,9 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
                 data = dataToSend,
                 start = data.first().ts,
                 end = data.last().ts,
-                id = null
+                id = null,
+                fusion = fusion,
+                date = date
             )
 
         val call: Call<PostResponse> = api.postNight("Bearer $TOKEN", toSend)

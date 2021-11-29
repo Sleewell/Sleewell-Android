@@ -7,5 +7,7 @@ data class NightAnalyse(
     val start: Long,
     val data: Array<AnalyseValue>?,
     val end: Long,
-    val id: String?
+    val id: String?,
+    val fusion: Boolean? = null,
+    val date: String? = null
 )
