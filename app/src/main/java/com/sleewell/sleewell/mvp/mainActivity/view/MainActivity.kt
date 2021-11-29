@@ -1,5 +1,6 @@
 package com.sleewell.sleewell.mvp.mainActivity.view
 
+import android.app.Dialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -7,6 +8,9 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
+import android.view.Window
+import android.widget.Button
+import com.sleewell.sleewell.api.openWeather.Main
 import android.provider.Settings
 import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
@@ -45,7 +49,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     private lateinit var settings : ISettingsManager
 
     private lateinit var presenter: MainContract.Presenter
-    private lateinit var statsUpload : AudioAnalyseUpload
+    private lateinit var statsUpload: AudioAnalyseUpload
 
     companion object {
         var getAccessTokenSpotify: Boolean = false
@@ -58,7 +62,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
         super.onCreate(savedInstanceState)
         createNotificationChannel()
         setContentView(R.layout.new_activity_main)
-        statsUpload = AudioAnalyseUpload(applicationContext)
+        statsUpload = AudioAnalyseUpload(this)
         setPresenter(MainPresenter(this))
         presenter.onViewCreated()
         accessTokenSleewell = getAccessToken()
@@ -71,7 +75,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
         }
     }
 
-    fun getAccessToken() : String {
+    fun getAccessToken(): String {
         return SleewellApiTracker.getToken(applicationContext)
     }
 

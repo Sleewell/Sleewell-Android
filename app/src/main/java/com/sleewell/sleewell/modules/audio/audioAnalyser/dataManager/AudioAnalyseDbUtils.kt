@@ -7,6 +7,7 @@ import com.sleewell.sleewell.database.analyse.night.NightDatabase
 import com.sleewell.sleewell.database.analyse.night.entities.NightUpdate
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
+import com.sleewell.sleewell.modules.time.TimeUtils
 import kotlinx.coroutines.*
 import java.time.Instant
 import java.time.ZoneOffset
@@ -98,7 +99,7 @@ class AudioAnalyseDbUtils(context: Context, val listener: IAudioAnalyseRecordLis
         scope.launch {
             nightId = nightDao.insertNight(
                 Night(
-                    getCurrentTimestamp(),
+                    TimeUtils.getCurrentTimestamp(),
                     0,
                     dateToDateString(Date.from(Instant.now()))
                 )
@@ -138,20 +139,11 @@ class AudioAnalyseDbUtils(context: Context, val listener: IAudioAnalyseRecordLis
     override fun endNewAnalyse() {
         scope.launch {
             if (nightId != null) {
-                nightDao.updateNightEnd(NightUpdate(nightId!!, getCurrentTimestamp()))
+                nightDao.updateNightEnd(NightUpdate(nightId!!, TimeUtils.getCurrentTimestamp()))
 
                 nightId = null
             }
         }
-    }
-
-    /**
-     * Return the current timestamp in seconds
-     *
-     * @return Long timestamp
-     */
-    private fun getCurrentTimestamp(): Long {
-        return Instant.now().epochSecond
     }
 
     private fun dateToDateString(date: Date, dateFormat: String = FORMAT_DAY): String {
