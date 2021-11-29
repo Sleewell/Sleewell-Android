@@ -83,7 +83,7 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
     }
 
     private fun checkFusionList() {
-        if (TOKEN.isEmpty())
+        if (token.isEmpty())
             return
         val datas = listData.poll()
         val nightId = listNightId.poll()
@@ -92,7 +92,7 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
         if (datas.isNullOrEmpty() || nightId == null)
             return
         val dateToAsk = TimeUtils.getNightDateFromTimeStamp(datas.first().ts)
-        val call: Call<NightAnalyse> = api.getNight("Bearer $TOKEN", dateToAsk)
+        val call: Call<NightAnalyse> = api.getNight("Bearer $token", dateToAsk)
         call.enqueue(object : Callback<NightAnalyse> {
 
             override fun onResponse(
@@ -392,15 +392,14 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
     override fun onAnalyseRecordError(msg: String) {
         Log.e(this.javaClass.name, msg)
     }
-    
-    // TODO envoyer le paramètre indiquant la fusion et la date de la fusion
+
     private fun uploadData(
         data: Array<AnalyseValue>,
         nightId: Long,
         date: String,
         fusion: Boolean = false
     ) {
-        if (TOKEN.isEmpty())
+        if (token.isEmpty())
             return
 
         val dataToSend = filterData(data)
@@ -414,7 +413,7 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
                 date = date
             )
 
-        val call: Call<PostResponse> = api.postNight("Bearer $TOKEN", toSend)
+        val call: Call<PostResponse> = api.postNight("Bearer $token", toSend)
 
         call.enqueue(object : Callback<PostResponse> {
 
