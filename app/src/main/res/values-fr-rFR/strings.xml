@@ -233,7 +233,7 @@
     <string name="sign_up_title">Inscription</string>
     <string name="wake">Le</string>
     <string name="up">réveil</string>
-    <string name="page_alarm_text">Sleewell propose un réveil intégré. Vous pouvez personaliser vos alarmes à volonté.\nComme ça, vous serez debout à l'heure !</string>
+    <string name="page_alarm_text">Sleewell propose un réveil intégré. Vous pouvez personaliser vos alarmes à volonté.\nComme ça, vous serez debout à l\'heure !</string>
     <string name="already_done">La fin !</string>
     <string name="the">Déjà</string>
     <string name="end">fini</string>
@@ -255,6 +255,6 @@
     <string name="profile_menu">PROFIL</string>
     <string name="routine_menu">ROUTINE</string>
     <string name="page_routine_text">Créez la routine parfaite. Choisissez la musique ou les sons adéquats. Ajoutez un métronome lumineux pour se relaxer…\nPensez à vous connecter pour utiliser cette fonctionnalité.</string>
-    <string name="page_home_text">Le bouton principal de l\'écran d\'accueil permet de lancer le mode nuit.\nLes paramètres de votre routine seront utiliséq. Bonne Nuit !</string>
+    <string name="page_home_text">Le bouton principal de l\'écran d\'accueil permet de lancer le mode nuit.\nLes paramètres de votre routine seront utilisés. Bonne Nuit !</string>
     <string name="page_and_text">Vous savez tout ce qu\'il y a à savoir sur l\'appli.\nProfitez bien de vos nuits !</string>
 </resources>
