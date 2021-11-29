@@ -45,7 +45,7 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
     private val analyse: IAnalyseDataManager = AudioAnalyseDbUtils(context, this)
 
     // API
-    private var TOKEN = MainActivity.accessTokenSleewell
+    private var token = MainActivity.accessTokenSleewell
     private val api: IStatsApi = ApiClient.retrofit.create(IStatsApi::class.java)
 
     // Filter datas
@@ -64,8 +64,8 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
      * @author Hugo Berthomé
      */
     fun updateUpload() {
-        TOKEN = MainActivity.accessTokenSleewell
-        if (TOKEN.isEmpty() || AnalyseServiceTracker.getServiceState(context) == AnalyseServiceTracker.ServiceState.STARTED)
+        token = MainActivity.accessTokenSleewell
+        if (token.isEmpty() || AnalyseServiceTracker.getServiceState(context) == AnalyseServiceTracker.ServiceState.STARTED)
             return
         scopeIOThread.launch {
             analyse.getAvailableAnalyse()
@@ -392,7 +392,7 @@ class AudioAnalyseUpload(val context: Context) : IAudioAnalyseRecordListener {
     override fun onAnalyseRecordError(msg: String) {
         Log.e(this.javaClass.name, msg)
     }
-
+    
     // TODO envoyer le paramètre indiquant la fusion et la date de la fusion
     private fun uploadData(
         data: Array<AnalyseValue>,

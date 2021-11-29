@@ -6,4 +6,5 @@
     <bool name="setting_dnd_default_value">true</bool>
     <bool name="setting_halo_default_value">true</bool>
     <bool name="setting_music_default_value">false</bool>
+    <bool name="setting_tutorial_default_value">true</bool>
 </resources>

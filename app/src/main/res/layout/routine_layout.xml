@@ -34,8 +34,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
         android:background="@null"
         android:fontFamily="@font/nunito"
+        android:importantForAutofill="no"
+        android:inputType="text"
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
@@ -43,10 +46,12 @@
         android:textColor="@color/background"
         android:textSize="25sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/imageView3"
         app:layout_constraintStart_toStartOf="@+id/dialog_routine_music_title"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/imageView3"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginTop="37dp"
@@ -89,8 +94,8 @@
 
     <ImageButton
         android:id="@+id/dialog_routine_selectMusic_button"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
         android:background="@drawable/button_rounded"
@@ -259,13 +264,6 @@
 
         </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
     </TableLayout>
 
     <ImageButton
@@ -279,15 +277,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
+    <TextView
         android:id="@+id/dialog_routine_selected_button"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:background="@drawable/button_shape"
         android:fontFamily="@font/nunito"
         android:paddingHorizontal="15dp"
+        android:gravity="center"
         android:text="Select this routine"
-        android:textColor="@color/textButOnImage"
+        android:textColor="@color/textOnBackground"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

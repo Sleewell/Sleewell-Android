@@ -1,6 +1,7 @@
 package com.sleewell.sleewell.modules.permissions
 
 import android.Manifest
+import android.app.Activity
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
@@ -60,9 +61,13 @@ class PermissionManager(private val context: AppCompatActivity) {
      */
     fun askNotificationPermission() {
         if (!notificationManager.isNotificationPolicyAccessGranted) {
-            val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
+            val intent = Intent(context, DndAccessTutorialActivity::class.java)
             context.startActivity(intent)
         }
+    }
+
+    fun isNotificationPolicyAccessGranted(): Boolean {
+        return notificationManager.isNotificationPolicyAccessGranted
     }
 
     /**

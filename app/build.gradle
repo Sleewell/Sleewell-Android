@@ -46,12 +46,32 @@ android {
     }
 }
 
+// liquid swipe github library reader
+def githubProperties = new Properties()
+githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
+
 repositories {
     mavenCentral()
     flatDir {
         dirs 'libs'
     }
+    maven {
+        name = "GitHubPackages"
+
+        url = uri("https://maven.pkg.github.com/Cuberto/liquid-swipe-android")
+        credentials {
+            /** Create github.properties in root project folder file with
+             ** gpr.usr=GITHUB_USER_ID & gpr.key=PERSONAL_ACCESS_TOKEN
+             ** Or set env variable GPR_USER & GPR_API_KEY if not adding a properties file**/
+            username = githubProperties['gpr.usr'] ?: System.getenv("GPR_USER")
+            password = githubProperties['gpr.key'] ?: System.getenv("GPR_API_KEY")
+        }
+    }
 }
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 dependencies {
     // Can use JAVA 8 feature without using a min 29 sdk
@@ -104,8 +124,6 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5"
 
-    implementation 'com.squareup.picasso:picasso:2.5.2'
-
     implementation "com.squareup.retrofit2:retrofit:2.8.1"
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation "com.squareup.retrofit2:converter-scalars:2.8.1"
@@ -133,4 +151,17 @@ dependencies {
 
     implementation 'com.google.android.material:material:1.4.0'
 
+    // SECTION FIREBASE
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:29.0.0')
+
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging'
+
+    implementation 'com.cuberto:liquid-swipe:1.0.0'
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    implementation 'jp.wasabeef:picasso-transformations:2.4.0'
 }

@@ -2,7 +2,6 @@ package com.sleewell.sleewell.mvp.menu.routine
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.sleewell.sleewell.api.sleewell.model.RoutinesResponse
 import com.sleewell.sleewell.database.routine.entities.Routine
 import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView

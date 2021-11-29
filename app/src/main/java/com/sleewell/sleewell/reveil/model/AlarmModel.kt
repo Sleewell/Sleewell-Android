@@ -1,11 +1,13 @@
 package com.sleewell.sleewell.reveil.model
+
 import android.app.AlarmManager
 import android.app.AlarmManager.AlarmClockInfo
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.text.format.*
+import android.text.format.DateUtils
+import android.text.format.Time
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import com.sleewell.sleewell.reveil.AlarmContract
@@ -14,6 +16,7 @@ import com.sleewell.sleewell.reveil.data.model.Alarm
 import com.sleewell.sleewell.reveil.data.viewmodel.AlarmViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.time.milliseconds
 
 /**
  * Alarm Model for the Alarm activity.
@@ -23,7 +26,7 @@ import java.util.*
 class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
 
     private var presenter: AlarmContract.Presenter? = presenter
-    var c : Calendar = Calendar.getInstance()
+    var c: Calendar = Calendar.getInstance()
 
     /**
      * Update the alarm.
@@ -59,6 +62,7 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
      * @param label Label of the alarm.
      * @param index Index of the alarm.
      * @param displayed Visibility of the alarm.
+     * @param show Visibility of the alarm.
      * @author Romane Bézier
      */
     override fun saveAlarm(
@@ -70,18 +74,38 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         vibrate: Boolean,
         label: String,
         index: Int,
-        displayed: Boolean
+        displayed: Boolean,
+        show: Boolean
     ) {
-        val alarm = Alarm(0, time, false, days, ringtone.toString(), vibrate, label, displayed)
-        if (index == 0) {
-            mAlarmViewModel.addAlarm(alarm).observe(lifecycleOwner, { id ->
-                mAlarmViewModel.getById(id.toInt()).observe(lifecycleOwner, { alarm ->
-                    presenter?.startNewAlarm(alarm)
-                })
-            })
-        } else {
-            presenter?.startNewAlarm(alarm)
+        val uniqueId = (Date().time / 1000L % Int.MAX_VALUE).toInt() + index
+
+        val copy = mutableListOf(
+            days[0],
+            days[1],
+            days[2],
+            days[3],
+            days[4],
+            days[5],
+            days[6],
+        )
+        var i = 0
+        var nb = 0
+        while (i < copy.size) {
+            if (copy[i]) {
+                if (index != nb)
+                    copy[i] = false
+                nb++
+            }
+            i++
         }
+
+        val alarm =
+            Alarm(uniqueId, time, false, copy, ringtone.toString(), vibrate, label, displayed, show)
+        mAlarmViewModel.addAlarm(alarm).observe(lifecycleOwner, { id ->
+            mAlarmViewModel.getById(id.toInt()).observe(lifecycleOwner, { alarm ->
+                presenter?.startNewAlarm(alarm)
+            })
+        })
     }
 
     /**
@@ -106,17 +130,18 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
-        if (restart) {
-            if (c.before(Calendar.getInstance())) {
-                c.add(Calendar.DATE, 1)
-            }
-            alarmManager.setAlarmClock(
-                AlarmClockInfo(alarm.time, pendingIntent),
+        c.timeInMillis = alarm.time
+        if (alarm.days.contains(true)) {
+            alarmManager.setInexactRepeating(
+                AlarmManager.RTC_WAKEUP,
+                alarm.time,
+                604800000,
                 pendingIntent
             )
         } else {
             if (c.before(Calendar.getInstance())) {
                 c.add(Calendar.DATE, 1)
+                alarm.time = c.timeInMillis
             }
             alarmManager.setAlarmClock(
                 AlarmClockInfo(c.timeInMillis, pendingIntent),
@@ -146,12 +171,20 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
+        c.timeInMillis = alarm.time
         c.add(Calendar.HOUR, -8)
-        if (c.before(Calendar.getInstance())) {
-            c.add(Calendar.DATE, 1)
+        if (alarm.days.contains(true)) {
+            alarmManager.setInexactRepeating(
+                AlarmManager.RTC_WAKEUP,
+                c.timeInMillis,
+                604800000,
+                pendingIntent
+            )
+        } else {
+            if (!c.before(Calendar.getInstance())) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.timeInMillis, pendingIntent)
+            }
         }
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.timeInMillis, pendingIntent)
-
     }
 
     /**
@@ -173,13 +206,9 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
 
         val currentTimeMillis = System.currentTimeMillis()
         val nextUpdateTimeMillis = currentTimeMillis + 5 * DateUtils.MINUTE_IN_MILLIS
-        @Suppress("DEPRECATION")
-        val nextUpdateTime = Time()
-        @Suppress("DEPRECATION")
-        nextUpdateTime.set(nextUpdateTimeMillis)
 
         alarmManager.setAlarmClock(
-            AlarmClockInfo(c.timeInMillis, pendingIntent),
+            AlarmClockInfo(nextUpdateTimeMillis, pendingIntent),
             pendingIntent
         )
     }
@@ -197,12 +226,20 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         alarmManager: AlarmManager,
         intent: Intent,
         context: Context,
-        currentAlarm: Alarm
+        currentAlarm: Alarm,
+        fromNotification: Boolean
     ) {
-        val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
-        alarmManager.cancel(pendingIntent)
-        if (AlarmReceiver.isMpInitialised() && AlarmReceiver.mp.isPlaying)
-            AlarmReceiver.mp.stop()
+        if (fromNotification) {
+            if (!currentAlarm.days.contains(true)) {
+                val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
+                alarmManager.cancel(pendingIntent)
+            }
+            if (AlarmReceiver.isMpInitialised() && AlarmReceiver.mp.isPlaying)
+                AlarmReceiver.mp.stop()
+        } else {
+            val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
+            alarmManager.cancel(pendingIntent)
+        }
     }
 
     /**
@@ -218,10 +255,19 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         alarmManager: AlarmManager,
         intent: Intent,
         context: Context,
-        currentAlarm: Alarm
+        currentAlarm: Alarm, fromNotification: Boolean
     ) {
-        val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
-        alarmManager.cancel(pendingIntent)
+        if (fromNotification) {
+            if (!currentAlarm.days.contains(true)) {
+                val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
+                alarmManager.cancel(pendingIntent)
+            }
+            if (AlarmReceiver.isMpInitialised() && AlarmReceiver.mp.isPlaying)
+                AlarmReceiver.mp.stop()
+        } else {
+            val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
+            alarmManager.cancel(pendingIntent)
+        }
     }
 
     /**
@@ -232,7 +278,7 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
      * @return Time in a string.
      * @author Romane Bézier
      */
-    override fun getTime(hourOfDay: Int, minute: Int) : String {
+    override fun getTime(hourOfDay: Int, minute: Int): String {
         c = Calendar.getInstance()
         c[Calendar.HOUR_OF_DAY] = hourOfDay
         c[Calendar.MINUTE] = minute

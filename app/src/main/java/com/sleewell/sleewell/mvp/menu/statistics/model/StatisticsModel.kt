@@ -9,7 +9,6 @@ import com.sleewell.sleewell.api.sleewell.model.NightAnalyse
 import com.sleewell.sleewell.database.analyse.night.entities.Night
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseDbUtils
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.IAnalyseDataManager
-import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseFileUtils
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
@@ -35,8 +34,8 @@ class StatisticsModel(
         val FORMAT_YEAR = "yyyy"
     }
 
-    private val TAG = "StatsModel"
-    private val TOKEN = MainActivity.accessTokenSleewell
+    private val tag = "StatsModel"
+    private val token = MainActivity.accessTokenSleewell
     private val api: IStatsApi = ApiClient.retrofit.create(IStatsApi::class.java)
 
     private val analyse: IAnalyseDataManager = AudioAnalyseDbUtils(context, this)
@@ -52,14 +51,14 @@ class StatisticsModel(
      */
     override fun getNight(nightDate: Date) {
         analyseFileDate = dateToDateString(nightDate)
-        if (TOKEN.isEmpty()) {
+        if (token.isEmpty()) {
             errorMsg = "You're not connected, please connect and try again"
             errorOrFailure = true
             getLocalAnalyseFromDate(nightDate)
             return
         }
         val call: Call<NightAnalyse> =
-            api.getNight("Bearer $TOKEN", dateToDateString(nightDate, FORMAT_DAY))
+            api.getNight("Bearer $token", dateToDateString(nightDate, FORMAT_DAY))
 
         call.enqueue(object : Callback<NightAnalyse> {
 
@@ -67,8 +66,8 @@ class StatisticsModel(
                 val responseRes: NightAnalyse? = response.body()
 
                 if (responseRes == null) {
-                    Log.e(TAG, "Body null error")
-                    Log.e(TAG, "Code : " + response.code())
+                    Log.e(tag, "Body null error")
+                    Log.e(tag, "Code : " + response.code())
                     errorMsg = "Body null error : " + response.code()
                     errorOrFailure = false
                     getLocalAnalyseFromDate(nightDate)
@@ -84,7 +83,7 @@ class StatisticsModel(
             }
 
             override fun onFailure(call: Call<NightAnalyse>, t: Throwable) {
-                Log.e(TAG, t.toString())
+                Log.e(tag, t.toString())
                 errorMsg =
                     if (t.message == null) "You're not connected, please connect and try again" else t.message.toString()
                 errorOrFailure = false
@@ -101,12 +100,12 @@ class StatisticsModel(
      * @author Hugo Berthomé
      */
     override fun getWeek(weekDate: Date) {
-        if (TOKEN.isEmpty()) {
+        if (token.isEmpty()) {
             listener.onError("You're not connected, please connect and try again")
             return
         }
         val call: Call<ListAnalyse> =
-            api.getWeek("Bearer $TOKEN", dateToDateString(weekDate, FORMAT_WEEK))
+            api.getWeek("Bearer $token", dateToDateString(weekDate, FORMAT_WEEK))
 
         call.enqueue(object : Callback<ListAnalyse> {
 
@@ -114,8 +113,8 @@ class StatisticsModel(
                 val responseRes: ListAnalyse? = response.body()
 
                 if (responseRes == null) {
-                    Log.e(TAG, "Body null error")
-                    Log.e(TAG, "Code : " + response.code())
+                    Log.e(tag, "Body null error")
+                    Log.e(tag, "Code : " + response.code())
                     apiListener.onFailure(Throwable("Body null error : " + response.code()))
                 } else {
                     if (!responseRes.Error.isNullOrEmpty()) {
@@ -127,7 +126,7 @@ class StatisticsModel(
             }
 
             override fun onFailure(call: Call<ListAnalyse>, t: Throwable) {
-                Log.e(TAG, t.toString())
+                Log.e(tag, t.toString())
                 apiListener.onFailure(t)
             }
 
@@ -141,12 +140,12 @@ class StatisticsModel(
      * @author Hugo Berthomé
      */
     override fun getMonth(monthDate: Date) {
-        if (TOKEN.isEmpty()) {
+        if (token.isEmpty()) {
             listener.onError("You're not connected, please connect and try again")
             return
         }
         val call: Call<ListAnalyse> =
-            api.getMonth("Bearer $TOKEN", dateToDateString(monthDate, FORMAT_MONTH))
+            api.getMonth("Bearer $token", dateToDateString(monthDate, FORMAT_MONTH))
 
         call.enqueue(object : Callback<ListAnalyse> {
 
@@ -154,8 +153,8 @@ class StatisticsModel(
                 val responseRes: ListAnalyse? = response.body()
 
                 if (responseRes == null) {
-                    Log.e(TAG, "Body null error")
-                    Log.e(TAG, "Code : " + response.code())
+                    Log.e(tag, "Body null error")
+                    Log.e(tag, "Code : " + response.code())
                     apiListener.onFailure(Throwable("Body null error : " + response.code()))
                 } else {
                     if (!responseRes.Error.isNullOrEmpty()) {
@@ -167,7 +166,7 @@ class StatisticsModel(
             }
 
             override fun onFailure(call: Call<ListAnalyse>, t: Throwable) {
-                Log.e(TAG, t.toString())
+                Log.e(tag, t.toString())
                 apiListener.onFailure(t)
             }
 
@@ -180,12 +179,12 @@ class StatisticsModel(
      * @param yearDate yearDate format YYYY, if empty fetch last year
      */
     override fun getYear(yearDate: Date) {
-        if (TOKEN.isEmpty()) {
+        if (token.isEmpty()) {
             listener.onError("You're not connected, please connect and try again")
             return
         }
         val call: Call<ListAnalyse> =
-            api.getYear("Bearer $TOKEN", dateToDateString(yearDate, FORMAT_YEAR))
+            api.getYear("Bearer $token", dateToDateString(yearDate, FORMAT_YEAR))
 
         call.enqueue(object : Callback<ListAnalyse> {
 
@@ -193,8 +192,8 @@ class StatisticsModel(
                 val responseRes: ListAnalyse? = response.body()
 
                 if (responseRes == null) {
-                    Log.e(TAG, "Body null error")
-                    Log.e(TAG, "Code : " + response.code())
+                    Log.e(tag, "Body null error")
+                    Log.e(tag, "Code : " + response.code())
                     apiListener.onFailure(Throwable("Body null error : " + response.code()))
                 } else {
                     if (!responseRes.Error.isNullOrEmpty()) {
@@ -206,7 +205,7 @@ class StatisticsModel(
             }
 
             override fun onFailure(call: Call<ListAnalyse>, t: Throwable) {
-                Log.e(TAG, t.toString())
+                Log.e(tag, t.toString())
                 apiListener.onFailure(t)
             }
 

@@ -85,4 +85,20 @@ interface ISettingsManager {
      * @author Hugo Berthomé
      */
     fun setDnd(state : Boolean)
+
+    /**
+     * Get the on boarding state setting
+     *
+     * @return True - on boarding should be on | False - do not disturb should be false
+     * @author Titouan Fiancette
+     */
+    fun getTutorial() : Boolean
+
+    /**
+     * Set the do not disturb state setting
+     *
+     * @param state True - on boarding should be on | False - do not disturb should be false
+     * @author Titouan Fiancette
+     */
+    fun setTutorial(state : Boolean)
 }

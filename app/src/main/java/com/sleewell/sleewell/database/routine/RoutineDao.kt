@@ -22,7 +22,7 @@ interface RoutineDao {
     fun updateRoutine(routine: Routine)
 
     @Update
-    fun UpdateAllroutine(routines: Array<Routine>)
+    fun updateAllroutine(routines: Array<Routine>)
 
     @Delete
     fun deleteRoutine(routine: Routine)

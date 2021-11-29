@@ -1,15 +1,28 @@
 package com.sleewell.sleewell.mvp.menu.settings.view
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.sleewell.sleewell.BuildConfig
 import com.sleewell.sleewell.R
+import com.sleewell.sleewell.mvp.help.OnBoardingActivity
+import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.settings.SettingsContract
 import com.sleewell.sleewell.mvp.menu.settings.presenter.SettingsPresenter
+import java.util.*
+import androidx.fragment.app.FragmentTransaction
+import androidx.core.content.ContextCompat.startActivity
+
+
+
 
 private const val TITLE_TAG = "Settings"
 
@@ -17,6 +30,7 @@ class SettingsFragment : Fragment(), SettingsContract.View, PreferenceFragmentCo
     //Context
     private lateinit var presenter: SettingsContract.Presenter
     private lateinit var root: View
+    private lateinit var locale: Locale
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +50,14 @@ class SettingsFragment : Fragment(), SettingsContract.View, PreferenceFragmentCo
         setPresenter(SettingsPresenter(this))
 
         return root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.settings, SettingsFragment())
+            .commit()
     }
 
     override fun setPresenter(presenter: SettingsContract.Presenter) {
@@ -126,6 +148,82 @@ class SettingsFragment : Fragment(), SettingsContract.View, PreferenceFragmentCo
             returnPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 activity!!.supportFragmentManager.popBackStackImmediate()
                 true
+            }
+        }
+    }
+
+    class HelpPreferencesFragment : PreferenceFragmentCompat() {
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            setPreferencesFromResource(R.xml.help, rootKey)
+            val versionCode = BuildConfig.VERSION_CODE
+            val versionName = BuildConfig.VERSION_NAME
+
+            val returnPref = findPreference<Preference>(getString(R.string.setting_help_return_key))
+            returnPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                activity!!.supportFragmentManager.popBackStackImmediate()
+                true
+            }
+            
+            val onBoardingPref = findPreference<Preference>(getString(R.string.setting_tutorial_key))
+            onBoardingPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                val intent = Intent(context, OnBoardingActivity::class.java)
+                startActivity(intent)
+                true
+            }
+
+            val signalPref = findPreference<Preference>(getString(R.string.setting_help_signal_problem_key))
+            val urlReport = getString(R.string.url_report)
+            signalPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("$urlReport?version=$versionName-$versionCode")
+                    )
+                )
+                true
+            }
+        }
+    }
+
+    /**
+     * Class instantiate to display Language settings
+     *
+     * @author Romane Bézier
+     */
+    class LanguagePreferencesFragment : PreferenceFragmentCompat() {
+        private lateinit var locale: Locale
+
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            setPreferencesFromResource(R.xml.language, rootKey)
+            val returnPref = findPreference<Preference>(getString(R.string.setting_language_return_key))
+            returnPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                activity!!.supportFragmentManager.popBackStackImmediate()
+                true
+            }
+            
+            val englishPref = findPreference<Preference>(getString(R.string.setting_english_return_pref))
+            englishPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                setLocale("en")
+                true
+            }
+            val frenchPref = findPreference<Preference>(getString(R.string.setting_french_return_pref))
+            frenchPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                setLocale("fr")
+                true
+            }
+        }
+
+        private fun setLocale(languageCode: String) {
+            locale = Locale(languageCode)
+            val res = resources
+            val dm = res.displayMetrics
+            val conf = res.configuration
+            if (conf.locale != locale) {
+                conf.locale = locale
+                res.updateConfiguration(conf, dm)
+
+                preferenceScreen = null;
+                addPreferencesFromResource(R.xml.settings_preferences);
             }
         }
     }

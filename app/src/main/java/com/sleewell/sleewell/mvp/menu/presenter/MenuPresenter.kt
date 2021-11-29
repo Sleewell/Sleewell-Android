@@ -1,6 +1,5 @@
 package com.sleewell.sleewell.mvp.menu.presenter
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import com.sleewell.sleewell.modules.lockScreen.ILockScreenManager
 import com.sleewell.sleewell.modules.lockScreen.LockScreenManager
@@ -14,8 +13,8 @@ import com.sleewell.sleewell.mvp.menu.MenuContract
  * @param context Context of the activity / view
  * @author Hugo Berthomé
  */
-class MenuPresenter(private var view: MenuContract.View, private val ctx: AppCompatActivity) : MenuContract.Presenter {
-    private val lockScreen: ILockScreenManager = LockScreenManager(ctx)
+class MenuPresenter(private var view: MenuContract.View, private val context: AppCompatActivity) : MenuContract.Presenter {
+    private val lockScreen: ILockScreenManager = LockScreenManager(context)
 
     override fun onViewCreated() {
         lockScreen.disableShowWhenLock()

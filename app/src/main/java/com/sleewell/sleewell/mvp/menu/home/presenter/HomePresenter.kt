@@ -15,7 +15,6 @@ import com.sleewell.sleewell.mvp.menu.home.model.HomeModel
 class HomePresenter(view: HomeContract.View, context: Context) : HomeContract.Presenter {
 
     private var view: HomeContract.View? = view
-    private var model: HomeContract.Model = HomeModel(context)
 
     /**
      * Function to call at the creation of the view

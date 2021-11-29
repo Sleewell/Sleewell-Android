@@ -4,16 +4,19 @@ import android.os.Bundle
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isEmpty
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
+import com.sleewell.sleewell.mvp.menu.MenuContract
 import com.sleewell.sleewell.mvp.spotify.view.SpotifyFragment
 import com.sleewell.sleewell.mvp.menu.routine.RoutineContract
 import com.sleewell.sleewell.mvp.menu.routine.RoutineListAdapter
 import com.sleewell.sleewell.mvp.menu.routine.presenter.RoutinePresenter
 import com.sleewell.sleewell.mvp.music.view.MusicFragment
+import okhttp3.internal.notify
 
 class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInputSelected, MusicFragment.OnInputSelected {
 
@@ -23,20 +26,19 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
     private lateinit var btn: ImageButton
     private lateinit var listView: ListView
     private lateinit var refreshLayout: SwipeRefreshLayout
+    private lateinit var textNoRoutine: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         root = inflater.inflate(R.layout.new_fragment_routine, container, false)
 
         setPresenter(RoutinePresenter(this, this.activity as AppCompatActivity))
         presenter.onViewCreated()
 
         initListView()
-        initSettingButton()
-
         return root
     }
 
@@ -66,18 +68,15 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
             refreshLayout.isRefreshing = false
         }
 
-        if (MainActivity.accessTokenSleewell.isNotEmpty())
+        textNoRoutine = root.findViewById(R.id.textNoRoutine)
+        if (MainActivity.accessTokenSleewell.isNotEmpty()) {
             presenter.updateAdapter()
-        else
+            btn.visibility = View.VISIBLE
+            textNoRoutine.text = ""
+        } else {
+            listView.adapter = null
             btn.visibility = View.INVISIBLE
-    }
-
-    private fun initSettingButton() {
-        val buttonSettings = root.findViewById<ImageButton>(R.id.buttonSettings)
-        buttonSettings.setOnClickListener {
-
-            val navController = Navigation.findNavController(requireActivity(), R.id.nav_menu)
-            navController.navigate(R.id.routineSettingsFragment)
+            textNoRoutine.text = "Please log in"
         }
     }
 
@@ -96,5 +95,10 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
     override fun onStop() {
         super.onStop()
         presenter.onDestroy()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initListView()
     }
 }

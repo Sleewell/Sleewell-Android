@@ -13,11 +13,10 @@ import com.sleewell.sleewell.mvp.music.MusicPlaylistAdapter
  * @param context context of the app
  * @author gabin warnier de wailly
  */
-class MusicModel(context: Context) : MainContract.Model {
+class MusicModel(private var context: Context) : MainContract.Model {
 
     private var aList: ArrayList<MusicPlaylist> = ArrayList()
     private lateinit var adapter: MusicPlaylistAdapter
-    private var context = context
     private var mediaPlayer: MediaPlayer? = null
 
     /**

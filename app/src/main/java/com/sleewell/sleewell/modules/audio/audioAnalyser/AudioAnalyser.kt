@@ -5,7 +5,6 @@ import android.util.Log
 import com.sleewell.sleewell.database.analyse.night.entities.Night
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseDbUtils
 import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.IAnalyseDataManager
-import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseFileUtils
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
@@ -29,7 +28,7 @@ class AudioAnalyser(
     private val samplingRate: Int = 44100
 ) :
     IAudioAnalyseRecordListener {
-    val CLASS_TAG = "AUDIO_ANALYSER"
+    private val classTag = "AUDIO_ANALYSER"
 
     // Analyse
     private val minHz = 0
@@ -178,7 +177,7 @@ class AudioAnalyser(
      * @author Hugo Berthomé
      */
     override fun onAnalyseRecordError(msg: String) {
-        Log.e(CLASS_TAG, "An error occurred while saving analyse")
+        Log.e(classTag, "An error occurred while saving analyse")
         listener.onError("An error occurred while saving analyse")
     }
 
@@ -189,7 +188,7 @@ class AudioAnalyser(
      */
     override fun onListAvailableAnalyses(analyses: List<Night>) {
         scopeDefault.launch {
-            analyses.forEach { it ->
+            analyses.forEach {
                 fileUtil.deleteAnalyse(it.uId)
             }
             if (!fileUtil.initNewAnalyse()) {

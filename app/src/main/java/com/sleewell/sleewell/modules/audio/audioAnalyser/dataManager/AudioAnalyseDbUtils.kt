@@ -68,7 +68,7 @@ class AudioAnalyseDbUtils(context: Context, val listener: IAudioAnalyseRecordLis
                 val res = analyseDao.getAnalysesFromNightId(night.uId)
                 listener.onReadAnalyseRecord(res.toTypedArray(), night.uId)
             } else {
-                listener.onAnalyseRecordError("Night not found");
+                listener.onAnalyseRecordError("Night not found")
             }
         }
     }
@@ -76,7 +76,7 @@ class AudioAnalyseDbUtils(context: Context, val listener: IAudioAnalyseRecordLis
     /**
      * Delete an analyse
      *
-     * @param timestamp identifying the analyse
+     * @param id identifying the analyse
      * @author Hugo Berthomé
      */
     override fun deleteAnalyse(id: Long) {

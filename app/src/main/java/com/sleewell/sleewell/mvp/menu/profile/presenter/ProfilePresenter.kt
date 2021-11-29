@@ -2,14 +2,16 @@ package com.sleewell.sleewell.mvp.menu.profile.presenter
 
 import android.content.Context
 import android.graphics.Bitmap
-import com.sleewell.sleewell.api.sleewell.model.ProfileInfo
-import com.sleewell.sleewell.api.sleewell.model.ResponseSuccess
+import android.graphics.BitmapFactory
+import com.sleewell.sleewell.api.sleewell.model.profile.ProfileInfo
+import com.sleewell.sleewell.api.sleewell.model.profile.ResponseBody
+import com.sleewell.sleewell.api.sleewell.model.profile.ResponseSuccess
 import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.profile.contract.ProfileContract
 import com.sleewell.sleewell.mvp.menu.profile.model.ProfileModel
 import kotlinx.coroutines.*
-import retrofit2.Retrofit
 import java.io.*
+import java.net.URL
 
 /**
  * Presenter for the Profile fragment, it will link the HomeView and the HomeModel
@@ -32,6 +34,7 @@ class ProfilePresenter(view: ProfileContract.View,val context: Context) : Profil
 
     override fun onViewCreated() {
         getProfileInformation()
+        getProfilePicture()
     }
 
     override fun getProfileInformation() {
@@ -51,6 +54,8 @@ class ProfilePresenter(view: ProfileContract.View,val context: Context) : Profil
                 view?.showToast("Error: could not retrieve user information")
             }
         })
+
+
     }
 
     override fun updateProfileInformation() {
@@ -67,6 +72,24 @@ class ProfilePresenter(view: ProfileContract.View,val context: Context) : Profil
                     view?.showToast("Error: could not update user information")
                 }
             })
+    }
+
+    override fun getProfilePicture() {
+        val token = MainActivity.accessTokenSleewell
+
+        model.getProfilePicture(token,
+        object: ProfileContract.Model.OnFinishedListener<ResponseBody> {
+            override fun onFinished(response: ResponseBody) {
+                if (!response.filePath.isNullOrEmpty()) {
+                    view?.setProfilePictureBitmap(response.filePath)
+                }
+            }
+
+            override fun onFailure(t: Throwable) {
+                view?.showToast("Error: could not get user picture")
+            }
+
+        })
     }
 
     override fun updateProfilePicture(picture: Bitmap) {
@@ -114,8 +137,29 @@ class ProfilePresenter(view: ProfileContract.View,val context: Context) : Profil
         }
     }
 
+    override fun logoutUser() {
+        model.removeToken()
+        model.deleteAllNightData()
+    }
+
+    override fun deleteAccount() {
+        val token = MainActivity.accessTokenSleewell
+
+        model.deleteAccount(token,
+        object : ProfileContract.Model.OnFinishedListener<ResponseSuccess> {
+            override fun onFinished(response: ResponseSuccess) {
+                view?.logoutUser()
+                view?.showToast("Account deleted")
+            }
+
+            override fun onFailure(t: Throwable) {
+                view?.showToast("Error: could not delete the account")
+            }
+        })
+    }
+
     override fun onDestroy() {
-        view = null;
+        view = null
     }
 
     override fun setUsername(username: String) { this.username = username }
@@ -131,12 +175,11 @@ class ProfilePresenter(view: ProfileContract.View,val context: Context) : Profil
         if (email != null) { this.email = email }
     }
 
-    override fun logoutUser() {
-        model.removeToken()
-        model.deleteAllNightData()
-    }
+
 
     override fun cancelHttpCall() {
         coroutine?.cancel()
     }
+
+
 }

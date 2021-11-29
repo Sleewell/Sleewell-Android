@@ -14,13 +14,14 @@ import java.lang.reflect.Type
 data class Alarm(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val time: Long,
+    var time: Long,
     val activate: Boolean,
     val days: List<Boolean>,
     val ringtone: String,
     val vibrate: Boolean,
     val label: String,
-    var displayed: Boolean
+    var displayed: Boolean,
+    var show: Boolean
 ): Parcelable
 
 class DataConverter {
