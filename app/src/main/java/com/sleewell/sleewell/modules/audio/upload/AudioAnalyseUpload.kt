@@ -1,13 +1,8 @@
 package com.sleewell.sleewell.modules.audio.upload
 
-import android.app.Dialog
 import android.content.Context
 import android.util.Log
-import android.view.Window
-import android.widget.Button
-import android.widget.TextView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.ApiClient
 import com.sleewell.sleewell.api.sleewell.IStatsApi
 import com.sleewell.sleewell.api.sleewell.model.NightAnalyse

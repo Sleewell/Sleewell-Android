@@ -1,6 +1,5 @@
 package com.sleewell.sleewell.mvp.mainActivity.view
 
-import android.app.Dialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -9,9 +8,6 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.view.Window
-import android.widget.Button
-import com.sleewell.sleewell.api.openWeather.Main
 import android.provider.Settings
 import android.util.Log
 import android.widget.ImageView
@@ -26,13 +22,12 @@ import com.sleewell.sleewell.api.sleewell.SleewellApiTracker
 import com.sleewell.sleewell.database.tokenData
 import com.sleewell.sleewell.modules.audio.upload.AudioAnalyseUpload
 import com.sleewell.sleewell.modules.gesturelistener.UserInteractionListener
-import com.sleewell.sleewell.modules.permissions.DndAccessTutorialActivity
 import com.sleewell.sleewell.modules.permissions.PermissionManager
-import com.sleewell.sleewell.mvp.mainActivity.MainContract
-import com.sleewell.sleewell.mvp.mainActivity.presenter.MainPresenter
 import com.sleewell.sleewell.modules.settings.ISettingsManager
 import com.sleewell.sleewell.modules.settings.SettingsManager
 import com.sleewell.sleewell.mvp.help.OnBoardingActivity
+import com.sleewell.sleewell.mvp.mainActivity.MainContract
+import com.sleewell.sleewell.mvp.mainActivity.presenter.MainPresenter
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.DeleteDialog
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.GivenImagesDialog
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.PickImageDialog

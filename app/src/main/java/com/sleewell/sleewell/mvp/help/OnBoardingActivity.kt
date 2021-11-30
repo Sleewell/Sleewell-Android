@@ -1,8 +1,8 @@
 package com.sleewell.sleewell.mvp.help
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.cuberto.liquid_swipe.LiquidPager
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.modules.settings.SettingsManager

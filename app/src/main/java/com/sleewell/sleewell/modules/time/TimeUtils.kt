@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.*
-import java.lang.Exception
 
 class TimeUtils {
     companion object {

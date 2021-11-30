@@ -30,7 +30,6 @@ import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.GivenImagesDialog
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.PickImageDialog
 import com.sleewell.sleewell.mvp.menu.profile.view.dialogs.ProfileBottomSheet
 import com.squareup.picasso.Picasso
-import com.squareup.picasso.Transformation
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlin.math.abs

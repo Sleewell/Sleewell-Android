@@ -12,7 +12,6 @@ import androidx.preference.PreferenceFragmentCompat
 import com.sleewell.sleewell.BuildConfig
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.mvp.help.OnBoardingActivity
-import com.sleewell.sleewell.mvp.mainActivity.view.MainActivity
 import com.sleewell.sleewell.mvp.menu.settings.SettingsContract
 import com.sleewell.sleewell.mvp.menu.settings.presenter.SettingsPresenter
 import java.util.*

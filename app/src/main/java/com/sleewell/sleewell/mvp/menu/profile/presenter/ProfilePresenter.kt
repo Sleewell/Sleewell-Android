@@ -2,7 +2,6 @@ package com.sleewell.sleewell.mvp.menu.profile.presenter
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import com.sleewell.sleewell.api.sleewell.model.profile.ProfileInfo
 import com.sleewell.sleewell.api.sleewell.model.profile.ResponseBody
 import com.sleewell.sleewell.api.sleewell.model.profile.ResponseSuccess
@@ -11,7 +10,6 @@ import com.sleewell.sleewell.mvp.menu.profile.contract.ProfileContract
 import com.sleewell.sleewell.mvp.menu.profile.model.ProfileModel
 import kotlinx.coroutines.*
 import java.io.*
-import java.net.URL
 
 /**
  * Presenter for the Profile fragment, it will link the HomeView and the HomeModel

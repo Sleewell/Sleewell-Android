@@ -1,12 +1,10 @@
 package com.sleewell.sleewell.mvp.menu.view
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.sleewell.sleewell.mvp.menu.alarm.view.AlarmsFragment
 import com.sleewell.sleewell.mvp.menu.home.view.HomeFragment
 import com.sleewell.sleewell.mvp.menu.profile.view.ProfileContainerFragment
-import com.sleewell.sleewell.mvp.menu.profile.view.ProfileFragment
 import com.sleewell.sleewell.mvp.menu.routine.view.RoutineFragment
 import com.sleewell.sleewell.mvp.menu.settings.view.SettingsFragment
 import com.sleewell.sleewell.mvp.menu.statistics.view.StatFragment
