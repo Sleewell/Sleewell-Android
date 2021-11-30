@@ -119,14 +119,17 @@
 
     <TextView
         android:id="@+id/musicNameSelectedDialog"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_marginStart="15dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
         android:fontFamily="@font/nunito"
         android:text="None"
         android:textColor="@color/background"
         android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/playerMusicNameSpinner" />
 

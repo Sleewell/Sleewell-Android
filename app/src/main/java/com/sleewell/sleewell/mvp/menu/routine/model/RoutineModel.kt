@@ -608,10 +608,27 @@ class RoutineModel(private var context: Context) : RoutineContract.Model {
                 if (aList[nbr].player == playerMusicNameSpinner.selectedItem.toString())
                     return
                 aList[nbr].player = playerMusicNameSpinner.selectedItem.toString()
-                nameMusicSelected.text = "None"
-                aList[nbr].musicName = "None"
-                aList[nbr].musicUri = ""
-                aList[nbr].imagePlaylist = ""
+
+                when (playerMusicNameSpinner.selectedItem.toString()) {
+                    "Sleewell" -> {
+                        nameMusicSelected.text = "night"
+                        aList[nbr].musicName = "forest_night"
+                        aList[nbr].musicUri = ""
+                        aList[nbr].imagePlaylist = ""
+                    }
+                    "Spotify" -> {
+                        nameMusicSelected.text = "Dormir profondément \uD83C\uDF19 Playlist de musique douce pour dormir au calme | Sons pour dormir"
+                        aList[nbr].musicName = "Dormir profondément \uD83C\uDF19 Playlist de musique douce pour dormir au calme | Sons pour dormir"
+                        aList[nbr].musicUri = "spotify:playlist:0rlLtbIl62xL3GKbGHPHP8"
+                        aList[nbr].imagePlaylist = "https://i.scdn.co/image/ab67706c0000bebb3481226f8a68bd7262774a66"
+                    }
+                    else -> {
+                        nameMusicSelected.text = "None"
+                        aList[nbr].musicName = "None"
+                        aList[nbr].musicUri = ""
+                        aList[nbr].imagePlaylist = ""
+                    }
+                }
                 updateItemRoutine(aList[nbr], nbr)
             }
 
