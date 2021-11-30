@@ -74,32 +74,23 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         displayed: Boolean,
         show: Boolean
     ) {
-        val uniqueId = (Date().time / 1000L % Int.MAX_VALUE).toInt() + index
-
         val copy = mutableListOf(
-            days[0],
-            days[1],
-            days[2],
-            days[3],
-            days[4],
-            days[5],
-            days[6],
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
         )
-        var i = 0
-        var nb = 0
-        while (i < copy.size) {
-            if (copy[i]) {
-                if (index != nb)
-                    copy[i] = false
-                nb++
-            }
-            i++
+        if (days.contains(true)) {
+            copy[index] = true
         }
 
         val alarm =
-            Alarm(uniqueId, time, false, copy, ringtone.toString(), vibrate, label, displayed, show)
+            Alarm(0, time, false, copy, ringtone.toString(), vibrate, label, displayed, show)
         mAlarmViewModel.addAlarm(alarm).observe(lifecycleOwner, { id ->
-            mAlarmViewModel.getById(id.toInt()).observe(lifecycleOwner, { alarm ->
+            mAlarmViewModel.getById(id).observe(lifecycleOwner, { alarm ->
                 presenter?.startNewAlarm(alarm)
             })
         })
@@ -132,14 +123,18 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
             alarmManager.setInexactRepeating(
                 AlarmManager.RTC_WAKEUP,
                 alarm.time,
-                604800000,
+                604800000, // 1000 * 60 * 60 * 24 * 7 == 1 week
                 pendingIntent
             )
         } else {
-            if (c.before(Calendar.getInstance())) {
-                c.add(Calendar.DATE, 1)
-                alarm.time = c.timeInMillis
+            val currentDate = Calendar.getInstance()
+
+            c.set(Calendar.YEAR, currentDate.get(Calendar.YEAR))
+            c.set(Calendar.DAY_OF_YEAR, currentDate.get(Calendar.DAY_OF_YEAR))
+            if (c.before(currentDate)) {
+                c.add(Calendar.DAY_OF_YEAR, 1)
             }
+            alarm.time = c.timeInMillis
             alarmManager.setAlarmClock(
                 AlarmClockInfo(c.timeInMillis, pendingIntent),
                 pendingIntent
@@ -226,13 +221,13 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         currentAlarm: Alarm,
         fromNotification: Boolean
     ) {
+        if (AlarmReceiver.isMpInitialised() && AlarmReceiver.mp.isPlaying)
+            AlarmReceiver.mp.stop()
         if (fromNotification) {
             if (!currentAlarm.days.contains(true)) {
                 val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
                 alarmManager.cancel(pendingIntent)
             }
-            if (AlarmReceiver.isMpInitialised() && AlarmReceiver.mp.isPlaying)
-                AlarmReceiver.mp.stop()
         } else {
             val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
             alarmManager.cancel(pendingIntent)

@@ -100,7 +100,8 @@ class ListAdapter(private val view: AlarmContract.View) :
         holder.itemView.deleteButton.setOnClickListener {
             view.deleteAlarm(currentItem, false)
         }
-        holder.itemView.checkBoxTime.setOnCheckedChangeListener { _, isChecked ->
+        holder.itemView.checkBoxTime.setOnClickListener {
+            val isChecked = holder.itemView.checkBoxTime.isChecked
             if (isChecked) {
                 if (currentItem.displayed) {
                     view.startAlarm(currentItem, true)
@@ -110,7 +111,8 @@ class ListAdapter(private val view: AlarmContract.View) :
                 view.stopAlarm(currentItem, false, true)
             }
         }
-        holder.itemView.checkBoxAlarm.setOnCheckedChangeListener { _, isChecked ->
+        holder.itemView.checkBoxAlarm.setOnClickListener {
+            val isChecked = holder.itemView.checkBoxAlarm.isChecked
             if (!isChecked)
                 view.checkCheckList()
         }
