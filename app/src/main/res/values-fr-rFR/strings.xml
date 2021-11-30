@@ -39,7 +39,7 @@
     <string name="setting_protocol_return_key">protocol_return_pref</string>
 
     <string name="setting_help_name">Aide</string>
-    <string name="setting_help_summary">Signalez un bug ou obtenez de l\'aide</string>
+    <string name="setting_help_summary">Signaler un bug ou obtenir de l\'aide</string>
     <string name="setting_help_return_key">help_return_pref</string>
 
     <string name="setting_halo_name">Halo</string>
@@ -185,6 +185,7 @@
     <string name="validate">VALIDER</string>
     <string name="my_alarms">Mes alarmes</string>
     <string name="my_routines">Mes routines</string>
+    <string name="routine_connect">Connectez-vous</string>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>
@@ -218,11 +219,12 @@
     <string name="dndAccessTutorialThanks">Merci de votre coopération !</string>
     <string name="dndAccessTutorialTeam">L\'équipe Sleewell</string>
     <string name="setAlarm">Définir l\'alarme</string>
-    <string name="deleteAlarmMessage">Voulez-vous vraiment supprimer cette alarme ?</string>
+    <string name="deleteAlarmMessage">Voulez-vous vraiment supprimer cette
+        alarme ?</string>
     <string name="deleteAlarmTitle">Supprimer l\'alarme de</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
-    <string name="welcome_back">Content de\nte revoir</string>
+    <string name="welcome_back">Bon retour\nParmi nous</string>
     <string name="log_in">Connexion</string>
     <string name="not_connected">Vous n\'êtes pas connecté, veuillez vous connecter et réessayer</string>
     <string name="stop_title">Stop</string>
@@ -235,7 +237,7 @@
     <string name="up">réveil</string>
     <string name="page_alarm_text">Sleewell propose un réveil intégré. Vous pouvez personaliser vos alarmes à volonté.\nComme ça, vous serez debout à l\'heure !</string>
     <string name="already_done">La fin !</string>
-    <string name="the">Déjà</string>
+    <string name="the">C'est déjà</string>
     <string name="end">fini</string>
     <string name="get_started">Commencer</string>
     <string name="skip">Passer</string>
@@ -247,14 +249,21 @@
     <string name="new_user">Nouvel</string>
     <string name="user">arrivant ?</string>
     <string name="page_start_text">Bienvenue sur le tutoriel.\nBalayez vers la gauche pour décrouvrir l\'appli.</string>
-    <string name="how_did_you">Vous avez bien</string>
+    <string name="how_did_you">Avez-vous bien</string>
     <string name="sleep">Dormi ?</string>
     <string name="page_stat_text">Ici sont affichés les statistiques de vos nuits. Vous pouvez regarder, grâce aux sons que vous produisez dans la nuit, quelle est la qualité de votre sommeil.</string>
     <string name="stats_menu">STATS</string>
     <string name="alarm_menu">ALARME</string>
     <string name="profile_menu">PROFIL</string>
     <string name="routine_menu">ROUTINE</string>
-    <string name="page_routine_text">Créez la routine parfaite. Choisissez la musique ou les sons adéquats. Ajoutez un métronome lumineux pour se relaxer…\nPensez à vous connecter pour utiliser cette fonctionnalité.</string>
+    <string name="page_routine_text">Créez la routine parfaite. Choisissez la musique ou les sons adéquats. Ajoutez un métronome lumineux pour vous relaxer… Pensez à vous connecter pour utiliser cette fonctionnalité.</string>
     <string name="page_home_text">Le bouton principal de l\'écran d\'accueil permet de lancer le mode nuit.\nLes paramètres de votre routine seront utilisés. Bonne Nuit !</string>
     <string name="page_and_text">Vous savez tout ce qu\'il y a à savoir sur l\'appli.\nProfitez bien de vos nuits !</string>
+
+    <string name="stats_analyse">Aucune analyse trouvée</string>
+    <string name="stats_error_log">Connectez vous puis réessayez</string>
+    <string name="stats_error_data">Pas de données disponible pour cette nuit là</string>
+    <string name="stats_advice1">Vous vous êtes couché tard, essayez de vous coucher plus tôt</string>
+    <string name="stats_advice2">Votre temps de sommeil est trop court, il est reccomandé de dormir entre 7 et 8 par nuit</string>
+
 </resources>

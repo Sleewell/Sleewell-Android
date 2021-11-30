@@ -2,6 +2,7 @@ package com.sleewell.sleewell.mvp.menu.statistics.model
 
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.sleewell.sleewell.R
 import com.sleewell.sleewell.api.sleewell.ApiClient
 import com.sleewell.sleewell.api.sleewell.IStatsApi
 import com.sleewell.sleewell.api.sleewell.model.ListAnalyse
@@ -21,7 +22,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 class StatisticsModel(
-    context: AppCompatActivity,
+    val context: AppCompatActivity,
     private val listener: StatisticsContract.Model.Listener,
     private val apiListener: StatisticsContract.Model.OnApiFinishedListener
 ) :
@@ -52,7 +53,7 @@ class StatisticsModel(
     override fun getNight(nightDate: Date) {
         analyseFileDate = dateToDateString(nightDate)
         if (token.isEmpty()) {
-            errorMsg = "You're not connected, please connect and try again"
+            errorMsg = context.getString(R.string.stats_error_log)
             errorOrFailure = true
             getLocalAnalyseFromDate(nightDate)
             return
@@ -85,7 +86,7 @@ class StatisticsModel(
             override fun onFailure(call: Call<NightAnalyse>, t: Throwable) {
                 Log.e(tag, t.toString())
                 errorMsg =
-                    if (t.message == null) "You're not connected, please connect and try again" else t.message.toString()
+                    if (t.message == null) context.getString(R.string.stats_error_log) else t.message.toString()
                 errorOrFailure = false
                 getLocalAnalyseFromDate(nightDate)
             }
@@ -101,7 +102,7 @@ class StatisticsModel(
      */
     override fun getWeek(weekDate: Date) {
         if (token.isEmpty()) {
-            listener.onError("You're not connected, please connect and try again")
+            listener.onError(context.getString(R.string.stats_error_log))
             return
         }
         val call: Call<ListAnalyse> =
@@ -141,7 +142,7 @@ class StatisticsModel(
      */
     override fun getMonth(monthDate: Date) {
         if (token.isEmpty()) {
-            listener.onError("You're not connected, please connect and try again")
+            listener.onError(context.getString(R.string.stats_error_log))
             return
         }
         val call: Call<ListAnalyse> =
@@ -180,7 +181,7 @@ class StatisticsModel(
      */
     override fun getYear(yearDate: Date) {
         if (token.isEmpty()) {
-            listener.onError("You're not connected, please connect and try again")
+            listener.onError(context.getString(R.string.stats_error_log))
             return
         }
         val call: Call<ListAnalyse> =

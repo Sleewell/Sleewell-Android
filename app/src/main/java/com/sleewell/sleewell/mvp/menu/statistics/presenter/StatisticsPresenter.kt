@@ -24,7 +24,7 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class StatisticsPresenter(context: AppCompatActivity, private val view: StatisticsContract.View) :
+class StatisticsPresenter(val context: AppCompatActivity, private val view: StatisticsContract.View) :
     StatisticsContract.Presenter {
 
     private var currentState: State = State.DAY
@@ -131,7 +131,7 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
     override fun onNight(night: NightAnalyse) {
         scopeDefault.launch {
             if (night.data.isNullOrEmpty()) {
-                onError("No available data for this night")
+                onError(context.getString(R.string.stats_error_data))
             } else {
                 view.displayAnalyseDay(night)
                 view.displayNightData(night.end - night.start, night.start, night.end)
@@ -220,7 +220,7 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
             advices.add(
                 AnalyseDetail(
                     iconMoon,
-                    "You slept late, try to sleep before 10pm every night"
+                    context.getString(R.string.stats_advice1)
                 )
             )
         if (start < end) {
@@ -228,7 +228,7 @@ class StatisticsPresenter(context: AppCompatActivity, private val view: Statisti
                 advices.add(
                     AnalyseDetail(
                         iconSleep,
-                        "Your sleeping time is not long enough, try to sleep an average of 7 to 8 hours per night"
+                        context.getString(R.string.stats_advice2)
                     )
                 )
             }
