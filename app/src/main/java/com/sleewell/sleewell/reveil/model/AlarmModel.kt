@@ -86,7 +86,9 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
             false,
             false
         )
-        copy[index] = true
+        if (days.contains(true)) {
+            copy[index] = true
+        }
 
         val alarm =
             Alarm(0, time, false, copy, ringtone.toString(), vibrate, label, displayed, show)
@@ -128,10 +130,14 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
                 pendingIntent
             )
         } else {
-            if (c.before(Calendar.getInstance())) {
-                c.add(Calendar.DATE, 1)
-                alarm.time = c.timeInMillis
+            val currentDate = Calendar.getInstance()
+
+            c.set(Calendar.YEAR, currentDate.get(Calendar.YEAR))
+            c.set(Calendar.DAY_OF_YEAR, currentDate.get(Calendar.DAY_OF_YEAR))
+            if (c.before(currentDate)) {
+                c.add(Calendar.DAY_OF_YEAR, 1)
             }
+            alarm.time = c.timeInMillis
             alarmManager.setAlarmClock(
                 AlarmClockInfo(c.timeInMillis, pendingIntent),
                 pendingIntent
@@ -218,13 +224,13 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         currentAlarm: Alarm,
         fromNotification: Boolean
     ) {
+        if (AlarmReceiver.isMpInitialised() && AlarmReceiver.mp.isPlaying)
+            AlarmReceiver.mp.stop()
         if (fromNotification) {
             if (!currentAlarm.days.contains(true)) {
                 val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
                 alarmManager.cancel(pendingIntent)
             }
-            if (AlarmReceiver.isMpInitialised() && AlarmReceiver.mp.isPlaying)
-                AlarmReceiver.mp.stop()
         } else {
             val pendingIntent = PendingIntent.getBroadcast(context, currentAlarm.id, intent, 0)
             alarmManager.cancel(pendingIntent)

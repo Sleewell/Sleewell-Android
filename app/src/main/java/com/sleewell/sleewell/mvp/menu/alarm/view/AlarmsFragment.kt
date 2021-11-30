@@ -5,13 +5,11 @@ import android.app.AlarmManager
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.database.Cursor
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,9 +34,7 @@ import com.sleewell.sleewell.reveil.presenter.AlarmPresenter
 import kotlinx.android.synthetic.main.custom_row.view.*
 import kotlinx.android.synthetic.main.daypicker_layout.view.*
 import kotlinx.android.synthetic.main.new_fragment_alarm.*
-import java.lang.Exception
 import java.text.SimpleDateFormat
-import java.time.DayOfWeek
 import java.util.*
 
 class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelectedListener {
@@ -267,21 +263,24 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
     /**
      * Set the alarm without specific days.
      *
-     * @param calendar Calendar use to create the alarm.
+     * @param calendarInitial Calendar use to create the alarm.
      * @param timePicker Time picker use to create the alarm.
      * @param days Days the alarm need to be activated.
      * @author Romane Bézier
      */
     private fun setAlarmWithoutDay(
-        calendar: Calendar,
+        calendarInitial: Calendar,
         timePicker: TimePicker,
         days: List<Boolean>,
     ) {
+        val calendar = Calendar.getInstance()
+        calendar.time = calendarInitial.time
         calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
         calendar.set(Calendar.MINUTE, timePicker.minute)
         calendar.set(Calendar.SECOND, 0)
+
         if (calendar.before(Calendar.getInstance())) {
-            calendar.add(Calendar.DATE, 1)
+            calendar.add(Calendar.DAY_OF_YEAR, 1)
         }
         presenter.getTime(timePicker.hour, timePicker.minute)
         presenter.saveAlarm(
@@ -329,7 +328,9 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
                 }
             }
         } else {
-            setAlarmWithoutDay(calendar, timePicker, days)
+            val calendarOtherDay = Calendar.getInstance()
+            calendarOtherDay.time = calendar.time
+            setAlarmWithoutDay(calendarOtherDay, timePicker, days)
         }
     }
 
