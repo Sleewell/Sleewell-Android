@@ -158,9 +158,8 @@
     <!-- Strings Array -->
 
     <string-array name="music_player">
-        <item>Rien</item>
-        <item>Spotify</item>
         <item>Sleewell</item>
+        <item>Spotify</item>
     </string-array>
 
     <!-- Alarm -->
