@@ -270,5 +270,8 @@
     <string name="stats_error_data">No available data for this night</string>
     <string name="stats_advice1">You slept late, try to sleep before 10pm every night</string>
     <string name="stats_advice2">Your sleeping time is not long enough, try to sleep an average of 7 to 8 hours per night</string>
+    <string name="routine_halo">Routine halo</string>
+    <string name="routine_music">Routine music</string>
+    <string name="select_this_routine">Select this routine</string>
 
 </resources>

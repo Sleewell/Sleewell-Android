@@ -265,5 +265,8 @@
     <string name="stats_error_data">Pas de données disponible pour cette nuit là</string>
     <string name="stats_advice1">Vous vous êtes couché tard, essayez de vous coucher plus tôt</string>
     <string name="stats_advice2">Votre temps de sommeil est trop court, il est reccomandé de dormir entre 7 et 8 par nuit</string>
+    <string name="routine_halo">Halo de routine</string>
+    <string name="routine_music">Son de routine</string>
+    <string name="select_this_routine">Choisir cette routine</string>
 
 </resources>
