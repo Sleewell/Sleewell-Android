@@ -38,6 +38,7 @@ import kotlinx.android.synthetic.main.daypicker_layout.view.*
 import kotlinx.android.synthetic.main.new_fragment_alarm.*
 import java.lang.Exception
 import java.text.SimpleDateFormat
+import java.time.DayOfWeek
 import java.util.*
 
 class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelectedListener {
@@ -220,20 +221,37 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         days: List<Boolean>,
         index: Int
     ) {
-        calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek)
+
+        val daysIndex = listOf(
+            Calendar.MONDAY,
+            Calendar.TUESDAY,
+            Calendar.WEDNESDAY,
+            Calendar.THURSDAY,
+            Calendar.FRIDAY,
+            Calendar.SATURDAY,
+            Calendar.SUNDAY
+        )
+        val day = daysIndex[dayOfWeek]
+
+        // SET CALENDAR sur l'index day souhaité
+        for (i in 1..7) {
+            if (calendar.get(Calendar.DAY_OF_WEEK) == day)
+                break
+            calendar.add(Calendar.DAY_OF_YEAR, 1)
+        }
+
         calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
         calendar.set(Calendar.MINUTE, timePicker.minute)
         calendar.set(Calendar.SECOND, 0)
-        var copy = calendar
+
+        // Si c'est la date actuelle, on la met à la semaine prochaine
         if (calendar.before(Calendar.getInstance())) {
-            copy.add(Calendar.DATE, 7)
+            calendar.add(Calendar.DAY_OF_YEAR, 7)
         }
-        var show = true
-        if (index > 0)
-            show = false
+
         presenter.getTime(timePicker.hour, timePicker.minute)
         presenter.saveAlarm(
-            copy.timeInMillis,
+            calendar.timeInMillis,
             mAlarmViewModel,
             viewLifecycleOwner,
             days,
@@ -242,7 +260,7 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
             editText_create_alarm.text.toString(),
             index,
             false,
-            show
+            true
         )
     }
 
@@ -292,27 +310,23 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
         changeVisibilityLayoutsAlarm()
 
         val days = listOf(
-            daypicker_create_layout.tM.isChecked,
-            daypicker_create_layout.tT.isChecked,
-            daypicker_create_layout.tW.isChecked,
-            daypicker_create_layout.tTh.isChecked,
-            daypicker_create_layout.tF.isChecked,
-            daypicker_create_layout.tS.isChecked,
-            daypicker_create_layout.tSu.isChecked
+            daypicker_create_layout.tM.isChecked, // 2 = MONDAY
+            daypicker_create_layout.tT.isChecked, // 3 = TUESDAY
+            daypicker_create_layout.tW.isChecked, // 4 = WEDNESDAY
+            daypicker_create_layout.tTh.isChecked, // 5 = THURSDAY
+            daypicker_create_layout.tF.isChecked, // 6 = FRIDAY
+            daypicker_create_layout.tS.isChecked, // 7 = SATURDAY
+            daypicker_create_layout.tSu.isChecked, // 1 = SUNDAY
         )
 
         if (days.contains(true)) {
-            var i = 0
-            var index = 0
-            while (i < days.size) {
-                if (days[i] && i < 6) {
-                    setAlarmWithDay(i + 2, calendar, timePicker, days, index)
-                    index++
-                } else if (days[i] && i == 6) {
-                    setAlarmWithDay(1, calendar, timePicker, days, index)
-                    index++
+            days.forEachIndexed { index, day ->
+                val calendarOtherDay = Calendar.getInstance()
+                calendarOtherDay.time = calendar.time
+
+                if (day) {
+                    setAlarmWithDay(index, calendarOtherDay, timePicker, days, index)
                 }
-                i++
             }
         } else {
             setAlarmWithoutDay(calendar, timePicker, days)
@@ -591,7 +605,13 @@ class AlarmsFragment : Fragment(), AlarmContract.View, AdapterView.OnItemSelecte
                 }
             }
             builder.setNegativeButton(R.string.no) { _, _ -> }
-            builder.setTitle("${R.string.deleteAlarmTitle} ${convertTime(currentAlarm.time)}?")
+            builder.setTitle(
+                "${context?.getString(R.string.deleteAlarmTitle)} ${
+                    convertTime(
+                        currentAlarm.time
+                    )
+                } ?"
+            )
             builder.setMessage(R.string.deleteAlarmMessage)
             builder.create().show()
         } else {

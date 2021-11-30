@@ -41,7 +41,7 @@ class AlarmRepository(private val alarmDao: AlarmDao) {
      * @param id Id of the alarm to return.
      * @return Alarm corresponding to the id.
      */
-    fun getById(id: Int) : Alarm {
+    fun getById(id: Long) : Alarm {
         return alarmDao.getById(id)
     }
 }

@@ -54,5 +54,5 @@ interface AlarmDao {
      * @return Alarm corresponding to the id.
      */
     @Query("SELECT * FROM alarm_table WHERE id = :idAlarm")
-    fun getById(idAlarm: Int): Alarm
+    fun getById(idAlarm: Long): Alarm
 }

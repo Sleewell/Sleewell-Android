@@ -31,7 +31,8 @@ class AlarmViewModel(application: Application): AndroidViewModel(application) {
     fun addAlarm(alarm: Alarm): LiveData<Long> {
         val liveData = MutableLiveData<Long>()
         viewModelScope.launch(Dispatchers.IO) {
-            liveData.postValue(repository.addAlarm(alarm))
+            val id = repository.addAlarm(alarm)
+            liveData.postValue(id)
         }
         return liveData
     }
@@ -64,7 +65,7 @@ class AlarmViewModel(application: Application): AndroidViewModel(application) {
      * @param id Id of the alarm to return.
      * @return Alarm corresponding to the id.
      */
-    fun getById(id: Int) : LiveData<Alarm> {
+    fun getById(id: Long) : LiveData<Alarm> {
         val liveData = MutableLiveData<Alarm>()
         viewModelScope.launch(Dispatchers.IO) {
             liveData.postValue(repository.getById(id))

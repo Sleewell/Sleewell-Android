@@ -77,32 +77,21 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
         displayed: Boolean,
         show: Boolean
     ) {
-        val uniqueId = (Date().time / 1000L % Int.MAX_VALUE).toInt() + index
-
         val copy = mutableListOf(
-            days[0],
-            days[1],
-            days[2],
-            days[3],
-            days[4],
-            days[5],
-            days[6],
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
         )
-        var i = 0
-        var nb = 0
-        while (i < copy.size) {
-            if (copy[i]) {
-                if (index != nb)
-                    copy[i] = false
-                nb++
-            }
-            i++
-        }
+        copy[index] = true
 
         val alarm =
-            Alarm(uniqueId, time, false, copy, ringtone.toString(), vibrate, label, displayed, show)
+            Alarm(0, time, false, copy, ringtone.toString(), vibrate, label, displayed, show)
         mAlarmViewModel.addAlarm(alarm).observe(lifecycleOwner, { id ->
-            mAlarmViewModel.getById(id.toInt()).observe(lifecycleOwner, { alarm ->
+            mAlarmViewModel.getById(id).observe(lifecycleOwner, { alarm ->
                 presenter?.startNewAlarm(alarm)
             })
         })
@@ -135,7 +124,7 @@ class AlarmModel(presenter: AlarmContract.Presenter) : AlarmContract.Model {
             alarmManager.setInexactRepeating(
                 AlarmManager.RTC_WAKEUP,
                 alarm.time,
-                604800000,
+                604800000, // 1000 * 60 * 60 * 24 * 7 == 1 week
                 pendingIntent
             )
         } else {
