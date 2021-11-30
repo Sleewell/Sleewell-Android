@@ -443,7 +443,7 @@ class StatFragment : Fragment(), StatisticsContract.View {
      */
     override fun noAnalyseFound() {
         scopeMainThread.launch {
-            textMsg.text = "No analyse found"
+            textMsg.text = context?.getString(R.string.stats_analyse)
             textMsg.visibility = View.VISIBLE
             errorIcon.visibility = View.VISIBLE
             loadingProgressBar.visibility = View.GONE

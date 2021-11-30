@@ -56,13 +56,13 @@ class MenuFragment : Fragment(), MenuContract.View {
         val tabLayout = root.findViewById<TabLayout>(R.id.tab_layout)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = when (position) {
-                0 -> "HOME"
-                1 -> "ALARM"
-                2 -> "PROFILE"
-                3 -> "ROUTINE"
-                4 -> "STAT"
-                5 -> "SETTINGS"
-                else -> "HOME"
+                0 -> context?.getString(R.string.nav_button_home)
+                1 -> context?.getString(R.string.alarm_menu)
+                2 -> context?.getString(R.string.profile_menu)
+                3 -> context?.getString(R.string.routine_menu)
+                4 -> context?.getString(R.string.nav_button_stats)
+                5 -> context?.getString(R.string.nav_button_settings)
+                else -> context?.getString(R.string.nav_button_home)
             }
         }.attach()
 

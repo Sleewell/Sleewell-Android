@@ -196,6 +196,7 @@
     <string name="validate">VALIDATE</string>
     <string name="my_alarms">My Alarms</string>
     <string name="my_routines">My Routines</string>
+    <string name="routine_connect">Please log in</string>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>
@@ -263,4 +264,13 @@
     <string name="profile_menu">PROFILE</string>
     <string name="alarm_menu">ALARM</string>
     <string name="stats_menu">STATS</string>
+    <string name="stats_analyse">No analyse found</string>
+    <string name="stats_error_log">You\'re not connected, please connect and try again</string>
+    <string name="stats_error_data">No available data for this night</string>
+    <string name="stats_advice1">You slept late, try to sleep before 10pm every night</string>
+    <string name="stats_advice2">Your sleeping time is not long enough, try to sleep an average of 7 to 8 hours per night</string>
+    <string name="routine_halo">Routine halo</string>
+    <string name="routine_music">Routine music</string>
+    <string name="select_this_routine">Select this routine</string>
+
 </resources>

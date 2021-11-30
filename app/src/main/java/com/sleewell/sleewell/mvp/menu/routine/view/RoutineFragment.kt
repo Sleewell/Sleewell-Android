@@ -74,7 +74,7 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
         } else {
             listView.adapter = null
             btn.visibility = View.INVISIBLE
-            textNoRoutine.text = "Please log in"
+            textNoRoutine.text = context?.getString(R.string.routine_connect) ?: ""
         }
     }
 
