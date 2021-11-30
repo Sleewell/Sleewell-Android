@@ -3,6 +3,7 @@ package com.sleewell.sleewell.reveil.data.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.sleewell.sleewell.reveil.data.AlarmDatabase
 import com.sleewell.sleewell.reveil.data.model.Alarm
@@ -21,27 +22,54 @@ class AlarmViewModel(application: Application): AndroidViewModel(application) {
         readAllData = repository.readAllData
     }
 
-    fun addAlarm(alarm: Alarm) {
+    /**
+     * Add an alarm to the database.
+     *
+     * @param alarm Alarm to add.
+     * @return Id of the alarm
+     */
+    fun addAlarm(alarm: Alarm): LiveData<Long> {
+        val liveData = MutableLiveData<Long>()
         viewModelScope.launch(Dispatchers.IO) {
-            repository.addAlarm(alarm)
+            val id = repository.addAlarm(alarm)
+            liveData.postValue(id)
         }
+        return liveData
     }
 
+    /**
+     * Update an alarm in the database.
+     *
+     * @param alarm Alarm to update.
+     */
     fun updateAlarm(alarm: Alarm) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.updateAlarm(alarm)
         }
     }
 
+    /**
+     * Delete an alarm in the database.
+     *
+     * @param alarm Alarm to delete.
+     */
     fun deleteAlarm(alarm: Alarm) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAlarm(alarm)
         }
     }
 
-    fun deleteAllAlarms() {
+    /**
+     * Get an alarm with an id in the database.
+     *
+     * @param id Id of the alarm to return.
+     * @return Alarm corresponding to the id.
+     */
+    fun getById(id: Long) : LiveData<Alarm> {
+        val liveData = MutableLiveData<Alarm>()
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteAllAlarms()
+            liveData.postValue(repository.getById(id))
         }
+        return liveData
     }
 }

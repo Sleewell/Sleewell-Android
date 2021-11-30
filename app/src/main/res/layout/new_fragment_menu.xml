@@ -1,150 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:rotationX="0"
     tools:context=".mvp.menu.view.MenuFragment">
 
     <View
+        android:id="@+id/view4"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/button_light_rounded"
-        android:backgroundTint="@color/background"
-        app:layout_constraintBottom_toBottomOf="@+id/title"
-        app:layout_constraintEnd_toEndOf="@+id/title"
-        app:layout_constraintStart_toStartOf="@+id/title"
-        app:layout_constraintTop_toTopOf="@+id/title" />
+        android:layout_height="60dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="@id/leewell"
+        app:layout_constraintEnd_toEndOf="@id/leewell"
+        app:layout_constraintStart_toStartOf="@id/leewell"
+        app:layout_constraintTop_toTopOf="@id/leewell" />
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="325dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="25dp"
-        android:fontFamily="@font/roboto_light"
-        android:text="@string/app_name"
-        android:textColor="@color/textOnBackground"
-        android:textColorHighlight="#FFFFFF"
-        android:textSize="64sp"
+    <View
+        android:layout_width="50dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="@+id/imageView2" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="67dp"
+        android:layout_height="85dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="3dp"
+        android:src="@drawable/logo_sleewell"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/leewell"
+        android:layout_width="170dp"
+        android:layout_height="90dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/white_smith"
+        android:text="@string/leewell"
+        android:textColor="@color/colorAccent"
+        android:textSize="70sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="parent" />
 
-
-    <HorizontalScrollView
-        android:id="@+id/menu"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:fillViewport="true"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        app:layout_constraintBottom_toTopOf="@id/pager"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        android:scrollbars="none"
-        >
+        app:layout_constraintTop_toBottomOf="@id/leewell"
+        app:tabMode="scrollable" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            >
-
-            <Space android:id="@+id/space0"
-                android:layout_width="25dp"
-                android:layout_height="20dp"
-                />
-            <ToggleButton
-                android:id="@+id/home_nav"
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/nav_button_style"
-                android:clickable="true"
-                android:fontFamily="@font/roboto_medium"
-                android:textOff="@string/nav_button_home"
-                android:textOn="@string/nav_button_home"
-                android:textAlignment="center"
-                android:textColor="@drawable/button_text_color"
-                android:textSize="14sp"
-                android:focusable="true"
-                android:layout_toEndOf="@id/space0"
-                />
-
-            <Space android:id="@+id/space1"
-                android:layout_width="10dp"
-                android:layout_height="20dp"
-                android:layout_toEndOf="@id/home_nav"/>
-
-            <ToggleButton
-                android:id="@+id/settings_nav"
-                android:layout_width="90dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/nav_button_style"
-                android:clickable="true"
-                android:fontFamily="@font/roboto_medium"
-                android:textOff="@string/nav_button_settings"
-                android:textOn="@string/nav_button_settings"
-                android:textAlignment="center"
-                android:textColor="@drawable/button_text_color"
-                android:textSize="14sp"
-                android:focusable="true"
-                android:layout_toEndOf="@id/space1"
-                />
-
-            <Space android:id="@+id/space2"
-                android:layout_width="10dp"
-                android:layout_height="20dp"
-                android:layout_toEndOf="@id/settings_nav"/>
-            <ToggleButton
-                android:id="@+id/alarm_nav"
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/nav_button_style"
-                android:clickable="true"
-                android:fontFamily="@font/roboto_medium"
-                android:textOn="ALARM"
-                android:textOff="ALARM"
-                android:textAlignment="center"
-                android:textColor="@drawable/button_text_color"
-                android:textSize="14sp"
-                android:focusable="true"
-                android:layout_toEndOf="@id/space2"
-                />
-
-            <Space android:id="@+id/space3"
-                android:layout_width="10dp"
-                android:layout_height="20dp"
-                android:layout_toEndOf="@id/alarm_nav"/>
-            <ToggleButton
-                android:id="@+id/stats_nav"
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/nav_button_style"
-                android:clickable="true"
-                android:fontFamily="@font/roboto_medium"
-                android:textOff="STATS"
-                android:textOn="STATS"
-                android:textAlignment="center"
-                android:textColor="@drawable/button_text_color"
-                android:textSize="14sp"
-                android:focusable="true"
-                android:layout_toEndOf="@id/space3"
-                />
-        </RelativeLayout>
-    </HorizontalScrollView>
-
-    <fragment
-        android:id="@+id/nav_menu"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="0dp"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:defaultNavHost="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/menu"
-        app:navGraph="@navigation/nav_menu" />
+        app:layout_constraintTop_toBottomOf="@id/tab_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

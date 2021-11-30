@@ -2,7 +2,6 @@ package com.sleewell.sleewell.mvp.menu
 
 import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
-import com.sleewell.sleewell.mvp.menu.home.HomeContract
 
 /**
  * Contract that defines all the functions that will interact with the user
@@ -18,7 +17,5 @@ interface MenuContract {
         fun onViewCreated()
     }
 
-    interface View : BaseView<Presenter> {
-
-    }
+    interface View : BaseView<Presenter>
 }

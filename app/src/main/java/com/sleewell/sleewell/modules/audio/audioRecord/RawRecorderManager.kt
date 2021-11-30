@@ -1,19 +1,19 @@
 package com.sleewell.sleewell.modules.audio.audioRecord
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 const val LOG_TAG = "RawRecorderManager"
-private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 
 /**
  * Record audio and send it inside a buffer as a PCM
@@ -25,11 +25,10 @@ private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
  * @author Hugo Berthomé
  */
 class RawRecorderManager(
-    private val ctx: AppCompatActivity,
+    private val ctx: Context,
     private val onListener: IRecorderListener,
     private val samplingRate : Int = 44100
 ) : IRecorderManager {
-    private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
 
     // record managing
     private var isRecording: Boolean = false
@@ -81,39 +80,45 @@ class RawRecorderManager(
                 AudioFormat.ENCODING_PCM_16BIT
             )
             if (bufferSize == AudioRecord.ERROR || bufferSize == AudioRecord.ERROR_BAD_VALUE) {
-                bufferSize = samplingRate * 2;
+                bufferSize = samplingRate * 2
             }
             //val buffer: ByteBuffer = ByteBuffer.allocateDirect(bufferSize)
-            val buffer: ShortArray = ShortArray(bufferSize / 2)
+            val buffer = ShortArray(bufferSize / 2)
 
             // initialize recorder
-            val record = AudioRecord(
-                MediaRecorder.AudioSource.MIC,
-                samplingRate,
-                AudioFormat.CHANNEL_IN_MONO,
-                AudioFormat.ENCODING_PCM_16BIT,
-                bufferSize
-            )
-            if (record.state != AudioRecord.STATE_INITIALIZED) {
-                Log.e(LOG_TAG, "Audio Record can't initialize!");
+            try {
+                val record = AudioRecord(
+                    MediaRecorder.AudioSource.MIC,
+                    samplingRate,
+                    AudioFormat.CHANNEL_IN_MONO,
+                    AudioFormat.ENCODING_PCM_16BIT,
+                    bufferSize
+                )
+                if (record.state != AudioRecord.STATE_INITIALIZED) {
+                    Log.e(LOG_TAG, "Audio Record can't initialize!")
+                    onFinishedInsideThread()
+                    return@launch
+                }
+
+                // Start recording
+                record.startRecording()
+                Log.v(LOG_TAG, "Start recording")
+                while (!stopThread) {
+                    record.read(buffer, 0, buffer.size)
+
+                    scopeMainThread.launch {
+                        onListener.onAudio(buffer.clone())
+                    }
+                    fileUtilities.saveBuffer(buffer)
+                }
+                record.stop()
+                record.release()
                 onFinishedInsideThread()
+            } catch (e: SecurityException) {
+                onFinishedInsideThread()
+                onListener.onAudioError("Permission to use Mic denied")
                 return@launch
             }
-
-            // Start recording
-            record.startRecording();
-            Log.v(LOG_TAG, "Start recording");
-            while (!stopThread) {
-                record.read(buffer, 0, buffer.size)
-
-                scopeMainThread.launch {
-                    onListener.onAudio(buffer.clone())
-                }
-                fileUtilities.saveBuffer(buffer)
-            }
-            record.stop()
-            record.release()
-            onFinishedInsideThread()
         }
         isRecording = true
     }
@@ -156,23 +161,13 @@ class RawRecorderManager(
     }
 
     /**
-     * Ask the permissions to the user to use microphone
-     *
-     * @return true if accepted otherwise false
-     * @author Hugo Berthomé
-     */
-    override fun askPermission() {
-        ctx.requestPermissions(permissions, REQUEST_RECORD_AUDIO_PERMISSION)
-    }
-
-    /**
      * Check if the permission to record has been granted
      *
      * @return true if granted otherwise false
      * @author Hugo Berthomé
      */
     override fun permissionGranted(): Boolean {
-        return ctx.checkSelfPermission(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+        return ActivityCompat.checkSelfPermission(ctx, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
     }
 
     /**

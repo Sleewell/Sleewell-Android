@@ -3,6 +3,8 @@ package com.sleewell.sleewell.reveil.presenter
 import android.app.AlarmManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import androidx.lifecycle.LifecycleOwner
 import com.sleewell.sleewell.reveil.AlarmContract
 import com.sleewell.sleewell.reveil.data.model.Alarm
 import com.sleewell.sleewell.reveil.data.viewmodel.AlarmViewModel
@@ -10,11 +12,11 @@ import com.sleewell.sleewell.reveil.model.AlarmModel
 
 class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
 
-    private var model: AlarmContract.Model = AlarmModel()
+    private var model: AlarmContract.Model = AlarmModel(this)
     private var view: AlarmContract.View? = view
 
     /**
-     * On the destroy of the presenter
+     * On the destroy of the presenter.
      *
      * @author Romane Bézier
      */
@@ -23,7 +25,7 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
     }
 
     /**
-     * When view is created
+     * When view is created.
      *
      * @author Romane Bézier
      */
@@ -32,10 +34,10 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
     }
 
     /**
-     * Update the alarm
+     * Update the alarm.
      *
-     * @param updateAlarm Alarm to update
-     * @param mAlarmViewModel View model of the alarm
+     * @param updateAlarm Alarm to update.
+     * @param mAlarmViewModel View model of the alarm.
      * @author Romane Bézier
      */
     override fun updateAlarm(updateAlarm: Alarm, mAlarmViewModel: AlarmViewModel) {
@@ -43,10 +45,10 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
     }
 
     /**
-     * Delete the alarm
+     * Delete the alarm.
      *
-     * @param mAlarmViewModel View model of the alarm
-     * @param alarm Current alarm
+     * @param mAlarmViewModel View model of the alarm.
+     * @param alarm Current alarm.
      * @author Romane Bézier
      */
     override fun deleteAlarm(mAlarmViewModel: AlarmViewModel, alarm: Alarm) {
@@ -54,86 +56,154 @@ class AlarmPresenter(view: AlarmContract.View) : AlarmContract.Presenter {
     }
 
     /**
-     * Save the alarm
+     * Save the alarm.
      *
      * @param time Time of the alarm
+     * @param mAlarmViewModel View model of the alarm.
+     * @param lifecycleOwner Lifecycle owner.
+     * @param days Days of the alarm.
+     * @param ringtone Ringtone of the alarm.
+     * @param vibrate Vibration of the alarm.
+     * @param label Label of the alarm.
+     * @param index Index of the alarm.
+     * @param displayed Visibility of the alarm.
+     * @param show Visibility of the alarm.
      * @author Romane Bézier
      */
-    override fun saveAlarm(time: Long, mAlarmViewModel: AlarmViewModel) {
-        model.saveAlarm(time,mAlarmViewModel)
+    override fun saveAlarm(
+        time: Long,
+        mAlarmViewModel: AlarmViewModel,
+        lifecycleOwner: LifecycleOwner,
+        days: List<Boolean>,
+        ringtone: Uri,
+        vibrate: Boolean,
+        label: String,
+        index: Int,
+        displayed: Boolean,
+        show: Boolean
+    ) {
+        model.saveAlarm(
+            time,
+            mAlarmViewModel,
+            lifecycleOwner,
+            days,
+            ringtone,
+            vibrate,
+            label,
+            index,
+            displayed,
+            show
+        )
     }
 
     /**
-     * Start the alarm
+     * Start the new alarm.
      *
-     * @param alarmManager Alarm manager of phone
-     * @param intent Intent of the activity
-     * @param context Context of the activity
-     * @param alarm Current alarm
+     * @param alarm Current alarm.
      * @author Romane Bézier
      */
-    override fun startAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, alarm: Alarm) {
-        model.startAlarm(alarmManager, intent, context, alarm)
+    override fun startNewAlarm(alarm: Alarm) {
+        view?.startAlarm(alarm, false)
     }
 
     /**
-     * Start the alert
+     * Start the alarm.
      *
-     * @param alarmManager Alarm manager of phone
-     * @param intent Intent of the activity
-     * @param context Context of the activity
-     * @param alarm Current alarm
+     * @param alarmManager Alarm manager of phone.
+     * @param intent Intent of the activity.
+     * @param context Context of the activity.
+     * @param alarm Current alarm.
      * @author Romane Bézier
      */
-    override fun startAlert(alarmManager: AlarmManager, intent: Intent, context: Context, alarm: Alarm) {
+    override fun startAlarm(
+        alarmManager: AlarmManager,
+        intent: Intent,
+        context: Context,
+        alarm: Alarm,
+        restart: Boolean
+    ) {
+        model.startAlarm(alarmManager, intent, context, alarm, restart)
+    }
+
+    /**
+     * Start the alert.
+     *
+     * @param alarmManager Alarm manager of phone.
+     * @param intent Intent of the activity.
+     * @param context Context of the activity.
+     * @param alarm Current alarm.
+     * @author Romane Bézier
+     */
+    override fun startAlert(
+        alarmManager: AlarmManager,
+        intent: Intent,
+        context: Context,
+        alarm: Alarm
+    ) {
         model.startAlert(alarmManager, intent, context, alarm)
     }
 
     /**
-     * Snooze the alarm
+     * Snooze the alarm.
      *
-     * @param alarmManager Alarm manager of phone
-     * @param intent Intent of the activity
-     * @param context Context of the activity
-     * @param currentAlarm Current alarm
+     * @param alarmManager Alarm manager of phone.
+     * @param intent Intent of the activity.
+     * @param context Context of the activity.
+     * @param currentAlarm Current alarm.
      * @author Romane Bézier
      */
-    override fun snoozeAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm) {
+    override fun snoozeAlarm(
+        alarmManager: AlarmManager,
+        intent: Intent,
+        context: Context,
+        currentAlarm: Alarm
+    ) {
         model.snoozeAlarm(alarmManager, intent, context, currentAlarm)
     }
 
     /**
-     * Stop the alarm
+     * Stop the alarm.
      *
-     * @param alarmManager Alarm manager of phone
-     * @param intent Intent of the activity
-     * @param context Context of the activity
-     * @param currentAlarm Current alarm
+     * @param alarmManager Alarm manager of phone.
+     * @param intent Intent of the activity.
+     * @param context Context of the activity.
+     * @param currentAlarm Current alarm.
      * @author Romane Bézier
      */
-    override fun stopAlarm(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm) {
-        model.stopAlarm(alarmManager, intent, context, currentAlarm)
+    override fun stopAlarm(
+        alarmManager: AlarmManager,
+        intent: Intent,
+        context: Context,
+        currentAlarm: Alarm,
+        fromNotification: Boolean
+    ) {
+        model.stopAlarm(alarmManager, intent, context, currentAlarm, fromNotification)
     }
 
     /**
-     * Stop the alert
+     * Stop the alert.
      *
-     * @param alarmManager Alarm manager of phone
-     * @param intent Intent of the activity
-     * @param context Context of the activity
-     * @param currentAlarm Current alarm
+     * @param alarmManager Alarm manager of phone.
+     * @param intent Intent of the activity.
+     * @param context Context of the activity.
+     * @param currentAlarm Current alarm.
      * @author Romane Bézier
      */
-    override fun stopAlert(alarmManager: AlarmManager, intent: Intent, context: Context, currentAlarm: Alarm) {
-        model.stopAlert(alarmManager, intent, context, currentAlarm)
+    override fun stopAlert(
+        alarmManager: AlarmManager,
+        intent: Intent,
+        context: Context,
+        currentAlarm: Alarm, fromNotification: Boolean
+    ) {
+        model.stopAlert(alarmManager, intent, context, currentAlarm, fromNotification)
     }
 
     /**
-     * Get time of the alarm
+     * Get time of the alarm.
      *
-     * @param hourOfDay Hour of the alarm
-     * @param minute Minutes of the alarm
-     * @return Time in a string
+     * @param hourOfDay Hour of the alarm.
+     * @param minute Minutes of the alarm.
+     * @return Time in a string.
      * @author Romane Bézier
      */
     override fun getTime(hourOfDay: Int, minute: Int): String {

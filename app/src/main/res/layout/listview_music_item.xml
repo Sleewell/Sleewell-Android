@@ -10,10 +10,10 @@
         android:id="@+id/circle_forest"
         android:layout_width="8dp"
         android:layout_height="8dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="23dp"
         android:background="@drawable/circle"
-        android:backgroundTint="@color/textOnBackground"
+        android:backgroundTint="@color/colorAccent"
         android:visibility="invisible" />
 
     <ImageView
@@ -32,7 +32,7 @@
         android:layout_marginStart="-45dp"
         android:visibility="invisible"
         app:animDuration="3500"
-        app:foregroundColor="@color/textOnBackground" />
+        app:foregroundColor="@color/colorAccent" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,10 +43,9 @@
             android:id="@+id/soundTitle"
             android:layout_width="250dp"
             android:layout_height="25dp"
-            android:layout_marginTop="0dp"
             android:layout_marginStart="10dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="SoundTitle"
+            android:layout_marginTop="0dp"
+            android:fontFamily="@font/nunito"
             android:textColor="@color/textOnBackground"
             android:textSize="18sp" />
 
@@ -56,8 +55,7 @@
             android:layout_height="25dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="0dp"
-            android:fontFamily="@font/roboto_regular"
-            android:text="Description"
+            android:fontFamily="@font/nunito"
             android:textColor="@color/textButDarker"
             android:textSize="14sp"
             android:textStyle="bold" />

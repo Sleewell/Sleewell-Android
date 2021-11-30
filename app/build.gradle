@@ -5,8 +5,8 @@ apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "30.0.0"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
 
     compileOptions {
         coreLibraryDesugaringEnabled true
@@ -21,10 +21,17 @@ android {
     defaultConfig {
         applicationId "com.sleewell.sleewell"
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // Schema for DB
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
 
     testOptions {
@@ -39,12 +46,32 @@ android {
     }
 }
 
+// liquid swipe github library reader
+def githubProperties = new Properties()
+githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
+
 repositories {
     mavenCentral()
     flatDir {
         dirs 'libs'
     }
+    maven {
+        name = "GitHubPackages"
+
+        url = uri("https://maven.pkg.github.com/Cuberto/liquid-swipe-android")
+        credentials {
+            /** Create github.properties in root project folder file with
+             ** gpr.usr=GITHUB_USER_ID & gpr.key=PERSONAL_ACCESS_TOKEN
+             ** Or set env variable GPR_USER & GPR_API_KEY if not adding a properties file**/
+            username = githubProperties['gpr.usr'] ?: System.getenv("GPR_USER")
+            password = githubProperties['gpr.key'] ?: System.getenv("GPR_API_KEY")
+        }
+    }
 }
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 dependencies {
     // Can use JAVA 8 feature without using a min 29 sdk
@@ -68,6 +95,7 @@ dependencies {
 
     implementation 'com.github.wendykierp:JTransforms:3.1'
 
+    // equalizer in protocol
     implementation 'com.github.claucookie.miniequalizer:library:1.0.0'
 
     testImplementation("org.assertj:assertj-core:3.11.1")
@@ -78,12 +106,13 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
 
-
     // Room components
-    implementation "androidx.room:room-runtime:2.2.5"
-    kapt "androidx.room:room-compiler:2.2.5"
-    implementation "androidx.room:room-ktx:2.2.5"
-    androidTestImplementation "androidx.room:room-testing:2.2.5"
+    def room_version = "2.4.0-alpha03"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    androidTestImplementation "androidx.room:room-testing:$room_version"
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
@@ -95,12 +124,12 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5"
 
-    implementation 'com.squareup.picasso:picasso:2.5.2'
-
     implementation "com.squareup.retrofit2:retrofit:2.8.1"
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation "com.squareup.retrofit2:converter-scalars:2.8.1"
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
     androidTestImplementation 'androidx.test:rules:1.2.0-beta01'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
 
     implementation 'androidx.preference:preference:1.1.0'
     implementation "com.google.code.gson:gson:2.6.1"
@@ -108,7 +137,31 @@ dependencies {
     implementation project(':spotify-app-remote')
     implementation "com.google.code.gson:gson:2.6.1"
 
-    compile 'com.github.claucookie.miniequalizer:library:1.0.0'
+    implementation 'com.github.claucookie.miniequalizer:library:1.0.0'
     implementation 'com.spotify.android:auth:1.1.0'
     implementation 'com.github.AAChartModel:AAChartCore-Kotlin:-SNAPSHOT'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1'
+
+    implementation 'com.kevalpatel2106:ringtonepicker:1.1'
+
+    implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
+
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
+    implementation 'com.google.android.material:material:1.4.0'
+
+    // SECTION FIREBASE
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:29.0.0')
+
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging'
+
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
+    implementation 'com.cuberto:liquid-swipe:1.0.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    implementation 'jp.wasabeef:picasso-transformations:2.4.0'
 }

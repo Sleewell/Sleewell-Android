@@ -1,13 +1,109 @@
 package com.sleewell.sleewell.mvp.protocol
 
-import android.graphics.ColorFilter
-import com.sleewell.sleewell.modules.audio.audioRecord.IRecorderListener
-import com.sleewell.sleewell.modules.audio.audioTransformation.ISpectrogramListener
 import com.sleewell.sleewell.mvp.global.BasePresenter
 import com.sleewell.sleewell.mvp.global.BaseView
 
 interface ProtocolMenuContract {
-    interface Presenter : BasePresenter, IRecorderListener, ISpectrogramListener {
+    interface Model {
+
+        /**
+         * Record the audio from the mic source
+         *
+         * @param state
+         * @author Hugo Berthomé
+         */
+        fun onRecordAudio(state: Boolean)
+
+        /**
+         * Return if the smartphone is recording
+         *
+         * @return True if recording, False otherwise
+         * @author Hugo Berthomé
+         */
+        fun isRecording() : Boolean
+
+        /**
+         * This method stop the current music launch
+         *
+         * @author gabin warnier de wailly
+         */
+        fun stopMusic()
+
+        /**
+         * This method pause the music
+         *
+         * @author gabin warnier de wailly
+         */
+        fun pauseMusic()
+
+        /**
+         * This method resume the music
+         *
+         * @author gabin warnier de wailly
+         */
+        fun resumeMusic()
+
+        /**
+         * Method to cal at the end of the view
+         *
+         * @author gabin warnier de wailly
+         */
+        fun onDestroy()
+
+        /**
+         * go search in database the routine selected and set parameters
+         *
+         * @param startRoutine
+         *
+         * @author gabin warnier de wailly
+         */
+        fun setRoutineSelected(startRoutine: () -> Unit)
+
+        /**
+         *
+         * @return if use halo in routine
+         *
+         * @author gabin warnier de wailly
+         */
+        fun routineUseHalo(): Boolean
+
+        /**
+         * @return if use music in routine
+         */
+        fun routineUseMusic(): Boolean
+
+        /**
+         *
+         * @return color for halo in routine
+         *
+         * @author gabin warnier de wailly
+         */
+        fun getroutineColorHalo(): Int
+
+        /**
+         *
+         * @return player for music in routine
+         *
+         * @author gabin warnier de wailly
+         */
+        fun getRoutinePlayer(): String
+
+        /**
+         * Login to Spotify and play music directly
+         *
+         * @author gabin warnier de wailly
+         */
+        fun loginSpotify()
+
+        /**
+         * Play music form routine
+         *
+         * @author gabin warnier de wailly
+         */
+        fun playMusic()
+    }
+
+    interface Presenter : BasePresenter {
         /**
          * Function to call at the creation of the view
          *
@@ -40,7 +136,6 @@ interface ProtocolMenuContract {
         /**
          * this method start the protocol with a specific number of repetition
          *
-         * @param number the number of repetition for the halo
          * @author gabin warnier de wailly
          */
         fun startHalo()
@@ -61,18 +156,10 @@ interface ProtocolMenuContract {
         fun startAnalyse()
 
         /**
-         * Pause the sleep analyse
+         * Stop the analyse
          *
-         * @author Hugo Berthomé
          */
-        fun pauseAnalyse()
-
-        /**
-         * Resume the paused sleep analyse
-         *
-         * @author Hugo Berthomé
-         */
-        fun resumeAnalyse()
+        fun stopAnalyse()
 
         /**
          * Remove the show when locked flag to the activity
@@ -83,20 +170,6 @@ interface ProtocolMenuContract {
     }
 
     interface View : BaseView<Presenter> {
-        /**
-         * Initialise all the widgets from the layout
-         *
-         * @author Titouan FIANCETTE
-         */
-        fun initActivityWidgets()
-
-        /**
-         * This method display the halo with the size give in param
-         *
-         * @param size size of the the halo
-         * @author gabin warnier de wailly
-         */
-        fun printHalo(size: Int)
 
         /**
          * This method hide the system UI for android
@@ -106,12 +179,19 @@ interface ProtocolMenuContract {
         fun hideSystemUI()
 
         /**
+         * This method shows the system UI for android
+         *
+         * @author Titouan FIANCETTE
+         */
+        fun showSystemUI()
+
+        /**
          * the method set the color of the halo
          *
          * @param color color rgb for the halo
          * @author gabin warnier de wailly
          */
-        fun setColorHalo(color: ColorFilter)
+        fun setHaloColor(color: Int)
 
         /**
          * Returns if the music is being played
@@ -124,9 +204,12 @@ interface ProtocolMenuContract {
         /**
          * Animates or stops the equalizer
          *
-         * @param color color rgb for the halo
+         * @param state
          * @author Titouan FIANCETTE
          */
         fun animateEqualizer(state: Boolean)
+        fun haloDisplayLooper()
+        fun stopAnimation()
+        fun undisplayEquilizer()
     }
 }

@@ -2,7 +2,6 @@ package com.sleewell.sleewell.mvp.menu.home.presenter
 
 import android.content.Context
 import com.sleewell.sleewell.mvp.menu.home.HomeContract
-import com.sleewell.sleewell.mvp.menu.home.model.HomeModel
 
 /**
  * Presenter for the Home fragment, it will link the HomeView and the HomeModel
@@ -15,7 +14,6 @@ import com.sleewell.sleewell.mvp.menu.home.model.HomeModel
 class HomePresenter(view: HomeContract.View, context: Context) : HomeContract.Presenter {
 
     private var view: HomeContract.View? = view
-    private var model: HomeContract.Model = HomeModel(context)
 
     /**
      * Function to call at the creation of the view

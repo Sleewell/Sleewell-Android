@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.sleewell.sleewell">
 
     <uses-permission android:name="android.permission.INTERNET" /> <!-- Do Not Disturb mode -->
@@ -8,11 +9,18 @@
     <uses-permission android:name="android.permission.NFC" /> <!-- Nfc detection -->
     <uses-permission android:name="android.permission.BLUETOOTH" /> <!-- Bluetooth accessibility -->
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- Wifi accessibility -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-
-    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- Mic accessibility -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- Background service for analyse -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -22,43 +30,99 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.spotify.sdk.android.authentication.LoginActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
-            android:name=".mvp.mainActivity.view.MainActivity"
-            android:configChanges="orientation"
+            android:name=".mvp.help.OnBoardingActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask">
+            />
+        <activity
+            android:name=".modules.permissions.DndAccessTutorialActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.help.HelpSignalmenActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".splashScreen.SplashScreenActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
+
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".mvp.protocol.view.ProtocolContainer"
+            android:screenOrientation="portrait">
+
             <!-- Open the app on this specific activity when a NFC tag contain a mime type as described below -->
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="application/com.sleewell.sleewell" />
             </intent-filter>
-
             <!-- Open the app on this specific activity when a NFC tag contain a url with http://www.sleewell.fr -->
-            <!-- <intent-filter>
+            <!--
+            <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:scheme="http"
                     android:host="www.sleewell.fr"
                     android:pathPrefix="/"/>
-            </intent-filter> -->
-
+            </intent-filter>
+            -->
         </activity>
         <activity
-            android:name="com.sleewell.sleewell.reveil.DesactivationActivity"
+            android:name="com.spotify.sdk.android.authentication.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".mvp.mainActivity.view.MainActivity"
+            android:configChanges="orientation"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".reveil.DesactivationActivity"
             android:label="Desactivation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver android:name=".reveil.AlarmReceiver" />
         <receiver android:name=".reveil.AlertReceiver" />
         <receiver android:name=".reveil.GlobalReceiver" />
+        <receiver
+            android:name=".modules.audio.service.AnalyseServiceBroadcast"
+            android:directBootAware="true"
+            android:exported="false" />
+
+        <service
+            android:name=".modules.audio.service.AnalyseService"
+            android:description="@string/foreground_service_analyse_description"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="microphone"
+            android:icon="@mipmap/icon_launcher"
+            android:label="@string/foreground_service_analyse_label"
+            android:stopWithTask="false" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_sleewell" />
+
+        <!-- NOTIFICATION SERVICE -->
+        <service
+            android:name=".firebase.notifications.NotificationsService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

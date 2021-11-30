@@ -39,6 +39,22 @@ interface ISettingsManager {
     fun setBluetooth(state : Boolean)
 
     /**
+     * Get the initial state of the bluetooth before starting the protocol
+     *
+     * @return True - bluetooth was on
+     * @author Hugo Berthomé
+     */
+    fun getInitialStateBluetooth() : Boolean
+
+    /**
+     * Set the initial state of the bluetooth before starting the protocol
+     *
+     * @param state True - bluetooth was on | False - bluetooth was false
+     * @author Hugo Berthomé
+     */
+    fun setInitialStateBluetooth(state : Boolean)
+
+    /**
      * Get the cellular state setting
      *
      * @return True - cellular should be on | False - cellular should be false
@@ -71,34 +87,18 @@ interface ISettingsManager {
     fun setDnd(state : Boolean)
 
     /**
-     * Get the halo state setting
+     * Get the on boarding state setting
      *
-     * @return True - halo displayed during protocol | False - halo not displayed during protocol
-     * @author Titouan FIANCETTE
+     * @return True - on boarding should be on | False - do not disturb should be false
+     * @author Titouan Fiancette
      */
-    fun getHalo() : Boolean
+    fun getTutorial() : Boolean
 
     /**
-     * Set the halo state setting
+     * Set the do not disturb state setting
      *
-     * @param state True - halo displayed during protocol | False - halo not displayed during protocol
-     * @author Titouan FIANCETTE
+     * @param state True - on boarding should be on | False - do not disturb should be false
+     * @author Titouan Fiancette
      */
-    fun setHalo(state: Boolean)
-
-    /**
-     * Get the music state setting
-     *
-     * @return True - music played during protocol | False - music not played during protocol
-     * @author Titouan FIANCETTE
-     */
-    fun getMusic() : Boolean
-
-    /**
-     * Set the music state setting
-     *
-     * @param state True - music played during protocol | False - music not played during protocol
-     * @author Titouan FIANCETTE
-     */
-    fun setMusic(state: Boolean)
+    fun setTutorial(state : Boolean)
 }

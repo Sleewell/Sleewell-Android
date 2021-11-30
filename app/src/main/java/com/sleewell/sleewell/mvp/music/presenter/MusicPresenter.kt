@@ -1,7 +1,6 @@
 package com.sleewell.sleewell.mvp.music.presenter
 
 import android.content.Context
-import android.widget.ListAdapter
 import com.sleewell.sleewell.mvp.music.MainContract
 import com.sleewell.sleewell.mvp.music.MusicPlaylistAdapter
 import com.sleewell.sleewell.mvp.music.model.MusicModel
@@ -18,7 +17,6 @@ class MusicPresenter(view: MainContract.View, context: Context) : MainContract.P
 
     private var view: MainContract.View? = view
     private var model: MainContract.Model = MusicModel(context)
-    private var context = context
 
     override fun getAdapterMusiqueByName(name: String) : MusicPlaylistAdapter {
         return model.setUpAdapterMusiqueByName(name)
@@ -54,40 +52,5 @@ class MusicPresenter(view: MainContract.View, context: Context) : MainContract.P
     override fun onDestroy() {
         model.stopMusique()
         view = null
-    }
-
-    /**
-     * This method call a model method for the connection to spotify
-     *
-     * @author gabin warnier de wailly
-     */
-    override fun connectionSpotify() {
-        model.connectionSpotify()
-        view?.displayToast("Connection...")
-    }
-
-    /**
-     * This method call a model method for the disconnection to spotify
-     *
-     * @author gabin warnier de wailly
-     */
-    override fun disconnectionSpotify() {
-        model.disconnectionSpotify()
-        view?.displayToast("Disconnection")
-    }
-
-    /**
-     * This method call a model method for play a music
-     *
-     * @param idMusic it's the number of the music from the array list
-     *
-     * @author gabin warnier de wailly
-     */
-    override fun playPlaylistSpotify(idMusic: String) {
-         if (model.playPlaylistSpotify(idMusic)) {
-            view?.displayToast("Play")
-        } else {
-            view?.displayToast("Error Spotify must be connected")
-        }
     }
 }

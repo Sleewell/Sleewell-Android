@@ -8,27 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import java.io.IOException
 
 private const val className = "Record Manager"
-private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 
 class RecorderManager(private val ctx: AppCompatActivity) : IRecorderManager{
     // Permissions
-    private var permissionToRecordAccepted = false
-    private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
 
     private var recorder: MediaRecorder? = null
     private var isRecording : Boolean = false
     private var outputFile : String? = null
     private var outputFormat : Int = IRecorderManager.THREE_GPP
-
-    /**
-     * Ask the permissions to the user to use microphone
-     *
-     * @return true if accepted otherwise false
-     * @author Hugo Berthomé
-     */
-    override fun askPermission() {
-        ctx.requestPermissions(permissions, REQUEST_RECORD_AUDIO_PERMISSION)
-    }
 
     /**
      * Check if the permission to record has been granted

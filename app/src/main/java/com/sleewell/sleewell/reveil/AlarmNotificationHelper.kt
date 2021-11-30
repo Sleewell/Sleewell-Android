@@ -13,24 +13,32 @@ import androidx.core.app.NotificationCompat
 import com.sleewell.sleewell.R
 import com.sleewell.sleewell.reveil.data.model.Alarm
 
+
 /**
- * Notification helper of the application
+ * Notification helper of the application.
  *
  * @param base Context of the application
  * @author Romane Bézier
  */
 class AlarmNotificationHelper(base: Context?, currentAlarm: Alarm) : ContextWrapper(base) {
+
     private var mManager: NotificationManager? = null
     private var alarm: Alarm = currentAlarm
 
     /**
-     * Create channel for the notification
+     * Create channel for the notification.
      *
      * @author Romane Bézier
      */
     @TargetApi(Build.VERSION_CODES.O)
     private fun createChannel() {
-        val channel = NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH)
+        val channel = NotificationChannel(
+            channelID,
+            channelName,
+            NotificationManager.IMPORTANCE_HIGH
+        )
+        channel.vibrationPattern = longArrayOf(0)
+        channel.enableVibration(true)
         manager!!.createNotificationChannel(channel)
     }
 
@@ -50,7 +58,12 @@ class AlarmNotificationHelper(base: Context?, currentAlarm: Alarm) : ContextWrap
             val stopBundle = Bundle()
             stopBundle.putParcelable("alarm", alarm)
             stopIntent.putExtra("ALARM", stopBundle)
-            val stopPendingIntent = PendingIntent.getBroadcast(applicationContext, alarm.id, stopIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val stopPendingIntent = PendingIntent.getBroadcast(
+                applicationContext,
+                alarm.id,
+                stopIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
 
             val snoozeIntent = Intent(applicationContext, GlobalReceiver::class.java).apply {
                 action = "Snooze"
@@ -58,7 +71,12 @@ class AlarmNotificationHelper(base: Context?, currentAlarm: Alarm) : ContextWrap
             val snoozeBundle = Bundle()
             snoozeBundle.putParcelable("alarm", alarm)
             snoozeIntent.putExtra("ALARM", snoozeBundle)
-            val snoozePendingIntent = PendingIntent.getBroadcast(applicationContext, alarm.id, snoozeIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val snoozePendingIntent = PendingIntent.getBroadcast(
+                applicationContext,
+                alarm.id,
+                snoozeIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
 
             val intent = Intent(this, DesactivationActivity::class.java)
             val bundle = Bundle()
@@ -66,9 +84,14 @@ class AlarmNotificationHelper(base: Context?, currentAlarm: Alarm) : ContextWrap
             intent.putExtra("ALARM", bundle)
             val pendingIntent = PendingIntent.getActivity(this, alarm.id, intent, 0)
 
+            val contentText : String = if (alarm.label.compareTo("") == 0) {
+                "It's time to wake up!"
+            } else {
+                alarm.label
+            }
             return NotificationCompat.Builder(applicationContext, channelID)
                 .setContentTitle("Sleewell")
-                .setContentText("It's time to wake up !")
+                .setContentText(contentText)
                 .setSmallIcon(R.drawable.logo_sleewell)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(false)

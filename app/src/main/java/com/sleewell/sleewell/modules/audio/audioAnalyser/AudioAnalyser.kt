@@ -1,13 +1,18 @@
 package com.sleewell.sleewell.modules.audio.audioAnalyser
 
+import android.content.Context
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
+import com.sleewell.sleewell.database.analyse.night.entities.Night
+import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.AudioAnalyseDbUtils
+import com.sleewell.sleewell.modules.audio.audioAnalyser.dataManager.IAnalyseDataManager
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.listeners.IAudioAnalyseRecordListener
 import com.sleewell.sleewell.modules.audio.audioAnalyser.model.AnalyseValue
+import com.sleewell.sleewell.modules.time.TimeUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.math.log
 
@@ -17,12 +22,12 @@ import kotlin.math.log
  * @author Hugo Berthomé
  */
 class AudioAnalyser(
-    context: AppCompatActivity,
+    context: Context,
     private val listener: IAudioAnalyseListener,
     private val samplingRate: Int = 44100
 ) :
     IAudioAnalyseRecordListener {
-    val CLASS_TAG = "AUDIO_ANALYSER"
+    private val classTag = "AUDIO_ANALYSER"
 
     // Analyse
     private val minHz = 0
@@ -31,10 +36,11 @@ class AudioAnalyser(
 
     // file save
     private var isInitialised = false
-    private val fileUtil = AudioAnalyseFileUtils(context, this)
+    private var isInitializing = false
+    private val fileUtil : IAnalyseDataManager = AudioAnalyseDbUtils(context, this)
 
     // coroutine
-    private val queueData: Queue<DoubleArray> = LinkedList<DoubleArray>()
+    private val queueData: Queue<DoubleArray> = LinkedList()
     private val scopeDefault = CoroutineScope(Job() + Dispatchers.Default)
     private var stopThread = false
     private var isThreadRunning = false
@@ -69,15 +75,12 @@ class AudioAnalyser(
      * @author Hugo Berthomé
      */
     private fun launchAnalyse() {
-        if (!isInitialised) {
-            fileUtil.deleteAnalyses(fileUtil.readDirectory())
-            if (!fileUtil.initSaveNewAnalyse()) {
-                listener.onError("Couldn't initialised ")
-                return
-            }
-            isInitialised = true
+        if (!isInitialised && !isInitializing) {
+            isInitializing = true
+            fileUtil.getAvailableAnalyse()
+            return
         }
-        if (!isThreadRunning) {
+        if (isInitializing || !isInitialised || !isThreadRunning) {
             scopeDefault.run {
                 analyseQueue()
             }
@@ -110,10 +113,9 @@ class AudioAnalyser(
     private fun analyse(spectrogram: DoubleArray) {
         val datas = extractFrequencies(minHz, maxHz, spectrogram)
 
-        //val averageDb = ampToDb(datas.average())
         val averageDb = ampToDb(datas.maxOrNull())
         if (averageDb >= dbMinDetection) {
-            fileUtil.addToAnalyse(AnalyseValue(averageDb, fileUtil.getCurrentTimestamp()))
+            fileUtil.addToAnalyse(AnalyseValue(averageDb, TimeUtils.getCurrentTimestamp()))
         }
     }
 
@@ -155,7 +157,7 @@ class AudioAnalyser(
     fun cleanUp() {
         stopThread = true
         isInitialised = false
-        fileUtil.stopSavingNewAnalyse()
+        fileUtil.endNewAnalyse()
     }
 
     /**
@@ -174,17 +176,44 @@ class AudioAnalyser(
      * @author Hugo Berthomé
      */
     override fun onAnalyseRecordError(msg: String) {
-        Log.e(CLASS_TAG, "An error occurred while saving analyse")
+        Log.e(classTag, "An error occurred while saving analyse")
         listener.onError("An error occurred while saving analyse")
+    }
+
+    /**
+     * Function called when received the list of available analyse
+     *
+     * @param analyses
+     */
+    override fun onListAvailableAnalyses(analyses: List<Night>) {
+        scopeDefault.launch {
+            analyses.forEach {
+                fileUtil.deleteAnalyse(it.uId)
+            }
+            if (!fileUtil.initNewAnalyse()) {
+                listener.onError("Couldn't initialised ")
+                return@launch
+            }
+            isInitialised = true
+            isInitializing = false
+
+            if (!isThreadRunning) {
+                scopeDefault.run {
+                    analyseQueue()
+                }
+            }
+
+            listener.onDataManagerInitialized()
+        }
     }
 
     /**
      * Function called when an analyse is read from a file
      *
-     * @param data of the analyse file
-     * @author Hugo Berthomé
+     * @param data
+     * @param nightId
+     * @author Hugo berthomé
      */
-    override fun onReadAnalyseRecord(data: Array<AnalyseValue>) {
-        // do nothing because we only save
+    override fun onReadAnalyseRecord(data: Array<AnalyseValue>, nightId: Long) {
     }
 }

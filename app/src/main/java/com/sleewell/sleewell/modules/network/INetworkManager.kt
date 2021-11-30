@@ -6,14 +6,6 @@ package com.sleewell.sleewell.modules.network
  */
 interface INetworkManager {
     /**
-     * initPermissions
-     *
-     * Initialise the permission to access bluetooth and wifi config
-     * @author Hugo Berthomé
-     */
-    fun initPermissions()
-
-    /**
      * Enable / disable bluetooth on the devise
      *
      * @param value true - enable, false - disable
@@ -47,4 +39,11 @@ interface INetworkManager {
      * @author Hugo Berthomé
      */
     fun switchToSleepMode(value: Boolean)
+
+    /**
+     * Check if bluetooth is enabled on the device
+     *
+     * @return Boolean - True is enabled | False otherwise
+     */
+    fun isBluetoothEnabled() : Boolean
 }

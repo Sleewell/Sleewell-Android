@@ -6,9 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 
-class MusicPlaylistAdapter(context: Context, aList: ArrayList<MusicPlaylist>) : BaseAdapter()  {
+class MusicPlaylistAdapter(context: Context, private var aList: ArrayList<MusicPlaylist>) : BaseAdapter()  {
 
-    private var aList: ArrayList<MusicPlaylist> = aList
     private var inflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {

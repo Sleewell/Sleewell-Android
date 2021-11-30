@@ -12,6 +12,11 @@ import java.time.format.DateTimeFormatter
 
 class DesactivationActivity : AppCompatActivity() {
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     *
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_desactivation_alarm)
@@ -26,6 +31,7 @@ class DesactivationActivity : AppCompatActivity() {
             val time = currentDateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
 
             time_desactivation.text = time
+            label_alarm.text = alarm.label
 
             val stopIntent = Intent(applicationContext, GlobalReceiver::class.java).apply {
                 action = "Stop"

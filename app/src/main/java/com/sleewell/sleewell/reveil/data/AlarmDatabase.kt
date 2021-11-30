@@ -4,9 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.sleewell.sleewell.reveil.data.model.Alarm
+import com.sleewell.sleewell.reveil.data.model.DataConverter
 
-@Database(entities = [Alarm::class], version = 1, exportSchema = false)
+@Database(entities = [Alarm::class], version = 5, exportSchema = false)
+@TypeConverters(DataConverter::class)
 abstract class AlarmDatabase: RoomDatabase() {
 
     abstract fun alarmDao(): AlarmDao
@@ -15,6 +18,13 @@ abstract class AlarmDatabase: RoomDatabase() {
         @Volatile
         private var INSTANCE: AlarmDatabase? = null
 
+        /**
+         * Get the database of the alarms.
+         *
+         * @param context Context of the application.
+         * @return The database.
+         * @author Romane Bézier
+         */
         fun getDatabase(context: Context): AlarmDatabase{
             val tempInstance = INSTANCE
             if (tempInstance != null) {
@@ -25,7 +35,7 @@ abstract class AlarmDatabase: RoomDatabase() {
                     context.applicationContext,
                     AlarmDatabase::class.java,
                     "alarm_database"
-                ).build()
+                ).fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 return instance
             }

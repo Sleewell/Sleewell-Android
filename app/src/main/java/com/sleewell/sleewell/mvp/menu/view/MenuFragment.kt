@@ -1,32 +1,35 @@
 package com.sleewell.sleewell.mvp.menu.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.NavHostFragment
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.sleewell.sleewell.R
-import com.sleewell.sleewell.modules.navigation.CustomNavBar
 import com.sleewell.sleewell.mvp.menu.MenuContract
 import com.sleewell.sleewell.mvp.menu.presenter.MenuPresenter
+
 
 class MenuFragment : Fragment(), MenuContract.View {
 
     private lateinit var root: View
     private lateinit var presenter: MenuContract.Presenter
+    private lateinit var demoCollectionAdapter: MenuFragmentStateAdapter
+    private lateinit var viewPager: ViewPager2
+    private var firstTime = true;
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
+
         root = inflater.inflate(R.layout.new_fragment_menu, container, false)
         initActivityWidgets()
         setPresenter(MenuPresenter(this, this.activity as AppCompatActivity))
-
         return root
     }
 
@@ -34,21 +37,37 @@ class MenuFragment : Fragment(), MenuContract.View {
      * Initialise all the widgets from the layout
      */
     private fun initActivityWidgets() {
-        val nestedNavHostFragment = childFragmentManager.findFragmentById(R.id.nav_menu) as? NavHostFragment
-        val navController = nestedNavHostFragment?.navController
+        demoCollectionAdapter = MenuFragmentStateAdapter(this)
+        viewPager = root.findViewById(R.id.pager)
+        viewPager.adapter = demoCollectionAdapter
 
-        val homeNav = root.findViewById<ToggleButton>(R.id.home_nav)
-        val settingsNav = root.findViewById<ToggleButton>(R.id.settings_nav)
-        val alarmNav = root.findViewById<ToggleButton>(R.id.alarm_nav)
-        val statNav = root.findViewById<ToggleButton>(R.id.stats_nav)
+        val tabLayout = root.findViewById<TabLayout>(R.id.tab_layout)
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> context?.getString(R.string.nav_button_home)
+                1 -> context?.getString(R.string.alarm_menu)
+                2 -> context?.getString(R.string.profile_menu)
+                3 -> context?.getString(R.string.routine_menu)
+                4 -> context?.getString(R.string.nav_button_stats)
+                5 -> context?.getString(R.string.nav_button_settings)
+                else -> context?.getString(R.string.nav_button_home)
+            }
+        }.attach()
 
-        val customNavBar = CustomNavBar()
-        customNavBar.addButton(homeNav, getString(R.string.home_label), R.id.homeFragment)
-        customNavBar.addButton(settingsNav, getString(R.string.settings_label), R.id.settingsFragment)
-        customNavBar.addButton(alarmNav, getString(R.string.alarm_label), R.id.alarmFragment)
-        customNavBar.addButton(statNav, getString(R.string.statistics_label), R.id.statFragment)
-
-        customNavBar.setNavigation(navController!!)
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                tab?.position?.let {
+                    if ((it == 4 || it == 3) && firstTime) {
+                        viewPager.setCurrentItem(it, false)
+                    } else {
+                        viewPager.setCurrentItem(it, true)
+                    }
+                    firstTime = false
+                }
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
     }
 
     override fun setPresenter(presenter: MenuContract.Presenter) {

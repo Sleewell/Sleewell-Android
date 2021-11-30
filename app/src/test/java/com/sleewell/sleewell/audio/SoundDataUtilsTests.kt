@@ -9,8 +9,6 @@ import kotlin.math.sin
 
 class SoundDataUtilsTests {
 
-    private val utils = SoundDataUtils()
-
     @Test
     fun testMeanSquareRoot() {
         val datas = shortArrayOf(10, 25, 100, 15, 1, 26, 89, 2, 54)

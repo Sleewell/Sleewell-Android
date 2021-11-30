@@ -2,9 +2,7 @@ package com.sleewell.sleewell
 
 import android.app.NotificationManager
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry
@@ -34,7 +32,7 @@ class StatsTest {
     fun startActivity() {
         mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         appDrawer = UiScrollable(UiSelector().scrollable(true))
-        context = ApplicationProvider.getApplicationContext<Context>()
+        context = ApplicationProvider.getApplicationContext()
         notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         utils = UiAutomatorUtils(mDevice, appDrawer, context)
