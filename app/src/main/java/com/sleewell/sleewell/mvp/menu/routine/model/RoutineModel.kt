@@ -165,7 +165,7 @@ class RoutineModel(private var context: Context) : RoutineContract.Model {
         routine?.musicName = musicName
         routine?.musicUri = ""
         routine?.imagePlaylist = ""
-        if (dialog.isShowing) {
+        if (::dialog.isInitialized && dialog.isShowing) {
             val nameMusicSelected = dialog.findViewById(R.id.musicNameSelectedDialog) as TextView
             nameMusicSelected.text = routine?.musicName?.split("_")?.last()
         }
@@ -220,7 +220,9 @@ class RoutineModel(private var context: Context) : RoutineContract.Model {
             val isRoutine = routines.data.find { it.id == rt.apiId }
 
             if (isRoutine == null) {
-                aList.removeAt(aList.indexOf(rt))
+                val indexRoutineDel = aList.indexOf(rt)
+                if (indexRoutineDel != -1)
+                    aList.removeAt(aList.indexOf(rt))
                 db.deleteRoutine(rt)
             }
         }
@@ -361,11 +363,13 @@ class RoutineModel(private var context: Context) : RoutineContract.Model {
                     Log.e(tag, "Success")
                     if (response.code() == 200) {
                         val index = aList.indexOf(routine)
-                        routine.state = RoutineState.NONE.ordinal
-                        aList[index] = routine
-                        adapter.notifyDataSetChanged()
-                        CoroutineScope(Dispatchers.IO).launch {
-                            db.updateRoutine(routine)
+                        if (index != -1) {
+                            routine.state = RoutineState.NONE.ordinal
+                            aList[index] = routine
+                            adapter.notifyDataSetChanged()
+                            CoroutineScope(Dispatchers.IO).launch {
+                                db.updateRoutine(routine)
+                            }
                         }
                     }
                 }

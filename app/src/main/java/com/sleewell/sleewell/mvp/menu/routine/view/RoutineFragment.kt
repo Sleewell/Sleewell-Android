@@ -97,6 +97,6 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
 
     override fun onResume() {
         super.onResume()
-        initListView()
+        //initListView()
     }
 }
