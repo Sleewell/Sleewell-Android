@@ -154,6 +154,8 @@
                     android:hint="@string/editTextHintLogin"
                     android:imeOptions="actionDone"
                     android:inputType="textAutoComplete"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:maxLines="1"
                     android:textColor="@color/text_input_label"
                     android:visibility="invisible" />
