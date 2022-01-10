@@ -114,10 +114,7 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         saveButtonWidget.setOnClickListener {
             presenter.updateProfileInformation()
         }
-
-        usernameInputWidget.editText?.doOnTextChanged { input, _, _, _ ->
-            presenter.setUsername(input.toString())
-        }
+        
         firstNameInputWidget.editText?.doOnTextChanged { input, _, _, _ ->
             presenter.setFirstName(input.toString())
         }
@@ -126,10 +123,6 @@ class ProfileFragment : Fragment(), ProfileContract.View,
         }
         emailInputWidget.editText?.doOnTextChanged { input, _, _, _ ->
             presenter.setEmail(input.toString())
-        }
-
-        usernameInputWidget.editText?.setOnEditorActionListener { _, actionId, keyEvent ->
-            return@setOnEditorActionListener onEditorActionListener(actionId, keyEvent)
         }
 
         firstNameInputWidget.editText?.setOnEditorActionListener { _, actionId, keyEvent ->

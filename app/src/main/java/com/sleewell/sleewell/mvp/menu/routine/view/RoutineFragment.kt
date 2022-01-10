@@ -36,7 +36,7 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
         setPresenter(RoutinePresenter(this, this.activity as AppCompatActivity))
         presenter.onViewCreated()
 
-        initListView()
+        //initListView()
         return root
     }
 
@@ -97,6 +97,6 @@ class RoutineFragment : RoutineContract.View, Fragment(),  SpotifyFragment.OnInp
 
     override fun onResume() {
         super.onResume()
-        //initListView()
+        initListView()
     }
 }
