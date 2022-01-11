@@ -114,7 +114,6 @@
     <string name="water_menu">EAU</string>
     <string name="rain_menu">PLUIE</string>
     <string name="menu_button">Retour</string>
-    <string name="main_image_title">forêt</string>
 
     <!-- Notifications -->
     <string name="notification_analyse_channel_name">Sleewell Analyse</string>
